@@ -11,7 +11,7 @@
 
 Download pre-configured wildfly
 ```
-https://mega.nz/#!yNxUlJiK
+https://mega.nz/#!yNxUlJiK!2FNNry7lkOUvCP569_urqtQAaKWspfe_da6yxUzaDm8
 ```
 
 Download current repository 

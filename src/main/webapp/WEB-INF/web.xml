@@ -1,27 +1,22 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" metadata-complete="false"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
-<web-app>
-  <display-name>Libra</display-name>
-  <filter>
-  	<filter-name>FiltroUtente</filter-name>
-  	<display-name>FiltroUtente</display-name>
-  	<description></description>
-  	<filter-class>it.unisa.libra.filter.FiltroUtente</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>FiltroUtente</filter-name>
-  	<url-pattern>/FiltroUtente</url-pattern>
-  </filter-mapping>
-  <servlet>
-  	<servlet-name>AutenticazioneServlet</servlet-name>
-  	<display-name>AutenticazioneServlet</display-name>
-  	<description></description>
-  	<servlet-class>it.unisa.libra.controller.AutenticazioneServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>AutenticazioneServlet</servlet-name>
-  	<url-pattern>/AutenticazioneServlet</url-pattern>
-  </servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<display-name>Libra</display-name>
+	<filter>
+		<display-name>FiltroUtente</display-name>
+		<filter-name>FiltroUtente</filter-name>
+		<filter-class>it.unisa.libra.filter.FiltroUtente</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FiltroUtente</filter-name>
+		<url-pattern>/FiltroUtente</url-pattern>
+	</filter-mapping>
+
 </web-app>
+

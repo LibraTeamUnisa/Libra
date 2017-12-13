@@ -1,5 +1,3 @@
 package it.unisa.libra.bean;
 
-public class TutorEsterno {
-
-}
+public class TutorEsterno {}

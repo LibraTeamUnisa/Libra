@@ -9,35 +9,21 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-/**
- * Servlet Filter implementation class FiltroUtente
- */
+/** Servlet Filter implementation class FiltroUtente */
 public class NegaPresidente implements Filter {
-	
-	/**
-	 * Default constructor.
-	 */
-	public NegaPresidente() {
-	}
-	
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-	}
-	
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		chain.doFilter(request, response);
-	}
-	
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
-	
+
+  /** Default constructor. */
+  public NegaPresidente() {}
+
+  /** @see Filter#destroy() */
+  public void destroy() {}
+
+  /** @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) */
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    chain.doFilter(request, response);
+  }
+
+  /** @see Filter#init(FilterConfig) */
+  public void init(FilterConfig fConfig) throws ServletException {}
 }

@@ -12,6 +12,7 @@
 Download pre-configured wildfly
 ```
 https://mega.nz/#!yNxUlJiK!2FNNry7lkOUvCP569_urqtQAaKWspfe_da6yxUzaDm8
+https://www.dropbox.com/s/s59yxaqjy5c3gqs/wildfly-11.0.0.Final.zip?dl=0
 ```
 
 Download current repository 

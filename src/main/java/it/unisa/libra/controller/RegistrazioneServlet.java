@@ -12,42 +12,29 @@ import javax.servlet.http.HttpServletResponse;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.model.dao.IAziendaDao;
 
-/**
- * Servlet implementation class AutenticazioneServlet
- */
+/** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = "/registrazione")
 public class RegistrazioneServlet extends HttpServlet {
-	
-	@EJB
-	private IAziendaDao aziendaDao;
-	
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Default constructor.
-	 */
-	public RegistrazioneServlet() {
-	}
-	
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		Azienda azienda = new Azienda();
-		azienda.setRagioneSociale("RagioneSociale");
-		aziendaDao.persist(azienda);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
-	
+
+  @EJB private IAziendaDao aziendaDao;
+
+  private static final long serialVersionUID = 1L;
+
+  /** Default constructor. */
+  public RegistrazioneServlet() {}
+
+  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    Azienda azienda = new Azienda();
+    azienda.setRagioneSociale("RagioneSociale");
+    aziendaDao.persist(azienda);
+    response.getWriter().append("Served at: ").append(request.getContextPath());
+  }
+
+  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    doGet(request, response);
+  }
 }

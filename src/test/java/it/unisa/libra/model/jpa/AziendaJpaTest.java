@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import it.unisa.libra.bean.Azienda;
 
-public class AziendaJpaTests extends GenericJpaTests<Azienda, Long> {
+public class AziendaJpaTest extends GenericJpaTest<Azienda, Long> {
 
   @Test
   public void persistTest() {

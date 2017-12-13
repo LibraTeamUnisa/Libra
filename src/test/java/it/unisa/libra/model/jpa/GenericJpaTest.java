@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 
 import it.unisa.libra.model.dao.IGenericDao;
 
-public abstract class GenericJpaTests<E, K> implements IGenericDao<E, K> {
+public abstract class GenericJpaTest<E, K> implements IGenericDao<E, K> {
 
   protected static EntityManagerFactory emf;
   protected static EntityManager em;

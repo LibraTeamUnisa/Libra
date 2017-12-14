@@ -17,7 +17,8 @@ public class Azienda {
 
   private String ragioneSociale;
 
-  public Azienda() {}
+  public Azienda() 
+  {}
 
   public Long getId() {
     return id;

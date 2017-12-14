@@ -2,9 +2,7 @@ package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
-
 import it.unisa.libra.bean.Azienda;
 
 public class AziendaJpaTest extends GenericJpaTest<Azienda, Long> {

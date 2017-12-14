@@ -1,3 +1,4 @@
 package it.unisa.libra.bean;
 
-public class ProgettoFormativo {}
+public class ProgettoFormativo {
+}

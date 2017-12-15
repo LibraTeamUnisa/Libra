@@ -24,6 +24,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.apache.commons.lang.StringEscapeUtils;
 
 /** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "RecuperoPasswordServlet", urlPatterns = "/recupero")
@@ -56,7 +57,7 @@ public class RecuperoPasswordServlet extends HttpServlet
 		  if(checkEmail(email))
 		  {
 			  Utente passLessUser=userDao.findById(new Utente(), email);
-			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+passLessUser.getPassword()+"</b></p><br><br>"+MSG_FOOTER);
+			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
 			  response.setStatus(HttpServletResponse.SC_OK);
 			  response.getWriter().write("L'email è stata inviata all'indirizzo specificato");
 			  response.getWriter().flush();

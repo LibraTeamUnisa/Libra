@@ -1,28 +1,115 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.annotation.Resource;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
+
+
 /** Servlet implementation class AutenticazioneServlet */
-public class RecuperoPasswordServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
-  /** Default constructor. */
-  public RecuperoPasswordServlet() {}
-
+@WebServlet(name = "RecuperoPasswordServlet", urlPatterns = "/recupero")
+public class RecuperoPasswordServlet extends HttpServlet 
+{
+	private static final long serialVersionUID   = 1L;
+	
+    private static final String  EMAIL_PATTERN   = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
+    
+    private static final String  EMAIL_REFERENCE = "unisalibra@gmail.com";
+    private static final String  EMAIL_PASSWORD  = "libra12345_";
+    private static final String  EMAIL_NOREPLY   = "noreply@libra.it";
+    private static final String  SMTP_SERVER     = "smtp.gmail.com";
+    private static final Integer SMTP_PORT       = 465;
+    
   /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    response.getWriter().append("Served at: ").append(request.getContextPath());
+            throws ServletException, IOException
+  {
+	  try
+	  {
+		  sendEmail("vitalemauro@outlook.it", "Recupero Password Piattaforma Libra", "La password del tuo account è 12345");
+	  }
+	  catch(Exception ex)
+	  {
+		  ex.printStackTrace();
+	  }
   }
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+		    throws ServletException, IOException
+  {
     doGet(request, response);
+  }
+  
+  public void sendEmail(String to, String subject, String body) 
+		 throws UnsupportedEncodingException, MessagingException
+  {
+	  Properties props=setUpProperties(SMTP_SERVER, SMTP_PORT,true);
+	  Authenticator auth=new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() 
+			{
+				return new PasswordAuthentication(EMAIL_REFERENCE, EMAIL_PASSWORD);
+			}
+		};
+	  
+	  MimeMessage message=setUpMessage(props, auth, EMAIL_NOREPLY, to, subject, body);
+	  Transport.send(message);
+	}
+
+  private Properties setUpProperties(String smtpHost,Integer port,Boolean authEnabled)
+  {
+	  Properties props = new Properties();
+	  
+	  props.put("mail.smtp.host", smtpHost);
+	  props.put("mail.smtp.port", ""+port);
+	  props.put("mail.smtp.auth", ""+authEnabled); 
+	  props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+	  props.put("mail.smtp.socketFactory.port", ""+port);  
+	  props.put("mail.smtp.ssl.trust", smtpHost);
+	  
+	  return props;
+  }
+  
+  private MimeMessage setUpMessage(Properties props,Authenticator auth,String from,String to,String subject,String body) 
+		  throws MessagingException,UnsupportedEncodingException
+  {
+	  Session session = Session.getInstance(props, auth);
+	  
+	  MimeMessage message=new MimeMessage(session);
+	  message.addHeader("Content-type", "text/HTML; charset=UTF-8");
+	  message.addHeader("format", "flowed");
+	  message.addHeader("Content-Transfer-Encoding", "8bit");
+	  message.setFrom(new InternetAddress(from, "NoReply-Libra"));
+	  message.setReplyTo(InternetAddress.parse(from, false));
+	  message.setSubject(subject, "UTF-8");
+	  message.setText(body, "UTF-8");
+	  message.setSentDate(new Date());
+	  message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+	  
+	  return message;
+  }
+  
+  private boolean checkEmail(String email)
+  {
+	  return email!=null&&Pattern.matches(EMAIL_PATTERN, email);
   }
 }

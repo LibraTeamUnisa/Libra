@@ -25,8 +25,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang.StringEscapeUtils;
-
-/** Servlet implementation class AutenticazioneServlet */
+/***
+ * Consente di effettuare l'operazione di recupero password di un utente
+ * registrato: quest'ultimo riceverà la password smarrita tramite una email
+ * ricevuta all'indirizzo di posta elettronica con cui l'utente ha effettuato
+ * la registrazione al sistema.
+ * @author  Mauro Vitale
+ * @version 1.0
+ */
 @WebServlet(name = "RecuperoPasswordServlet", urlPatterns = "/recupero")
 public class RecuperoPasswordServlet extends HttpServlet 
 {
@@ -46,7 +52,14 @@ public class RecuperoPasswordServlet extends HttpServlet
     private static final String  MSG_HEADER      ="<h1>La tua password &egrave stata recuperata!</h1>";
     private static final String  MSG_FOOTER      ="<h4><i>Lo staff di Libra ci tiene a te ed ai tuoi dati!</i></h4>";
     
-  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  /** 
+   * Gestisce la richiesta di un utente che richiede il recupero della password restituendo
+   * un oggetto HttpServletResponse con codice d'errore 400 nel caso in cui la mail specificata 
+   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterrà il codice 200 che denoterà 
+   * la buona riuscita dell operazione; in quest'ultimo caso il sistema provvede ad inviare una email
+   * opportunamente formattata all'indirizzo di posta elettronica di registrazione dell'utente.
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
+   * */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
   {
@@ -77,13 +90,23 @@ public class RecuperoPasswordServlet extends HttpServlet
 	  }
   }
 
-  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
+  /** 
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) 
+   * */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException
   {
 	  doGet(request, response);
   }
-  
+  /**
+   * Effettua l'invio di una email opportunamente formattata ad un indirizzo di posta elettronica.
+   * @param to Indica il destinatario dell'email
+   * @param subject Indica l'oggetto dell'email
+   * @param body Indica il messaggio contenuto nell'email
+   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non è possibile effettuare il parse dell'indirizzo
+   *                                      di posta elettronica di destinazione.
+   * @throws MessagingException Viene lanciata nel caso in cui non è possibilie strutturare e formattare il messaggio da inviare.
+   */
   public void sendEmail(String to, String subject, String body) 
 		 throws UnsupportedEncodingException, MessagingException
   {

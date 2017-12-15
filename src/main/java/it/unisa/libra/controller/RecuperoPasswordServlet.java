@@ -12,23 +12,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.annotation.Resource;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+
+import javax.inject.Inject;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
 
 
 /** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "RecuperoPasswordServlet", urlPatterns = "/recupero")
 public class RecuperoPasswordServlet extends HttpServlet 
 {
+	@Inject
+	private IUtenteDao userDao;
+	
 	private static final long serialVersionUID   = 1L;
 	
     private static final String  EMAIL_PATTERN   = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
@@ -39,17 +43,37 @@ public class RecuperoPasswordServlet extends HttpServlet
     private static final String  SMTP_SERVER     = "smtp.gmail.com";
     private static final Integer SMTP_PORT       = 465;
     
+    private static final String  MSG_HEADER      ="<h1>La tua password &egrave stata recuperata!</h1>";
+    private static final String  MSG_FOOTER      ="<h4><i>Lo staff di Libra ci tiene a te ed ai tuoi dati!</i></h4>";
+    
   /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
   {
+	  String email=request.getParameter("email");
+	  
 	  try
 	  {
-		  sendEmail("vitalemauro@outlook.it", "Recupero Password Piattaforma Libra", "La password del tuo account è 12345");
+		  if(checkEmail(email))
+		  {
+			  Utente passLessUser=userDao.findById(new Utente(), email);
+			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+passLessUser.getPassword()+"</b></p><br><br>"+MSG_FOOTER);
+			  response.setStatus(HttpServletResponse.SC_OK);
+			  response.getWriter().write("L'email è stata inviata all'indirizzo specificato");
+			  response.getWriter().flush();
+		  }
+		  else
+		  {
+			  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			  response.getWriter().write("L'email inserita non è valida.");
+			  response.getWriter().flush();
+		  }
 	  }
 	  catch(Exception ex)
 	  {
-		  ex.printStackTrace();
+		  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		  response.getWriter().write("Impossibile inviare l'email per il recupero della password");
+		  response.getWriter().flush();
 	  }
   }
 
@@ -57,7 +81,7 @@ public class RecuperoPasswordServlet extends HttpServlet
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException
   {
-    doGet(request, response);
+	  doGet(request, response);
   }
   
   public void sendEmail(String to, String subject, String body) 
@@ -73,7 +97,7 @@ public class RecuperoPasswordServlet extends HttpServlet
 	  
 	  MimeMessage message=setUpMessage(props, auth, EMAIL_NOREPLY, to, subject, body);
 	  Transport.send(message);
-	}
+  }
 
   private Properties setUpProperties(String smtpHost,Integer port,Boolean authEnabled)
   {
@@ -101,7 +125,7 @@ public class RecuperoPasswordServlet extends HttpServlet
 	  message.setFrom(new InternetAddress(from, "NoReply-Libra"));
 	  message.setReplyTo(InternetAddress.parse(from, false));
 	  message.setSubject(subject, "UTF-8");
-	  message.setText(body, "UTF-8");
+	  message.setContent(body,"text/html; charset=utf-8");
 	  message.setSentDate(new Date());
 	  message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
 	  
@@ -110,6 +134,6 @@ public class RecuperoPasswordServlet extends HttpServlet
   
   private boolean checkEmail(String email)
   {
-	  return email!=null&&Pattern.matches(EMAIL_PATTERN, email);
+	  return email!=null&&Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
   }
 }

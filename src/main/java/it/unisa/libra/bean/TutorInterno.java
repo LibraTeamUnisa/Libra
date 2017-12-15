@@ -1,3 +1,4 @@
 package it.unisa.libra.bean;
 
-public class TutorInterno {}
+public class TutorInterno {
+}

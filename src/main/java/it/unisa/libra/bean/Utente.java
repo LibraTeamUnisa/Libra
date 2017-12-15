@@ -1,3 +1,4 @@
 package it.unisa.libra.bean;
 
-public class Utente {}
+public class Utente {
+}

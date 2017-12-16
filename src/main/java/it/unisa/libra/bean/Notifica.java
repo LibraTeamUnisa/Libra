@@ -25,7 +25,7 @@ public class Notifica implements Serializable {
 
   private int progettoFormativoID;
 
-  private byte visualizzata;
+  private boolean visualizzata;
 
   // bi-directional one-to-one association to Progettoformativo
   @OneToOne
@@ -71,11 +71,11 @@ public class Notifica implements Serializable {
     this.progettoFormativoID = progettoFormativoID;
   }
 
-  public byte getVisualizzata() {
+  public boolean getVisualizzata() {
     return this.visualizzata;
   }
 
-  public void setVisualizzata(byte visualizzata) {
+  public void setVisualizzata(boolean visualizzata) {
     this.visualizzata = visualizzata;
   }
 

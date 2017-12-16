@@ -2,6 +2,8 @@ package it.unisa.libra.bean;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,17 +32,21 @@ public class Azienda implements Serializable {
 
   // bi-directional many-to-one association to Progettoformativo
   @OneToMany(mappedBy = "azienda")
-  private List<Progettoformativo> progettoformativos;
+  private List<Progettoformativo> progettiFormativi;
 
   // bi-directional many-to-many association to Studente
   @ManyToMany(mappedBy = "aziendas")
-  private List<Studente> studentes;
+  private List<Studente> studenti;
 
   // bi-directional many-to-one association to Tutoresterno
   @OneToMany(mappedBy = "azienda")
-  private List<Tutoresterno> tutoresternos;
+  private List<Tutoresterno> tutorEsterni;
 
-  public Azienda() {}
+  public Azienda() {
+	  progettiFormativi = new ArrayList<Progettoformativo>();
+	  studenti = new ArrayList<Studente>();
+	  tutorEsterni = new ArrayList<Tutoresterno>();
+  }
 
   public String getUtenteEmail() {
     return this.utenteEmail;
@@ -82,53 +88,53 @@ public class Azienda implements Serializable {
     this.utente = utente;
   }
 
-  public List<Progettoformativo> getProgettoformativos() {
-    return this.progettoformativos;
+  public List<Progettoformativo> getProgettiFormativi() {
+    return this.progettiFormativi;
   }
 
-  public void setProgettoformativos(List<Progettoformativo> progettoformativos) {
-    this.progettoformativos = progettoformativos;
+  public void setProgettiFormativi(List<Progettoformativo> progettiFormativi) {
+    this.progettiFormativi = progettiFormativi;
   }
 
   public Progettoformativo addProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().add(progettoformativo);
+    getProgettiFormativi().add(progettoformativo);
     progettoformativo.setAzienda(this);
 
     return progettoformativo;
   }
 
   public Progettoformativo removeProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().remove(progettoformativo);
+    getProgettiFormativi().remove(progettoformativo);
     progettoformativo.setAzienda(null);
 
     return progettoformativo;
   }
 
   public List<Studente> getStudentes() {
-    return this.studentes;
+    return this.studenti;
   }
 
-  public void setStudentes(List<Studente> studentes) {
-    this.studentes = studentes;
+  public void setStudentes(List<Studente> studenti) {
+    this.studenti = studenti;
   }
 
-  public List<Tutoresterno> getTutoresternos() {
-    return this.tutoresternos;
+  public List<Tutoresterno> getTutorEsterni() {
+    return this.tutorEsterni;
   }
 
-  public void setTutoresternos(List<Tutoresterno> tutoresternos) {
-    this.tutoresternos = tutoresternos;
+  public void setTutorEsterni(List<Tutoresterno> tutoresterni) {
+    this.tutorEsterni = tutoresterni;
   }
 
   public Tutoresterno addTutoresterno(Tutoresterno tutoresterno) {
-    getTutoresternos().add(tutoresterno);
+    getTutorEsterni().add(tutoresterno);
     tutoresterno.setAzienda(this);
 
     return tutoresterno;
   }
 
   public Tutoresterno removeTutoresterno(Tutoresterno tutoresterno) {
-    getTutoresternos().remove(tutoresterno);
+    getTutorEsterni().remove(tutoresterno);
     tutoresterno.setAzienda(null);
 
     return tutoresterno;

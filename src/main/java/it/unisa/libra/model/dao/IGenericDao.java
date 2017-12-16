@@ -5,5 +5,5 @@ public interface IGenericDao<E, K> {
 
   void remove(E entity);
 
-  E findById(E entity, K id);
+  E findById(Class<E> classe, K id);
 }

@@ -5,27 +5,36 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.controller.AutenticazioneServlet;
 
 public class AziendaJpaTest extends GenericJpaTest {
 
-  private static AziendaJpa aziendaJPA;
+  private static UtenteJpa utenteJpa;
 
   @BeforeClass
   public static void setUp() {
-    aziendaJPA = new AziendaJpa();
-    aziendaJPA.entityManager = em;
+    utenteJpa = new UtenteJpa();
+    utenteJpa.entityManager = em;
   }
 
   @Test
   public void persistTest() {
+    
+    Utente utAzienda = new Utente();
+    utAzienda.setEmail("azienda@email.it");
+    
     Azienda toPersist = new Azienda();
-    toPersist.setRagioneSociale("RagioneSociale");
+    toPersist.setUtenteEmail("azienda@email.it");
+    toPersist.setNome("RagioneSociale");
+    
+    utAzienda.setAzienda(toPersist);
 
-    aziendaJPA.persist(toPersist);
+    utenteJpa.persist(utAzienda);
 
-    Azienda toCheck = em.find(Azienda.class, new Long(1));
+    Azienda toCheck = em.find(Azienda.class, "azienda@email.it");
 
     assertNotNull(toCheck);
-    assertEquals(toPersist.getRagioneSociale(), toCheck.getRagioneSociale());
+    assertEquals(toPersist.getNome(), toCheck.getNome());
   }
 }

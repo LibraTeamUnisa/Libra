@@ -6,7 +6,22 @@
 	<persistence-unit name="libraTestPU" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<!-- add classes -->
+		<class>it.unisa.libra.bean.Progettoformativo</class>
+		<class>it.unisa.libra.bean.Tutoresterno</class>
+		<class>it.unisa.libra.bean.TutoresternoPK</class>
+		<class>it.unisa.libra.bean.Tutorinterno</class>
 		<class>it.unisa.libra.bean.Azienda</class>
+		<class>it.unisa.libra.bean.Domanda</class>
+		<class>it.unisa.libra.bean.Feedback</class>
+		<class>it.unisa.libra.bean.FeedbackPK</class>
+		<class>it.unisa.libra.bean.Gruppo</class>
+		<class>it.unisa.libra.bean.Notifica</class>
+		<class>it.unisa.libra.bean.Permesso</class>
+		<class>it.unisa.libra.bean.Presidente</class>
+		<class>it.unisa.libra.bean.Report</class>
+		<class>it.unisa.libra.bean.Segreteria</class>
+		<class>it.unisa.libra.bean.Studente</class>
+		<class>it.unisa.libra.bean.Utente</class>
 		<properties>
 			<!-- Configuring JDBC properties -->
 			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;INIT=RUNSCRIPT 

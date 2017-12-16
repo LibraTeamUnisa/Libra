@@ -26,7 +26,7 @@ public class RegistrazioneServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     Azienda azienda = new Azienda();
-    azienda.setRagioneSociale("RagioneSociale");
+    azienda.setNome("RagioneSociale");
     aziendaDao.persist(azienda);
     response.getWriter().append("Served at: ").append(request.getContextPath());
   }

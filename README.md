@@ -7,12 +7,13 @@
   * Eclipse IDE for Java EE Developers
   * WildFly 11.0.0.Final
   * Mysql server 5.7.20
-  * Mysqldb name: libra
+  * Mysqldb Schema: libra
   * Default user and password for mysqldb: root root
 
 Download pre-configured wildfly
 ```
 https://mega.nz/#!yNxUlJiK!2FNNry7lkOUvCP569_urqtQAaKWspfe_da6yxUzaDm8
+https://www.dropbox.com/s/s59yxaqjy5c3gqs/wildfly-11.0.0.Final.zip?dl=0
 ```
 
 Download current repository 

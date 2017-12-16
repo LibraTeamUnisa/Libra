@@ -3,15 +3,16 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
- * The persistent class for the presidente database table.
+ * The persistent class for the tutorinterno database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Presidente.findAll", query = "SELECT p FROM Presidente p")
-public class Presidente implements Serializable {
+@NamedQuery(name = "Tutorinterno.findAll", query = "SELECT t FROM Tutorinterno t")
+public class Tutorinterno implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -22,20 +23,20 @@ public class Presidente implements Serializable {
   @Temporal(TemporalType.TIMESTAMP)
   private Date dataDiNascita;
 
-  private String giorniDiRicevimento;
-
   private String linkSito;
 
   private String nome;
 
-  private String ufficio;
+  // bi-directional many-to-one association to Progettoformativo
+  @OneToMany(mappedBy = "tutorinterno")
+  private List<Progettoformativo> progettoformativos;
 
   // bi-directional one-to-one association to Utente
   @OneToOne
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 
-  public Presidente() {}
+  public Tutorinterno() {}
 
   public String getUtenteEmail() {
     return this.utenteEmail;
@@ -61,14 +62,6 @@ public class Presidente implements Serializable {
     this.dataDiNascita = dataDiNascita;
   }
 
-  public String getGiorniDiRicevimento() {
-    return this.giorniDiRicevimento;
-  }
-
-  public void setGiorniDiRicevimento(String giorniDiRicevimento) {
-    this.giorniDiRicevimento = giorniDiRicevimento;
-  }
-
   public String getLinkSito() {
     return this.linkSito;
   }
@@ -85,12 +78,26 @@ public class Presidente implements Serializable {
     this.nome = nome;
   }
 
-  public String getUfficio() {
-    return this.ufficio;
+  public List<Progettoformativo> getProgettoformativos() {
+    return this.progettoformativos;
   }
 
-  public void setUfficio(String ufficio) {
-    this.ufficio = ufficio;
+  public void setProgettoformativos(List<Progettoformativo> progettoformativos) {
+    this.progettoformativos = progettoformativos;
+  }
+
+  public Progettoformativo addProgettoformativo(Progettoformativo progettoformativo) {
+    getProgettoformativos().add(progettoformativo);
+    progettoformativo.setTutorinterno(this);
+
+    return progettoformativo;
+  }
+
+  public Progettoformativo removeProgettoformativo(Progettoformativo progettoformativo) {
+    getProgettoformativos().remove(progettoformativo);
+    progettoformativo.setTutorinterno(null);
+
+    return progettoformativo;
   }
 
   public Utente getUtente() {

@@ -25,7 +25,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang.StringEscapeUtils;
-/***
+/**
  * Consente di effettuare l'operazione di recupero password di un utente
  * registrato: quest'ultimo riceverà la password smarrita tramite una email
  * ricevuta all'indirizzo di posta elettronica con cui l'utente ha effettuato
@@ -121,7 +121,13 @@ public class RecuperoPasswordServlet extends HttpServlet
 	  MimeMessage message=setUpMessage(props, auth, EMAIL_NOREPLY, to, subject, body);
 	  Transport.send(message);
   }
-
+  /**
+   * Imposta le proprietà necessarie del messaggion necessarie per effettuarne l'invio.
+   * @param smtpHost Indica il server SMTP a cui effettuare il delivery del messaggio
+   * @param port Indica la porta SSL a cui recapitare il messaggio
+   * @param authEnabled Indica se è necessario usare l'autenticazione
+   * @return Restituisce un oggetto che incapsula le proprietà impostate
+   */
   private Properties setUpProperties(String smtpHost,Integer port,Boolean authEnabled)
   {
 	  Properties props = new Properties();
@@ -135,7 +141,20 @@ public class RecuperoPasswordServlet extends HttpServlet
 	  
 	  return props;
   }
-  
+  /**
+   * Effettua la creazione, secondo le proprietà impostate, del messaggio di posta elettronica da inviare ad 
+   * una specifica destinazione.
+   * @param props Indica le proprietà di delivery del messaggio da creare
+   * @param auth Indica l'autenticazione,se richiesta, presso il server SMTP
+   * @param from Indica il mittente del messaggio
+   * @param to Indica il destinatario del messaggio
+   * @param subject Indica l'oggetto del messaggio
+   * @param body Indica il corpo del messaggio
+   * @return Restituisce l'oggetto messaggio creato secondo i parametri specificati
+   * @throws MessagingException Viene lanciata nel caso in cui non è possibilie strutturare e formattare il messaggio da inviare.
+   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non è possibile effettuare il parse dell'indirizzo
+   *                                      di posta elettronica di destinazione.
+   */
   private MimeMessage setUpMessage(Properties props,Authenticator auth,String from,String to,String subject,String body) 
 		  throws MessagingException,UnsupportedEncodingException
   {
@@ -154,7 +173,11 @@ public class RecuperoPasswordServlet extends HttpServlet
 	  
 	  return message;
   }
-  
+  /**
+   * Effettua la validazione dell'email ricevuta
+   * @param email Indica l'email da validare
+   * @return Restituisce true nel caso in cui si tratti di una email vailda,false altrimenti.
+   */
   private boolean checkEmail(String email)
   {
 	  return email!=null&&Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;

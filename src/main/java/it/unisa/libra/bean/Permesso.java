@@ -10,53 +10,45 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Permesso.findAll", query="SELECT p FROM Permesso p")
+@NamedQuery(name = "Permesso.findAll", query = "SELECT p FROM Permesso p")
 public class Permesso implements Serializable {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Id
-	private String tipo;
+  @Id
+  private String tipo;
 
-	private byte abilitazione;
+  private byte abilitazione;
 
-	//bi-directional many-to-many association to Gruppo
-	@ManyToMany
-	@JoinTable(
-		name="possesso"
-		, joinColumns={
-			@JoinColumn(name="tipo")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="ruolo")
-			}
-		)
-	private List<Gruppo> gruppos;
+  // bi-directional many-to-many association to Gruppo
+  @ManyToMany
+  @JoinTable(name = "possesso", joinColumns = {@JoinColumn(name = "tipo")},
+      inverseJoinColumns = {@JoinColumn(name = "ruolo")})
+  private List<Gruppo> gruppos;
 
-	public Permesso() {
-	}
+  public Permesso() {}
 
-	public String getTipo() {
-		return this.tipo;
-	}
+  public String getTipo() {
+    return this.tipo;
+  }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
+  }
 
-	public byte getAbilitazione() {
-		return this.abilitazione;
-	}
+  public byte getAbilitazione() {
+    return this.abilitazione;
+  }
 
-	public void setAbilitazione(byte abilitazione) {
-		this.abilitazione = abilitazione;
-	}
+  public void setAbilitazione(byte abilitazione) {
+    this.abilitazione = abilitazione;
+  }
 
-	public List<Gruppo> getGruppos() {
-		return this.gruppos;
-	}
+  public List<Gruppo> getGruppos() {
+    return this.gruppos;
+  }
 
-	public void setGruppos(List<Gruppo> gruppos) {
-		this.gruppos = gruppos;
-	}
+  public void setGruppos(List<Gruppo> gruppos) {
+    this.gruppos = gruppos;
+  }
 
 }

@@ -6,7 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Utente;
-import it.unisa.libra.controller.AutenticazioneServlet;
 
 public class AziendaJpaTest extends GenericJpaTest {
 
@@ -20,19 +19,19 @@ public class AziendaJpaTest extends GenericJpaTest {
 
   @Test
   public void persistTest() {
-    
+
     Utente utAzienda = new Utente();
     utAzienda.setEmail("azienda@email.it");
-    
+
     Azienda toPersist = new Azienda();
     toPersist.setUtenteEmail("azienda@email.it");
     toPersist.setNome("RagioneSociale");
-    
+
     utAzienda.setAzienda(toPersist);
 
     utenteJpa.persist(utAzienda);
 
-    Azienda toCheck = em.find(Azienda.class, "azienda@email.it");
+    Azienda toCheck = utenteJpa.findAll(Utente.class).get(0).getAzienda();
 
     assertNotNull(toCheck);
     assertEquals(toPersist.getNome(), toCheck.getNome());

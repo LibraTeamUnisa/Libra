@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
-/**
- * The persistent class for the tutoresterno database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Tutoresterno.findAll", query = "SELECT t FROM Tutoresterno t")
 public class Tutoresterno implements Serializable {
@@ -28,7 +23,6 @@ public class Tutoresterno implements Serializable {
 
   private String telefono;
 
-  // bi-directional many-to-one association to Azienda
   @ManyToOne
   @JoinColumn(name = "aziendaEmail", insertable = false, updatable = false)
   private Azienda azienda;

@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the gruppo database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Gruppo.findAll", query = "SELECT g FROM Gruppo g")
 public class Gruppo implements Serializable {
@@ -17,11 +12,9 @@ public class Gruppo implements Serializable {
   @Id
   private String ruolo;
 
-  // bi-directional many-to-many association to Permesso
   @ManyToMany(mappedBy = "gruppos")
   private List<Permesso> permessos;
 
-  // bi-directional many-to-one association to Utente
   @OneToMany(mappedBy = "gruppo")
   private List<Utente> utentes;
 

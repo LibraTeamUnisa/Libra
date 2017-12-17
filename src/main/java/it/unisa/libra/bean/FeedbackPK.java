@@ -3,13 +3,8 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.*;
 
-/**
- * The primary key class for the feedback database table.
- * 
- */
 @Embeddable
 public class FeedbackPK implements Serializable {
-  // default serial version id, required for serializable classes.
   private static final long serialVersionUID = 1L;
 
   @Column(insertable = false, updatable = false)

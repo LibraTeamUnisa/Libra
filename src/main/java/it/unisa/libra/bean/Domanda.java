@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the domanda database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Domanda.findAll", query = "SELECT d FROM Domanda d")
 public class Domanda implements Serializable {
@@ -22,7 +17,6 @@ public class Domanda implements Serializable {
 
   private String tipo;
 
-  // bi-directional many-to-one association to Feedback
   @OneToMany(mappedBy = "domanda")
   private List<Feedback> feedbacks;
 

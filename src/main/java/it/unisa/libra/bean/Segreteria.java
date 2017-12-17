@@ -3,11 +3,6 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the segreteria database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Segreteria.findAll", query = "SELECT s FROM Segreteria s")
 public class Segreteria implements Serializable {
@@ -18,7 +13,6 @@ public class Segreteria implements Serializable {
 
   private String giorniDiRicevimento;
 
-  // bi-directional one-to-one association to Utente
   @OneToOne
   @JoinColumn(name = "utenteEmail")
   private Utente utente;

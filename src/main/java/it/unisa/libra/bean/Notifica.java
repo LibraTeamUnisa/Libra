@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
-/**
- * The persistent class for the notifica database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Notifica.findAll", query = "SELECT n FROM Notifica n")
 public class Notifica implements Serializable {
@@ -27,12 +22,10 @@ public class Notifica implements Serializable {
 
   private boolean visualizzata;
 
-  // bi-directional one-to-one association to Progettoformativo
   @OneToOne
   @JoinColumn(name = "id")
   private Progettoformativo progettoformativo;
 
-  // bi-directional many-to-one association to Utente
   @ManyToOne
   @JoinColumn(name = "utenteEmail")
   private Utente utente;

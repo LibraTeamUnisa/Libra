@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the tutorinterno database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Tutorinterno.findAll", query = "SELECT t FROM Tutorinterno t")
 public class Tutorinterno implements Serializable {
@@ -27,11 +22,9 @@ public class Tutorinterno implements Serializable {
 
   private String nome;
 
-  // bi-directional many-to-one association to Progettoformativo
   @OneToMany(mappedBy = "tutorinterno")
   private List<Progettoformativo> progettoformativos;
 
-  // bi-directional one-to-one association to Utente
   @OneToOne
   @JoinColumn(name = "utenteEmail")
   private Utente utente;

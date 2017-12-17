@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
-/**
- * The persistent class for the presidente database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Presidente.findAll", query = "SELECT p FROM Presidente p")
 public class Presidente implements Serializable {
@@ -30,7 +25,6 @@ public class Presidente implements Serializable {
 
   private String ufficio;
 
-  // bi-directional one-to-one association to Utente
   @OneToOne
   @JoinColumn(name = "utenteEmail")
   private Utente utente;

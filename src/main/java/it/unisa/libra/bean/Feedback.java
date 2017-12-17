@@ -3,11 +3,6 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the feedback database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f")
 public class Feedback implements Serializable {
@@ -18,12 +13,10 @@ public class Feedback implements Serializable {
 
   private String valutazione;
 
-  // bi-directional many-to-one association to Domanda
   @ManyToOne
   @JoinColumn(name = "domandaID", insertable = false, updatable = false)
   private Domanda domanda;
 
-  // bi-directional many-to-one association to Progettoformativo
   @ManyToOne
   @JoinColumn(name = "progettoFormativoID", insertable = false, updatable = false)
   private Progettoformativo progettoformativo;

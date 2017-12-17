@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the permesso database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Permesso.findAll", query = "SELECT p FROM Permesso p")
 public class Permesso implements Serializable {
@@ -19,7 +14,6 @@ public class Permesso implements Serializable {
 
   private boolean abilitazione;
 
-  // bi-directional many-to-many association to Gruppo
   @ManyToMany
   @JoinTable(name = "possesso", joinColumns = {@JoinColumn(name = "tipo")},
       inverseJoinColumns = {@JoinColumn(name = "ruolo")})

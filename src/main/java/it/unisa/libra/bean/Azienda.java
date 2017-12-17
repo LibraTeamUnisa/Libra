@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the azienda database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a")
 public class Azienda implements Serializable {
@@ -23,20 +18,16 @@ public class Azienda implements Serializable {
 
   private String sede;
 
-  // bi-directional one-to-one association to Utente
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 
-  // bi-directional many-to-one association to Progettoformativo
   @OneToMany(mappedBy = "azienda")
   private List<Progettoformativo> progettoformativos;
 
-  // bi-directional many-to-many association to Studente
   @ManyToMany(mappedBy = "aziendas")
   private List<Studente> studentes;
 
-  // bi-directional many-to-one association to Tutoresterno
   @OneToMany(mappedBy = "azienda")
   private List<Tutoresterno> tutoresternos;
 

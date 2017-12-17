@@ -55,10 +55,11 @@ public class RecuperoPasswordServlet extends HttpServlet
   /** 
    * Gestisce la richiesta di un utente che richiede il recupero della password restituendo
    * un oggetto HttpServletResponse con codice d'errore 400 nel caso in cui la mail specificata 
-   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterrà il codice 200 che denoterà 
-   * la buona riuscita dell operazione; in quest'ultimo caso il sistema provvede ad inviare una email
-   * opportunamente formattata all'indirizzo di posta elettronica di registrazione dell'utente.
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
+   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterrà il codice 200 che 
+   * denoterà la buona riuscita dell operazione; in quest'ultimo caso il sistema ùprovvede ad 
+   * inviare una email opportunamente formattata all'indirizzo di posta elettronica di 
+   * registrazione dell'utente.
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    * */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -103,8 +104,8 @@ public class RecuperoPasswordServlet extends HttpServlet
    * @param to Indica il destinatario dell'email
    * @param subject Indica l'oggetto dell'email
    * @param body Indica il messaggio contenuto nell'email
-   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non è possibile effettuare il parse dell'indirizzo
-   *                                      di posta elettronica di destinazione.
+   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non è possibile effettuare il parse dell'
+   *                                      indirizzo di posta elettronica di destinazione.
    * @throws MessagingException Viene lanciata nel caso in cui non è possibilie strutturare e formattare il messaggio da inviare.
    */
   public void sendEmail(String to, String subject, String body) 

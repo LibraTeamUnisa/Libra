@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
-/**
- * The persistent class for the report database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r")
 public class Report implements Serializable {
@@ -20,7 +15,6 @@ public class Report implements Serializable {
 
   private String testo;
 
-  // bi-directional many-to-one association to Progettoformativo
   @ManyToOne
   @JoinColumn(name = "progettoFormativoID")
   private Progettoformativo progettoformativo;

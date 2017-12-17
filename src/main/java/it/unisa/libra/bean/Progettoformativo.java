@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the progettoformativo database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Progettoformativo.findAll", query = "SELECT p FROM Progettoformativo p")
 public class Progettoformativo implements Serializable {
@@ -36,30 +31,24 @@ public class Progettoformativo implements Serializable {
 
   private int stato;
 
-  // bi-directional many-to-one association to Feedback
   @OneToMany(mappedBy = "progettoformativo")
   private List<Feedback> feedbacks;
 
-  // bi-directional one-to-one association to Notifica
   @OneToOne(mappedBy = "progettoformativo")
   private Notifica notifica;
 
-  // bi-directional many-to-one association to Azienda
   @ManyToOne
   @JoinColumn(name = "aziendaEmail")
   private Azienda azienda;
 
-  // bi-directional many-to-one association to Studente
   @ManyToOne
   @JoinColumn(name = "studenteEmail")
   private Studente studente;
 
-  // bi-directional many-to-one association to Tutorinterno
   @ManyToOne
   @JoinColumn(name = "tutorInternoEmail")
   private Tutorinterno tutorinterno;
 
-  // bi-directional many-to-one association to Report
   @OneToMany(mappedBy = "progettoformativo")
   private List<Report> reports;
 

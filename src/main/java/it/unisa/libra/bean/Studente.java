@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the studente database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s")
 public class Studente implements Serializable {
@@ -27,17 +22,14 @@ public class Studente implements Serializable {
 
   private String nome;
 
-  // bi-directional many-to-one association to Progettoformativo
   @OneToMany(mappedBy = "studente")
   private List<Progettoformativo> progettoformativos;
 
-  // bi-directional many-to-many association to Azienda
   @ManyToMany
   @JoinTable(name = "preferenza", joinColumns = {@JoinColumn(name = "studenteEmail")},
       inverseJoinColumns = {@JoinColumn(name = "aziendaEmail")})
   private List<Azienda> aziendas;
 
-  // bi-directional one-to-one association to Utente
   @OneToOne
   @JoinColumn(name = "utenteEmail")
   private Utente utente;

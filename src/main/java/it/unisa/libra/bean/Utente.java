@@ -11,11 +11,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
-/**
- * The persistent class for the utente database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Utente.findAll", query = "SELECT u FROM Utente u")
 public class Utente implements Serializable {
@@ -32,31 +27,24 @@ public class Utente implements Serializable {
 
   private String telefono;
 
-  // bi-directional one-to-one association to Azienda
   @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
   private Azienda azienda;
 
-  // bi-directional many-to-one association to Notifica
   @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
   private List<Notifica> notificas;
 
-  // bi-directional one-to-one association to Presidente
   @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
   private Presidente presidente;
 
-  // bi-directional one-to-one association to Segreteria
   @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
   private Segreteria segreteria;
 
-  // bi-directional one-to-one association to Studente
   @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
   private Studente studente;
 
-  // bi-directional one-to-one association to Tutorinterno
   @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
   private Tutorinterno tutorinterno;
 
-  // bi-directional many-to-one association to Gruppo
   @ManyToOne
   @JoinColumn(name = "ruolo")
   private Gruppo gruppo;

@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
@@ -47,7 +48,7 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet
 		utente.setPassword("maurovitale");
 		utente.setIndirizzo("Via delle Rose 1");
 		utente.setTelefono("1234567890");
-		utente.setImagePath("profilo.jpg");
+		utente.setImgProfilo("profilo.jpg");
 		
 		em.getTransaction().begin();
 		em.persist(utente);
@@ -121,6 +122,12 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet
 		public Utente findById(Utente entity, String id) 
 		{
 			return em.find(entity.getClass(), id);
+		}
+
+		@Override
+		public List<Utente> findAll(Class<Utente> clazz) 
+		{
+			return null;
 		}
 		
 	}

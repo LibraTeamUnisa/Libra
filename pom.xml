@@ -84,6 +84,10 @@
 			<artifactId>javax.mail</artifactId>
 			<version>1.6.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-checkstyle-plugin</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>Libra</finalName>

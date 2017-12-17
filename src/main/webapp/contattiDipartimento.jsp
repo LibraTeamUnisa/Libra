@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="it.unisa.libra.model.dao.ISegreteriaDao" %>
+<%@ page import="it.unisa.libra.model.dao.IPresidenteDao" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.Context" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Map.Entry" %>
 <%@ page import="it.unisa.libra.bean.Segreteria" %>
+<%@ page import="it.unisa.libra.bean.Presidente" %>
+<%@ page import="it.unisa.libra.util.JsonUtils" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,13 +77,7 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             <% 
-             	ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
-             	List<Segreteria> listSeg = segreteriaDao.findAll(Segreteria.class);
-             	for(Segreteria seg: listSeg){
-             		System.out.println(seg.getUtenteEmail());
-             	}
-             %>
+             
              <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Contatti Dipartimento</h3>
@@ -90,62 +89,84 @@
                     
                 </div>
                 
-            <div class="row">
-                    <div class="col-md-6 col-lg-3 col-xlg-4">
+            	<div class="row">
+            
+            	<!--SEGRETERIA-->
+            	
+            	<%  ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
+             		List<Segreteria> listSeg = segreteriaDao.findAll(Segreteria.class);
+             		for(Segreteria seg: listSeg){
+            	 %>
+             		<div class="col-md-6 col-lg-5 col-xlg-4">
                         <div class="card card-block">
                             <div class="row">
                                 <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="app-contact-detail.html"><img src="assets/images/users/1.jpg" alt="user" class="img-circle img-responsive"></a>
+                                    <a href="#"><img src="assets/images/users/1.jpg" alt="user" class="img-circle img-responsive"></a>
                                 </div>
                                 <div class="col-md-8 col-lg-9">
-                                    <h3 class="box-title m-b-0">Johnathan Doe</h3> <small>Web Designer</small>
+                                    <h3 class="box-title m-b-0">Segreteria</h3>
+                                    <small>Dipartimento di Informatica</small>
+                                    <span class="badge badge-primary">Edificio F</span>
+                                    <br>
+                                    <span class="mail-desc">Orari di apertura</span>
                                     <address>
-                                        795 Folsom Ave, Suite 600 San Francisco, CADGE 94107
-                                        <br>
-                                        <br>
-                                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                                    	<% 
+                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
+                                    	%>
+                                    		<span class="badge badge-info"><%=entry.getKey()%></span>
+                                       		<span class="time"><%=entry.getValue()%></span>
+                                        	<br>
+                                		<%}%>
                                     </address>
+                                    <span class="mdi mdi-phone"> <%=seg.getUtente().getTelefono()%></span>
+                                    <br>
+                                    <span class="mdi mdi-email"> <%=seg.getUtenteEmail()%></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-xlg-4">
+             <% } %>
+             
+             <!--PRESIDENTE-->
+            	
+            	<%  IPresidenteDao presidenteDao = (IPresidenteDao) new InitialContext().lookup("java:app/Libra/PresidenteJpa");
+             		List<Presidente> listPres = presidenteDao.findAll(Presidente.class);
+             		for(Presidente pres: listPres){
+            	 %>
+             		<div class="col-md-6 col-lg-5 col-xlg-4">
                         <div class="card card-block">
                             <div class="row">
                                 <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="app-contact-detail.html"><img src="../assets/images/users/2.jpg" alt="user" class="img-circle img-responsive"></a>
+                                    <a href="#"><img src="assets/images/users/2.jpg" alt="user" class="img-circle img-responsive"></a>
                                 </div>
                                 <div class="col-md-8 col-lg-9">
-                                    <h3 class="box-title m-b-0">Johnathan Doe</h3> <small>Web Designer</small>
+                                    <h3 class="box-title m-b-0"><%=pres.getCognome()+ " " +pres.getNome()%></h3>
+                                    <small>Dipartimento di Informatica</small>
+                                    <span class="badge badge-primary"><%=pres.getUfficio()%></span>
+                                    <br>
+                                    <span class="mail-desc">Orari di ricevimento</span>
                                     <address>
-                                        795 Folsom Ave, Suite 600 San Francisco, CADGE 94107
-                                        <br>
-                                        <br>
-                                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                                    	<% 
+                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(pres.getGiorniDiRicevimento());
+                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
+                                    	%>
+                                    		<span class="badge badge-info"><%=entry.getKey()%></span>
+                                       		<span class="time"><%=entry.getValue()%></span>
+                                        	<br>
+                                		<%}%>
                                     </address>
+                                    <span class="mdi mdi-phone"> <%=pres.getUtente().getTelefono()%></span>
+                                    <br>
+                                    <span class="mdi mdi-email"> <%=pres.getUtenteEmail()%></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-xlg-4">
-                        <div class="card card-block">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="app-contact-detail.html"><img src="../assets/images/users/3.jpg" alt="user" class="img-circle img-responsive"></a>
-                                </div>
-                                <div class="col-md-8 col-lg-9">
-                                    <h3 class="box-title m-b-0">Johnathan Doe</h3> <small>Web Designer</small>
-                                    <address>
-                                        795 Folsom Ave, Suite 600 San Francisco, CADGE 94107
-                                        <br>
-                                        <br>
-                                        <abbr title="Phone">P:</abbr> (123) 456-7890
-                                    </address>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+             <% } %>
+             
                 </div>
+                
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

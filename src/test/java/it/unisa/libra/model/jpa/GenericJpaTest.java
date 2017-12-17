@@ -2,19 +2,15 @@ package it.unisa.libra.model.jpa;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import it.unisa.libra.model.dao.IGenericDao;
-
-public abstract class GenericJpaTest<E, K> implements IGenericDao<E, K> {
+public abstract class GenericJpaTest {
 
   protected static EntityManagerFactory emf;
   protected static EntityManager em;
@@ -39,20 +35,5 @@ public abstract class GenericJpaTest<E, K> implements IGenericDao<E, K> {
   public static void tearDown() {
     em.clear();
     em.close();
-  }
-
-  @Override
-  public void persist(E entity) {
-    em.persist(entity);
-  }
-
-  @Override
-  public void remove(E entity) {
-    em.remove(entity);
-  }
-
-  @Override
-  public E findById(E entity, K id) {
-    return (E) em.find(entity.getClass(), id);
   }
 }

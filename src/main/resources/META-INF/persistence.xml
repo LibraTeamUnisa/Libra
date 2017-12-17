@@ -5,8 +5,24 @@
 	<persistence-unit name="libraPU">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/LibraDS</jta-data-source>
+		<class>it.unisa.libra.bean.Progettoformativo</class>
+		<class>it.unisa.libra.bean.Tutoresterno</class>
+		<class>it.unisa.libra.bean.TutoresternoPK</class>
+		<class>it.unisa.libra.bean.Tutorinterno</class>
+		<class>it.unisa.libra.bean.Azienda</class>
+		<class>it.unisa.libra.bean.Domanda</class>
+		<class>it.unisa.libra.bean.Feedback</class>
+		<class>it.unisa.libra.bean.FeedbackPK</class>
+		<class>it.unisa.libra.bean.Gruppo</class>
+		<class>it.unisa.libra.bean.Notifica</class>
+		<class>it.unisa.libra.bean.Permesso</class>
+		<class>it.unisa.libra.bean.Presidente</class>
+		<class>it.unisa.libra.bean.Report</class>
+		<class>it.unisa.libra.bean.Segreteria</class>
+		<class>it.unisa.libra.bean.Studente</class>
+		<class>it.unisa.libra.bean.Utente</class>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.connection.autocommit" value="true" />

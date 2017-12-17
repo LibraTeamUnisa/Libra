@@ -2,12 +2,12 @@ package it.unisa.libra.model.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import it.unisa.libra.model.dao.IGenericDao;
 
 public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
 
-  @PersistenceContext protected EntityManager entityManager;
+  @PersistenceContext
+  protected EntityManager entityManager;
 
   public GenericJpa() {}
 

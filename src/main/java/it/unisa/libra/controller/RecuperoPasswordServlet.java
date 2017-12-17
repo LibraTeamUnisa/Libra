@@ -60,7 +60,7 @@ public class RecuperoPasswordServlet extends HttpServlet
    * inviare una email opportunamente formattata all'indirizzo di posta elettronica di 
    * registrazione dell'utente.
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-   * */
+   */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
   {
@@ -93,7 +93,7 @@ public class RecuperoPasswordServlet extends HttpServlet
 
   /** 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) 
-   * */
+   */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException
   {

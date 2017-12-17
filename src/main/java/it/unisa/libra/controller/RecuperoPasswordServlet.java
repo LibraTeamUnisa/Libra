@@ -37,7 +37,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 public class RecuperoPasswordServlet extends HttpServlet 
 {
 	@Inject
-	private IUtenteDao userDao;
+	protected IUtenteDao userDao;
 	
 	private static final long serialVersionUID   = 1L;
 	
@@ -180,6 +180,9 @@ public class RecuperoPasswordServlet extends HttpServlet
    */
   private boolean checkEmail(String email)
   {
-	  return email!=null&&Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
+	  if(email==null)
+		  return false;
+	  else
+		  return Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
   }
 }

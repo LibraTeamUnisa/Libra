@@ -7,6 +7,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<!-- add classes -->
 		<class>it.unisa.libra.bean.Azienda</class>
+		<class>it.unisa.libra.bean.Utente</class>
 		<properties>
 			<!-- Configuring JDBC properties -->
 			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;INIT=RUNSCRIPT 

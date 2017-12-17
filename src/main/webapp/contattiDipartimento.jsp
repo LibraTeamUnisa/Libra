@@ -82,7 +82,7 @@
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Contatti Dipartimento</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
                             <li class="breadcrumb-item active">Contatti</li>
                         </ol>
                     </div>
@@ -122,6 +122,8 @@
                                     <span class="mdi mdi-phone"> <%=seg.getUtente().getTelefono()%></span>
                                     <br>
                                     <span class="mdi mdi-email"> <%=seg.getUtenteEmail()%></span>
+                                    <br>
+                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -159,6 +161,13 @@
                                     <span class="mdi mdi-phone"> <%=pres.getUtente().getTelefono()%></span>
                                     <br>
                                     <span class="mdi mdi-email"> <%=pres.getUtenteEmail()%></span>
+                                    <br>
+                                    	<%
+                                    	if(pres.getLinkSito() != null && !pres.getLinkSito().isEmpty()){ %>
+                                    		<span class="fa fa-graduation-cap"> <a href=<%=pres.getLinkSito()%>>Pagina universitaria</a></span>
+                                    	<%} else {%>
+                                    		<br>
+                                    	<%}%>
                                 </div>
                             </div>
                         </div>

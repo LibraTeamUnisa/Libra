@@ -22,12 +22,15 @@ public class AutenticazioneServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    if (request == null || StringUtils.isNullOrEmpty(request.getParameter(Actions.ACTION)))
-      return;
-
-    if (request.getParameter(Actions.ACTION).equals(Actions.LOGOUT)) {
-      request.getSession().invalidate();
-      response.sendRedirect(request.getContextPath() + JspPagesIndex.HOME);
+    if (validAction(request, response)) {
+      if (request.getParameter(Actions.ACTION).equals(Actions.LOGOUT)) {
+        request.getSession().invalidate();
+        response.sendRedirect(request.getContextPath() + JspPagesIndex.HOME);
+      }
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Azione non valida!");
+      response.getWriter().flush();
     }
 
   }
@@ -36,5 +39,9 @@ public class AutenticazioneServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     doGet(request, response);
+  }
+
+  private boolean validAction(HttpServletRequest request, HttpServletResponse response) {
+    return (request != null && !StringUtils.isNullOrEmpty(request.getParameter(Actions.ACTION)));
   }
 }

@@ -1,4 +1,5 @@
- <header class="topbar">
+ <%@page import="it.unisa.libra.util.Actions"%>
+<header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
@@ -108,7 +109,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="${pageContext.request.contextPath}/autenticazione?action=logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </li>

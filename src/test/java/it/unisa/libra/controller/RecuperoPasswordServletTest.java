@@ -20,12 +20,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
 
 public class RecuperoPasswordServletTest extends RecuperoPasswordServlet
 {
 	private Utente        utente;
+	private Gruppo        gruppo;
 	private EntityManager em;
 	
 	@Mock
@@ -43,14 +45,19 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet
 		em=Persistence.createEntityManagerFactory("libraTestPU").createEntityManager();
 		super.userDao=new IUtenteDaoTest(em);
 		
+		gruppo=new Gruppo();
+		gruppo.setRuolo("Tester");
+		
 		utente=new Utente();
 		utente.setEmail("vitalemauro@outlook.it");
 		utente.setPassword("maurovitale");
 		utente.setIndirizzo("Via delle Rose 1");
 		utente.setTelefono("1234567890");
 		utente.setImgProfilo("profilo.jpg");
+		utente.setGruppo(gruppo);
 		
 		em.getTransaction().begin();
+		em.persist(gruppo);
 		em.persist(utente);
 		em.getTransaction().commit();
 	}
@@ -60,6 +67,7 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet
 	{
 		em.getTransaction().begin();
 		em.remove(utente);
+		em.remove(gruppo);
 		em.getTransaction().commit();
 	}
 

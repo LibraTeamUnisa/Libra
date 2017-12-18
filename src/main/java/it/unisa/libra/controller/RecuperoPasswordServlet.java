@@ -64,19 +64,25 @@ public class RecuperoPasswordServlet extends HttpServlet {
 		    throws ServletException, IOException{
 	  String email=request.getParameter("email");
 	  
-	  try {
-		  if (checkEmail(email)) {
+	  try 
+	  {
+		  if (checkEmail(email)) 
+		  {
 		    Utente passLessUser=userDao.findById(new Utente(), email);
 			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
 			  response.setStatus(HttpServletResponse.SC_OK);
 			  response.getWriter().write("L'email è stata inviata all'indirizzo specificato");
 			  response.getWriter().flush();
-	  } else {
+	    } 
+		  else
+		  {
 			  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			  response.getWriter().write("L'email inserita non è valida.");
 			  response.getWriter().flush();
-		}
-	  } catch(Exception ex) {
+			}
+	  } 
+	  catch(Exception ex) 
+	  {
 		  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		  response.getWriter().write("Impossibile inviare l'email per il recupero della password");
 		  response.getWriter().flush();
@@ -173,10 +179,9 @@ public class RecuperoPasswordServlet extends HttpServlet {
    */
   private boolean checkEmail(String email)
   {
-	  if(email==null) {
-		return false;
-	} else {
-		return Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
-	}
+	  if(email==null)
+	    return false;
+		else
+		  return Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
   }
 }

@@ -20,6 +20,7 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
     entityManager.remove(entity);
   }
 
+  @SuppressWarnings("unchecked")
   public E findById(E entity, K id) {
     return (E) entityManager.find(entity.getClass(), id);
   }

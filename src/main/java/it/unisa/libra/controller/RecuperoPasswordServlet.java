@@ -5,16 +5,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 import java.util.regex.Pattern;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
-
 import javax.inject.Inject;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -24,7 +19,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+
 import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * Consente di effettuare l'operazione di recupero password di un utente
  * registrato: quest'ultimo riceverà la password smarrita tramite una email
@@ -33,9 +33,9 @@ import org.apache.commons.lang.StringEscapeUtils;
  * @author  Mauro Vitale
  * @version 1.0
  */
+
 @WebServlet(name = "RecuperoPasswordServlet", urlPatterns = "/recupero")
-public class RecuperoPasswordServlet extends HttpServlet 
-{
+public class RecuperoPasswordServlet extends HttpServlet {
 	@Inject
 	protected IUtenteDao userDao;
 	
@@ -61,23 +61,19 @@ public class RecuperoPasswordServlet extends HttpServlet
    * registrazione dell'utente.
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-  {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+		    throws ServletException, IOException{
 	  String email=request.getParameter("email");
 	  
 	  try
 	  {
-		  if(checkEmail(email))
-		  {
-			  Utente passLessUser=userDao.findById(new Utente(), email);
+		  if (checkEmail(email)) {
+		    Utente passLessUser=userDao.findById(new Utente(), email);
 			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
 			  response.setStatus(HttpServletResponse.SC_OK);
 			  response.getWriter().write("L'email è stata inviata all'indirizzo specificato");
 			  response.getWriter().flush();
-		  }
-		  else
-		  {
+		  } else {
 			  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			  response.getWriter().write("L'email inserita non è valida.");
 			  response.getWriter().flush();
@@ -181,9 +177,10 @@ public class RecuperoPasswordServlet extends HttpServlet
    */
   private boolean checkEmail(String email)
   {
-	  if(email==null)
-		  return false;
-	  else
-		  return Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
+	  if(email==null) {
+		return false;
+	} else {
+		return Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(new Utente(),email)!=null;
+	}
   }
 }

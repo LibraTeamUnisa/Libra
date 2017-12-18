@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ page import="it.unisa.libra.bean.Studente" %> 
+
+<% Studente s = (Studente) request.getAttribute("studente"); %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,8 +72,52 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             
+            	<div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Dettaglio Studente</h3>
+                </div>
+            	<div class="row">
+	             	<div class="col-md-4">
+	                        <div class="card">
+	                            <div class="card-block">
+	                                <h3 class="card-title">Special title treatment</h3>
+	                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+	                                <a href="#" class="btn btn-success">Go somewhere</a>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-8">
+	                        <div class="card">
+	                            <div class="card-block">
+	                                <h3 class="card-title">Dati personali</h3>
+	                                <p class="card-text">
+	                                	<span class="font-weight-bold">Nome:</span> <%= s.getNome() %><br>
+	                                	<span class="font-weight-bold">Cognome:</span> <%= s.getCognome() %><br>
+	                                	<span class="font-weight-bold">Data di nascita:</span> <%= s.getDataDiNascita().toString() %><br>
+	                                	<span class="font-weight-bold">Matricola:</span> <%= s.getMatricola() %>
+	                                </p>
+	                                <h3 class="card-title">Contatti</h3>
+	                                <p class="card-text">
+	                                	<span class="font-weight-bold">Indirizzo:</span> <%= s.getUtente().getIndirizzo() %><br>
+	                                	<span class="font-weight-bold">E-mail:</span> <%= s.getUtenteEmail() %><br>
+	                                	<span class="font-weight-bold">Telefono:</span> <%= s.getUtente().getTelefono() %>
+	                                </p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="row">
+	                	<div class="col-md-12">
+	                		<div class="card">
+	                			<div class="card-block">
+	                				<h3 class="card-title">Proposta di Progetto Formativo</h3>
+	                				<p class="card-text">
+	                					<i class="fa fa-file-pdf-o"></i>
+	                				</p>
+	                			</div>
+	                		</div>
+	                	</div>
+	                </div>
+	             </div>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

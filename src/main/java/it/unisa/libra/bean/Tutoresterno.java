@@ -10,85 +10,86 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name = "Tutoresterno.findAll", query = "SELECT t FROM Tutoresterno t")
+@NamedQuery(name="Tutoresterno.findAll", query="SELECT t FROM Tutoresterno t")
 public class Tutoresterno implements Serializable {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @EmbeddedId
-  private TutoresternoPK id;
+	@EmbeddedId
+	private TutoresternoPK id;
 
-  private String cognome;
+	private String cognome;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataDiNascita;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataDiNascita;
 
-  private String indirizzo;
+	private String indirizzo;
 
-  private String nome;
+	private String nome;
 
-  private String telefono;
+	private String telefono;
 
-  // bi-directional many-to-one association to Azienda
-  @ManyToOne
-  @JoinColumn(name = "aziendaEmail", insertable = false, updatable = false)
-  private Azienda azienda;
+	//bi-directional many-to-one association to Azienda
+	@ManyToOne
+	@JoinColumn(name="aziendaEmail")
+	private Azienda azienda;
 
-  public Tutoresterno() {}
+	public Tutoresterno() {
+	}
 
-  public TutoresternoPK getId() {
-    return this.id;
-  }
+	public TutoresternoPK getId() {
+		return this.id;
+	}
 
-  public void setId(TutoresternoPK id) {
-    this.id = id;
-  }
+	public void setId(TutoresternoPK id) {
+		this.id = id;
+	}
 
-  public String getCognome() {
-    return this.cognome;
-  }
+	public String getCognome() {
+		return this.cognome;
+	}
 
-  public void setCognome(String cognome) {
-    this.cognome = cognome;
-  }
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
 
-  public Date getDataDiNascita() {
-    return this.dataDiNascita;
-  }
+	public Date getDataDiNascita() {
+		return this.dataDiNascita;
+	}
 
-  public void setDataDiNascita(Date dataDiNascita) {
-    this.dataDiNascita = dataDiNascita;
-  }
+	public void setDataDiNascita(Date dataDiNascita) {
+		this.dataDiNascita = dataDiNascita;
+	}
 
-  public String getIndirizzo() {
-    return this.indirizzo;
-  }
+	public String getIndirizzo() {
+		return this.indirizzo;
+	}
 
-  public void setIndirizzo(String indirizzo) {
-    this.indirizzo = indirizzo;
-  }
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
+	}
 
-  public String getNome() {
-    return this.nome;
-  }
+	public String getNome() {
+		return this.nome;
+	}
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-  public String getTelefono() {
-    return this.telefono;
-  }
+	public String getTelefono() {
+		return this.telefono;
+	}
 
-  public void setTelefono(String telefono) {
-    this.telefono = telefono;
-  }
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 
-  public Azienda getAzienda() {
-    return this.azienda;
-  }
+	public Azienda getAzienda() {
+		return this.azienda;
+	}
 
-  public void setAzienda(Azienda azienda) {
-    this.azienda = azienda;
-  }
+	public void setAzienda(Azienda azienda) {
+		this.azienda = azienda;
+	}
 
 }

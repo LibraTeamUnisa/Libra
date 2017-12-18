@@ -10,59 +10,61 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name = "Gruppo.findAll", query = "SELECT g FROM Gruppo g")
+@NamedQuery(name="Gruppo.findAll", query="SELECT g FROM Gruppo g")
 public class Gruppo implements Serializable {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @Id
-  private String ruolo;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String ruolo;
 
-  // bi-directional many-to-many association to Permesso
-  @ManyToMany(mappedBy = "gruppos")
-  private List<Permesso> permessos;
+	//bi-directional many-to-many association to Permesso
+	@ManyToMany(mappedBy="gruppos")
+	private List<Permesso> permessos;
 
-  // bi-directional many-to-one association to Utente
-  @OneToMany(mappedBy = "gruppo")
-  private List<Utente> utentes;
+	//bi-directional many-to-one association to Utente
+	@OneToMany(mappedBy="gruppo")
+	private List<Utente> utentes;
 
-  public Gruppo() {}
+	public Gruppo() {
+	}
 
-  public String getRuolo() {
-    return this.ruolo;
-  }
+	public String getRuolo() {
+		return this.ruolo;
+	}
 
-  public void setRuolo(String ruolo) {
-    this.ruolo = ruolo;
-  }
+	public void setRuolo(String ruolo) {
+		this.ruolo = ruolo;
+	}
 
-  public List<Permesso> getPermessos() {
-    return this.permessos;
-  }
+	public List<Permesso> getPermessos() {
+		return this.permessos;
+	}
 
-  public void setPermessos(List<Permesso> permessos) {
-    this.permessos = permessos;
-  }
+	public void setPermessos(List<Permesso> permessos) {
+		this.permessos = permessos;
+	}
 
-  public List<Utente> getUtentes() {
-    return this.utentes;
-  }
+	public List<Utente> getUtentes() {
+		return this.utentes;
+	}
 
-  public void setUtentes(List<Utente> utentes) {
-    this.utentes = utentes;
-  }
+	public void setUtentes(List<Utente> utentes) {
+		this.utentes = utentes;
+	}
 
-  public Utente addUtente(Utente utente) {
-    getUtentes().add(utente);
-    utente.setGruppo(this);
+	public Utente addUtente(Utente utente) {
+		getUtentes().add(utente);
+		utente.setGruppo(this);
 
-    return utente;
-  }
+		return utente;
+	}
 
-  public Utente removeUtente(Utente utente) {
-    getUtentes().remove(utente);
-    utente.setGruppo(null);
+	public Utente removeUtente(Utente utente) {
+		getUtentes().remove(utente);
+		utente.setGruppo(null);
 
-    return utente;
-  }
+		return utente;
+	}
 
 }

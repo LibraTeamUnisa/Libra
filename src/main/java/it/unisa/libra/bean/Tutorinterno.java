@@ -11,101 +11,103 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name = "Tutorinterno.findAll", query = "SELECT t FROM Tutorinterno t")
+@NamedQuery(name="Tutorinterno.findAll", query="SELECT t FROM Tutorinterno t")
 public class Tutorinterno implements Serializable {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @Id
-  private String utenteEmail;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String utenteEmail;
 
-  private String cognome;
+	private String cognome;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataDiNascita;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataDiNascita;
 
-  private String linkSito;
+	private String linkSito;
 
-  private String nome;
+	private String nome;
 
-  // bi-directional many-to-one association to Progettoformativo
-  @OneToMany(mappedBy = "tutorinterno")
-  private List<Progettoformativo> progettoformativos;
+	//bi-directional many-to-one association to Progettoformativo
+	@OneToMany(mappedBy="tutorinterno")
+	private List<Progettoformativo> progettoformativos;
 
-  // bi-directional one-to-one association to Utente
-  @OneToOne
-  @JoinColumn(name = "utenteEmail")
-  private Utente utente;
+	//bi-directional one-to-one association to Utente
+	@OneToOne
+	@JoinColumn(name="utenteEmail")
+	private Utente utente;
 
-  public Tutorinterno() {}
+	public Tutorinterno() {
+	}
 
-  public String getUtenteEmail() {
-    return this.utenteEmail;
-  }
+	public String getUtenteEmail() {
+		return this.utenteEmail;
+	}
 
-  public void setUtenteEmail(String utenteEmail) {
-    this.utenteEmail = utenteEmail;
-  }
+	public void setUtenteEmail(String utenteEmail) {
+		this.utenteEmail = utenteEmail;
+	}
 
-  public String getCognome() {
-    return this.cognome;
-  }
+	public String getCognome() {
+		return this.cognome;
+	}
 
-  public void setCognome(String cognome) {
-    this.cognome = cognome;
-  }
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
 
-  public Date getDataDiNascita() {
-    return this.dataDiNascita;
-  }
+	public Date getDataDiNascita() {
+		return this.dataDiNascita;
+	}
 
-  public void setDataDiNascita(Date dataDiNascita) {
-    this.dataDiNascita = dataDiNascita;
-  }
+	public void setDataDiNascita(Date dataDiNascita) {
+		this.dataDiNascita = dataDiNascita;
+	}
 
-  public String getLinkSito() {
-    return this.linkSito;
-  }
+	public String getLinkSito() {
+		return this.linkSito;
+	}
 
-  public void setLinkSito(String linkSito) {
-    this.linkSito = linkSito;
-  }
+	public void setLinkSito(String linkSito) {
+		this.linkSito = linkSito;
+	}
 
-  public String getNome() {
-    return this.nome;
-  }
+	public String getNome() {
+		return this.nome;
+	}
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-  public List<Progettoformativo> getProgettoformativos() {
-    return this.progettoformativos;
-  }
+	public List<Progettoformativo> getProgettoformativos() {
+		return this.progettoformativos;
+	}
 
-  public void setProgettoformativos(List<Progettoformativo> progettoformativos) {
-    this.progettoformativos = progettoformativos;
-  }
+	public void setProgettoformativos(List<Progettoformativo> progettoformativos) {
+		this.progettoformativos = progettoformativos;
+	}
 
-  public Progettoformativo addProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().add(progettoformativo);
-    progettoformativo.setTutorinterno(this);
+	public Progettoformativo addProgettoformativo(Progettoformativo progettoformativo) {
+		getProgettoformativos().add(progettoformativo);
+		progettoformativo.setTutorinterno(this);
 
-    return progettoformativo;
-  }
+		return progettoformativo;
+	}
 
-  public Progettoformativo removeProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().remove(progettoformativo);
-    progettoformativo.setTutorinterno(null);
+	public Progettoformativo removeProgettoformativo(Progettoformativo progettoformativo) {
+		getProgettoformativos().remove(progettoformativo);
+		progettoformativo.setTutorinterno(null);
 
-    return progettoformativo;
-  }
+		return progettoformativo;
+	}
 
-  public Utente getUtente() {
-    return this.utente;
-  }
+	public Utente getUtente() {
+		return this.utente;
+	}
 
-  public void setUtente(Utente utente) {
-    this.utente = utente;
-  }
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+	}
 
 }

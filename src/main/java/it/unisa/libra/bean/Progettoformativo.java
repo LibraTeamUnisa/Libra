@@ -11,206 +11,219 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name = "Progettoformativo.findAll", query = "SELECT p FROM Progettoformativo p")
+@NamedQuery(name="Progettoformativo.findAll", query="SELECT p FROM Progettoformativo p")
 public class Progettoformativo implements Serializable {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @Id
-  private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
 
-  private String ambito;
+	private String ambito;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataFine;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataFine;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataInizio;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataInizio;
 
-  private String documento;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataInvio;
 
-  private String motivazioneRifiuto;
+	private String documento;
 
-  private String note;
+	private String motivazioneRifiuto;
 
-  private int periodoReport;
+	private String note;
 
-  private int stato;
+	private int periodoReport;
 
-  // bi-directional many-to-one association to Feedback
-  @OneToMany(mappedBy = "progettoformativo")
-  private List<Feedback> feedbacks;
+	private int stato;
 
-  // bi-directional one-to-one association to Notifica
-  @OneToOne(mappedBy = "progettoformativo")
-  private Notifica notifica;
+	//bi-directional many-to-one association to Feedback
+	@OneToMany(mappedBy="progettoformativo")
+	private List<Feedback> feedbacks;
 
-  // bi-directional many-to-one association to Azienda
-  @ManyToOne
-  @JoinColumn(name = "aziendaEmail")
-  private Azienda azienda;
+	//bi-directional one-to-one association to Notifica
+	@OneToOne(mappedBy="progettoformativo")
+	private Notifica notifica;
 
-  // bi-directional many-to-one association to Studente
-  @ManyToOne
-  @JoinColumn(name = "studenteEmail")
-  private Studente studente;
+	//bi-directional many-to-one association to Azienda
+	@ManyToOne
+	@JoinColumn(name="aziendaEmail")
+	private Azienda azienda;
 
-  // bi-directional many-to-one association to Tutorinterno
-  @ManyToOne
-  @JoinColumn(name = "tutorInternoEmail")
-  private Tutorinterno tutorinterno;
+	//bi-directional many-to-one association to Studente
+	@ManyToOne
+	@JoinColumn(name="studenteEmail")
+	private Studente studente;
 
-  // bi-directional many-to-one association to Report
-  @OneToMany(mappedBy = "progettoformativo")
-  private List<Report> reports;
+	//bi-directional many-to-one association to Tutorinterno
+	@ManyToOne
+	@JoinColumn(name="tutorInternoEmail")
+	private Tutorinterno tutorinterno;
 
-  public Progettoformativo() {}
+	//bi-directional many-to-one association to Report
+	@OneToMany(mappedBy="progettoformativo")
+	private List<Report> reports;
 
-  public int getId() {
-    return this.id;
-  }
+	public Progettoformativo() {
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public int getId() {
+		return this.id;
+	}
 
-  public String getAmbito() {
-    return this.ambito;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public void setAmbito(String ambito) {
-    this.ambito = ambito;
-  }
+	public String getAmbito() {
+		return this.ambito;
+	}
 
-  public Date getDataFine() {
-    return this.dataFine;
-  }
+	public void setAmbito(String ambito) {
+		this.ambito = ambito;
+	}
 
-  public void setDataFine(Date dataFine) {
-    this.dataFine = dataFine;
-  }
+	public Date getDataFine() {
+		return this.dataFine;
+	}
 
-  public Date getDataInizio() {
-    return this.dataInizio;
-  }
+	public void setDataFine(Date dataFine) {
+		this.dataFine = dataFine;
+	}
 
-  public void setDataInizio(Date dataInizio) {
-    this.dataInizio = dataInizio;
-  }
+	public Date getDataInizio() {
+		return this.dataInizio;
+	}
 
-  public String getDocumento() {
-    return this.documento;
-  }
+	public void setDataInizio(Date dataInizio) {
+		this.dataInizio = dataInizio;
+	}
 
-  public void setDocumento(String documento) {
-    this.documento = documento;
-  }
+	public Date getDataInvio() {
+		return this.dataInvio;
+	}
 
-  public String getMotivazioneRifiuto() {
-    return this.motivazioneRifiuto;
-  }
+	public void setDataInvio(Date dataInvio) {
+		this.dataInvio = dataInvio;
+	}
 
-  public void setMotivazioneRifiuto(String motivazioneRifiuto) {
-    this.motivazioneRifiuto = motivazioneRifiuto;
-  }
+	public String getDocumento() {
+		return this.documento;
+	}
 
-  public String getNote() {
-    return this.note;
-  }
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
 
-  public void setNote(String note) {
-    this.note = note;
-  }
+	public String getMotivazioneRifiuto() {
+		return this.motivazioneRifiuto;
+	}
 
-  public int getPeriodoReport() {
-    return this.periodoReport;
-  }
+	public void setMotivazioneRifiuto(String motivazioneRifiuto) {
+		this.motivazioneRifiuto = motivazioneRifiuto;
+	}
 
-  public void setPeriodoReport(int periodoReport) {
-    this.periodoReport = periodoReport;
-  }
+	public String getNote() {
+		return this.note;
+	}
 
-  public int getStato() {
-    return this.stato;
-  }
+	public void setNote(String note) {
+		this.note = note;
+	}
 
-  public void setStato(int stato) {
-    this.stato = stato;
-  }
+	public int getPeriodoReport() {
+		return this.periodoReport;
+	}
 
-  public List<Feedback> getFeedbacks() {
-    return this.feedbacks;
-  }
+	public void setPeriodoReport(int periodoReport) {
+		this.periodoReport = periodoReport;
+	}
 
-  public void setFeedbacks(List<Feedback> feedbacks) {
-    this.feedbacks = feedbacks;
-  }
+	public int getStato() {
+		return this.stato;
+	}
 
-  public Feedback addFeedback(Feedback feedback) {
-    getFeedbacks().add(feedback);
-    feedback.setProgettoformativo(this);
+	public void setStato(int stato) {
+		this.stato = stato;
+	}
 
-    return feedback;
-  }
+	public List<Feedback> getFeedbacks() {
+		return this.feedbacks;
+	}
 
-  public Feedback removeFeedback(Feedback feedback) {
-    getFeedbacks().remove(feedback);
-    feedback.setProgettoformativo(null);
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
 
-    return feedback;
-  }
+	public Feedback addFeedback(Feedback feedback) {
+		getFeedbacks().add(feedback);
+		feedback.setProgettoformativo(this);
 
-  public Notifica getNotifica() {
-    return this.notifica;
-  }
+		return feedback;
+	}
 
-  public void setNotifica(Notifica notifica) {
-    this.notifica = notifica;
-  }
+	public Feedback removeFeedback(Feedback feedback) {
+		getFeedbacks().remove(feedback);
+		feedback.setProgettoformativo(null);
 
-  public Azienda getAzienda() {
-    return this.azienda;
-  }
+		return feedback;
+	}
 
-  public void setAzienda(Azienda azienda) {
-    this.azienda = azienda;
-  }
+	public Notifica getNotifica() {
+		return this.notifica;
+	}
 
-  public Studente getStudente() {
-    return this.studente;
-  }
+	public void setNotifica(Notifica notifica) {
+		this.notifica = notifica;
+	}
 
-  public void setStudente(Studente studente) {
-    this.studente = studente;
-  }
+	public Azienda getAzienda() {
+		return this.azienda;
+	}
 
-  public Tutorinterno getTutorinterno() {
-    return this.tutorinterno;
-  }
+	public void setAzienda(Azienda azienda) {
+		this.azienda = azienda;
+	}
 
-  public void setTutorinterno(Tutorinterno tutorinterno) {
-    this.tutorinterno = tutorinterno;
-  }
+	public Studente getStudente() {
+		return this.studente;
+	}
 
-  public List<Report> getReports() {
-    return this.reports;
-  }
+	public void setStudente(Studente studente) {
+		this.studente = studente;
+	}
 
-  public void setReports(List<Report> reports) {
-    this.reports = reports;
-  }
+	public Tutorinterno getTutorinterno() {
+		return this.tutorinterno;
+	}
 
-  public Report addReport(Report report) {
-    getReports().add(report);
-    report.setProgettoformativo(this);
+	public void setTutorinterno(Tutorinterno tutorinterno) {
+		this.tutorinterno = tutorinterno;
+	}
 
-    return report;
-  }
+	public List<Report> getReports() {
+		return this.reports;
+	}
 
-  public Report removeReport(Report report) {
-    getReports().remove(report);
-    report.setProgettoformativo(null);
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
+	}
 
-    return report;
-  }
+	public Report addReport(Report report) {
+		getReports().add(report);
+		report.setProgettoformativo(this);
+
+		return report;
+	}
+
+	public Report removeReport(Report report) {
+		getReports().remove(report);
+		report.setProgettoformativo(null);
+
+		return report;
+	}
 
 }

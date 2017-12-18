@@ -10,95 +10,97 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name = "Presidente.findAll", query = "SELECT p FROM Presidente p")
+@NamedQuery(name="Presidente.findAll", query="SELECT p FROM Presidente p")
 public class Presidente implements Serializable {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @Id
-  private String utenteEmail;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String utenteEmail;
 
-  private String cognome;
+	private String cognome;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataDiNascita;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataDiNascita;
 
-  private String giorniDiRicevimento;
+	private String giorniDiRicevimento;
 
-  private String linkSito;
+	private String linkSito;
 
-  private String nome;
+	private String nome;
 
-  private String ufficio;
+	private String ufficio;
 
-  // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "utenteEmail")
-  private Utente utente;
+	//bi-directional one-to-one association to Utente
+	@OneToOne
+	@JoinColumn(name="utenteEmail")
+	private Utente utente;
 
-  public Presidente() {}
+	public Presidente() {
+	}
 
-  public String getUtenteEmail() {
-    return this.utenteEmail;
-  }
+	public String getUtenteEmail() {
+		return this.utenteEmail;
+	}
 
-  public void setUtenteEmail(String utenteEmail) {
-    this.utenteEmail = utenteEmail;
-  }
+	public void setUtenteEmail(String utenteEmail) {
+		this.utenteEmail = utenteEmail;
+	}
 
-  public String getCognome() {
-    return this.cognome;
-  }
+	public String getCognome() {
+		return this.cognome;
+	}
 
-  public void setCognome(String cognome) {
-    this.cognome = cognome;
-  }
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
 
-  public Date getDataDiNascita() {
-    return this.dataDiNascita;
-  }
+	public Date getDataDiNascita() {
+		return this.dataDiNascita;
+	}
 
-  public void setDataDiNascita(Date dataDiNascita) {
-    this.dataDiNascita = dataDiNascita;
-  }
+	public void setDataDiNascita(Date dataDiNascita) {
+		this.dataDiNascita = dataDiNascita;
+	}
 
-  public String getGiorniDiRicevimento() {
-    return this.giorniDiRicevimento;
-  }
+	public String getGiorniDiRicevimento() {
+		return this.giorniDiRicevimento;
+	}
 
-  public void setGiorniDiRicevimento(String giorniDiRicevimento) {
-    this.giorniDiRicevimento = giorniDiRicevimento;
-  }
+	public void setGiorniDiRicevimento(String giorniDiRicevimento) {
+		this.giorniDiRicevimento = giorniDiRicevimento;
+	}
 
-  public String getLinkSito() {
-    return this.linkSito;
-  }
+	public String getLinkSito() {
+		return this.linkSito;
+	}
 
-  public void setLinkSito(String linkSito) {
-    this.linkSito = linkSito;
-  }
+	public void setLinkSito(String linkSito) {
+		this.linkSito = linkSito;
+	}
 
-  public String getNome() {
-    return this.nome;
-  }
+	public String getNome() {
+		return this.nome;
+	}
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-  public String getUfficio() {
-    return this.ufficio;
-  }
+	public String getUfficio() {
+		return this.ufficio;
+	}
 
-  public void setUfficio(String ufficio) {
-    this.ufficio = ufficio;
-  }
+	public void setUfficio(String ufficio) {
+		this.ufficio = ufficio;
+	}
 
-  public Utente getUtente() {
-    return this.utente;
-  }
+	public Utente getUtente() {
+		return this.utente;
+	}
 
-  public void setUtente(Utente utente) {
-    this.utente = utente;
-  }
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+	}
 
 }

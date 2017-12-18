@@ -10,45 +10,47 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r")
+@NamedQuery(name="Report.findAll", query="SELECT r FROM Report r")
 public class Report implements Serializable {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @Id
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date data;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date data;
 
-  private String testo;
+	private String testo;
 
-  // bi-directional many-to-one association to Progettoformativo
-  @ManyToOne
-  @JoinColumn(name = "progettoFormativoID")
-  private Progettoformativo progettoformativo;
+	//bi-directional many-to-one association to Progettoformativo
+	@ManyToOne
+	@JoinColumn(name="progettoFormativoID")
+	private Progettoformativo progettoformativo;
 
-  public Report() {}
+	public Report() {
+	}
 
-  public Date getData() {
-    return this.data;
-  }
+	public Date getData() {
+		return this.data;
+	}
 
-  public void setData(Date data) {
-    this.data = data;
-  }
+	public void setData(Date data) {
+		this.data = data;
+	}
 
-  public String getTesto() {
-    return this.testo;
-  }
+	public String getTesto() {
+		return this.testo;
+	}
 
-  public void setTesto(String testo) {
-    this.testo = testo;
-  }
+	public void setTesto(String testo) {
+		this.testo = testo;
+	}
 
-  public Progettoformativo getProgettoformativo() {
-    return this.progettoformativo;
-  }
+	public Progettoformativo getProgettoformativo() {
+		return this.progettoformativo;
+	}
 
-  public void setProgettoformativo(Progettoformativo progettoformativo) {
-    this.progettoformativo = progettoformativo;
-  }
+	public void setProgettoformativo(Progettoformativo progettoformativo) {
+		this.progettoformativo = progettoformativo;
+	}
 
 }

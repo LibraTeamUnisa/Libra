@@ -7,6 +7,7 @@
   * Eclipse IDE for Java EE Developers
   * WildFly 11.0.0.Final
   * Mysql server 5.7.20
+  * Mysqldb Schema: libra
   * Default user and password for mysqldb: root root
 
 Download pre-configured wildfly
@@ -45,3 +46,28 @@ Creates a new table and persists an Azienda with id = 1 and ragioneSociale = "Ra
 ```
 http://localhost:8080/Libra/registrazione
 ```
+
+
+## Implementation
+
+### Code formatting
+
+#### Eclipse
+Set `libraFormatter.xml` as formatter configuration file
+```
+Project Properties --> Java Code Style --> Formatter --> Enable project specific settings --> Import  
+```
+
+#### NetBeans
+Install `Eclipse Java Code Formatter (Eclipse Neon 4.6 1a)` plugin
+```
+Tools --> Plugins 
+```
+Set `libraFormatter.xml` as formatter configuration file
+```
+Project Properties --> Formatting --> Eclipse Formatting --> 
+Override global settings --> Use Eclipse code formatter 
+```
+
+### Checkstyle and Continuous Integration using Travis CI
+Go to `https://travis-ci.org/` after your commit

@@ -1,5 +1,6 @@
 package it.unisa.libra.model.jpa;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import it.unisa.libra.model.dao.IGenericDao;
@@ -21,5 +22,9 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
 
   public E findById(Class<E> entityClass, K id) {
     return (E) entityManager.find(entityClass, id);
+  }
+
+  public List<E> findAll(Class<E> clazz) {
+    return entityManager.createNamedQuery(clazz.getSimpleName() + ".findAll").getResultList();
   }
 }

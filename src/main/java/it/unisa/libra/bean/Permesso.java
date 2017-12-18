@@ -17,7 +17,7 @@ public class Permesso implements Serializable {
   @Id
   private String tipo;
 
-  private byte abilitazione;
+  private boolean abilitazione;
 
   // bi-directional many-to-many association to Gruppo
   @ManyToMany
@@ -35,11 +35,11 @@ public class Permesso implements Serializable {
     this.tipo = tipo;
   }
 
-  public byte getAbilitazione() {
+  public boolean getAbilitazione() {
     return this.abilitazione;
   }
 
-  public void setAbilitazione(byte abilitazione) {
+  public void setAbilitazione(boolean abilitazione) {
     this.abilitazione = abilitazione;
   }
 

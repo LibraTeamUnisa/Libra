@@ -24,7 +24,7 @@ public class Azienda implements Serializable {
   private String sede;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

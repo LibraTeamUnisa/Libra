@@ -6,37 +6,39 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Utente;
 
-public class AziendaJpaTest extends GenericJpaTest {
+public class PresidenteJpaTest extends GenericJpaTest {
 	
-	private static AziendaJpa jpa;
+	private static PresidenteJpa jpa;
 	
 	@BeforeClass
 	public static void setUp() {
-		jpa = new AziendaJpa();
+		jpa = new PresidenteJpa();
 		jpa.entityManager = em;
 	}
 	
 	@Test
 	public void persistTest() {
 		
-		Azienda Azienda = createObject();
+		Presidente presidente = createObject();
 		jpa.persist(createObject());
-		Azienda toCheck = jpa.findAll(Azienda.class).get(0);
+		Presidente toCheck = jpa.findAll(Presidente.class).get(0);
 		
 		assertNotNull(toCheck);
-		assertEquals(Azienda.getUtenteEmail(), toCheck.getUtenteEmail());
+		assertEquals(presidente.getNome(), toCheck.getNome());
 	}
 	
-	private Azienda createObject() {
+	private Presidente createObject() {
 		
 		Utente utente = new Utente();
 		utente.setEmail("test@email.it");
 		
-		Azienda toPersist = new Azienda();
+		Presidente toPersist = new Presidente();
 		toPersist.setUtenteEmail("test@email.it");
+		toPersist.setNome("Presi");
+		toPersist.setCognome("Dente");
 		toPersist.setUtente(utente);
 		
 		return toPersist;

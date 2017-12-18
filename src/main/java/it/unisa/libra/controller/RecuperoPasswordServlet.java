@@ -64,8 +64,7 @@ public class RecuperoPasswordServlet extends HttpServlet {
 		    throws ServletException, IOException{
 	  String email=request.getParameter("email");
 	  
-	  try
-	  {
+	  try {
 		  if (checkEmail(email)) {
 		    Utente passLessUser=userDao.findById(new Utente(), email);
 			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
@@ -77,9 +76,7 @@ public class RecuperoPasswordServlet extends HttpServlet {
 			  response.getWriter().write("L'email inserita non è valida.");
 			  response.getWriter().flush();
 		}
-	  }
-	  catch(Exception ex)
-	  {
+	  } catch(Exception ex) {
 		  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		  response.getWriter().write("Impossibile inviare l'email per il recupero della password");
 		  response.getWriter().flush();

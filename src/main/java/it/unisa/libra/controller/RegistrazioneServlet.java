@@ -1,7 +1,7 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import it.unisa.libra.model.dao.IUtenteDao;
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = "/registrazione")
 public class RegistrazioneServlet extends HttpServlet {
 
-  @Inject
+  @EJB
   private IUtenteDao utenteDao;
 
   private static final long serialVersionUID = 1L;

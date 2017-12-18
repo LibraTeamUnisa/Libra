@@ -33,7 +33,6 @@ import org.apache.commons.lang.StringEscapeUtils;
  * @author  Mauro Vitale
  * @version 1.0
  */
-
 @WebServlet(name = "RecuperoPasswordServlet", urlPatterns = "/recupero")
 public class RecuperoPasswordServlet extends HttpServlet {
 	@Inject
@@ -67,13 +66,16 @@ public class RecuperoPasswordServlet extends HttpServlet {
 	  
 	  try
 	  {
-		  if (checkEmail(email)) {
+		  if (checkEmail(email)) 
+		  {
 		    Utente passLessUser=userDao.findById(new Utente(), email);
 			  sendEmail(email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
 			  response.setStatus(HttpServletResponse.SC_OK);
 			  response.getWriter().write("L'email è stata inviata all'indirizzo specificato");
 			  response.getWriter().flush();
-		  } else {
+		  } 
+		  else 
+		  {
 			  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			  response.getWriter().write("L'email inserita non è valida.");
 			  response.getWriter().flush();

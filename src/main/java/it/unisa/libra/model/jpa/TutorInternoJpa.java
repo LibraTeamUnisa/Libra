@@ -1,7 +1,9 @@
 package it.unisa.libra.model.jpa;
 
-import it.unisa.libra.bean.Tutorinterno;
+import javax.ejb.Stateless;
+import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.model.dao.ITutorInternoDao;
 
-public class TutorInternoJpa extends GenericJpa<Tutorinterno, Long> implements ITutorInternoDao {
+@Stateless
+public class TutorInternoJpa extends GenericJpa<TutorInterno, String> implements ITutorInternoDao {
 }

@@ -1,8 +1,14 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -10,12 +16,12 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name = "Tutoresterno.findAll", query = "SELECT t FROM Tutoresterno t")
-public class Tutoresterno implements Serializable {
+@NamedQuery(name = "TutorEsterno.findAll", query = "SELECT t FROM TutorEsterno t")
+public class TutorEsterno implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @EmbeddedId
-  private TutoresternoPK id;
+  private TutorEsternoPK id;
 
   private String cognome;
 
@@ -33,13 +39,13 @@ public class Tutoresterno implements Serializable {
   @JoinColumn(name = "aziendaEmail", insertable = false, updatable = false)
   private Azienda azienda;
 
-  public Tutoresterno() {}
+  public TutorEsterno() {}
 
-  public TutoresternoPK getId() {
+  public TutorEsternoPK getId() {
     return this.id;
   }
 
-  public void setId(TutoresternoPK id) {
+  public void setId(TutorEsternoPK id) {
     this.id = id;
   }
 

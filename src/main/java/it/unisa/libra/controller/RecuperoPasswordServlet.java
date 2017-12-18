@@ -76,9 +76,7 @@ public class RecuperoPasswordServlet extends HttpServlet {
 	      eManager.setAccessPassword(ACCESS_PASSWORD);
 	      Authenticator auth=eManager.getAuthenticator();
 	      Properties props=eManager.setUpProperties(true);
-	      MimeMessage message=eManager.setUpMessage(props, auth, email, "Piattaforma Libra - Recupero Password", 
-	          MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.
-	          escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
+	      MimeMessage message=eManager.setUpMessage(props, auth, email, "Piattaforma Libra - Recupero Password", MSG_HEADER+"<br><p>La password del tuo account &egrave <b>"+StringEscapeUtils.escapeHtml(passLessUser.getPassword())+"</b></p><br><br>"+MSG_FOOTER);
 	      eManager.sendEmail(message);
 	      
         response.setStatus(HttpServletResponse.SC_OK);

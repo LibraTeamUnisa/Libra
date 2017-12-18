@@ -70,6 +70,40 @@
             <div class="container-fluid">
              
              
+             <%
+	String action = request.getParameter("action");
+	String buttonText = "";
+	if (action == null) {
+		response.sendRedirect("error.jsp");
+	} else if (action.equals("aggiungi")) {
+		buttonText = "Aggiungi Tutor";
+	} else if (action.equals("modifica")) {
+		buttonText = "Salva modifiche";
+	}
+%>
+
+	<form method="post" action="gestioneTutorEsterno">
+		<input type="hidden" name="action" value=<%=action%> />
+		<label for="ambito">Ambito</label> 
+		<input name="ambito" type="text" required="required" maxlength="50" /> 
+		<label for="cognome">Cognome</label>
+		<input name="cognome" type="text" required="required" maxlength="30" />
+		<label for="nome">Nome</label> 
+		<input name="nome" type="text" required="required" maxlength="30" /> 
+		<label for="dataDiNascita">Data di nascita</label> 
+		<input name="dataDiNascita" type="datetime" required="required" /> 
+		<label for="telefono">Telefono</label> 
+		<input name="telefono" type="text" required="required" maxlength="10" /> 
+		<label for="indirizzo">Indirizzo</label> 
+		<input name="indirizzo" type="text" required="required" maxlength="40" /> 
+		
+		<input type="submit" value=<%=buttonText%> />
+	</form>
+
+
+             
+             
+             
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

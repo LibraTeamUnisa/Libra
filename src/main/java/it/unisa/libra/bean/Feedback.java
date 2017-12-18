@@ -1,7 +1,11 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 
 /**
@@ -23,10 +27,10 @@ public class Feedback implements Serializable {
   @JoinColumn(name = "domandaID", insertable = false, updatable = false)
   private Domanda domanda;
 
-  // bi-directional many-to-one association to Progettoformativo
+  // bi-directional many-to-one association to ProgettoFormativo
   @ManyToOne
   @JoinColumn(name = "progettoFormativoID", insertable = false, updatable = false)
-  private Progettoformativo progettoformativo;
+  private ProgettoFormativo progettoFormativo;
 
   public Feedback() {}
 
@@ -54,12 +58,12 @@ public class Feedback implements Serializable {
     this.domanda = domanda;
   }
 
-  public Progettoformativo getProgettoformativo() {
-    return this.progettoformativo;
+  public ProgettoFormativo getProgettoFormativo() {
+    return this.progettoFormativo;
   }
 
-  public void setProgettoformativo(Progettoformativo progettoformativo) {
-    this.progettoformativo = progettoformativo;
+  public void setProgettoFormativo(ProgettoFormativo progettoFormativo) {
+    this.progettoFormativo = progettoFormativo;
   }
 
 }

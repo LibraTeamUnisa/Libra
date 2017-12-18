@@ -1,8 +1,11 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 
 /**
@@ -14,25 +17,24 @@ import java.util.Date;
 public class Report implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @Id
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date data;
+  @EmbeddedId
+  private ReportPK id;
 
   private String testo;
 
-  // bi-directional many-to-one association to Progettoformativo
+  // bi-directional many-to-one association to ProgettoFormativo
   @ManyToOne
-  @JoinColumn(name = "progettoFormativoID")
-  private Progettoformativo progettoformativo;
+  @JoinColumn(name = "progettoFormativoID", insertable = false, updatable = false)
+  private ProgettoFormativo progettoFormativo;
 
   public Report() {}
 
-  public Date getData() {
-    return this.data;
+  public ReportPK getId() {
+    return this.id;
   }
 
-  public void setData(Date data) {
-    this.data = data;
+  public void setId(ReportPK id) {
+    this.id = id;
   }
 
   public String getTesto() {
@@ -43,12 +45,12 @@ public class Report implements Serializable {
     this.testo = testo;
   }
 
-  public Progettoformativo getProgettoformativo() {
-    return this.progettoformativo;
+  public ProgettoFormativo getProgettoFormativo() {
+    return this.progettoFormativo;
   }
 
-  public void setProgettoformativo(Progettoformativo progettoformativo) {
-    this.progettoformativo = progettoformativo;
+  public void setProgettoFormativo(ProgettoFormativo progettoFormativo) {
+    this.progettoFormativo = progettoFormativo;
   }
 
 }

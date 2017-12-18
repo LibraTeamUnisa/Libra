@@ -3,23 +3,33 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
- * The primary key class for the feedback database table.
+ * The primary key class for the report database table.
  * 
  */
 @Embeddable
-public class FeedbackPK implements Serializable {
+public class ReportPK implements Serializable {
   // default serial version id, required for serializable classes.
   private static final long serialVersionUID = 1L;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  private java.util.Date data;
 
   @Column(insertable = false, updatable = false)
   private int progettoFormativoID;
 
-  @Column(insertable = false, updatable = false)
-  private int domandaID;
+  public ReportPK() {}
 
-  public FeedbackPK() {}
+  public java.util.Date getData() {
+    return this.data;
+  }
+
+  public void setData(java.util.Date data) {
+    this.data = data;
+  }
 
   public int getProgettoFormativoID() {
     return this.progettoFormativoID;
@@ -29,31 +39,23 @@ public class FeedbackPK implements Serializable {
     this.progettoFormativoID = progettoFormativoID;
   }
 
-  public int getDomandaID() {
-    return this.domandaID;
-  }
-
-  public void setDomandaID(int domandaID) {
-    this.domandaID = domandaID;
-  }
-
   public boolean equals(Object other) {
     if (this == other) {
       return true;
     }
-    if (!(other instanceof FeedbackPK)) {
+    if (!(other instanceof ReportPK)) {
       return false;
     }
-    FeedbackPK castOther = (FeedbackPK) other;
-    return (this.progettoFormativoID == castOther.progettoFormativoID)
-        && (this.domandaID == castOther.domandaID);
+    ReportPK castOther = (ReportPK) other;
+    return this.data.equals(castOther.data)
+        && (this.progettoFormativoID == castOther.progettoFormativoID);
   }
 
   public int hashCode() {
     final int prime = 31;
     int hash = 17;
+    hash = hash * prime + this.data.hashCode();
     hash = hash * prime + this.progettoFormativoID;
-    hash = hash * prime + this.domandaID;
 
     return hash;
   }

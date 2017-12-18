@@ -1,8 +1,17 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 /**
@@ -24,21 +33,21 @@ public class Azienda implements Serializable {
   private String sede;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = {CascadeType.ALL})
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 
-  // bi-directional many-to-one association to Progettoformativo
-  @OneToMany(mappedBy = "azienda")
-  private List<Progettoformativo> progettoformativos;
-
   // bi-directional many-to-many association to Studente
-  @ManyToMany(mappedBy = "aziendas")
-  private List<Studente> studentes;
+  @ManyToMany(mappedBy = "aziende")
+  private List<Studente> studenti;
 
-  // bi-directional many-to-one association to Tutoresterno
+  // bi-directional many-to-one association to ProgettoFormativo
   @OneToMany(mappedBy = "azienda")
-  private List<Tutoresterno> tutoresternos;
+  private List<ProgettoFormativo> progettiFormativi;
+
+  // bi-directional many-to-one association to TutorEsterno
+  @OneToMany(mappedBy = "azienda")
+  private List<TutorEsterno> tutorEsterni;
 
   public Azienda() {}
 
@@ -82,56 +91,56 @@ public class Azienda implements Serializable {
     this.utente = utente;
   }
 
-  public List<Progettoformativo> getProgettoformativos() {
-    return this.progettoformativos;
+  public List<Studente> getStudenti() {
+    return this.studenti;
   }
 
-  public void setProgettoformativos(List<Progettoformativo> progettoformativos) {
-    this.progettoformativos = progettoformativos;
+  public void setStudenti(List<Studente> studenti) {
+    this.studenti = studenti;
   }
 
-  public Progettoformativo addProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().add(progettoformativo);
-    progettoformativo.setAzienda(this);
-
-    return progettoformativo;
+  public List<ProgettoFormativo> getProgettiFormativi() {
+    return this.progettiFormativi;
   }
 
-  public Progettoformativo removeProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().remove(progettoformativo);
-    progettoformativo.setAzienda(null);
-
-    return progettoformativo;
+  public void setProgettiFormativi(List<ProgettoFormativo> progettiFormativi) {
+    this.progettiFormativi = progettiFormativi;
   }
 
-  public List<Studente> getStudentes() {
-    return this.studentes;
+  public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
+    getProgettiFormativi().add(progettiFormativi);
+    progettiFormativi.setAzienda(this);
+
+    return progettiFormativi;
   }
 
-  public void setStudentes(List<Studente> studentes) {
-    this.studentes = studentes;
+  public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
+    getProgettiFormativi().remove(progettiFormativi);
+    progettiFormativi.setAzienda(null);
+
+    return progettiFormativi;
   }
 
-  public List<Tutoresterno> getTutoresternos() {
-    return this.tutoresternos;
+  public List<TutorEsterno> getTutorEsterni() {
+    return this.tutorEsterni;
   }
 
-  public void setTutoresternos(List<Tutoresterno> tutoresternos) {
-    this.tutoresternos = tutoresternos;
+  public void setTutorEsterni(List<TutorEsterno> tutorEsterni) {
+    this.tutorEsterni = tutorEsterni;
   }
 
-  public Tutoresterno addTutoresterno(Tutoresterno tutoresterno) {
-    getTutoresternos().add(tutoresterno);
-    tutoresterno.setAzienda(this);
+  public TutorEsterno addTutorEsterni(TutorEsterno tutorEsterni) {
+    getTutorEsterni().add(tutorEsterni);
+    tutorEsterni.setAzienda(this);
 
-    return tutoresterno;
+    return tutorEsterni;
   }
 
-  public Tutoresterno removeTutoresterno(Tutoresterno tutoresterno) {
-    getTutoresternos().remove(tutoresterno);
-    tutoresterno.setAzienda(null);
+  public TutorEsterno removeTutorEsterni(TutorEsterno tutorEsterni) {
+    getTutorEsterni().remove(tutorEsterni);
+    tutorEsterni.setAzienda(null);
 
-    return tutoresterno;
+    return tutorEsterni;
   }
 
 }

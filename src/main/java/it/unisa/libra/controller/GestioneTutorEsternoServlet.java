@@ -59,7 +59,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     String action = request.getParameter("action");
     if (action == null) {
       // bad request
-      response.sendError(400);
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST);
       return;
     }
     if (action.equals("aggiungi")) {
@@ -72,7 +72,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       return;
     } else {
       // bad request
-      response.sendError(400);
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST);
       return;
     }
   }
@@ -82,7 +82,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("email");
     // recupero l'azienda
-    Azienda azienda = aziendaDao.findById(Azienda.class, "prova1");
+    Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
       // l'utente azienda è stato eliminato dalla segreteria durante
       // questa esecuzione
@@ -95,7 +95,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     idTutor.setAmbito(ambito);
     if (tutorDao.findById(TutorEsterno.class, idTutor) != null) {
       // primary key duplicata
-      response.sendError(400,
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST,
           "Non è stato possibile aggiungere il tutor. Esiste già un tutor responsabile dell'ambito "
               + ambito);
       return;
@@ -122,7 +122,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     aggiungiTutor(azienda, tutor);
     // end
     request.setAttribute("message", "L'aggiunta del tutor è avvenuta con successo.");
-    request.getRequestDispatcher("dashboardAzienda.jsp").forward(request, response);
+    request.getServletContext().getRequestDispatcher("dashboardAzienda.jsp").forward(request, response);
     return;
   }
 

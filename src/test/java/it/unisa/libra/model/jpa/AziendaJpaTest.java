@@ -2,74 +2,42 @@ package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Utente;
 
 public class AziendaJpaTest extends GenericJpaTest {
-<<<<<<< HEAD
 
-	private static UtenteJpa utenteJpa;
+  private static AziendaJpa jpa;
 
-	@BeforeClass
-	public static void setUp() {
-		utenteJpa = new UtenteJpa();
-		utenteJpa.entityManager = em;
-	}
+  @BeforeClass
+  public static void setUp() {
+    jpa = new AziendaJpa();
+    jpa.entityManager = em;
+  }
 
-	@Test
-	public void persistTest() {
+  @Test
+  public void persistTest() {
 
-		Utente utAzienda = new Utente();
-		utAzienda.setEmail("azienda@email.it");
+    Azienda Azienda = createObject();
+    jpa.persist(createObject());
+    Azienda toCheck = jpa.findAll(Azienda.class).get(0);
 
-		Azienda toPersist = new Azienda();
-		toPersist.setUtenteEmail("azienda@email.it");
-		toPersist.setNome("RagioneSociale");
+    assertNotNull(toCheck);
+    assertEquals(Azienda.getUtenteEmail(), toCheck.getUtenteEmail());
+  }
 
-		utAzienda.setAzienda(toPersist);
+  private Azienda createObject() {
 
-		utenteJpa.persist(utAzienda);
+    Utente utente = new Utente();
+    utente.setEmail("test@email.it");
 
-		Azienda toCheck = em.find(Azienda.class, "azienda@email.it");
+    Azienda toPersist = new Azienda();
+    toPersist.setUtenteEmail("test@email.it");
+    toPersist.setUtente(utente);
 
-		assertNotNull(toCheck);
-		assertEquals(toPersist.getNome(), toCheck.getNome());
-=======
-	
-	private static AziendaJpa jpa;
-	
-	@BeforeClass
-	public static void setUp() {
-		jpa = new AziendaJpa();
-		jpa.entityManager = em;
-	}
-	
-	@Test
-	public void persistTest() {
-		
-		Azienda Azienda = createObject();
-		jpa.persist(createObject());
-		Azienda toCheck = jpa.findAll(Azienda.class).get(0);
-		
-		assertNotNull(toCheck);
-		assertEquals(Azienda.getUtenteEmail(), toCheck.getUtenteEmail());
-	}
-	
-	private Azienda createObject() {
-		
-		Utente utente = new Utente();
-		utente.setEmail("test@email.it");
-		
-		Azienda toPersist = new Azienda();
-		toPersist.setUtenteEmail("test@email.it");
-		toPersist.setUtente(utente);
-		
-		return toPersist;
-		
->>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git
-	}
+    return toPersist;
+
+  }
 }

@@ -1,8 +1,17 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -25,12 +34,12 @@ public class Notifica implements Serializable {
 
   private int progettoFormativoID;
 
-  private boolean visualizzata;
+  private byte visualizzata;
 
-  // bi-directional one-to-one association to Progettoformativo
+  // bi-directional one-to-one association to ProgettoFormativo
   @OneToOne
   @JoinColumn(name = "id")
-  private Progettoformativo progettoformativo;
+  private ProgettoFormativo progettoFormativo;
 
   // bi-directional many-to-one association to Utente
   @ManyToOne
@@ -71,20 +80,20 @@ public class Notifica implements Serializable {
     this.progettoFormativoID = progettoFormativoID;
   }
 
-  public boolean getVisualizzata() {
+  public byte getVisualizzata() {
     return this.visualizzata;
   }
 
-  public void setVisualizzata(boolean visualizzata) {
+  public void setVisualizzata(byte visualizzata) {
     this.visualizzata = visualizzata;
   }
 
-  public Progettoformativo getProgettoformativo() {
-    return this.progettoformativo;
+  public ProgettoFormativo getProgettoFormativo() {
+    return this.progettoFormativo;
   }
 
-  public void setProgettoformativo(Progettoformativo progettoformativo) {
-    this.progettoformativo = progettoformativo;
+  public void setProgettoFormativo(ProgettoFormativo progettoFormativo) {
+    this.progettoFormativo = progettoFormativo;
   }
 
   public Utente getUtente() {

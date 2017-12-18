@@ -1,8 +1,14 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -18,12 +24,12 @@ public class Gruppo implements Serializable {
   private String ruolo;
 
   // bi-directional many-to-many association to Permesso
-  @ManyToMany(mappedBy = "gruppos")
-  private List<Permesso> permessos;
+  @ManyToMany(mappedBy = "gruppi")
+  private List<Permesso> permessi;
 
   // bi-directional many-to-one association to Utente
   @OneToMany(mappedBy = "gruppo")
-  private List<Utente> utentes;
+  private List<Utente> utenti;
 
   public Gruppo() {}
 
@@ -35,34 +41,34 @@ public class Gruppo implements Serializable {
     this.ruolo = ruolo;
   }
 
-  public List<Permesso> getPermessos() {
-    return this.permessos;
+  public List<Permesso> getPermessi() {
+    return this.permessi;
   }
 
-  public void setPermessos(List<Permesso> permessos) {
-    this.permessos = permessos;
+  public void setPermessi(List<Permesso> permessi) {
+    this.permessi = permessi;
   }
 
-  public List<Utente> getUtentes() {
-    return this.utentes;
+  public List<Utente> getUtenti() {
+    return this.utenti;
   }
 
-  public void setUtentes(List<Utente> utentes) {
-    this.utentes = utentes;
+  public void setUtenti(List<Utente> utenti) {
+    this.utenti = utenti;
   }
 
-  public Utente addUtente(Utente utente) {
-    getUtentes().add(utente);
-    utente.setGruppo(this);
+  public Utente addUtenti(Utente utenti) {
+    getUtenti().add(utenti);
+    utenti.setGruppo(this);
 
-    return utente;
+    return utenti;
   }
 
-  public Utente removeUtente(Utente utente) {
-    getUtentes().remove(utente);
-    utente.setGruppo(null);
+  public Utente removeUtenti(Utente utenti) {
+    getUtenti().remove(utenti);
+    utenti.setGruppo(null);
 
-    return utente;
+    return utenti;
   }
 
 }

@@ -8,11 +8,11 @@ import org.junit.Test;
 
 public class TutorEsternoPKTest {
 
-  private TutoresternoPK tepk;
+  private TutorEsternoPK tepk;
 
   @Test
   public void getterSetterTest() {
-    tepk = new TutoresternoPK();
+    tepk = new TutorEsternoPK();
     assertNotNull(tepk);
     tepk.setAmbito("ambito");
     assertEquals("ambito", tepk.getAmbito());
@@ -20,16 +20,16 @@ public class TutorEsternoPKTest {
     assertEquals("aziendaEmail", tepk.getAziendaEmail());
   }
 
-  @Test
+ 
   public void equalsTest() {
-    tepk = new TutoresternoPK();
+    tepk = new TutorEsternoPK();
     assertFalse(tepk.equals(null));
     assertTrue(tepk.equals(tepk));
     Object o = new Object();
     assertFalse(tepk.equals(o));
     tepk.setAmbito("ambito");
     tepk.setAziendaEmail(null);
-    TutoresternoPK other = new TutoresternoPK();
+    TutorEsternoPK other = new TutorEsternoPK();
     other.setAmbito("ambito");
     other.setAziendaEmail(null);
     assertTrue(tepk.equals(other));

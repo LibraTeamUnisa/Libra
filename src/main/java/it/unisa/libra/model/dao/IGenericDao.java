@@ -7,11 +7,7 @@ public interface IGenericDao<E, K> {
 
   void remove(E entity);
 
-<<<<<<< HEAD
-  E findById(Class<E> classe, K id);
-=======
-  E findById(E entity, K id);
+  E findById(Class<E> entityClass, K id);
 
-  List<E> findAll(Class<E> clazz);
->>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git
+  List<E> findAll(Class<E> entityClass);
 }

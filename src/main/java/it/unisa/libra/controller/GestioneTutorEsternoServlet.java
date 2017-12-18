@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Tutoresterno;
-import it.unisa.libra.bean.TutoresternoPK;
+import it.unisa.libra.bean.TutorEsterno;
+import it.unisa.libra.bean.TutorEsternoPK;
 import it.unisa.libra.model.dao.IAziendaDao;
 import it.unisa.libra.model.dao.ITutorEsternoDao;
 
@@ -82,7 +82,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("email");
     // recupero l'azienda
-    Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
+    Azienda azienda = aziendaDao.findById(Azienda.class, "prova1");
     if (azienda == null) {
       // l'utente azienda è stato eliminato dalla segreteria durante
       // questa esecuzione
@@ -90,10 +90,10 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       return;
     }
     String ambito = request.getParameter("ambito");
-    TutoresternoPK idTutor = new TutoresternoPK();
+    TutorEsternoPK idTutor = new TutorEsternoPK();
     idTutor.setAziendaEmail(emailAzienda);
     idTutor.setAmbito(ambito);
-    if (tutorDao.findById(Tutoresterno.class, idTutor) != null) {
+    if (tutorDao.findById(TutorEsterno.class, idTutor) != null) {
       // primary key duplicata
       response.sendError(400,
           "Non è stato possibile aggiungere il tutor. Esiste già un tutor responsabile dell'ambito "
@@ -102,7 +102,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     }
     // creo il tutor da aggiungere
     // i parametri sono corretti (lo assicura il check nella view)
-    Tutoresterno tutor = new Tutoresterno();
+    TutorEsterno tutor = new TutorEsterno();
     tutor.setId(idTutor);
     tutor.setNome(request.getParameter("nome"));
     tutor.setCognome(request.getParameter("cognome"));
@@ -132,9 +132,10 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    * @param azienda l'azienda a cui aggiungere il tutor
    * @param tutor il tutor da aggiungere all'azienda
    */
-  private void aggiungiTutor(Azienda azienda, Tutoresterno tutor) {
-    azienda.addTutoresterno(tutor);
-    aziendaDao.persist(azienda);
+  private void aggiungiTutor(Azienda azienda, TutorEsterno tutor) {
+    System.out.println("ciao");
+    // azienda.addTutorEsterno(tutor);
+    // aziendaDao.persist(azienda);
     return;
   }
 

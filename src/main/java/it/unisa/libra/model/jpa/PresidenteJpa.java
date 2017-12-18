@@ -6,5 +6,5 @@ import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.model.dao.IPresidenteDao;
 
 @Stateless
-public class PresidenteJpa extends GenericJpa<Presidente, Long> implements IPresidenteDao {
+public class PresidenteJpa extends GenericJpa<Presidente, String> implements IPresidenteDao {
 }

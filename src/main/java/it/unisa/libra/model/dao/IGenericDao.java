@@ -7,7 +7,9 @@ public interface IGenericDao<E, K> {
 
   void remove(E entity);
 
-  E findById(E entity, K id);
+  E findById(Class<E> entity, K id);
 
   List<E> findAll(Class<E> clazz);
+  
+  void merge(E entity);
 }

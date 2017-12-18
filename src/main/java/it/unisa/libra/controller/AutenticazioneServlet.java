@@ -2,11 +2,13 @@ package it.unisa.libra.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet implementation class AutenticazioneServlet */
+@WebServlet(name = "AutenticazioneServlet",urlPatterns = "/autenticazione")
 public class AutenticazioneServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -16,6 +18,16 @@ public class AutenticazioneServlet extends HttpServlet {
   /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+    if (request == null || request.getParameter("action") == null
+        || request.getParameter("action").isEmpty())
+      return;
+
+    if (request.getParameter("action").equals("logout")) {
+      System.out.println("Hai eseguito il logout!");
+      response.sendRedirect(request.getContextPath() + "/index.jsp");
+
+    }
+
     response.getWriter().append("Served at: ").append(request.getContextPath());
   }
 

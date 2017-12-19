@@ -127,6 +127,21 @@
 						<failOnViolation>false</failOnViolation>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>2.7</version>
+					<configuration>
+						<check>
+							<totalLineRate>75</totalLineRate>
+						</check>
+						<instrumentation>
+							<excludes>
+								<exclude>it/unisa/libra/bean/*</exclude>
+							</excludes>
+						</instrumentation>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

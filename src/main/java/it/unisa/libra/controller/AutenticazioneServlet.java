@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.mysql.jdbc.StringUtils;
+import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.JspPagesIndex;
 import javax.servlet.http.HttpSession;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
@@ -30,13 +33,22 @@ public class AutenticazioneServlet extends HttpServlet {
   /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.getWriter().append("Served at: ").append(request.getContextPath());
+    if (validAction(request, response)) {
+      if (request.getParameter(Actions.ACTION).equals(Actions.LOGOUT)) {
+        request.getSession().invalidate();
+        response.sendRedirect(request.getContextPath() + JspPagesIndex.HOME);
+      }
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Azione non valida!");
+      response.getWriter().flush();
+    }
   }
 
 
   /**
    * Gestisce la richiesta di un utente di effettuare il login se vengono inserite le credenziali
-   * corrette, altrimenti rendirizza alla schermata di login mostrando un errore. 
+   * corrette, altrimenti rendirizza alla schermata di login mostrando un errore.
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -57,5 +69,9 @@ public class AutenticazioneServlet extends HttpServlet {
         response.getWriter().write("false");
       }
     }
+  }
+
+  private boolean validAction(HttpServletRequest request, HttpServletResponse response) {
+    return (request != null && !StringUtils.isNullOrEmpty(request.getParameter(Actions.ACTION)));
   }
 }

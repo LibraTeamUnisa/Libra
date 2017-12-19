@@ -1,7 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+<%@page import="it.unisa.libra.model.jpa.StudenteJpa" %>
+<%@page import="it.unisa.libra.model.dao.IStudenteDao" %>
+<%@page import="it.unisa.libra.model.jpa.UtenteJpa" %>
+<%@page import="it.unisa.libra.model.jpa.GenericJpa" %>
+<%@page import="it.unisa.libra.model.dao.IUtenteDao" %>
+<%@page import="it.unisa.libra.model.jpa.ProgettoFormativoJpa" %>
+<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
+<%@page import="it.unisa.libra.bean.Studente" %>
+<%@page import="it.unisa.libra.bean.Utente" %>
+<%@page import="it.unisa.libra.bean.ProgettoFormativo" %>
+<%@page import="java.util.List" %>
+<%@page import="java.util.Iterator" %>
+<%@page import="java.util.Date" %>
+<%@page import="javax.naming.InitialContext" %>
+<%@page import="java.text.DateFormat" %>
+<%@page import="java.text.SimpleDateFormat" %>
 
-
+<%
+	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
+	IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+	Iterator<Studente> listaStudenti = studenteDao.findAll(Studente.class).iterator();
+	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,103 +101,58 @@
 			<!-- ============================================================== -->
 			<div class="container-fluid">
 				<h1>Lista Studenti</h1>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Nome</th>
-							<th>Stato</th>
-							<th>Data Invio</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/4.jpg"
-									alt="user" width="40" class="img-circle" /> Genelia Deshmukh</a></td>
-							<td><span class="label label-danger">Rifiutato</span></td>
-							<td>12-10-2014</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/5.jpg"
-									alt="user" width="40" class="img-circle" /> Arijit Singh</a></td>
-							<td><span class="label label-info">Verificato</span></td>
-							<td>10-09-2014</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/6.jpg"
-									alt="user" width="40" class="img-circle" /> Govinda jalan</a></td>
-							<td><span class="label label-success">Approvato</span></td>
-							<td>1-10-2013</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/7.jpg"
-									alt="user" width="40" class="img-circle" /> Hritik Roshan</a></td>
-							<td><span class="label label-warning">In Attesa</span></td>
-							<td>2-10-2017</td>
-
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/8.jpg"
-									alt="user" width="40" class="img-circle" /> John Abraham</a></td>
-							<td><span class="label label-danger">Rifiutato</span></td>
-							<td>10-9-2015</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/1.jpg"
-									alt="user" width="40" class="img-circle" /> Pawandeep kumar</a></td>
-							<td><span class="label label-warning">In Attesa</span></td>
-							<td>10-5-2013</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/2.jpg"
-									alt="user" width="40" class="img-circle" /> Ritesh Deshmukh</a></td>
-							<td><span class="label label-danger">Rifiutato</span></td>
-							<td>05-10-2012</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/2.jpg"
-									alt="user" width="40" class="img-circle" /> Salman Khan</a></td>
-							<td><span class="label label-info">Verificato</span></td>
-							<td>11-10-2014</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/3.jpg"
-									alt="user" width="40" class="img-circle" /> Govinda jalan</a></td>
-							<td><span class="label label-success">Approvato</span></td>
-							<td>12-5-2017</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/4.jpg"
-									alt="user" width="40" class="img-circle" /> Sonu Nigam</a></td>
-							<td><span class="label label-success">Approvato</span></td>
-							<td>18-5-2009</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/5.jpg"
-									alt="user" width="40" class="img-circle" /> Varun Dhawan</a></td>
-							<td><span class="label label-danger">Rifiutato</span></td>
-							<td>12-10-2010</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/6.jpg"
-									alt="user" width="40" class="img-circle" /> Genelia Deshmukh</a></td>
-							<td><span class="label label-danger">Rifiutato</span></td>
-							<td>12-10-2014</td>
-						</tr>
-						<tr>
-
-							<td><a href="javascript:void(0)"><img src="assets/images/users/7.jpg"
-									alt="user" width="40" class="img-circle" /> Arijit Singh</a></td>
-							<td><span class="label label-info">Verificato</span></td>
-							<td>10-09-2014</td>
-						</tr>
-						<tr>
-							<td><a href="javascript:void(0)"><img src="assets/images/users/8.jpg"
-									alt="user" width="40" class="img-circle" /> Govinda jalan</a></td>
-							<td><span class="label label-success">Approvato</span></td>
-							<td>1-10-2013</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="card wizard-card" style="padding: 1%">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Nome</th>
+									<th>Stato</th>
+									<th>Data Invio</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%
+								while(listaStudenti.hasNext()) {
+									Studente studente = listaStudenti.next();
+									Utente utente = utenteDao.findById(Utente.class, studente.getUtenteEmail());
+									ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+								%>
+									<tr>
+										<td><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></td>
+										<td><%=studente.getCognome() %> <%=studente.getNome() %></td>
+										<td>
+										<%if(progettoFormativo==null) {%>
+											
+										<%} else if(progettoFormativo.getStato()==0){%>
+											<span class="label label-info">Disponibile</span>
+										<%}else if(progettoFormativo.getStato()>0 && progettoFormativo.getStato()<4){%>
+											<span class="label label-warning">In Attesa</span>
+										<%}else if(progettoFormativo.getStato()==4){ %>
+											<span class="label label-info">Verificato</span>
+										<%}else if(progettoFormativo.getStato()==5){%>
+											<span class="label label-success">Approvato</span>
+										<%}else if(progettoFormativo.getStato()==6){%>
+											<span class="label label-danger">Rifiutato</span>
+										<%} %>
+										</td>
+										
+										<%if(progettoFormativo!=null && progettoFormativo.getDataInvio()!=null) {%>
+										<td>
+											<%=formatter.format(progettoFormativo.getDataInvio())%>
+										</td>
+										<%} else {%>
+											<td></td>
+										<%} %>
+									</tr>
+								<%
+								}
+								%>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
@@ -232,10 +210,11 @@
 			table = $('.table').DataTable({
 				"paging": true,
 				"searching": true,
-				"pageLength": 10,	
+				"pageLength": 10,
 				"columnDefs": [	
-					{ "searchable": false, "targets": 1 },
+					{ "searchable": false, "targets": 0 },
 					{ "searchable": false, "targets": 2 },
+					{ "searchable": false, "targets": 3 },
 				  ],
 				"initComplete" : function() {
 						var input = $('.dataTables_filter input').unbind();

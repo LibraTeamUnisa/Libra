@@ -22,6 +22,7 @@ import javax.mail.internet.MimeMessage;
 
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.CheckUtils;
 import it.unisa.libra.util.EmailManager;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -40,8 +41,6 @@ public class RecuperoPasswordServlet extends HttpServlet {
 	protected IUtenteDao userDao;
 	
 	private static final long serialVersionUID   = 1L;
-	
-  private static final String  EMAIL_PATTERN   = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
   
   private static final String  ACCESS_EMAIL     = "unisalibra@gmail.com";
   private static final String  ACCESS_PASSWORD  = "libra12345_";
@@ -110,11 +109,7 @@ public class RecuperoPasswordServlet extends HttpServlet {
    */
   private boolean checkEmail(String email)
   {
-	  if(email==null) {
-	    return false;
-	} else {
-      return Pattern.matches(EMAIL_PATTERN, email)&&userDao.findById(Utente.class,email)!=null;
-	}
+	  return CheckUtils.checkEmail(email)&&userDao.findById(Utente.class,email)!=null;
   }
 }
 

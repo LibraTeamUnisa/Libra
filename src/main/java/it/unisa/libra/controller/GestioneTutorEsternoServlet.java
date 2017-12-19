@@ -75,11 +75,17 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     }
   }
 
+  /** Gestisce l'operazione di aggiunta del tutor esterno. 
+   * 
+   * @param request parametro esplicito del metodo doPost
+   * @param response parametro esplicito del metodo doPost
+   * @throws IOException @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   * @throws ServletException @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
   private void aggiungi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("email");
-    emailAzienda = "superAzienda@email.it";
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
@@ -134,7 +140,10 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     this.tutorDao = tutorDao;
   }
 
+  /** messaggio di errore inviato in caso di bad request. **/
   private static final String BADREQUEST_MESS = "L'operazione richiesta non &egrave; valida.";
+  
+  /** messaggio restituito in caso di successo dell'operazione. **/
   private static final String SUCCESS_MESS = "ok";
 
 }

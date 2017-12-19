@@ -137,6 +137,14 @@
 							<format>xml</format>
 						</formats>
 						<check />
+						<instrumentation>
+							<ignores>
+								<ignore>it.unisa.libra.beans.*</ignore>
+							</ignores>
+							<excludes>
+								<exclude>it.unisa.libra.beans/**/*.class</exclude>
+							</excludes>
+						</instrumentation>
 					</configuration>
 				</plugin>
 			</plugins>

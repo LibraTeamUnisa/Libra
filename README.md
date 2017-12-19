@@ -1,4 +1,12 @@
-# libra
+<p align="center">
+    
+    <a href="#" id="status-image-popup" title="Latest push build on default branch: failed" name="status-images" class="open-popup" data-ember-action="" data-ember-action-1068="1068">
+          <img src="https://travis-ci.org/LibraTeamUnisa/Libra.svg?branch=feature%2FUpdatedReadme" alt="build:failed">
+        </a>
+        
+</p>
+
+# libra											
 
 ## Installation
 

@@ -1,9 +1,6 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -16,6 +13,7 @@ import it.unisa.libra.bean.TutorEsterno;
 import it.unisa.libra.bean.TutorEsternoPK;
 import it.unisa.libra.model.dao.IAziendaDao;
 import it.unisa.libra.model.dao.ITutorEsternoDao;
+import it.unisa.libra.util.Actions;
 
 /**
  * Servlet implementation class GestioneTutorEsternoServlet. Controller class che gestisce le
@@ -24,7 +22,7 @@ import it.unisa.libra.model.dao.ITutorEsternoDao;
  * @author Giulia Sellitto
  * @version 1.0
  */
-@WebServlet(name = "GestioneTutorEsternoServlet", urlPatterns = "/gestioneTutorEsterno")
+@WebServlet(name = "GestioneTutorEsternoServlet", urlPatterns = "/gestioneTutorEsternoServlet")
 public class GestioneTutorEsternoServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -56,23 +54,23 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String action = request.getParameter("action");
+    String action = request.getParameter(Actions.ACTION);
     if (action == null) {
-      // bad request
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+      // bad request 400
+      response.getWriter().write(BADREQUEST_MESS);
       return;
     }
-    if (action.equals("aggiungi")) {
+    if (action.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) {
       aggiungi(request, response);
       return;
-    } else if (action.equals("modifica")) {
+    } else if (action.equals(Actions.MODIFICA_TUTOR_ESTERNO)) {
       // Mauro
-    } else if (action.equals("rimuovi")) {
+    } else if (action.equals(Actions.RIMUOVI_TUTOR_ESTERNO)) {
       doGet(request, response);
       return;
     } else {
-      // bad request
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+      // bad request 400
+      response.getWriter().write(BADREQUEST_MESS);
       return;
     }
   }
@@ -81,12 +79,13 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       throws IOException, ServletException {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("email");
+    emailAzienda = "superAzienda@email.it";
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
-      // l'utente azienda è stato eliminato dalla segreteria durante
-      // questa esecuzione
-      response.sendError(422);
+      // l'utente azienda è stato eliminato dalla segreteria durante questa esecuzione
+      // errorCode 422
+      response.getWriter().write("Si &egrave; verificato un errore");
       return;
     }
     String ambito = request.getParameter("ambito");
@@ -95,9 +94,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     idTutor.setAmbito(ambito);
     if (tutorDao.findById(TutorEsterno.class, idTutor) != null) {
       // primary key duplicata
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-          "Non è stato possibile aggiungere il tutor. Esiste già un tutor responsabile dell'ambito "
-              + ambito);
+      response.getWriter().write("Non &egrave; stato possibile aggiungere il tutor. "
+          + "Esiste gi&agrave; un tutor responsabile dell'ambito " + ambito);
       return;
     }
     // creo il tutor da aggiungere
@@ -106,38 +104,17 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     tutor.setId(idTutor);
     tutor.setNome(request.getParameter("nome"));
     tutor.setCognome(request.getParameter("cognome"));
-    // la data di nascita del tutor è un datetime nel db
-    String dataN = request.getParameter("dataDiNascita");
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date dataDiNascita;
-    try {
-      dataDiNascita = format.parse(dataN);
-    } catch (ParseException e) {
-      dataDiNascita = new Date();
-    }
+    Date dataDiNascita = new Date();
     tutor.setDataDiNascita(dataDiNascita);
     tutor.setIndirizzo(request.getParameter("indirizzo"));
     tutor.setTelefono(request.getParameter("telefono"));
     // aggiungo il tutor all'azienda
-    aggiungiTutor(azienda, tutor);
+    tutorDao.persist(tutor);
     // end
-    request.setAttribute("message", "L'aggiunta del tutor è avvenuta con successo.");
-    request.getServletContext().getRequestDispatcher("dashboardAzienda.jsp").forward(request, response);
+    response.getWriter().write(SUCCESS_MESS);
     return;
   }
 
-  /**
-   * Aggiunge un tutor esterno all'azienda indicata.
-   * 
-   * @param azienda l'azienda a cui aggiungere il tutor
-   * @param tutor il tutor da aggiungere all'azienda
-   */
-  private void aggiungiTutor(Azienda azienda, TutorEsterno tutor) {
-    System.out.println("ciao");
-    // azienda.addTutorEsterno(tutor);
-    // aziendaDao.persist(azienda);
-    return;
-  }
 
   /**
    * Aggiunge il dao alla servlet.
@@ -156,5 +133,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   public void setTutorDao(ITutorEsternoDao tutorDao) {
     this.tutorDao = tutorDao;
   }
+
+  private static final String BADREQUEST_MESS = "L'operazione richiesta non &egrave; valida.";
+  private static final String SUCCESS_MESS = "ok";
 
 }

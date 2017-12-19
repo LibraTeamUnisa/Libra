@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,7 +20,10 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
-@NamedQuery(name = "Utente.findAll", query = "SELECT u FROM Utente u")
+@NamedQueries({
+@NamedQuery(name = "Utente.findAll", query = "SELECT u FROM Utente u"),
+@NamedQuery(name = "Utente.findByEmail", query = "SELECT u FROM Utente u WHERE u.email = :email")
+})
 public class Utente implements Serializable {
   private static final long serialVersionUID = 1L;
 

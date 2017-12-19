@@ -6,4 +6,8 @@ import it.unisa.libra.model.dao.ITutorInternoDao;
 
 @Stateless
 public class TutorInternoJpa extends GenericJpa<TutorInterno, String> implements ITutorInternoDao {
+
+  public TutorInterno findByEmail(Class<TutorInterno> entityClass, String email) {
+    return entityManager.createNamedQuery("findByEmail", TutorInterno.class).getSingleResult();
+  }
 }

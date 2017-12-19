@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,7 +22,10 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@NamedQuery(name = "TutorInterno.findAll", query = "SELECT t FROM TutorInterno t")
+@NamedQueries({
+@NamedQuery(name = "TutorInterno.findAll", query = "SELECT t FROM TutorInterno t"),
+@NamedQuery(name = "TutorInterno.findByEmail", query = "SELECT t FROM TutorInterno t WHERE t.utenteEmail = :email")
+})
 public class TutorInterno implements Serializable {
   private static final long serialVersionUID = 1L;
 

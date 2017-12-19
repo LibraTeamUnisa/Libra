@@ -2,7 +2,6 @@ package it.unisa.libra.controller;
 
 import java.io.IOException;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,8 +36,7 @@ public class AutenticazioneServlet extends HttpServlet {
 
   /**
    * Gestisce la richiesta di un utente di effettuare il login se vengono inserite le credenziali
-   * corrette, altrimenti rendirizza alla schermata di login mostrando un errore. Gestisce la
-   * richiesta di logout di un utente.
+   * corrette, altrimenti rendirizza alla schermata di login mostrando un errore. 
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -58,13 +56,6 @@ public class AutenticazioneServlet extends HttpServlet {
       } else {
         response.getWriter().write("false");
       }
-
-
-      // di seguito effettua il logout
-    } else {
-      session.invalidate();
-      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
-      dispatcher.forward(request, response);
     }
   }
 }

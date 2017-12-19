@@ -20,8 +20,8 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
     entityManager.remove(entity);
   }
 
-  public E findById(E entity, K id) {
-    return (E) entityManager.find(entity.getClass(), id);
+  public E findById(Class<E> entityClass, K id) {
+    return (E) entityManager.find(entityClass, id);
   }
 
   public List<E> findAll(Class<E> clazz) {

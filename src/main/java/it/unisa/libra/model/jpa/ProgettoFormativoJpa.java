@@ -1,8 +1,10 @@
 package it.unisa.libra.model.jpa;
 
-import it.unisa.libra.bean.Progettoformativo;
+import javax.ejb.Stateless;
+import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 
-public class ProgettoFormativoJpa extends GenericJpa<Progettoformativo, Long>
+@Stateless
+public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     implements IProgettoFormativoDao {
 }

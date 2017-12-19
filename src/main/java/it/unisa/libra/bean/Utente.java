@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,28 +35,28 @@ public class Utente implements Serializable {
   private String telefono;
 
   // bi-directional one-to-one association to Azienda
-  @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
   private Azienda azienda;
 
   // bi-directional many-to-one association to Notifica
-  @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
-  private List<Notifica> notificas;
+  @OneToMany(mappedBy = "utente")
+  private List<Notifica> notifiche;
 
   // bi-directional one-to-one association to Presidente
-  @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
   private Presidente presidente;
 
   // bi-directional one-to-one association to Segreteria
-  @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
   private Segreteria segreteria;
 
   // bi-directional one-to-one association to Studente
-  @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
   private Studente studente;
 
-  // bi-directional one-to-one association to Tutorinterno
-  @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
-  private Tutorinterno tutorinterno;
+  // bi-directional one-to-one association to TutorInterno
+  @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
+  private TutorInterno tutorInterno;
 
   // bi-directional many-to-one association to Gruppo
   @ManyToOne
@@ -111,26 +113,26 @@ public class Utente implements Serializable {
     this.azienda = azienda;
   }
 
-  public List<Notifica> getNotificas() {
-    return this.notificas;
+  public List<Notifica> getNotifiche() {
+    return this.notifiche;
   }
 
-  public void setNotificas(List<Notifica> notificas) {
-    this.notificas = notificas;
+  public void setNotifiche(List<Notifica> notifiche) {
+    this.notifiche = notifiche;
   }
 
-  public Notifica addNotifica(Notifica notifica) {
-    getNotificas().add(notifica);
-    notifica.setUtente(this);
+  public Notifica addNotifiche(Notifica notifiche) {
+    getNotifiche().add(notifiche);
+    notifiche.setUtente(this);
 
-    return notifica;
+    return notifiche;
   }
 
-  public Notifica removeNotifica(Notifica notifica) {
-    getNotificas().remove(notifica);
-    notifica.setUtente(null);
+  public Notifica removeNotifiche(Notifica notifiche) {
+    getNotifiche().remove(notifiche);
+    notifiche.setUtente(null);
 
-    return notifica;
+    return notifiche;
   }
 
   public Presidente getPresidente() {
@@ -157,12 +159,12 @@ public class Utente implements Serializable {
     this.studente = studente;
   }
 
-  public Tutorinterno getTutorinterno() {
-    return this.tutorinterno;
+  public TutorInterno getTutorInterno() {
+    return this.tutorInterno;
   }
 
-  public void setTutorinterno(Tutorinterno tutorinterno) {
-    this.tutorinterno = tutorinterno;
+  public void setTutorInterno(TutorInterno tutorInterno) {
+    this.tutorInterno = tutorInterno;
   }
 
   public Gruppo getGruppo() {

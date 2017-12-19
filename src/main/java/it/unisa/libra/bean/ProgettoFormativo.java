@@ -1,9 +1,19 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -11,11 +21,12 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name = "Progettoformativo.findAll", query = "SELECT p FROM Progettoformativo p")
-public class Progettoformativo implements Serializable {
+@NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p")
+public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
   private String ambito;
@@ -25,6 +36,9 @@ public class Progettoformativo implements Serializable {
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date dataInizio;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date dataInvio;
 
   private String documento;
 
@@ -37,11 +51,11 @@ public class Progettoformativo implements Serializable {
   private int stato;
 
   // bi-directional many-to-one association to Feedback
-  @OneToMany(mappedBy = "progettoformativo")
+  @OneToMany(mappedBy = "progettoFormativo")
   private List<Feedback> feedbacks;
 
   // bi-directional one-to-one association to Notifica
-  @OneToOne(mappedBy = "progettoformativo")
+  @OneToOne(mappedBy = "progettoFormativo")
   private Notifica notifica;
 
   // bi-directional many-to-one association to Azienda
@@ -54,16 +68,16 @@ public class Progettoformativo implements Serializable {
   @JoinColumn(name = "studenteEmail")
   private Studente studente;
 
-  // bi-directional many-to-one association to Tutorinterno
+  // bi-directional many-to-one association to TutorInterno
   @ManyToOne
   @JoinColumn(name = "tutorInternoEmail")
-  private Tutorinterno tutorinterno;
+  private TutorInterno tutorInterno;
 
   // bi-directional many-to-one association to Report
-  @OneToMany(mappedBy = "progettoformativo")
+  @OneToMany(mappedBy = "progettoFormativo")
   private List<Report> reports;
 
-  public Progettoformativo() {}
+  public ProgettoFormativo() {}
 
   public int getId() {
     return this.id;
@@ -95,6 +109,14 @@ public class Progettoformativo implements Serializable {
 
   public void setDataInizio(Date dataInizio) {
     this.dataInizio = dataInizio;
+  }
+
+  public Date getDataInvio() {
+    return this.dataInvio;
+  }
+
+  public void setDataInvio(Date dataInvio) {
+    this.dataInvio = dataInvio;
   }
 
   public String getDocumento() {
@@ -147,14 +169,14 @@ public class Progettoformativo implements Serializable {
 
   public Feedback addFeedback(Feedback feedback) {
     getFeedbacks().add(feedback);
-    feedback.setProgettoformativo(this);
+    feedback.setProgettoFormativo(this);
 
     return feedback;
   }
 
   public Feedback removeFeedback(Feedback feedback) {
     getFeedbacks().remove(feedback);
-    feedback.setProgettoformativo(null);
+    feedback.setProgettoFormativo(null);
 
     return feedback;
   }
@@ -183,12 +205,12 @@ public class Progettoformativo implements Serializable {
     this.studente = studente;
   }
 
-  public Tutorinterno getTutorinterno() {
-    return this.tutorinterno;
+  public TutorInterno getTutorInterno() {
+    return this.tutorInterno;
   }
 
-  public void setTutorinterno(Tutorinterno tutorinterno) {
-    this.tutorinterno = tutorinterno;
+  public void setTutorInterno(TutorInterno tutorInterno) {
+    this.tutorInterno = tutorInterno;
   }
 
   public List<Report> getReports() {
@@ -201,14 +223,14 @@ public class Progettoformativo implements Serializable {
 
   public Report addReport(Report report) {
     getReports().add(report);
-    report.setProgettoformativo(this);
+    report.setProgettoFormativo(this);
 
     return report;
   }
 
   public Report removeReport(Report report) {
     getReports().remove(report);
-    report.setProgettoformativo(null);
+    report.setProgettoFormativo(null);
 
     return report;
   }

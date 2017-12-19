@@ -1,14 +1,15 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the tutoresterno database table.
  * 
  */
 @Embeddable
-public class TutoresternoPK implements Serializable {
+public class TutorEsternoPK implements Serializable {
   // default serial version id, required for serializable classes.
   private static final long serialVersionUID = 1L;
 
@@ -17,7 +18,7 @@ public class TutoresternoPK implements Serializable {
 
   private String ambito;
 
-  public TutoresternoPK() {}
+  public TutorEsternoPK() {}
 
   public String getAziendaEmail() {
     return this.aziendaEmail;
@@ -39,10 +40,10 @@ public class TutoresternoPK implements Serializable {
     if (this == other) {
       return true;
     }
-    if (!(other instanceof TutoresternoPK)) {
+    if (!(other instanceof TutorEsternoPK)) {
       return false;
     }
-    TutoresternoPK castOther = (TutoresternoPK) other;
+    TutorEsternoPK castOther = (TutorEsternoPK) other;
     return this.aziendaEmail.equals(castOther.aziendaEmail) && this.ambito.equals(castOther.ambito);
   }
 

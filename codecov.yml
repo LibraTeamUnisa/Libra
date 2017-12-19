@@ -1,3 +1,4 @@
+coverage:
   round: up
   range: 0..75
 codecov:

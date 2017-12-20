@@ -26,6 +26,7 @@ import it.unisa.libra.util.CheckUtils;
  * operazioni di aggiunta, modifica e rimozione di un tutor esterno associato ad un'azienda.
  * 
  * @author Giulia Sellitto
+ * @author Mauro Vitale
  * @version 1.0
  */
 @WebServlet(name = "GestioneTutorEsternoServlet", urlPatterns = "/gestioneTutorEsterno")
@@ -61,11 +62,6 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     
-    //if(request.getSession().getAttribute("user")==null)
-      //response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-    
-    System.out.println("AAAAA");
-    
     String action = request.getParameter("action");
     if (action == null) {
       // bad request
@@ -75,7 +71,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     if (action.equals("aggiungi")) {
       aggiungi(request, response);
       return;
-    } else if (action.equals(Actions.UPDATE)) {System.out.println("AAAAA");
+    } else if (action.equals(Actions.UPDATE)) {
       aggiorna(request, response);
     } else if (action.equals("rimuovi")) {
       doGet(request, response);
@@ -152,12 +148,16 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   {
     String idTutor=request.getParameter("idTutor");
     String idAzienda=request.getParameter("idAzienda");
-    if(idAzienda!=null&&idTutor!=null) {
+    
+    if(CheckUtils.checkEmptiness(idTutor)&&CheckUtils.checkEmail(idAzienda)) {
+      
       TutorEsternoPK tutorKey=new TutorEsternoPK();
       tutorKey.setAmbito(idTutor);
       tutorKey.setAziendaEmail(idAzienda);
+      
       TutorEsterno tutor=tutorDao.findById(TutorEsterno.class, tutorKey);
       if(tutor!=null) {
+        
         String nome=request.getParameter("nome");
         String cognome=request.getParameter("cognome");
         String telefono=request.getParameter("telefono");
@@ -166,6 +166,23 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
         String ambito=request.getParameter("ambito");
         Integer count=0;
         
+        if(CheckUtils.checkEmptiness(ambito)) {
+            tutorKey.setAmbito(ambito);
+            boolean notSet=tutorDao.findById(TutorEsterno.class, tutorKey)==null;
+            try {
+              if(notSet) {
+                tutor.setId(tutorKey);
+                count++;
+              }
+              else
+                throw new IllegalArgumentException();
+            } catch(IllegalArgumentException ex) {
+              response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+              response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
+              response.getWriter().flush();
+              return;
+            }
+        }
         if(CheckUtils.checkEmptiness(nome)) {
           tutor.setNome(nome);
           count++;
@@ -176,6 +193,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
         }
         if(CheckUtils.checkTelephone(telefono)) {
           tutor.setTelefono(telefono);
+          count++;
         }
         if(CheckUtils.checkDate(data)!=null) {
           tutor.setDataDiNascita(CheckUtils.checkDate(data));
@@ -185,29 +203,26 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           tutor.setIndirizzo(indirizzo);
           count++;
         }
-        tutorKey.setAmbito(ambito);
-        if(CheckUtils.checkEmptiness(ambito)&&tutorDao.findById(TutorEsterno.class, tutorKey)==null) {
-          tutor.setId(tutorKey);
-          System.out.println("Ci Sono");
-          count++;
-        }
         
         if(count==0) {
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("Le informazioni specificate non sono corrette");
-        }
-        else {
+        } else {
           response.setStatus(HttpServletResponse.SC_OK);
           response.getWriter().write("Operazione terminata. Aggionati "+count+" campi");
         }
         
         response.getWriter().flush();
-      }
-      else {
+        
+      } else {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("Il tutor specificato non è registrato a Libra");
         response.getWriter().flush();
       }
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Non hai specificato correttamente il tutor da modificare");
+      response.getWriter().flush();
     }
   }
   

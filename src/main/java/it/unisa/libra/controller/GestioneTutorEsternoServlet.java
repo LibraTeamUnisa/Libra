@@ -173,7 +173,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       return;
     }
     // rimuovo il tutor dal sistema
-    tutorDao.remove(tutor);
+    tutorDao.remove(TutorEsterno.class, idTutor);
     // end
     response.getWriter().write(SUCCESS_MESS);
     return;

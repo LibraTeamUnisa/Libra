@@ -104,11 +104,6 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet {
     }
 
     @Override
-    public void remove(Utente entity) {
-
-    }
-
-    @Override
     public Utente findById(Class<Utente> entityClass, String id) {
       // TODO Auto-generated method stub
       return em.find(entityClass, id);
@@ -119,6 +114,10 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet {
 
       return null;
     }
+
+	@Override
+	public void remove(Class<Utente> entityClass, String id) {
+	}
 
   }
 

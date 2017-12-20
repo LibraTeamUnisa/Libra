@@ -29,10 +29,12 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
   
   @Test
   public void removeTest() {
-    TutorEsterno found = jpa.findAll(TutorEsterno.class).get(0);
-   jpa.remove(found);
-   assertNull(jpa.findById(TutorEsterno.class, found.getId()));
-  }
+    TutorEsternoPK id = new TutorEsternoPK();
+    id.setAziendaEmail(EMAIL_AZIENDA);
+    id.setAmbito("ambito");
+    jpa.remove(TutorEsterno.class,id);
+   assertNull(jpa.findById(TutorEsterno.class, id));
+ }
 
 
   private TutorEsterno createTutor() {

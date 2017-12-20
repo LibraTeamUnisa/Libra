@@ -45,7 +45,7 @@ public class Azienda implements Serializable {
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional many-to-one association to TutorEsterno
-  @OneToMany(mappedBy = "azienda", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "azienda", cascade = {CascadeType.ALL})
   private List<TutorEsterno> tutorEsterni;
 
   public Azienda() {}

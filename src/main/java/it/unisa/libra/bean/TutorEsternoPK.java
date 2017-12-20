@@ -49,15 +49,15 @@ public class TutorEsternoPK implements Serializable {
     TutorEsternoPK castOther = (TutorEsternoPK) other;
     if (this.aziendaEmail != null) {
       if (this.ambito != null) {
-        return this.aziendaEmail.equals(castOther.aziendaEmail) && this.ambito.equals(castOther.ambito);
-      }
-      else return this.aziendaEmail.equals(castOther.aziendaEmail) && (castOther.ambito == null);
-    }
-    else {
+        return this.aziendaEmail.equals(castOther.aziendaEmail)
+            && this.ambito.equals(castOther.ambito);
+      } else
+        return this.aziendaEmail.equals(castOther.aziendaEmail) && (castOther.ambito == null);
+    } else {
       if (this.ambito != null) {
         return (castOther.aziendaEmail == null) && this.ambito.equals(castOther.ambito);
-      }
-      else return (castOther.aziendaEmail == null) && (castOther.ambito == null);
+      } else
+        return (castOther.aziendaEmail == null) && (castOther.ambito == null);
     }
   }
 

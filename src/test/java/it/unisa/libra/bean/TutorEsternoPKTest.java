@@ -20,7 +20,7 @@ public class TutorEsternoPKTest {
     assertEquals("aziendaEmail", tepk.getAziendaEmail());
   }
 
- @Test
+  @Test
   public void equalsTest() {
     tepk = new TutorEsternoPK();
     assertFalse(tepk.equals(null));

@@ -75,12 +75,15 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     }
   }
 
-  /** Gestisce l'operazione di aggiunta del tutor esterno. 
+  /**
+   * Gestisce l'operazione di aggiunta del tutor esterno.
    * 
    * @param request parametro esplicito del metodo doPost
    * @param response parametro esplicito del metodo doPost
-   * @throws IOException @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-   * @throws ServletException @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   * @throws IOException @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *         response)
+   * @throws ServletException @see HttpServlet#doPost(HttpServletRequest request,
+   *         HttpServletResponse response)
    */
   private void aggiungi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
@@ -142,7 +145,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
 
   /** messaggio di errore inviato in caso di bad request. **/
   private static final String BADREQUEST_MESS = "L'operazione richiesta non &egrave; valida.";
-  
+
   /** messaggio restituito in caso di successo dell'operazione. **/
   private static final String SUCCESS_MESS = "ok";
 

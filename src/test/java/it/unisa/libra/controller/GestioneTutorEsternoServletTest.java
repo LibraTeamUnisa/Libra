@@ -25,7 +25,7 @@ public class GestioneTutorEsternoServletTest {
   PrintWriter responseWriter;
 
   @Before
-  public void setUp() throws Exception{
+  public void setUp() throws Exception {
     request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
     response = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
     responseWriter = mock(PrintWriter.class);
@@ -66,7 +66,7 @@ public class GestioneTutorEsternoServletTest {
     when(request.getParameter("nome")).thenReturn("nome");
     when(request.getParameter("cognome")).thenReturn("cognome");
     when(request.getParameter("indirizzo")).thenReturn("indirizzo");
-    when(request.getParameter("telefono")).thenReturn("telefono"); 
+    when(request.getParameter("telefono")).thenReturn("telefono");
     servlet.setAziendaDao(aziendaDao);
     servlet.setTutorDao(tutorDao);
     servlet.doPost(request, response);

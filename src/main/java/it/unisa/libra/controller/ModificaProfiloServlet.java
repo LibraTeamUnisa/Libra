@@ -26,16 +26,26 @@ import it.unisa.libra.model.dao.ITutorInternoDao;
 public class ModificaProfiloServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   
+  /** Gestore della persistenza dello studente */
   @EJB
   private IStudenteDao studenteDao;
+  
+  /** Gestore della persistenza del tutor interno */
   @EJB
   private ITutorInternoDao tutorinternodao;
+  
+  /** Gestore della persistenza del presidente */
   @EJB
   private IPresidenteDao presidentedao;
+  
+  /** Gestore della persistenza dell'azienda */
   @EJB
   private IAziendaDao aziendadao;
+  
+  /** Gestore della persistenza della segreteria */
   @EJB
   private ISegreteriaDao segreteriadao;
+  
   private String newAddress = "";
   private String newTelephoneNumber = "";
   private String newSite = "";

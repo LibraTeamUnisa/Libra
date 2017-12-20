@@ -26,10 +26,7 @@ public class CaricaImmagineServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CaricaImmagineServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public CaricaImmagineServlet() {}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

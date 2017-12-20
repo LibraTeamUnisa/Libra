@@ -64,12 +64,13 @@ public class RecuperoPasswordServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		    throws ServletException, IOException
   {
+    Utente passLessUser;
 	  String email=request.getParameter("email");
 	  
 	  try 
 	  {
-	    if (checkEmail(email)) {
-	      Utente passLessUser=userDao.findById(Utente.class,email);
+	    if (CheckUtils.checkEmail(email)&&(passLessUser=userDao.findById(Utente.class,email))!=null) {
+	      
 	      EmailManager eManager=new EmailManager(SMTP_SERVER,SMTP_PORT,EMAIL_NOREPLY,NAME_NOREPLY);
 	      eManager.setAccessEmail(ACCESS_EMAIL);
 	      eManager.setAccessPassword(ACCESS_PASSWORD);

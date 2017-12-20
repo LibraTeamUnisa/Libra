@@ -1,26 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 	
-<%@page import="it.unisa.libra.model.jpa.StudenteJpa" %>
 <%@page import="it.unisa.libra.model.dao.IStudenteDao" %>
-<%@page import="it.unisa.libra.model.jpa.UtenteJpa" %>
-<%@page import="it.unisa.libra.model.jpa.GenericJpa" %>
 <%@page import="it.unisa.libra.model.dao.IUtenteDao" %>
-<%@page import="it.unisa.libra.model.jpa.ProgettoFormativoJpa" %>
 <%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
 <%@page import="it.unisa.libra.bean.Studente" %>
 <%@page import="it.unisa.libra.bean.Utente" %>
 <%@page import="it.unisa.libra.bean.ProgettoFormativo" %>
-<%@page import="java.util.List" %>
 <%@page import="java.util.Iterator" %>
 <%@page import="java.util.Date" %>
 <%@page import="javax.naming.InitialContext" %>
 <%@page import="java.text.DateFormat" %>
 <%@page import="java.text.SimpleDateFormat" %>
 
+
 <%
+	String ruolo = (String)request.getSession().getAttribute("utenteRuolo");
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
-	IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	Iterator<Studente> listaStudenti = studenteDao.findAll(Studente.class).iterator();
 	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -100,7 +96,16 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-				<h1>Lista Studenti</h1>
+				<div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Lista Studenti</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                            <li class="breadcrumb-item active">Lista Studenti</li>
+                        </ol>
+                    </div>
+                    
+                </div>
 				<div class="card wizard-card" style="padding: 1%">
 					<div class="table-responsive">
 						<table class="table">
@@ -116,8 +121,16 @@
 								<%
 								while(listaStudenti.hasNext()) {
 									Studente studente = listaStudenti.next();
-									Utente utente = utenteDao.findById(Utente.class, studente.getUtenteEmail());
-									ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+									Utente utente = studente.getUtente();
+									ProgettoFormativo progettoFormativo; 
+									if(ruolo.equals("TutorInterno")) {
+										String tutorInternoEmail = (String)request.getSession().getAttribute("utenteEmail");
+										progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudenteAssociato(studente,tutorInternoEmail);
+										if(progettoFormativo==null)
+											continue;
+									} else {
+										progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+									}
 								%>
 									<tr>
 										<td><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></td>
@@ -217,19 +230,30 @@
 					{ "searchable": false, "targets": 3 },
 				  ],
 				"initComplete" : function() {
-						var input = $('.dataTables_filter input').unbind();
+						$(".dataTables_filter").empty();
+						$(".dataTables_filter").html('<div class="input-group add-on">'+
+							'<input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">'+
+							'<div class="input-group-btn">'+
+								'<button class="btn btn-default buttonSearch">'+
+									'<i class="mdi mdi-magnify"></i>'+
+								'</button>'+
+							'</div>'+
+						'</div>'+
+						'</div>');
+						
+						var input = $('.dataTables_filter input');
 						self = this.api();
-						$searchButton = $('<button class="btn btn-primary btn-sm">')
-								   .text('search')
-								   .click(function() {
-										var text = input.val();
-										if(/^([a-zA-Z]{0,100})$/.test(text)==false) {
-											input.val("Error");
-										}else
-											self.search(input.val()).draw();
+						$(".buttonSearch").click(function() {
+									var text = input.val();
+									$('.text-danger').remove();
+									if(/^([a-zA-Z\s]{0,100})$/.test(text)==false) {
+										$('.dataTables_filter').append('<small class="text-danger">Devi inserire solo lettere.</small>');
+									}else {
 										
-								   }),
-						$('.dataTables_filter').append($searchButton);
+										self.search(input.val()).draw();
+										
+									}
+							   })
 					}
 			  }); 
 			

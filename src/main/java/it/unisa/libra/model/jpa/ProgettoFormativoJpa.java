@@ -15,9 +15,26 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     TypedQuery<ProgettoFormativo> query =
         entityManager.createNamedQuery("ProgettoFormativo.findByStudente", ProgettoFormativo.class);
     query.setParameter("studente", studente);
+
     if (query.getResultList().isEmpty()) {
       return null;
-    } else
+    } else {
       return query.getResultList().get(0);
+    }
+  }
+
+  @Override
+  public ProgettoFormativo getLastProgettoFormativoByStudenteAssociato(Studente studente,
+      String tutorInterno) {
+    TypedQuery<ProgettoFormativo> query = entityManager
+        .createNamedQuery("ProgettoFormativo.findByStudenteAssociato", ProgettoFormativo.class);
+    query.setParameter("studente", studente);
+    query.setParameter("tutorinterno", tutorInterno);
+
+    if (query.getResultList().isEmpty()) {
+      return null;
+    } else {
+      return query.getResultList().get(0);
+    }
   }
 }

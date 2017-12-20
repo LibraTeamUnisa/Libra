@@ -44,8 +44,20 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.getWriter().append("Served at: ").append(request.getContextPath());
-  }
+    String action = request.getParameter(Actions.ACTION);
+    if (action == null) {
+      // bad request 400
+      response.getWriter().write(BADREQUEST_MESS);
+      return;
+    } else if (action.equals(Actions.RIMUOVI_TUTOR_ESTERNO)) {
+      rimuovi(request, response);
+      return;
+    } else {
+      // bad request 400
+      response.getWriter().write(BADREQUEST_MESS);
+      return;
+    }
+ }
 
   /**
    * Gestisce l'aggiunta e la modifica del tutor aziendale.
@@ -124,6 +136,47 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     return;
   }
 
+  
+  /**
+   * Gestisce l'operazione di rimozione del tutor esterno.
+   * 
+   * @param request parametro esplicito del metodo doPost
+   * @param response parametro esplicito del metodo doPost
+   * @throws IOException @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *         response)
+   * @throws ServletException @see HttpServlet#doPost(HttpServletRequest request,
+   *         HttpServletResponse response)
+   */
+  private void rimuovi(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+    // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
+    String emailAzienda = (String) request.getSession().getAttribute("email");
+    emailAzienda = "azienda@prova.it";
+    // recupero l'azienda
+    Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
+    if (azienda == null) {
+      // l'utente azienda è stato eliminato dalla segreteria durante questa esecuzione
+      // errorCode 422
+      response.getWriter().write("Si &egrave; verificato un errore");
+      return;
+    }
+    String ambito = request.getParameter("ambito");
+    TutorEsternoPK idTutor = new TutorEsternoPK();
+    idTutor.setAziendaEmail(emailAzienda);
+    idTutor.setAmbito(ambito);
+    TutorEsterno tutor = tutorDao.findById(TutorEsterno.class, idTutor);
+    if (tutor == null) {
+      // il tutor da eliminare non esiste
+      // BAD REQUEST
+      response.getWriter().write(BADREQUEST_MESS);
+      return;
+    }
+    // rimuovo il tutor dal sistema
+    tutorDao.remove(tutor);
+    // end
+    response.getWriter().write(SUCCESS_MESS);
+    return;
+  }
 
   /**
    * Aggiunge il dao alla servlet.

@@ -37,14 +37,28 @@ public class TutorEsternoPK implements Serializable {
   }
 
   public boolean equals(Object other) {
+    if (other == null) {
+      return false;
+    }
     if (this == other) {
       return true;
     }
-    if (!(other instanceof TutorEsternoPK)) {
+    if (other.getClass() != this.getClass()) {
       return false;
     }
     TutorEsternoPK castOther = (TutorEsternoPK) other;
-    return this.aziendaEmail.equals(castOther.aziendaEmail) && this.ambito.equals(castOther.ambito);
+    if (this.aziendaEmail != null) {
+      if (this.ambito != null) {
+        return this.aziendaEmail.equals(castOther.aziendaEmail)
+            && this.ambito.equals(castOther.ambito);
+      } else
+        return this.aziendaEmail.equals(castOther.aziendaEmail) && (castOther.ambito == null);
+    } else {
+      if (this.ambito != null) {
+        return (castOther.aziendaEmail == null) && this.ambito.equals(castOther.ambito);
+      } else
+        return (castOther.aziendaEmail == null) && (castOther.ambito == null);
+    }
   }
 
   public int hashCode() {

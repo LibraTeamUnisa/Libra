@@ -173,8 +173,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
               if(notSet) {
                 tutor.setId(tutorKey);
                 count++;
-              }
-              else
+              } else
                 throw new IllegalArgumentException();
             } catch(IllegalArgumentException ex) {
               response.setStatus(HttpServletResponse.SC_FORBIDDEN);

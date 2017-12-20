@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.*;
 import static org.mockito.Mockito.*;
+import it.unisa.libra.bean.Gruppo;
+import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,9 +27,11 @@ public class AutenticazioneServletTest {
   private HttpServletResponse response;
   @Mock
   private HttpSession session;
+  @Mock
+  private Utente utente;
   private AutenticazioneServlet servlet = new AutenticazioneServlet();
   private IUtenteDao utenteDao;
-  
+
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
@@ -37,17 +41,77 @@ public class AutenticazioneServletTest {
   public void tearDown() throws Exception {
     request = null;
     response = null;
+    session = null;
+    utente = null;
+    utenteDao = null;
   }
 
   @Test
-  public void testDoPostHttpServletRequestHttpServletResponse() {
-    when(request.getParameter("email")).thenReturn("emailok");
-    when(request.getParameter("password")).thenReturn("passwordok");
-    //when(utente).thenReturn("");
+  public void loginTest() throws Exception {
     
+    String mail = "emailok";
+    String pwd = "passwordok";
+    
+    utente.setEmail(mail);
+    utente.setPassword(pwd);
+    Gruppo g = new Gruppo();
+    g.setRuolo("Ruolo");
+    utente.setGruppo(g);
+    
+    String dashboard = request.getContextPath()
+        + "/dashboard".concat("/dashboard").concat(utente.getGruppo().getRuolo()).concat(".jsp");
+    
+    when(request.getParameter("email")).thenReturn(mail);
+    when(request.getParameter("password")).thenReturn(pwd);
+    when(utenteDao.getUtente(mail, pwd)).thenReturn(utente);
+
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    new AutenticazioneServlet().doPost(request, response);
+
+    verify(pw).write(dashboard);
+
   }
   
- @Test
+  @Test
+  public void loginBadRequestTest() throws Exception {
+    when(request.getParameter("email")).thenReturn(null);
+    when(request.getParameter("password")).thenReturn(null);
+    
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+
+    when(response.getWriter()).thenReturn(pw);
+    
+    new AutenticazioneServlet().doGet(request, response);
+
+    verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    verify(pw).write("false");
+  }
+  
+  @Test
+  public void loginNoUtenteTest() {
+    String mail = "emailok";
+    String pwd = "passwordok";
+    
+    utente.setEmail(mail);
+    utente.setPassword(pwd);
+    
+    when(request.getParameter("email")).thenReturn(mail);
+    when(request.getParameter("password")).thenReturn(pwd);
+    
+    when(utenteDao.getUtente(mail, pwd)).thenReturn(null);
+    
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+    
+    verify(pw).write("false");
+  }
+
+  @Test
   public void logoutTest() throws Exception {
 
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.LOGOUT);

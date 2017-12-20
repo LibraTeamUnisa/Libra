@@ -62,12 +62,15 @@ public class AutenticazioneServlet extends HttpServlet {
         session.setAttribute("utenteRuolo", utente.getGruppo().getRuolo());
 
         // reindirizza alla dashboard.jsp corretta in base alla tipologia di utente.
-        String dashboard = "/Libra/dashboard".concat(utente.getGruppo().getRuolo()).concat(".jsp");
+        String dashboard = request.getContextPath() + "/dashboard".concat(utente.getGruppo().getRuolo()).concat(".jsp");
         response.getWriter().write(dashboard);
 
       } else {
         response.getWriter().write("false");
       }
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("false");
     }
   }
 

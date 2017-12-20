@@ -1,3 +1,5 @@
+<%@ page import="it.unisa.libra.util.Actions" %> 
+
 <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">

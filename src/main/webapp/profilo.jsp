@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import="it.unisa.libra.bean.Studente, it.unisa.libra.bean.Progettoformativo" %> 
+<%@ page import="it.unisa.libra.bean.Studente, it.unisa.libra.bean.ProgettoFormativo" %> 
 
 <% 
 Studente s = (Studente) request.getAttribute("studente");
-Progettoformativo pf = null;
+ProgettoFormativo pf = null;
 
 %>
 

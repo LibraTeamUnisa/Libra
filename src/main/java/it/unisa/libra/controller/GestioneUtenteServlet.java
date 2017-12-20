@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.jpa.StudenteJpa;
+import it.unisa.libra.util.Actions;
 
 /** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "GestioneUtenteServlet", urlPatterns = "/dettaglioStudente")
@@ -30,17 +31,20 @@ public class GestioneUtenteServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 	  
-	  //da eliminare
-	  dettaglioStudente(request, response);
+	  if (request.getSession().getAttribute("utenteRuolo") != null) {
+		  if (request.getParameter(Actions.ACTION).equals(Actions.DETTAGLIO_STUDENTE)) {
+			  dettaglioStudente(request, response);
+		  }
+	  } else {
+		  
+	  }
+	  
   }
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 	  
-	  if (request.getParameter("action").equals("dettaglioStudente")) {
-		  dettaglioStudente(request, response);
-	  }
   }
   
   private void dettaglioStudente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

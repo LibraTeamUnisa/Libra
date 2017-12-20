@@ -101,6 +101,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       throws IOException, ServletException {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("email");
+    emailAzienda = "azienda@prova.it";
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {

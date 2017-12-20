@@ -105,7 +105,7 @@ public class GestioneTutorEsternoServletTest {
 
   private static final String SUCCESS_MESS = "ok";
   private static final String BADREQUEST_MESS = "L'operazione richiesta non &egrave; valida.";
-  private static final String EMAIL_AZIENDA = "provatest@example.com";
+  private static final String EMAIL_AZIENDA = "azienda@prova.it";
   private static final String AMBITO = "provaAmbito";
 
 }

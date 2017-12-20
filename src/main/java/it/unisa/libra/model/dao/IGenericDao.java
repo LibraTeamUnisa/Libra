@@ -6,6 +6,8 @@ public interface IGenericDao<E, K> {
   void persist(E entity);
 
   void remove(E entity);
+  
+  void merge(E entity);
 
   E findById(Class<E> entityClass, K id);
 

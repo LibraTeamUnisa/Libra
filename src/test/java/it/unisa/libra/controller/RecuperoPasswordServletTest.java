@@ -137,6 +137,12 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet
       
       return null;
     }
+
+	@Override
+	public void merge(Utente entity) {
+		// TODO Auto-generated method stub
+		
+	}
 		
 	}
 		

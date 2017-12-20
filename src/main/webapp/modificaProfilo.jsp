@@ -69,7 +69,11 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
              
-             
+             <p>ciao</p>
+             <form action="CaricaImmagineServlet" method="post" enctype="multipart/form-data">
+             	<input type="file" name="fileinput" accept="image/*">
+             	<input type="submit" value="vai">
+             </form>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

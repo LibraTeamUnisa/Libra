@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,7 +20,10 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
-@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a")
+@NamedQueries({
+@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a"),
+@NamedQuery(name = "Azienda.findName", query = "SELECT a FROM Azienda a JOIN FETCH a.tutorEsterni WHERE a.nome=:nomeAzienda")
+})
 public class Azienda implements Serializable {
   private static final long serialVersionUID = 1L;
 

@@ -13,7 +13,6 @@
 <%@page import="java.text.DateFormat" %>
 <%@page import="java.text.SimpleDateFormat" %>
 
-
 <%
 	String ruolo = (String)request.getSession().getAttribute("utenteRuolo");
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
@@ -59,6 +58,13 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+	@media only screen and (max-width : 640px) {
+		#DataTables_Table_0_length {
+			display: none;
+		}
+	}
+</style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -133,17 +139,15 @@
 									}
 								%>
 									<tr>
-										<td><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></td>
+										<td><a href="${pageContext.request.contextPath}/dettaglioStudente/email-studente=<%=studente.getUtenteEmail()%>"><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></a></td>
 										<td><%=studente.getCognome() %> <%=studente.getNome() %></td>
 										<td>
 										<%if(progettoFormativo==null) {%>
-											
-										<%} else if(progettoFormativo.getStato()==0){%>
 											<span class="label label-info">Disponibile</span>
-										<%}else if(progettoFormativo.getStato()>0 && progettoFormativo.getStato()<4){%>
+										<%}else if(progettoFormativo.getStato()>=0 && progettoFormativo.getStato()<4){%>
 											<span class="label label-warning">In Attesa</span>
 										<%}else if(progettoFormativo.getStato()==4){ %>
-											<span class="label label-info">Verificato</span>
+											<span class="label label-primary">Verificato</span>
 										<%}else if(progettoFormativo.getStato()==5){%>
 											<span class="label label-success">Approvato</span>
 										<%}else if(progettoFormativo.getStato()==6){%>
@@ -229,10 +233,23 @@
 					{ "searchable": false, "targets": 2 },
 					{ "searchable": false, "targets": 3 },
 				  ],
+			  "language": {
+		            "lengthMenu": "Mostra _MENU_ risultati per pagina",
+		            "zeroRecords": "Nessun record trovato",
+		            "info": "Pagina _PAGE_ di _PAGES_",
+		            "infoEmpty": "Nessun record presente",
+		            "infoFiltered": "(Cercati da _MAX_ record totali)",
+		            "paginate": {
+		                "first":      "Prima",
+		                "last":       "Ultima",
+		                "next":       "Prossima",
+		                "previous":   "Precedente"
+		            }
+		        },
 				"initComplete" : function() {
 						$(".dataTables_filter").empty();
 						$(".dataTables_filter").html('<div class="input-group add-on">'+
-							'<input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">'+
+							'<input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">'+
 							'<div class="input-group-btn">'+
 								'<button class="btn btn-default buttonSearch">'+
 									'<i class="mdi mdi-magnify"></i>'+
@@ -240,13 +257,22 @@
 							'</div>'+
 						'</div>'+
 						'</div>');
-						
 						var input = $('.dataTables_filter input');
 						self = this.api();
+						$(".buttonSearch").mouseenter(function(){
+							$(this).css({'background-color':'#D91A5F'});
+								
+						})
+						$(".buttonSearch").mouseleave(function(){
+							$(this).css({'background-color':'#DDDDDD'});
+								
+						})
 						$(".buttonSearch").click(function() {
 									var text = input.val();
+									$(this).css({'outline':'none','box-shadow':'none'});
+									
 									$('.text-danger').remove();
-									if(/^([a-zA-Z\s]{0,100})$/.test(text)==false) {
+									if(/^([a-zA-Z\u00E0\u00E8\u00EC\u00F2\u00F9\s]{0,100})$/.test(text)==false) {
 										$('.dataTables_filter').append('<small class="text-danger">Devi inserire solo lettere.</small>');
 									}else {
 										
@@ -259,6 +285,7 @@
 			
 			});
 		</script>
+		
 </body>
 
 </html>

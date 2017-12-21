@@ -11,10 +11,10 @@ $(document).ready(function() {
 			$("#success").show();
 			$("#error-message2").hide();
 			$("#error-message").hide();
-			
 			setTimeout(function() {
 			 				 window.location.href = "/Libra/profilo.jsp";
 			}, 3000);				
+			
 			}else if(dato =="errore"){
 				$("#success").hide();
 				$("#error-message2").show();

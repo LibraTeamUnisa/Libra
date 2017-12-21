@@ -11327,7 +11327,11 @@
 				 *      } );
 				 *    } );
 				 */
+
+		
+
 				"sLast": "Ultima",
+
 	
 	
 				/**
@@ -11350,6 +11354,9 @@
 				 *      } );
 				 *    } );
 				 */
+
+		
+
 				"sNext": "Successiva",
 	
 	
@@ -11373,7 +11380,11 @@
 				 *      } );
 				 *    } );
 				 */
+
+
+
 				"sPrevious": "Precedente"
+
 			},
 	
 			/**
@@ -11396,7 +11407,11 @@
 			 *      } );
 			 *    } );
 			 */
+
+		
+
 			"sEmptyTable": "Nessun dato disponibile nella tabella",
+
 	
 	
 			/**
@@ -11428,7 +11443,11 @@
 			 *      } );
 			 *    } );
 			 */
+
+
+
 			"sInfo": "Mostra _START_ di _END_ su _TOTAL_ risultati",
+
 	
 	
 			/**
@@ -11449,7 +11468,11 @@
 			 *      } );
 			 *    } );
 			 */
+
+
+
 			"sInfoEmpty": "Mostra 0 di 0 ",
+
 	
 	
 			/**
@@ -11471,7 +11494,11 @@
 			 *      } );
 			 *    } );
 			 */
+
+
+
 			"sInfoFiltered": "(cercato tra _MAX_ risultati totali)",
+
 	
 	
 			/**
@@ -11589,7 +11616,11 @@
 			 *      } );
 			 *    } );
 			 */
+
+		
+
 			"sLengthMenu": "Mostra _MENU_ elementi per pagina",
+
 	
 	
 			/**
@@ -11613,7 +11644,10 @@
 			 *      } );
 			 *    } );
 			 */
+
+
 			"sLoadingRecords": "Caricamento...",
+
 	
 	
 			/**
@@ -11634,7 +11668,10 @@
 			 *      } );
 			 *    } );
 			 */
+
+
 			"sProcessing": "Elaborando...",
+
 	
 	
 			/**
@@ -11669,7 +11706,9 @@
 			 *      } );
 			 *    } );
 			 */
+
 			"sSearch": "",
+
 	
 	
 			/**
@@ -11680,7 +11719,9 @@
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.searchPlaceholder
 			 */
+
 			"sSearchPlaceholder": "cerca...",
+
 	
 	
 			/**
@@ -11727,7 +11768,9 @@
 			 *      } );
 			 *    } );
 			 */
+
 			"sZeroRecords": "Nessun risultato trovato"
+
 		},
 	
 	

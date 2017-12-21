@@ -11304,7 +11304,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
+				"sFirst": "Prima",
 	
 	
 				/**
@@ -11327,7 +11327,11 @@
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
+
+		
+
+				"sLast": "Ultima",
+
 	
 	
 				/**
@@ -11350,7 +11354,10 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+
+		
+
+				"sNext": "Successiva",
 	
 	
 				/**
@@ -11373,7 +11380,11 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+
+
+
+				"sPrevious": "Precedente"
+
 			},
 	
 			/**
@@ -11396,7 +11407,11 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+
+		
+
+			"sEmptyTable": "Nessun dato disponibile nella tabella",
+
 	
 	
 			/**
@@ -11428,7 +11443,11 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+
+
+
+			"sInfo": "Mostra _START_ di _END_ su _TOTAL_ risultati",
+
 	
 	
 			/**
@@ -11449,7 +11468,11 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+
+
+
+			"sInfoEmpty": "Mostra 0 di 0 ",
+
 	
 	
 			/**
@@ -11471,7 +11494,11 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+
+
+
+			"sInfoFiltered": "(cercato tra _MAX_ risultati totali)",
+
 	
 	
 			/**
@@ -11589,7 +11616,11 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
+
+		
+
+			"sLengthMenu": "Mostra _MENU_ elementi per pagina",
+
 	
 	
 			/**
@@ -11613,7 +11644,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
+
+
+			"sLoadingRecords": "Caricamento...",
+
 	
 	
 			/**
@@ -11634,7 +11668,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sProcessing": "Processing...",
+
+
+			"sProcessing": "Elaborando...",
+
 	
 	
 			/**
@@ -11669,7 +11706,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+
+			"sSearch": "",
+
 	
 	
 			/**
@@ -11680,7 +11719,9 @@
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.searchPlaceholder
 			 */
-			"sSearchPlaceholder": "",
+
+			"sSearchPlaceholder": "cerca...",
+
 	
 	
 			/**
@@ -11727,7 +11768,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+
+			"sZeroRecords": "Nessun risultato trovato"
+
 		},
 	
 	

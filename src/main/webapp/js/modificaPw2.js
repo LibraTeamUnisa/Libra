@@ -9,11 +9,13 @@ $(document).ready(function() {
 		function(dato){
 			if(dato == "finito"){
 			$("#success").show();
+			$("#error-message2").hide();
+			
 			setTimeout(function() {
 			 				 window.location.href = "/Libra/profilo.jsp";
 			}, 3000);				
 			}else if(dato =="errore"){
-				alert("PASSWORD NON MODIFICATA!");
+				$("#success").hide();
 				$("#error-message2").show();
 			}
 			

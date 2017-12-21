@@ -45,9 +45,9 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-      response.getWriter().write(BADREQUEST_MESS);
-      return;
- }
+    response.getWriter().write(BADREQUEST_MESS);
+    return;
+  }
 
   /**
    * Gestisce l'aggiunta, la modifica e la rimozione del tutor aziendale.
@@ -119,8 +119,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     Date dataDiNascita;
     try {
       dataDiNascita = parser.parse(request.getParameter("dataDiNascita"));
-    }
-    catch (ParseException e) {
+    } catch (ParseException e) {
       dataDiNascita = new Date();
     }
     tutor.setDataDiNascita(dataDiNascita);
@@ -133,7 +132,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     return;
   }
 
-  
+
   /**
    * Gestisce l'operazione di rimozione del tutor esterno.
    * 

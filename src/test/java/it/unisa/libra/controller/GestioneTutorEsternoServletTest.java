@@ -80,7 +80,7 @@ public class GestioneTutorEsternoServletTest {
     when(request.getSession().getAttribute("utenteEmail")).thenReturn(EMAIL_AZIENDA);
     IAziendaDao aziendaDao = mock(IAziendaDao.class);
     when(aziendaDao.findById(Azienda.class, EMAIL_AZIENDA)).thenReturn(new Azienda());
-    when(request.getParameter("ambito")).thenReturn(AMBITO+"abc");
+    when(request.getParameter("ambito")).thenReturn(AMBITO + "abc");
     ITutorEsternoDao tutorDao = mock(ITutorEsternoDao.class);
     TutorEsternoPK idTutor = new TutorEsternoPK();
     when(tutorDao.findById(TutorEsterno.class, idTutor)).thenReturn(null);
@@ -94,7 +94,7 @@ public class GestioneTutorEsternoServletTest {
     servlet.doPost(request, response);
     verify(responseWriter).write(SUCCESS_MESS);
   }
-  
+
   @Test
   public void aggiuntaAziendaNullTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.AGGIUNGI_TUTOR_ESTERNO);
@@ -124,7 +124,7 @@ public class GestioneTutorEsternoServletTest {
     verify(responseWriter).write("Non e' stato possibile aggiungere il tutor. "
         + "Esiste gia' un tutor responsabile dell'ambito " + AMBITO);
   }
-  
+
   @Test
   public void rimozioneOkTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.RIMUOVI_TUTOR_ESTERNO);
@@ -142,7 +142,7 @@ public class GestioneTutorEsternoServletTest {
     servlet.doPost(request, response);
     verify(responseWriter).write(SUCCESS_MESS);
   }
-  
+
   @Test
   public void rimuoviAziendaNullTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.AGGIUNGI_TUTOR_ESTERNO);
@@ -153,7 +153,7 @@ public class GestioneTutorEsternoServletTest {
     servlet.doPost(request, response);
     verify(responseWriter).write("Si e' verificato un errore");
   }
-  
+
   @Test
   public void rimuoviTutorInesistenteTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.RIMUOVI_TUTOR_ESTERNO);
@@ -171,7 +171,7 @@ public class GestioneTutorEsternoServletTest {
     servlet.doPost(request, response);
     verify(responseWriter).write(BADREQUEST_MESS);
   }
-  
+
   @Test
   public void doGetTest() throws Exception {
     servlet.doGet(request, response);

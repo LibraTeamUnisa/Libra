@@ -14,7 +14,9 @@ public class TutorEsternoJpa extends GenericJpa<TutorEsterno, TutorEsternoPK>
 
   @Override
   public List<TutorEsterno> findByEmailAzienda(String emailAzienda) {
-   return entityManager.createQuery("SELECT t FROM TutorEsterno t WHERE aziendaEmail = :x", TutorEsterno.class).setParameter("x", emailAzienda).getResultList();
+    return entityManager
+        .createQuery("SELECT t FROM TutorEsterno t WHERE aziendaEmail = :x", TutorEsterno.class)
+        .setParameter("x", emailAzienda).getResultList();
   }
 
 }

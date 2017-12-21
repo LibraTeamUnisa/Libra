@@ -16,7 +16,6 @@ import it.unisa.libra.model.dao.IUtenteDao;
 
 /** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "ModificaPasswordServlet", urlPatterns = "/modificaPassword")
-//il pattern mi serve per chiamarla dal js
 public class ModificaPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,16 +33,13 @@ public class ModificaPasswordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
-		//nella versione finale questo assegnamento deve essere rimosso
-		//poichè è stato inserito soltanto per simulare la sessione utente
-		request.getSession().setAttribute("utenteEmail", "alfredo@unisa.it");
 
 		String email=(String) request.getSession().getAttribute("utenteEmail");
 		Utente utente =  utenteDao.findById(Utente.class, email);
 		String action = request.getParameter("action");
 		if(action == null) {	
 			response.getWriter().write("errore");
-		}
+		} 
 		else if(action.equals("verifica"))
 		{
 			String pass= request.getParameter("password");
@@ -62,7 +58,7 @@ public class ModificaPasswordServlet extends HttpServlet {
 						response.getWriter().write("errore");
 				}
 			}
-		}
+		} 
 
 
 	protected Boolean controllaPassword(Utente utente, String pass) {

@@ -10,6 +10,7 @@ $(document).ready(function() {
 			if(dato == "finito"){
 			$("#success").show();
 			$("#error-message2").hide();
+			$("#error-message").hide();
 			
 			setTimeout(function() {
 			 				 window.location.href = "/Libra/profilo.jsp";

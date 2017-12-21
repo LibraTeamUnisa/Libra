@@ -126,7 +126,7 @@
 							</div>
 							<div class="col-md-12">
 								<div id="error-message2" class="alert alert-danger"
-									style="display: none">Password errata, riprova</div>
+									style="display: none">Le password non corrispondono!</div>
 							</div>
 						</div>
 						

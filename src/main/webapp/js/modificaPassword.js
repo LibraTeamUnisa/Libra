@@ -11,6 +11,7 @@ $(document).ready(function() {
 				$("#password").val("");
 			} else if(data == "true") {
 				$("#error-message").hide();
+				$("#error-message2").hide();
 				$("#primoForm").hide(); 
 				$("#passwordnuovaform").show();
 			}

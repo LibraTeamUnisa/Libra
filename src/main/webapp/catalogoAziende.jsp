@@ -220,7 +220,7 @@
 						var text= input.val();
 						$(this).css({'outline':'none', 'box-shadow':'none'});
 						$('.text-danger').remove();
-						if(/^([a-zA-Z\s]{0,100})$/.test(text)==false){
+						if(/^([0-9a-zA-Z\s@:./]{0,100})$/.test(text)==false){
 							$('.dataTables_filter').append('<small class="text-danger">Input errato. Sono ammessi solo caratteri</small>');
 						}else{
 							self.search(input.val()).draw();

@@ -20,17 +20,32 @@ public class TutorEsternoPKTest {
     assertEquals("aziendaEmail", tepk.getAziendaEmail());
   }
 
- 
+  @Test
   public void equalsTest() {
     tepk = new TutorEsternoPK();
     assertFalse(tepk.equals(null));
     assertTrue(tepk.equals(tepk));
     Object o = new Object();
     assertFalse(tepk.equals(o));
+    TutorEsternoPK other = new TutorEsternoPK();
+    // entrambi not null
+    tepk.setAmbito("ambito");
+    tepk.setAziendaEmail("email");
+    other.setAmbito("ambito");
+    other.setAziendaEmail("other");
+    assertFalse(tepk.equals(other));
+    // Ambito null
+    tepk.setAmbito(null);
+    assertFalse(tepk.equals(other));
+    other.setAmbito(null);
+    assertFalse(tepk.equals(other));
+    // emailAzienda null
     tepk.setAmbito("ambito");
     tepk.setAziendaEmail(null);
-    TutorEsternoPK other = new TutorEsternoPK();
-    other.setAmbito("ambito");
+    assertFalse(tepk.equals(other));
+    // entrambi null
+    tepk.setAmbito(null);
+    other.setAmbito(null);
     other.setAziendaEmail(null);
     assertTrue(tepk.equals(other));
   }

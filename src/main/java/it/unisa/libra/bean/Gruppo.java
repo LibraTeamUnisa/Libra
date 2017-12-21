@@ -27,7 +27,7 @@ public class Gruppo implements Serializable {
   private List<Permesso> permessi;
 
   // bi-directional many-to-one association to Utente
-  @OneToMany(mappedBy = "gruppo", cascade = {CascadeType.ALL} )
+  @OneToMany(mappedBy = "gruppo", cascade = {CascadeType.ALL})
   private List<Utente> utenti;
 
   public Gruppo() {}

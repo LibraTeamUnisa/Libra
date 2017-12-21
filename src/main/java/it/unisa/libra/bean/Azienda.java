@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -44,7 +45,7 @@ public class Azienda implements Serializable {
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional many-to-one association to TutorEsterno
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany(mappedBy = "azienda", cascade = {CascadeType.ALL})
   private List<TutorEsterno> tutorEsterni;
 
   public Azienda() {}
@@ -127,18 +128,18 @@ public class Azienda implements Serializable {
     this.tutorEsterni = tutorEsterni;
   }
 
-  public TutorEsterno addTutorEsterni(TutorEsterno tutorEsterni) {
-    getTutorEsterni().add(tutorEsterni);
-    tutorEsterni.setAzienda(this);
+  public TutorEsterno addTutorEsterno(TutorEsterno tutorEsterno) {
+    getTutorEsterni().add(tutorEsterno);
+    // tutorEsterno.setAzienda(this);
 
-    return tutorEsterni;
+    return tutorEsterno;
   }
 
-  public TutorEsterno removeTutorEsterni(TutorEsterno tutorEsterni) {
-    getTutorEsterni().remove(tutorEsterni);
-    tutorEsterni.setAzienda(null);
+  public TutorEsterno removeTutorEsterno(TutorEsterno tutorEsterno) {
+    getTutorEsterni().remove(tutorEsterno);
+    // tutorEsterno.setAzienda(null);
 
-    return tutorEsterni;
+    return tutorEsterno;
   }
 
 }

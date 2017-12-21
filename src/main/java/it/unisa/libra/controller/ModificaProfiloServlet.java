@@ -1,6 +1,6 @@
 package it.unisa.libra.controller;
 
-import java.io.IOException;
+import java.io.IOException; 
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -15,13 +15,13 @@ import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Segreteria;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
-import it.unisa.libra.bean.Tutorinterno;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IAziendaDao;
 import it.unisa.libra.model.dao.IPresidenteDao;
 import it.unisa.libra.model.dao.ISegreteriaDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.dao.ITutorInternoDao;
+import it.unisa.libra.util.Actions;
 
 /** Servlet implementation class AutenticazioneServlet */
 public class ModificaProfiloServlet extends HttpServlet {
@@ -56,13 +56,14 @@ public class ModificaProfiloServlet extends HttpServlet {
   /** Default constructor. */
   public ModificaProfiloServlet() {}
 
-  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+  /** @throws IOException 
+ * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
       HttpSession session = request.getSession();
-      String email = (String) session.getAttribute("utenteEmail");
-      String ruolo = (String) session.getAttribute("utenteRuolo");
-      newAddress = request.getParameter("address");
-      newTelephoneNumber = request.getParameter("telephoneNumber");
+      String email = (String) session.getAttribute(Actions.UTENTE_EMAIL);
+      String ruolo = (String) session.getAttribute(Actions.UTENTE_RUOLO);
+      newAddress = request.getParameter(Actions.INDIRIZZO);
+      newTelephoneNumber = request.getParameter(Actions.NUMERO_TELEFONO);
       if(ruolo.equals("Studente")) {  
           Studente student = (Studente) studenteDao.findById(Studente.class, email);
           Utente user = student.getUtente();
@@ -70,7 +71,7 @@ public class ModificaProfiloServlet extends HttpServlet {
           user.setTelefono(newTelephoneNumber);
           studenteDao.merge(student);
       } else if (ruolo.equals("TutorInterno")) {
-    	  newSite = request.getParameter("site");
+    	  newSite = request.getParameter(Actions.SITO);
     	  TutorInterno ti = (TutorInterno) tutorinternodao.findById(TutorInterno.class, email);
     	  Utente user = ti.getUtente();
     	  user.setIndirizzo(newAddress);
@@ -78,9 +79,9 @@ public class ModificaProfiloServlet extends HttpServlet {
     	  ti.setLinkSito(newSite);
     	  tutorinternodao.merge(ti);
       } else if (ruolo.equals("Presidente")) {
-    	  newSite = request.getParameter("site");
-    	  newOffice = request.getParameter("office");
-    	  newReception = request.getParameter("reception");
+    	  newSite = request.getParameter(Actions.SITO);
+    	  newOffice = request.getParameter(Actions.UFFICIO);
+    	  newReception = request.getParameter(Actions.RICEVIMENTO);
     	  Presidente president = (Presidente) presidentedao.findById(Presidente.class, email);
     	  Utente user = president.getUtente();
     	  user.setIndirizzo(newAddress);
@@ -90,7 +91,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     	  president.setGiorniDiRicevimento(newReception);
     	  presidentedao.merge(president);
       } else if (ruolo.equals("Segreteria")) {
-    	  newReception = request.getParameter("reception");
+    	  newReception = request.getParameter(Actions.RICEVIMENTO);
     	  Segreteria secretary = (Segreteria) segreteriadao.findById(Segreteria.class, email);
     	  Utente user = secretary.getUtente();
     	  user.setIndirizzo(newAddress);
@@ -103,7 +104,10 @@ public class ModificaProfiloServlet extends HttpServlet {
     	  user.setTelefono(newTelephoneNumber);
     	  company.setSede(newAddress);
     	  aziendadao.merge(company);
-      }
+      } else {
+    	  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    	  response.getWriter().write("error");
+     }
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("profilo.jsp");  
   }
 

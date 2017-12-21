@@ -6,8 +6,4 @@ import it.unisa.libra.model.dao.IPresidenteDao;
 
 @Stateless
 public class PresidenteJpa extends GenericJpa<Presidente, String> implements IPresidenteDao {
-
-  public Presidente findByEmail(Class<Presidente> entityClass, String email) {
-    return entityManager.createNamedQuery("findByEmail", Presidente.class).getSingleResult();
-  }
 }

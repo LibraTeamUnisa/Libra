@@ -6,8 +6,4 @@ import it.unisa.libra.model.dao.IUtenteDao;
 
 @Stateless
 public class UtenteJpa extends GenericJpa<Utente, String> implements IUtenteDao {
-
-  public Utente findByEmail(Class<Utente> entityClass, String email) {
-    return entityManager.createNamedQuery("findByEmail", Utente.class).getSingleResult();
-  }
 }

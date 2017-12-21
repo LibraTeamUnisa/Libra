@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
@@ -17,10 +16,8 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
-@NamedQueries({
-@NamedQuery(name = "Segreteria.findAll", query = "SELECT s FROM Segreteria s"),
-@NamedQuery(name = "Segreteria.findByEmail", query = "SELECT s FROM Segreteria s WHERE s.utenteEmail = :email")
-})
+
+@NamedQuery(name = "Segreteria.findAll", query = "SELECT s FROM Segreteria s")
 public class Segreteria implements Serializable {
   private static final long serialVersionUID = 1L;
 

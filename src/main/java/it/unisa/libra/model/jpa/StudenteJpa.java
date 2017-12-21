@@ -6,8 +6,4 @@ import it.unisa.libra.model.dao.IStudenteDao;
 
 @Stateless
 public class StudenteJpa extends GenericJpa<Studente, String> implements IStudenteDao {
-
-  public Studente findByEmail(Class<Studente> entityClass, String email) {
-    return entityManager.createNamedQuery("findByEmail", Studente.class).getSingleResult();
-  }
 }

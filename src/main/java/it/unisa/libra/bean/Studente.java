@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -24,10 +23,8 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@NamedQueries({
-@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s"),
-@NamedQuery(name = "Studente.findByEmail", query = "SELECT s FROM Studente s WHERE s.utenteEmail = :email")
-})
+@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s")
+
 public class Studente implements Serializable {
   private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,6 @@
 package it.unisa.libra.model.dao;
 
-import it.unisa.libra.bean.Tutoresterno;
+import it.unisa.libra.bean.TutorEsterno;
+import it.unisa.libra.bean.TutorEsternoPK;
 
-public interface ITutorEsternoDao extends IGenericDao<Tutoresterno, String> {
-}
+public interface ITutorEsternoDao extends IGenericDao<TutorEsterno, TutorEsternoPK> {}

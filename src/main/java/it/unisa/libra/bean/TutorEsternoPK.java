@@ -1,14 +1,15 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the tutoresterno database table.
  * 
  */
 @Embeddable
-public class TutoresternoPK implements Serializable {
+public class TutorEsternoPK implements Serializable {
   // default serial version id, required for serializable classes.
   private static final long serialVersionUID = 1L;
 
@@ -17,7 +18,7 @@ public class TutoresternoPK implements Serializable {
 
   private String ambito;
 
-  public TutoresternoPK() {}
+  public TutorEsternoPK() {}
 
   public String getAziendaEmail() {
     return this.aziendaEmail;
@@ -36,14 +37,28 @@ public class TutoresternoPK implements Serializable {
   }
 
   public boolean equals(Object other) {
+    if (other == null) {
+      return false;
+    }
     if (this == other) {
       return true;
     }
-    if (!(other instanceof TutoresternoPK)) {
+    if (other.getClass() != this.getClass()) {
       return false;
     }
-    TutoresternoPK castOther = (TutoresternoPK) other;
-    return this.aziendaEmail.equals(castOther.aziendaEmail) && this.ambito.equals(castOther.ambito);
+    TutorEsternoPK castOther = (TutorEsternoPK) other;
+    if (this.aziendaEmail != null) {
+      if (this.ambito != null) {
+        return this.aziendaEmail.equals(castOther.aziendaEmail)
+            && this.ambito.equals(castOther.ambito);
+      } else
+        return this.aziendaEmail.equals(castOther.aziendaEmail) && (castOther.ambito == null);
+    } else {
+      if (this.ambito != null) {
+        return (castOther.aziendaEmail == null) && this.ambito.equals(castOther.ambito);
+      } else
+        return (castOther.aziendaEmail == null) && (castOther.ambito == null);
+    }
   }
 
   public int hashCode() {

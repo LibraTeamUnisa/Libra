@@ -2,13 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
-	<persistence-unit name="libraPU">
+	<persistence-unit name="libraPU" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/LibraDS</jta-data-source>
-		<class>it.unisa.libra.bean.Progettoformativo</class>
-		<class>it.unisa.libra.bean.Tutoresterno</class>
-		<class>it.unisa.libra.bean.TutoresternoPK</class>
-		<class>it.unisa.libra.bean.Tutorinterno</class>
 		<class>it.unisa.libra.bean.Azienda</class>
 		<class>it.unisa.libra.bean.Domanda</class>
 		<class>it.unisa.libra.bean.Feedback</class>
@@ -17,9 +13,14 @@
 		<class>it.unisa.libra.bean.Notifica</class>
 		<class>it.unisa.libra.bean.Permesso</class>
 		<class>it.unisa.libra.bean.Presidente</class>
+		<class>it.unisa.libra.bean.ProgettoFormativo</class>
 		<class>it.unisa.libra.bean.Report</class>
+		<class>it.unisa.libra.bean.ReportPK</class>
 		<class>it.unisa.libra.bean.Segreteria</class>
 		<class>it.unisa.libra.bean.Studente</class>
+		<class>it.unisa.libra.bean.TutorEsterno</class>
+		<class>it.unisa.libra.bean.TutorEsternoPK</class>
+		<class>it.unisa.libra.bean.TutorInterno</class>
 		<class>it.unisa.libra.bean.Utente</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

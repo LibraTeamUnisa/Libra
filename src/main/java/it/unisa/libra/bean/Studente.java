@@ -1,9 +1,19 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -27,18 +37,18 @@ public class Studente implements Serializable {
 
   private String nome;
 
-  // bi-directional many-to-one association to Progettoformativo
-  @OneToMany(mappedBy = "studente")
-  private List<Progettoformativo> progettoformativos;
-
   // bi-directional many-to-many association to Azienda
   @ManyToMany
   @JoinTable(name = "preferenza", joinColumns = {@JoinColumn(name = "studenteEmail")},
       inverseJoinColumns = {@JoinColumn(name = "aziendaEmail")})
-  private List<Azienda> aziendas;
+  private List<Azienda> aziende;
+
+  // bi-directional many-to-one association to ProgettoFormativo
+  @OneToMany(mappedBy = "studente")
+  private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 
@@ -84,34 +94,34 @@ public class Studente implements Serializable {
     this.nome = nome;
   }
 
-  public List<Progettoformativo> getProgettoformativos() {
-    return this.progettoformativos;
+  public List<Azienda> getAziende() {
+    return this.aziende;
   }
 
-  public void setProgettoformativos(List<Progettoformativo> progettoformativos) {
-    this.progettoformativos = progettoformativos;
+  public void setAziende(List<Azienda> aziende) {
+    this.aziende = aziende;
   }
 
-  public Progettoformativo addProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().add(progettoformativo);
-    progettoformativo.setStudente(this);
-
-    return progettoformativo;
+  public List<ProgettoFormativo> getProgettiFormativi() {
+    return this.progettiFormativi;
   }
 
-  public Progettoformativo removeProgettoformativo(Progettoformativo progettoformativo) {
-    getProgettoformativos().remove(progettoformativo);
-    progettoformativo.setStudente(null);
-
-    return progettoformativo;
+  public void setProgettiFormativi(List<ProgettoFormativo> progettiFormativi) {
+    this.progettiFormativi = progettiFormativi;
   }
 
-  public List<Azienda> getAziendas() {
-    return this.aziendas;
+  public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
+    getProgettiFormativi().add(progettiFormativi);
+    progettiFormativi.setStudente(this);
+
+    return progettiFormativi;
   }
 
-  public void setAziendas(List<Azienda> aziendas) {
-    this.aziendas = aziendas;
+  public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
+    getProgettiFormativi().remove(progettiFormativi);
+    progettiFormativi.setStudente(null);
+
+    return progettiFormativi;
   }
 
   public Utente getUtente() {

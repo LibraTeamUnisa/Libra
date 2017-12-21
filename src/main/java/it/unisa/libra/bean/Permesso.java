@@ -1,8 +1,13 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 
 
 /**
@@ -23,7 +28,7 @@ public class Permesso implements Serializable {
   @ManyToMany
   @JoinTable(name = "possesso", joinColumns = {@JoinColumn(name = "tipo")},
       inverseJoinColumns = {@JoinColumn(name = "ruolo")})
-  private List<Gruppo> gruppos;
+  private List<Gruppo> gruppi;
 
   public Permesso() {}
 
@@ -43,12 +48,12 @@ public class Permesso implements Serializable {
     this.abilitazione = abilitazione;
   }
 
-  public List<Gruppo> getGruppos() {
-    return this.gruppos;
+  public List<Gruppo> getGruppi() {
+    return this.gruppi;
   }
 
-  public void setGruppos(List<Gruppo> gruppos) {
-    this.gruppos = gruppos;
+  public void setGruppi(List<Gruppo> gruppi) {
+    this.gruppi = gruppi;
   }
 
 }

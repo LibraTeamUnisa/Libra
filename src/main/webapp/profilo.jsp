@@ -6,8 +6,12 @@
 			javax.naming.InitialContext,
 			java.util.Date,
 			java.util.Calendar,
-			java.util.GregorianCalendar"%>
-
+			java.util.GregorianCalendar,
+			java.util.List,
+			java.util.Map,
+			java.util.Map.Entry,
+			it.unisa.libra.util.JsonUtils
+			"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,8 +67,13 @@
 		String email = (String) session.getAttribute("utenteEmail");
 		String ruolo = (String) session.getAttribute("utenteRuolo");*/
 
-		String email = "andrea@studenti.unisa.it";
-		String ruolo = "Studente";
+		String email = request.getParameter("utenteEmail");
+		String ruolo = request.getParameter("utenteRuolo");
+		
+
+		if(email==null || ruolo==null){
+			response.sendRedirect("/Libra/errore.jsp");
+		}
 	%>
 
 
@@ -110,6 +119,7 @@
 				<%
 					IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 					Utente u = utenteDao.findById(Utente.class, email);
+					
 				%>
 
 				<div class="card card-block">
@@ -117,7 +127,7 @@
 						<div class="col-sm-4">
 							<div class="card wild-card">
 								<h4 class="text-themecolor m-b-0 m-t-0">
-									Profilo di
+									Profilo di 
 									<%
 									if (ruolo.equals("Azienda")) {
 								%>
@@ -173,7 +183,7 @@
 							<div class="card wild-card">
 								<div class="col-md-8 col-lg-9 text-center"
 									style="margin: 0 auto;">
-									<a href="#"><img src="assets/images/users/1.jpg" alt="user"
+									<a href="#"><img src="assets/images/users/<%=u.getImgProfilo()%>" alt="user"
 										class="img-circle img-responsive"></a>
 								</div>
 								<input type="file" placeholder="<%=u.getImgProfilo()%>"
@@ -193,7 +203,7 @@
 							<div class="card wild-card"
 								style="color: black; font-size: 120%;">
 
-								<h3 class="box-title m-b-0">Dati personali:</h3>
+								<h3 class="box-title m-b-0"><b>Dati personali:</b></h3>
 								<br>
 
 								<div class="row">
@@ -248,7 +258,7 @@
 								</div>
 
 								<br>
-								<h3 class="box-title m-b-0">Contatti:</h3>
+								<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 								<br>
 
 								<div class="row">
@@ -292,6 +302,7 @@
 								</div>
 								<br>
 							</div>
+						</div>	
 							<%
 								}
 							%>
@@ -308,7 +319,7 @@
 								<div class="card wild-card"
 									style="color: black; font-size: 120%;">
 
-									<h3 class="box-title m-b-0">Dati personali:</h3>
+									<h3 class="box-title m-b-0"><b>Dati personali:</b></h3>
 									<br>
 
 									<div class="row">
@@ -353,7 +364,7 @@
 									</div>
 
 									<br>
-									<h3 class="box-title m-b-0">Contatti:</h3>
+									<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 									<br>
 
 									<div class="row">
@@ -407,6 +418,7 @@
 									</div>
 									<br>
 								</div>
+							</div>	
 								<%
 									}
 								%>
@@ -422,7 +434,7 @@
 									<div class="card wild-card"
 										style="color: black; font-size: 120%;">
 
-										<h3 class="box-title m-b-0">Dati personali:</h3>
+										<h3 class="box-title m-b-0"><b>Dati personali:</b></h3>
 										<br>
 
 										<div class="row">
@@ -467,7 +479,7 @@
 										</div>
 
 										<br>
-										<h3 class="box-title m-b-0">Contatti:</h3>
+										<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 										<br>
 
 										<div class="row">
@@ -525,9 +537,17 @@
 												<label class="col-md-12">Ricevimento:</label>
 											</div>
 											<div class="col-sm-5">
-												<input type="text"
-													placeholder="<%=p.getGiorniDiRicevimento()%>"
-													class="form-control form-control-line" disabled>
+												<address>
+				                                    	<% 
+				                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
+				                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
+				                                    	%>
+				                                       		<input type="text"
+																		placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+																		class="form-control form-control-line" disabled>
+				                                        	<br>
+				                                		<%}%>
+				                                    </address>
 											</div>
 										</div>
 
@@ -542,6 +562,7 @@
 										</div>
 										<br>
 									</div>
+								</div>	
 									<%
 										}
 									%>
@@ -553,25 +574,33 @@
 
 										if (ruolo.equals("Segreteria")) {
 									%>
-
-									<div class="col-sm-8">
+										<div class="col-sm-8">
 										<div class="card wild-card"
 											style="color: black; font-size: 120%;">
-
+											
 											<div class="row">
-												<div class="col-sm-4">
-													<label class="col-md-12">Giorni di Ricevimento:</label>
+												<div class="col-sm-4">				
+													<label class="col-md-12">Ricevimento:</label>
 												</div>
-												<br>
+												
 												<div class="col-sm-5">
-													<input type="text"
-														placeholder="<%=seg.getGiorniDiRicevimento()%>"
-														class="form-control form-control-line" disabled>
+													
+													<address>
+				                                    	<% 
+				                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+				                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
+				                                    	%>
+				                                       		<input type="text"
+																		placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+																		class="form-control form-control-line" disabled>
+				                                        	<br>
+				                                		<%}%>
+				                                    </address>
 												</div>
 											</div>
 
 											<br>
-											<h3 class="box-title m-b-0">Contatti:</h3>
+											<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 											<br>
 
 											<div class="row">
@@ -636,7 +665,7 @@
 											style="color: black; font-size: 120%;">
 
 											<br>
-											<h3 class="box-title m-b-0">Contatti:</h3>
+											<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 											<br>
 
 											<div class="row">

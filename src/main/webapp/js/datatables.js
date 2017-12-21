@@ -11449,7 +11449,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Mostra 0 di 0 su 0 risultati",
+			"sInfoEmpty": "Mostra 0 di 0 ",
 	
 	
 			/**

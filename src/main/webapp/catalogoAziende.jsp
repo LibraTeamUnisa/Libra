@@ -33,6 +33,8 @@
 	href="assets/images/favicon.png">
 <title>Libra</title>
 <!-- Bootstrap Core CSS -->
+<link href="css/datatables.css" 
+	rel="stylesheet">
 <link href="assets/plugins/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- chartist CSS -->
@@ -54,6 +56,13 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+	@media only screen and (max-width : 640px){
+		#DataTables_Table_0_length{
+			display: none;
+		}
+	}
+</style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -91,29 +100,39 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-				<h1>Catalogo Aziende</h1>
+				<div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Catalogo Aziende</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                            <li class="breadcrumb-item active">Catalogo Aziende</li>
+                        </ol>
+                    </div>    
+                </div>
 				<div class="card wizard-card" style="padding:1%">
-					<table class="table table-responsive">
-						<thead>
-							<tr>
-								<th>Logo</th>
-								<th>Nome</th>
-								<th>Sede</th>
-							</tr>
-						</thead>
-						<tbody>
-							<%for(Azienda a: aziende){
-									Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
-								%>
-							<tr>
-								<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
-										src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" class="img-circle img-responsive"/></a></td>
-								<td><%=a.getNome() %></td>
-								<td><%=a.getSede() %></td>
-							</tr>
-							<%} %>
-						</tbody>
-					</table>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Logo</th>
+									<th>Nome</th>
+									<th>Sede</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%for(Azienda a: aziende){
+										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
+									%>
+								<tr>
+									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
+											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" class="img-circle img-responsive"/></a></td>
+									<td><%=a.getNome() %></td>
+									<td><%=a.getSede() %></td>
+								</tr>
+								<%} %>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 
@@ -179,23 +198,38 @@
 					{ "searchable": false, "targets": 2 },
 				  ],
 				"initComplete" : function() {
-						var input = $('.dataTables_filter input').unbind();
-						self = this.api();
-						$searchButton = $('<button class="btn btn-default">')
-								   .text('search')
-								   .click(function() {
-										var text = input.val();
-										if(/^([a-zA-Z]{0,100})$/.test(text)==false) {
-											input.val("Error");
-										}else
-											self.search(input.val()).draw();
-										
-								   }),
-						$('.dataTables_filter').append($searchButton);
-					}
-			  }); 
-			
+					$(".dataTables_filter").empty();
+					$(".dataTables_filter").html(
+						'<div class="input-group add-on">'+
+						'<input class="form-control" placeholder"Cerca" name="srch-term" id="srch-term" type="text">'+
+							'<div class="input-group-btn">'+
+								'<button class="btn btn-default buttonSearch">'+
+									'<i class="mdi mdi-magnify"></i>'+
+								'</button>'+
+							'</div>'+
+						'</div>');
+					var input= $('.dataTables_filter input');
+					self= this.api();
+					$(".buttonSearch").mouseenter(function(){
+						$(this).css({'background-color': '#D91A5F'});	
+					})
+					$(".buttonSearch").mouseleave(function(){
+						$(this).css({'background-color':'#DDDDDD'});	
+					})
+					$(".buttonSearch").click(function(){
+						var text= input.val();
+						$(this).css({'outline':'none', 'box-shadow':'none'});
+						$('.text-danger').remove();
+						if(/^([a-zA-Z\s]{0,100})$/.test(text)==false){
+							$('.dataTables_filter').append('<small class="text-danger">Input errato. Sono ammessi solo caratteri</small>');
+						}else{
+							self.search(input.val()).draw();
+						}
+					})
+				}
+					
 			});
+		});
 	</script>
 </body>
 

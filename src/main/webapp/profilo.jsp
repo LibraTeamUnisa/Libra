@@ -66,10 +66,10 @@
 		session = request.getSession();
 		String email = (String) session.getAttribute("utenteEmail");
 		String ruolo = (String) session.getAttribute("utenteRuolo");
-
+		
 		if (email == null || ruolo == null) {
 			response.sendRedirect("/Libra/errore.jsp");
-		}
+		}	
 	%>
 
 

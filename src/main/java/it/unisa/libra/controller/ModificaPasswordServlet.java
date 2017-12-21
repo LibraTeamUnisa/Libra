@@ -28,22 +28,17 @@ public class ModificaPasswordServlet extends HttpServlet {
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		//response.getWriter().write("true");
-		//      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
-		//  response.getWriter().append("Served at: ").append(provaPassword2).append(" ").append(provaPassword3);
-		//}
 	}
 
 	/** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
+		//nella versione finale questo assegnamento deve essere rimosso
+		//poichè è stato inserito soltanto per simulare la sessione utente
 		request.getSession().setAttribute("utenteEmail", "alfredo@unisa.it");
 
 		String email=(String) request.getSession().getAttribute("utenteEmail");
-		
-		// Utente ruolo=(Utente) request.getSession(true).getAttribute("utenteRuolo");NON MI SERVE PIù
 		Utente utente =  utenteDao.findById(Utente.class, email);
 		String action = request.getParameter("action");
 		if(action == null) {	
@@ -55,8 +50,8 @@ public class ModificaPasswordServlet extends HttpServlet {
 			Boolean passCorretta = controllaPassword(utente, pass);
 			if(passCorretta){ //le due password corrispondono quindi posso mostrare i campi per inserire la nuova password
 				response.getWriter().write("true");
-			}else if(!passCorretta) {
-				response.getWriter().write("false"); //la pass non coincide
+			}else if(!passCorretta) { //la pass non coincide
+				response.getWriter().write("false");
 			}
 		}else if(action.equals("cambia")) {
 			String pw1 = request.getParameter("pwn1");

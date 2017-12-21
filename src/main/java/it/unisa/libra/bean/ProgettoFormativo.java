@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,7 +22,12 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p")
+@NamedQueries({
+    @NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p"),
+    @NamedQuery(name = "ProgettoFormativo.findByStudente",
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.studente=:studente ORDER BY p.id DESC"),
+    @NamedQuery(name = "ProgettoFormativo.findByStudenteAssociato",
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.studente=:studente AND p.tutorInterno.utenteEmail=:tutorinterno ORDER BY p.id DESC")})
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
 

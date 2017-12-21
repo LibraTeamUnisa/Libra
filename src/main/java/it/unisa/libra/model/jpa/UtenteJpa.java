@@ -9,6 +9,9 @@ import it.unisa.libra.model.dao.IUtenteDao;
 @Stateless
 public class UtenteJpa extends GenericJpa<Utente, String> implements IUtenteDao {
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public Utente getUtente(String mail, String pwd) {
     TypedQuery<Utente> query = entityManager.createNamedQuery("getUtente", Utente.class);

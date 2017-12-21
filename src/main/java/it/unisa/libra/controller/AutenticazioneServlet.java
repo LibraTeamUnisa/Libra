@@ -58,11 +58,12 @@ public class AutenticazioneServlet extends HttpServlet {
       String pwd = request.getParameter("password");
       Utente utente = utenteDao.getUtente(mail, pwd);
       if (utente != null) {
-        session.setAttribute("utenteMail", utente.getEmail());
+        session.setAttribute("utenteEmail", utente.getEmail());
         session.setAttribute("utenteRuolo", utente.getGruppo().getRuolo());
 
         // reindirizza alla dashboard.jsp corretta in base alla tipologia di utente.
-        String dashboard = request.getContextPath() + "/dashboard".concat(utente.getGruppo().getRuolo()).concat(".jsp");
+        String dashboard = request.getContextPath()
+            + "/dashboard".concat(utente.getGruppo().getRuolo()).concat(".jsp");
         response.getWriter().write(dashboard);
 
       } else {

@@ -115,9 +115,14 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet {
       return null;
     }
 
-	@Override
-	public void remove(Class<Utente> entityClass, String id) {
-	}
+    @Override
+    public void remove(Class<Utente> entityClass, String id) {}
+
+    @Override
+    public Utente getUtente(String mail, String pwd) {
+      // TODO Auto-generated method stub
+      return null;
+    }
 
   }
 

@@ -14,6 +14,7 @@ import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Segreteria;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.bean.Tutorinterno;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IAziendaDao;
@@ -70,7 +71,7 @@ public class ModificaProfiloServlet extends HttpServlet {
           studenteDao.merge(student);
       } else if (ruolo.equals("TutorInterno")) {
     	  newSite = request.getParameter("site");
-    	  Tutorinterno ti = (Tutorinterno) tutorinternodao.findById(Tutorinterno.class, email);
+    	  TutorInterno ti = (TutorInterno) tutorinternodao.findById(TutorInterno.class, email);
     	  Utente user = ti.getUtente();
     	  user.setIndirizzo(newAddress);
     	  user.setTelefono(newTelephoneNumber);

@@ -105,8 +105,7 @@
 			<div class="container-fluid">
 				<%
 				boolean badRequest = false;
-				String emailAzienda = (String) request.getSession().getAttribute("email");
-				emailAzienda = "azienda@prova.it";
+				String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
 				String azione = request.getParameter(Actions.ACTION);
 				String ambito = null;
 				TutorEsternoPK id = null;
@@ -162,7 +161,7 @@
 								<div class="col-sm-8">
 									<input type="text" name="ambito" required="required"
 										class="form-control" id="inputAmbito" placeholder="Ambito"
-										maxlength="50" pattern="[A-Za-z']*"
+										maxlength="50" pattern="[A-Za-z']*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=id.getAmbito()%> readonly="readonly"  <%} %> />
 								</div>
@@ -178,7 +177,7 @@
 								<div class="col-sm-8">
 									<input type="text" name="nome" required="required"
 										class="form-control" id="inputNome" placeholder="Nome"
-										maxlength="30" pattern="[A-Za-z']*"
+										maxlength="30" pattern="[A-Za-z']*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getNome()%> <%} %> />
 								</div>
@@ -192,7 +191,7 @@
 								<div class="col-sm-8">
 									<input type="text" name="cognome" required="required"
 										maxlength="30" class="form-control" id="inputCognome"
-										placeholder="Cognome" pattern="[A-Za-z']*"
+										placeholder="Cognome" pattern="[A-Za-z']*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getCognome()%> <%} %> />
 								</div>
@@ -206,8 +205,8 @@
 								<div class="col-sm-8">
 									<input type="text" name="indirizzo" class="form-control"
 										id="inputIndirizzo" placeholder="Indirizzo"
-										pattern="[A-Za-z]*,[0-9]*" required="required" maxlength="40"
-										title="via,num"
+										pattern="[A-Za-z]*,[0-9]* [A-Za-z]*" required="required" maxlength="40"
+										title="via,numeroCivico citta'"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getIndirizzo()%> <%} %> />
 								</div>
@@ -235,7 +234,7 @@
 								<div class="col-sm-8">
 									<input type="text" name="telefono" class="form-control"
 										id="inputTel" placeholder="Telefono" required="required"
-										maxlength="10" pattern="[0-9]{10}"
+										maxlength="10" pattern="[0-9]{10}" title="solo caratteri numerici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getTelefono()%> <%} %> />
 								</div>
@@ -295,7 +294,7 @@
 								<h4 class="modal-title">Errore</h4>
 							</div>
 							<div class="modal-body">
-								<p>L'operazione richiesta non egrave; valida.</p>
+								<p>L'operazione richiesta non e' valida.</p>
 							</div>
 							<div class="modal-footer">
 								<button id="button1" type="button" class="btn btn-primary">
@@ -362,7 +361,7 @@
 																		 $("#buttonTutorEsterno").prop("disabled",true);
 																		 
 																		if (data == "ok") {
-																			$("#modalMessage").text("L'operazione egrave; avvenuta correttamente");
+																			$("#modalMessage").text("L'operazione e' avvenuta correttamente");
  																			
 																		} 
 																		else {

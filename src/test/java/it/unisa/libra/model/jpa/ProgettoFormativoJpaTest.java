@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
@@ -14,12 +15,15 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   private static ProgettoFormativoJpa jpaP;
   private static StudenteJpa jpaS;
   private static TutorInternoJpa jpaT;
+  private static AziendaJpa jpaA;
 
   @BeforeClass
   public static void setUp() {
+    jpaA = new AziendaJpa();
     jpaP = new ProgettoFormativoJpa();
     jpaS = new StudenteJpa();
     jpaT = new TutorInternoJpa();
+    jpaA.entityManager = em;
     jpaP.entityManager = em;
     jpaS.entityManager = em;
     jpaT.entityManager = em;
@@ -79,6 +83,26 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     ProgettoFormativo toCheck =
         jpaP.getLastProgettoFormativoByStudenteAssociato(studente, tutor.getUtenteEmail());
     assertNull(toCheck);
+  }
+
+  @Test
+  public void findByAziendaNomeTest() {
+    ProgettoFormativo pf = createPF();
+    jpaP.persist(pf);
+    ProgettoFormativo toCheck =
+        (ProgettoFormativo) jpaP.getProgettiFormativiByAzienda("prova").get(0);
+    assertEquals(pf, toCheck);
+  }
+
+  private ProgettoFormativo createPF() {
+    Azienda a = new Azienda();
+    a.setUtenteEmail("prova@gmail.com");
+    a.setNome("prova");
+    jpaA.persist(a);
+
+    ProgettoFormativo toPersist = new ProgettoFormativo();
+    toPersist.setAzienda(a);
+    return toPersist;
   }
 
   private ProgettoFormativo createProgettoFormativoObject() {

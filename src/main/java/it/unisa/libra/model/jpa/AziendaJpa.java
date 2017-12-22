@@ -6,4 +6,6 @@ import it.unisa.libra.model.dao.IAziendaDao;
 
 @Stateless
 public class AziendaJpa extends GenericJpa<Azienda, String> implements IAziendaDao {
+
+
 }

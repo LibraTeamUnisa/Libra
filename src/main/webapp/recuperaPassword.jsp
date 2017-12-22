@@ -40,7 +40,7 @@
 <![endif]-->
 <style type="text/css">
 #label1 {
-	visibility: collapse;
+	visibility: hidden;
 }
 
 #label2 {
@@ -52,7 +52,7 @@
 		visibility: visible;
 	}
 	#label2 {
-		visibility: collapse;
+		visibility: hidden;
 	}
 }
 </style>
@@ -109,27 +109,23 @@
 							la tua <b>email istituzionale</b> qui sotto.<br>Ti invieremo
 							la <b>nuova password</b> all'indirizzo fornito
 						</p>
-						<div class="form-group row" id="label2" style="margin-top: 2%;">
-							<label for="inputEmail" 
-								class="col-sm-5 text-right control-label col-form-label">Email</label>
-							<div class="col-sm-5">
-								<input type="email" name="email" required="required"
-									class="form-control" id="inputEmail" placeholder="Email"
-									maxlength="30" />
-							</div>
-						</div>
-						<div class="form-group row" id="label1">
-							<label for="inputEmail" 
-								class="col-sm-2 text-left control-label col-form-label">Email</label>
-							<div class="col-sm-5">
-								<input type="email" name="email" required="required"
-									class="form-control" id="inputEmail" placeholder="Email"
-									maxlength="30" />
-							</div>
-						</div>
 
-						<a href="#" id="buttonRichiedi" class="btn btn-info"
-							style="margin-top: 3%;">Richiedi Password</a>
+						<div class="form-group row" style="margin-top: 2%;">
+							<label for="inputEmail" id="label2"
+								class="col-sm-4 text-right control-label col-form-label">Email</label>
+							<label for="inputEmail" id="label1" style="margin-bottom:-50%;"
+								class="col-sm-2 text-left control-label col-form-label">Email</label>
+							<div class="col-sm-4">
+								<input type="email" name="email" required="required" id="label2"
+									class="form-control" placeholder="Email" maxlength="30" /> 
+								<input type="email" name="email" required="required" id="label1" 
+									class="form-control" placeholder="Email" maxlength="30" />
+							</div>
+							<div style="margin-left: 30%;" align="center">
+								<a href="#" id="buttonRichiedi" class="btn btn-info" id="label2">Richiedi Password</a> 
+								<a href="#" id="buttonRichiedi" class="btn btn-info" id="label1">Richiedi Password</a>
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>

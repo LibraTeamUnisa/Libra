@@ -25,13 +25,33 @@ public class UtenteJpaTest extends GenericJpaTest {
     assertNotNull(toCheck);
     assertEquals(utente.getEmail(), toCheck.getEmail());
   }
+  
+  @Test
+  public void findByNameSuccessTest() {
+    Utente a1 = createObject2();
+    utentejpa.persist(createObject2());
+    Utente toCheck = utentejpa.getUtente("test2@email.it", "testpwd");
+
+    assertNotNull(toCheck);
+    assertEquals(a1.getEmail(), toCheck.getEmail());
+    assertEquals(a1.getPassword(), toCheck.getPassword());
+  }
 
   private Utente createObject() {
 
     Utente toPersist = new Utente();
     toPersist.setEmail("test@email.it");
+    toPersist.setPassword("testpwd");
 
     return toPersist;
+  }
+  
+  private Utente createObject2() {
 
+    Utente utente = new Utente();
+    utente.setEmail("test2@email.it");
+    utente.setPassword("testpwd");
+    
+    return utente;
   }
 }

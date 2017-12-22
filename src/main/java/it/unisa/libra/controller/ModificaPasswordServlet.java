@@ -3,13 +3,11 @@ package it.unisa.libra.controller;
 import java.io.IOException;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
@@ -52,14 +50,13 @@ public class ModificaPasswordServlet extends HttpServlet {
 		}else if(action.equals("cambia")) {
 			String pw1 = request.getParameter("pwn1");
 			String pw2 = request.getParameter("pwn2");
-				if(aggiornaPassword(utente,pw1,pw2)) {
-						response.getWriter().write("finito");
-					}else {
-						response.getWriter().write("errore");
-				}
+			if(aggiornaPassword(utente,pw1,pw2)) {
+				response.getWriter().write("finito");
+			}else {
+				response.getWriter().write("errore");
 			}
-		} 
-
+		}
+	} 
 
 	protected Boolean controllaPassword(Utente utente, String pass) {
 		String pwU=utente.getPassword();
@@ -70,14 +67,11 @@ public class ModificaPasswordServlet extends HttpServlet {
 		}  
 	}
 
-
 	public void setUtenteDao(IUtenteDao utenteDao) {
 		this.utenteDao = utenteDao;
 	}
-	
 
 	protected Boolean aggiornaPassword(Utente utente, String pw1, String pw2) {
-
 		if(pw1.equals(pw2)) {
 			utente.setPassword(pw1);
 			utenteDao.merge(utente);

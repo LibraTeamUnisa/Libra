@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
@@ -29,7 +27,7 @@ public class Gruppo implements Serializable {
   private List<Permesso> permessi;
 
   // bi-directional many-to-one association to Utente
-  @OneToMany(mappedBy = "gruppo", cascade = {CascadeType.ALL} )
+  @OneToMany(mappedBy = "gruppo", cascade = {CascadeType.ALL})
   private List<Utente> utenti;
 
   public Gruppo() {}

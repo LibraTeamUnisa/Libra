@@ -57,13 +57,14 @@ public class ModificaProfiloServlet extends HttpServlet {
   public ModificaProfiloServlet() {}
 
   /** @throws IOException 
+   * @throws ServletException 
  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
       HttpSession session = request.getSession();
-      String email = (String) session.getAttribute(Actions.UTENTE_EMAIL);
-      String ruolo = (String) session.getAttribute(Actions.UTENTE_RUOLO);
-      newAddress = request.getParameter(Actions.INDIRIZZO);
-      newTelephoneNumber = request.getParameter(Actions.NUMERO_TELEFONO);
+      String email = (String) session.getAttribute("utenteEmail");
+      String ruolo = (String) session.getAttribute("utenteRuolo");
+      newAddress = request.getParameter("indirizzo");
+      newTelephoneNumber = request.getParameter("numeroTelefono");
       if(ruolo.equals("Studente")) {  
           Studente student = (Studente) studenteDao.findById(Studente.class, email);
           Utente user = student.getUtente();
@@ -71,7 +72,7 @@ public class ModificaProfiloServlet extends HttpServlet {
           user.setTelefono(newTelephoneNumber);
           studenteDao.merge(student);
       } else if (ruolo.equals("TutorInterno")) {
-    	  newSite = request.getParameter(Actions.SITO);
+    	  newSite = request.getParameter("sito");
     	  TutorInterno ti = (TutorInterno) tutorinternodao.findById(TutorInterno.class, email);
     	  Utente user = ti.getUtente();
     	  user.setIndirizzo(newAddress);
@@ -79,9 +80,9 @@ public class ModificaProfiloServlet extends HttpServlet {
     	  ti.setLinkSito(newSite);
     	  tutorinternodao.merge(ti);
       } else if (ruolo.equals("Presidente")) {
-    	  newSite = request.getParameter(Actions.SITO);
-    	  newOffice = request.getParameter(Actions.UFFICIO);
-    	  newReception = request.getParameter(Actions.RICEVIMENTO);
+    	  newSite = request.getParameter("sito");
+    	  newOffice = request.getParameter("ufficio");
+    	  newReception = request.getParameter("ricevimento");
     	  Presidente president = (Presidente) presidentedao.findById(Presidente.class, email);
     	  Utente user = president.getUtente();
     	  user.setIndirizzo(newAddress);
@@ -91,7 +92,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     	  president.setGiorniDiRicevimento(newReception);
     	  presidentedao.merge(president);
       } else if (ruolo.equals("Segreteria")) {
-    	  newReception = request.getParameter(Actions.RICEVIMENTO);
+    	  newReception = request.getParameter("ricevimento");
     	  Segreteria secretary = (Segreteria) segreteriadao.findById(Segreteria.class, email);
     	  Utente user = secretary.getUtente();
     	  user.setIndirizzo(newAddress);
@@ -108,7 +109,8 @@ public class ModificaProfiloServlet extends HttpServlet {
     	  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     	  response.getWriter().write("error");
      }
-      RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("profilo.jsp");  
+      RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("profilo.jsp"); 
+      dispatcher.forward(request, response);
   }
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */

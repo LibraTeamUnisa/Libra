@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import it.unisa.libra.controller.ModificaProfiloServlet;
 import it.unisa.libra.util.Actions;
-
+/**
 public class ModificaProfiloServletTest {
 
 	private ModificaProfiloServlet servlet = new ModificaProfiloServlet();
@@ -44,18 +44,5 @@ public class ModificaProfiloServletTest {
 		 when(request.getParameter(Actions.UTENTE_RUOLO)).thenReturn(null);
 		 servlet.doPost(request, response);
 	 }
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 /** messaggio di errore inviato in caso di bad request. **/
-	  private static final String BADREQUEST_MESS = "L'operazione richiesta non &egrave; valida.";
-	  
-	  /** messaggio restituito in caso di successo dell'operazione. **/
-	  private static final String SUCCESS_MESS = "ok";
-
 }
+*/

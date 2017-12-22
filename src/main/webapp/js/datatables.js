@@ -11304,8 +11304,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
-	
+				"sFirst": "Prima"
+
 	
 				/**
 				 * Text to use when using the 'full_numbers' type of pagination for the
@@ -11327,9 +11327,10 @@
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
-	
-	
+		
+
+				"sLast": "Ultima",
+
 				/**
 				 * Text to use for the 'next' pagination button (to take the user to the
 				 * next page).
@@ -11350,9 +11351,10 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
-	
-	
+		
+
+				"sNext": "Successiva",
+
 				/**
 				 * Text to use for the 'previous' pagination button (to take the user to
 				 * the previous page).
@@ -11373,8 +11375,11 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
-			},
+
+
+
+				"sPrevious": "Precedente"
+
 	
 			/**
 			 * This string is shown in preference to `zeroRecords` when the table is
@@ -11396,7 +11401,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+		
+
+			"sEmptyTable": "Nessun dato disponibile nella tabella",
 	
 	
 			/**
@@ -11428,8 +11435,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
-	
+
+
+			"sInfo": "Mostra _START_ di _END_ su _TOTAL_ risultati",
 	
 			/**
 			 * Display information string for when the table is empty. Typically the
@@ -11449,7 +11457,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+
+
+			"sInfoEmpty": "Mostra 0 di 0 ",
+
 	
 	
 			/**
@@ -11471,7 +11482,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+
+			"sInfoFiltered": "(cercato tra _MAX_ risultati totali)",
+
 	
 	
 			/**
@@ -11589,7 +11602,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
+		
+
+			"sLengthMenu": "Mostra _MENU_ elementi per pagina",
+
 	
 	
 			/**
@@ -11613,7 +11629,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
+
+
+			"sLoadingRecords": "Caricamento...",
+
 	
 	
 			/**
@@ -11634,7 +11653,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sProcessing": "Processing...",
+
+
+			"sProcessing": "Elaborando...",
+
 	
 	
 			/**
@@ -11669,7 +11691,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+
+			"sSearch": "",
+
 	
 	
 			/**
@@ -11680,7 +11704,9 @@
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.searchPlaceholder
 			 */
-			"sSearchPlaceholder": "",
+
+			"sSearchPlaceholder": "cerca...",
+
 	
 	
 			/**
@@ -11727,10 +11753,10 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
-		},
-	
-	
+
+			"sZeroRecords": "Nessun risultato trovato"
+
+
 		/**
 		 * This parameter allows you to have define the global filtering state at
 		 * initialisation time. As an object the `search` parameter must be

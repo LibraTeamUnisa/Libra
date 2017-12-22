@@ -26,22 +26,50 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     TutorEsterno found = jpa.findAll(TutorEsterno.class).get(0);
     assertEquals(t, found);
   }
-  
+
   @Test
   public void removeTest() {
     TutorEsternoPK id = new TutorEsternoPK();
     id.setAziendaEmail(EMAIL_AZIENDA);
     id.setAmbito("ambito");
-    jpa.remove(TutorEsterno.class,id);
-   assertNull(jpa.findById(TutorEsterno.class, id));
- }
+    jpa.remove(TutorEsterno.class, id);
+    assertNull(jpa.findById(TutorEsterno.class, id));
+  }
 
+  @Test
+  public void findByAziendaNomeTest() {
+    TutorEsterno t = createTutor2();
+    jpa.persist(t);
+    TutorEsterno found = jpa.findByAziendaNome("prova").get(0);
+    assertEquals(t, found);
+  }
 
   private TutorEsterno createTutor() {
     persistAzienda();
     TutorEsterno t = new TutorEsterno();
     TutorEsternoPK id = new TutorEsternoPK();
     id.setAziendaEmail(EMAIL_AZIENDA);
+    id.setAmbito("ambito");
+    t.setId(id);
+    return t;
+  }
+
+  private TutorEsterno createTutor2() {
+    Utente u = new Utente();
+    u.setEmail("test@gmail.com");
+    UtenteJpa utenteJpa = new UtenteJpa();
+    utenteJpa.entityManager = em;
+    utenteJpa.persist(u);
+    Azienda a = new Azienda();
+    a.setUtenteEmail(u.getEmail());
+    a.setNome("prova");
+    AziendaJpa aziendaJpa = new AziendaJpa();
+    aziendaJpa.entityManager = em;
+    aziendaJpa.persist(a);
+
+    TutorEsterno t = new TutorEsterno();
+    TutorEsternoPK id = new TutorEsternoPK();
+    id.setAziendaEmail("test@gmail.com");
     id.setAmbito("ambito");
     t.setId(id);
     return t;

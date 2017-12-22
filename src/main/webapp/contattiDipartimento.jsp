@@ -77,8 +77,8 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             <div class="row page-titles">
+            
+             	<div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Contatti Dipartimento</h3>
                         <ol class="breadcrumb">

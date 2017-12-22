@@ -1,14 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.util.*,it.unisa.libra.bean.Azienda, it.unisa.libra.model.dao.IAziendaDao,java.util.List,javax.naming.InitialContext"%>
+<%@ page import="java.util.*" import="it.unisa.libra.bean.Azienda"
+	import="it.unisa.libra.bean.Utente"
+	import="it.unisa.libra.bean.TutorEsterno"
+	import="it.unisa.libra.bean.ProgettoFormativo"
+	import="it.unisa.libra.bean.Feedback"
+	import="it.unisa.libra.model.dao.IAziendaDao"
+	import="it.unisa.libra.model.dao.IFeedbackDao"
+	import="it.unisa.libra.model.dao.IProgettoFormativoDao"
+	import="it.unisa.libra.model.dao.ITutorEsternoDao"
+	import="java.util.List" import="javax.naming.InitialContext"%>
 <%
-	String nome = (String)request.getParameter("nome");
-	Azienda a = null;
-	if(nome!=null){
-		IAziendaDao aziendaDAO = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-		a = aziendaDAO.findByName(nome);
-	}
+	HttpSession sessione = request.getSession();
+	//sessione.setAttribute("utenteEmail", "email@email.it");
+	//sessione.setAttribute("utenteRuolo", "Presidente");
+	String utenteEmail = (String) sessione.getAttribute("utenteEmail");
+	String utenteRuolo = (String) sessione.getAttribute("utenteRuolo");
+
+	String nome = (String) request.getParameter("nome");
+	//List<Feedback> feedback = new ArrayList<Feedback>();
+	IAziendaDao aziendaDAO = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+	ITutorEsternoDao tutorDAO = (ITutorEsternoDao) new InitialContext()
+			.lookup("java:app/Libra/TutorEsternoJpa");
+	IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext()
+			.lookup("java:app/Libra/ProgettoFormativoJpa");
+	//IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
+	Azienda a = aziendaDAO.findByName(nome);
+	List<TutorEsterno> tutorEsterni = tutorDAO.findByAziendaNome(nome);
+	List<ProgettoFormativo> progettiFormativi = progettoFormativoDAO.getProgettiFormativiByAzienda(nome);
 %>
 
 <!DOCTYPE html>
@@ -87,17 +107,39 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-			<!-- CONTROLLO SUL NOME DELL'AZIENDA -->
-			<%if (a==null){ %>
+				<%
+					if (utenteRuolo.equals("Azienda")) {
+				%>
+				<div class="row page-titles">
+					<div class="col-md-6 col-8 align-self-center">
+						<h3 class="text-themecolor m-b-0 m-t-0">Pagina non
+							disponibile per l'azienda</h3>
+					</div>
+				</div>
+				<%
+					} else {
+				%>
+				<!-- CONTROLLO SUL NOME DELL'AZIENDA -->
+				<%
+					if (a == null) {
+				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
 						<h3 class="text-themecolor m-b-0 m-t-0">Azienda non trovata</h3>
 					</div>
 				</div>
-			<%} else { %>
+				<%
+					} else {
+				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli azienda</h3>
+						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli Azienda</h3>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+							<li class="breadcrumb-item"><a href="catalogoAziende.jsp"></a>Catalogo
+								Aziende</li>
+							<li class="breadcrumb-item active">Dettagli Azienda</li>
+						</ol>
 					</div>
 				</div>
 				<div class="row">
@@ -108,34 +150,52 @@
 							</div>
 							<div class="card-block">
 								<p>
-									<strong>Nome</strong> <span class="text-muted"> <%=a.getNome() %></span>
+									<strong>Nome</strong> <span class="text-muted"> <%=a.getNome()%></span>
 								</p>
 								<p>
-									<strong>Aree di interesse</strong> 
-									<%if (a.getTutorEsterni().size()==0){ %>
-										<span class="text-muted"> Nessun ambito disponibile </span>
-									<%} else {
-									    for(int i = 0; i < a.getTutorEsterni().size(); i++){
-									    if(i!=0){
-									    %>
-									    <span class="text-muted"> - </span>
-									    <%} %>
-									    <span class="text-muted"><%=a.getTutorEsterni().get(i).getId().getAmbito()%></span>
-									<%} %>
+									<strong>Aree di interesse</strong>
+									<%
+										if (tutorEsterni.size() == 0) {
+									%>
+									<span class="text-muted"> Nessun ambito disponibile </span>
+									<%
+										} else {
+													for (int i = 0; i < tutorEsterni.size(); i++) {
+														if (i != 0) {
+									%>
+									<span class="text-muted"> - </span>
+									<%
+										}
+									%>
+									<span class="text-muted"><%=tutorEsterni.get(i).getId().getAmbito()%></span>
+									<%
+										}
+												}
+									%>
 								</p>
-								
+
 								<p>
-									<strong>Tutor esterni</strong> 
-									<%if (a.getTutorEsterni().size()==0){ %>
-									<span class="text-muted"> Nessun tutor esterno disponibile</span>
-									<%} else {
-									for(int i = 0; i < a.getTutorEsterni().size(); i++){
-									    if(i!=0){
-									    %>
-									    <span class="text-muted"> - </span>
-									    <%} %>
-									    <span class="text-muted"><%=a.getTutorEsterni().get(i).getNome()%> <%=a.getTutorEsterni().get(i).getCognome()%></span>
-									<%} %>
+									<strong>Tutor esterni</strong>
+									<%
+										if (tutorEsterni.size() == 0) {
+									%>
+									<span class="text-muted"> Nessun tutor esterno
+										disponibile</span>
+									<%
+										} else {
+													for (int i = 0; i < tutorEsterni.size(); i++) {
+														if (i != 0) {
+									%>
+									<span class="text-muted"> - </span>
+									<%
+										}
+									%>
+									<span class="text-muted"><%=tutorEsterni.get(i).getNome()%>
+										<%=tutorEsterni.get(i).getCognome()%></span>
+									<%
+										}
+												}
+									%>
 								</p>
 								<p>
 									<strong>Partita IVA <span class="text-muted"><%=a.getPartitaIVA()%></span>
@@ -157,57 +217,28 @@
 									<strong>Numero di telefono</strong> <span class="text-muted"><%=a.getUtente().getTelefono()%></span>
 								</p>
 								<p>
-									<strong>Sede</strong> <span class="text-muted"><%=a.getUtente().getIndirizzo()%>, <%=a.getSede()%></span>
+									<strong>Sede</strong> <span class="text-muted"><%=a.getUtente().getIndirizzo()%>,
+										<%=a.getSede()%></span>
 								</p>
 								<div class="text-right">
-								<!-- CONTROLLO SULL'UTENTE LOGGATO -->
+									<!-- CONTROLLO SE E' UNO STUDENTE -->
+									<%
+										if (utenteRuolo.equals("Studente")){
+									%>
 									<button type="button" class="btn btn-rounded btn-danger">Iscriviti</button>
+									<%
+									} 
+									%>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-					<!-- CONTROLLO SUI FEEDBACK -->
-						<h4 class="card-title">Feedback</h4>
-						<table id="elencoFeedback">
-							<thead>
-								<tr>
-									<th>Studente</th>
-									<th>Feedback</th>
-									<th>Data</th>
-								</tr>
-							</thead>
-							<tbody>
-								
-								<tr>
-									<td>Angelo Piccolella</td>
-									<td>Primo Feedback</td>
-									<td>2017-03-11</td>
-								</tr>
-								<tr>
-									<td>Vincenzo Caputo</td>
-									<td>Secondo Feedback</td>
-									<td>2017-02-16</td>
-								</tr>
-								<tr>
-									<td>Mario Ruggiero</td>
-									<td>Terzo Feedback</td>
-									<td>2017-10-21</td>
-								</tr>
-								<tr>
-									<td>Umberto Giarritiello</td>
-									<td>Quarto Feedback</td>
-									<td>2017-03-01</td>
-								</tr>
-							</tbody>
+				<%
+					}
+				}
+				%>
 
-						</table>
-
-					</div>
-				</div>
-			<%} %>
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
@@ -260,15 +291,7 @@
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-	<script>
-	$(document).ready(function(){
-		$("#elencoFeedback").DataTable({
-			"paging":true,
-			"searching":false,
-		});
-	});
-		
-	</script>
+	
 </body>
 
 </html>

@@ -149,7 +149,13 @@
 						<form id="formTutor" class="form-horizontal">
 							<input type="hidden" name="action" value=<%=azione%>
 								id="inputAction" />
-
+							<input type="hidden" name="idTutor"  id="inputOldAmbito" 
+										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										value=<%=id.getAmbito()%>  <%} %> />
+							<input type="hidden" name="idAzienda"  id="inputEmailAzienda" 
+										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										value=<%=emailAzienda%>  <%} %> />
+										
 							<div class="form-group row">
 
 								<label for="inputAmbito"
@@ -161,9 +167,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="ambito" required="required"
 										class="form-control" id="inputAmbito" placeholder="Ambito"
-										maxlength="50" pattern="[A-Za-z']*" title="solo caratteri alfabetici"
+										maxlength="50" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=id.getAmbito()%> readonly="readonly"  <%} %> />
+										value=<%=id.getAmbito()%>  <%} %> />
 								</div>
 							</div>
 							<div class="form-group row">
@@ -177,7 +183,7 @@
 								<div class="col-sm-8">
 									<input type="text" name="nome" required="required"
 										class="form-control" id="inputNome" placeholder="Nome"
-										maxlength="30" pattern="[A-Za-z']*" title="solo caratteri alfabetici"
+										maxlength="30" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getNome()%> <%} %> />
 								</div>
@@ -191,7 +197,7 @@
 								<div class="col-sm-8">
 									<input type="text" name="cognome" required="required"
 										maxlength="30" class="form-control" id="inputCognome"
-										placeholder="Cognome" pattern="[A-Za-z']*" title="solo caratteri alfabetici"
+										placeholder="Cognome" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getCognome()%> <%} %> />
 								</div>
@@ -205,8 +211,8 @@
 								<div class="col-sm-8">
 									<input type="text" name="indirizzo" class="form-control"
 										id="inputIndirizzo" placeholder="Indirizzo"
-										pattern="[A-Za-z]*,[0-9]* [A-Za-z]*" required="required" maxlength="40"
-										title="via,numeroCivico citta'"
+										pattern="[a-zA-Z]+[ ]?[a-zA-Z]*, [0-9]* [a-zA-Z]+[ ]?[a-zA-Z]*" required="required" maxlength="40"
+										title="via, numeroCivico citta'"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getIndirizzo()%> <%} %> />
 								</div>
@@ -347,6 +353,8 @@
 													$.post(
 																	'gestioneTutorEsternoServlet',
 																	{
+																		idTutor : $("#inputOldAmbito").val(),
+																		idAzienda : $("#inputEmailAzienda").val(),
 																		action : $("#inputAction").val(),
 																		ambito : $("#inputAmbito").val(),
 																		nome : $("#inputNome").val(),
@@ -361,7 +369,7 @@
 																		 $("#buttonTutorEsterno").prop("disabled",true);
 																		 
 																		if (data == "ok") {
-																			$("#modalMessage").text("L'operazione e' avvenuta correttamente");
+																			$("#modalMessage").text("L'operazione di aggiunta e' avvenuta correttamente");
  																			
 																		} 
 																		else {

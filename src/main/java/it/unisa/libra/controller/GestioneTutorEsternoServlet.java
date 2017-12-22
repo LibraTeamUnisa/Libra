@@ -1,5 +1,12 @@
 package it.unisa.libra.controller;
 
+
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.TutorEsterno;
+import it.unisa.libra.bean.TutorEsternoPK;
+import it.unisa.libra.model.dao.IAziendaDao;
+import it.unisa.libra.model.dao.ITutorEsternoDao;
+import it.unisa.libra.util.Actions;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,12 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.TutorEsterno;
-import it.unisa.libra.bean.TutorEsternoPK;
-import it.unisa.libra.model.dao.IAziendaDao;
-import it.unisa.libra.model.dao.ITutorEsternoDao;
-import it.unisa.libra.util.Actions;
 
 /**
  * Servlet implementation class GestioneTutorEsternoServlet. Controller class che gestisce le
@@ -39,7 +40,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   /** Default constructor. */
   public GestioneTutorEsternoServlet() {}
 
-  /**
+  /** Questa servlet non fornisce servizi tramite il metodo doGet.
    * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
@@ -131,6 +132,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     response.getWriter().write(SUCCESS_MESS);
     return;
   }
+
 
 
   /**

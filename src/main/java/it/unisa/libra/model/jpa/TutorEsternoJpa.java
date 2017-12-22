@@ -1,12 +1,10 @@
 package it.unisa.libra.model.jpa;
 
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityTransaction;
-import org.hibernate.Hibernate;
 import it.unisa.libra.bean.TutorEsterno;
 import it.unisa.libra.bean.TutorEsternoPK;
 import it.unisa.libra.model.dao.ITutorEsternoDao;
+import java.util.List;
+import javax.ejb.Stateless;
 
 @Stateless
 public class TutorEsternoJpa extends GenericJpa<TutorEsterno, TutorEsternoPK>

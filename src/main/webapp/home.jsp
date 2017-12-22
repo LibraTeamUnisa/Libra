@@ -44,7 +44,7 @@
 	<!-- Main wrapper - style you can find in pages.scss -->
 	<!-- ============================================================== -->
 	<section id="wrapper">
-		<div class="login-register">
+		<div class="login-register" style="background-image:url(assets/images/background/sfondo.jpg);">
 			<div class="login-box card">
 				<div class="card-block">
 					<form class="form-horizontal form-material" id="loginform"
@@ -68,7 +68,7 @@
 								<div id="error-message" class="alert alert-danger"
 									style="display: none">Login errato, riprova</div>
 
-								<!--  a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password dimenticata?</a>-->
+								<a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
 							</div>
 						</div>
 						<div class="form-group text-center m-t-20">
@@ -82,7 +82,12 @@
 							<div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
 
 							</div>
-						</div>
+						</div><div class="form-group m-b-0">
+                        <div class="col-sm-12 text-center">
+                            <p>Don't have an account? <a href="register.html" class="text-info m-l-5"><b>Sign Up</b></a></p>
+                        </div>
+                    </div>
+						
 					</form>
 
 				</div>

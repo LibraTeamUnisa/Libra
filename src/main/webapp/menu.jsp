@@ -8,7 +8,7 @@
                     <!-- User profile text-->
                     <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
                         <div class="dropdown-menu animated flipInY">
-                            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                            <a href="profilo.jsp" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
                             <a href="#" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
                             <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
                             <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>

@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import it.unisa.libra.bean.Utente;
 
-public class UtenteTest extends GenericJpaTest {
+public class UtenteJpaTest extends GenericJpaTest {
   
   private static UtenteJpa utentejpa;
 

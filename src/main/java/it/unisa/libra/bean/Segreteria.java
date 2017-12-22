@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
+
 @NamedQuery(name = "Segreteria.findAll", query = "SELECT s FROM Segreteria s")
 public class Segreteria implements Serializable {
   private static final long serialVersionUID = 1L;

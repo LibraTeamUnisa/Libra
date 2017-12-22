@@ -66,7 +66,7 @@ public class DettaglioStudenteTest {
 		when(request.getParameter("email-studente")).thenReturn(mail);
 		when(studenteDao.findById(Studente.class, mail)).thenReturn(studente);
 		when(servlet.getServletContext()).thenReturn(context);
-		when(context.getRequestDispatcher("/profilo.jsp")).thenReturn(dispatcher);
+		when(context.getRequestDispatcher("/dettaglioStudente.jsp")).thenReturn(dispatcher);
 
 	    servlet.doGet(request, response);
 	    

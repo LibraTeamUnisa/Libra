@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.jpa.StudenteJpa;
@@ -55,12 +56,20 @@ public class GestioneUtenteServlet extends HttpServlet {
 	  
   }
   
+  /*
+   * Metodo che consente la visualizzazione del dettaglio di uno studente.
+   */
   private void dettaglioStudente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  String mailStudente = request.getParameter("email-studente");
-	  if (mailStudente != null) {
+	  if (mailStudente != null && studenteDao.findById(Studente.class, mailStudente) != null) {
 		  Studente s = studenteDao.findById(Studente.class, mailStudente);
+		  ProgettoFormativo pf = null;
+		  if (!s.getProgettiFormativi().isEmpty()) {
+			  pf = s.getProgettiFormativi().get(s.getProgettiFormativi().size()-1);
+		  }
 		  request.setAttribute("studente", s);
-		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profilo.jsp");
+		  request.setAttribute("progettoFormativo", pf);
+		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettaglioStudente.jsp");
 		  dispatcher.forward(request, response);
 	  } else {
 		  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

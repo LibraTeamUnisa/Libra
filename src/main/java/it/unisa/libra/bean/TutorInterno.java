@@ -19,7 +19,9 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+
 @NamedQuery(name = "TutorInterno.findAll", query = "SELECT t FROM TutorInterno t")
+
 public class TutorInterno implements Serializable {
   private static final long serialVersionUID = 1L;
 

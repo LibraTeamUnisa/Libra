@@ -18,7 +18,9 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
+
 @NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a")
+
 public class Azienda implements Serializable {
   private static final long serialVersionUID = 1L;
 

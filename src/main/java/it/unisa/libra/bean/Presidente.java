@@ -17,7 +17,9 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+
 @NamedQuery(name = "Presidente.findAll", query = "SELECT p FROM Presidente p")
+
 public class Presidente implements Serializable {
   private static final long serialVersionUID = 1L;
 

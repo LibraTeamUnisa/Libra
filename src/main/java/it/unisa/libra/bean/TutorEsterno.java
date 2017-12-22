@@ -16,7 +16,9 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+
 @NamedQuery(name = "TutorEsterno.findAll", query = "SELECT t FROM TutorEsterno t")
+
 public class TutorEsterno implements Serializable {
   private static final long serialVersionUID = 1L;
 

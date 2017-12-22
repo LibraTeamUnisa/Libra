@@ -3,6 +3,7 @@ package it.unisa.libra.controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -65,9 +66,8 @@ public class RegistrazioneServlet extends HttpServlet {
 	  Date data = null;
 	  Gruppo gruppo = null;
 	  
-	  try {
-	   DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
-	   data = dateFormat.parse(dataNascita);
+	  try {  
+		  data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
 	  } catch (ParseException e) {
 	    e.printStackTrace();
 	  }
@@ -86,6 +86,7 @@ public class RegistrazioneServlet extends HttpServlet {
 	  /**
 	   * Realizzazione dell'oggetto gruppo di tipo "Studente"
 	   */
+	  
 	  try {
 		  gruppo = gruppoDao.findById(Gruppo.class, "Studente");
 		  if(gruppo!=null) {
@@ -99,11 +100,11 @@ public class RegistrazioneServlet extends HttpServlet {
 		  utenteDao.persist(utente);
 		  response.setContentType("text/plain");
 		  response.getWriter().write("Registrazione avvenuta con successo");
-		  response.sendRedirect("home.jsp");
     	  }catch(EJBTransactionRolledbackException exception) {
     		  response.setContentType("text/plain"); 
 			  response.getWriter().write(errore);
     	  }
+    	  
   }
 
   /**

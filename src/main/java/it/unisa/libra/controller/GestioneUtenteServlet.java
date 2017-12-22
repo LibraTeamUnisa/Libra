@@ -31,12 +31,20 @@ public class GestioneUtenteServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 	  
-	  if (request.getSession().getAttribute("utenteRuolo") != null) {
-		  if (request.getParameter(Actions.ACTION).equals(Actions.DETTAGLIO_STUDENTE)) {
-			  dettaglioStudente(request, response);
+	  String ruolo = (String) request.getSession().getAttribute("utenteRuolo");
+	  
+	  if (request.getParameter(Actions.ACTION).equals(Actions.DETTAGLIO_STUDENTE)) {
+		  if (ruolo != null && (ruolo.equals("Segreteria") || ruolo.equals("Presidente") || ruolo.equals("TutorInterno"))) {
+				  dettaglioStudente(request, response);
+		  } else {
+			  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		      response.getWriter().write("Azione non valida!");
+		      response.getWriter().flush();
 		  }
 	  } else {
-		  
+		  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	      response.getWriter().write("Azione non valida!");
+	      response.getWriter().flush();
 	  }
 	  
   }
@@ -48,11 +56,16 @@ public class GestioneUtenteServlet extends HttpServlet {
   }
   
   private void dettaglioStudente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  if (request.getParameter("email-studente") != null) {
-		  Studente s = studenteDao.findById(Studente.class, request.getParameter("email-studente"));
+	  String mailStudente = request.getParameter("email-studente");
+	  if (mailStudente != null) {
+		  Studente s = studenteDao.findById(Studente.class, mailStudente);
 		  request.setAttribute("studente", s);
 		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profilo.jsp");
 		  dispatcher.forward(request, response);
+	  } else {
+		  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	      response.getWriter().write("E-mail studente mancante o errata.");
+	      response.getWriter().flush();
 	  }
   }
 }

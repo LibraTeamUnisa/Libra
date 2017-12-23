@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,7 +19,11 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
-@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a")
+
+@NamedQueries({@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a"),
+    @NamedQuery(name = "Azienda.findName",
+        query = "SELECT a FROM Azienda a WHERE a.nome=:nomeAzienda")})
+
 public class Azienda implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -46,7 +50,7 @@ public class Azienda implements Serializable {
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional many-to-one association to TutorEsterno
-  @OneToMany(mappedBy = "azienda")
+  @OneToMany(mappedBy = "azienda", cascade = {CascadeType.ALL})
   private List<TutorEsterno> tutorEsterni;
 
   public Azienda() {}
@@ -129,18 +133,18 @@ public class Azienda implements Serializable {
     this.tutorEsterni = tutorEsterni;
   }
 
-  public TutorEsterno addTutorEsterni(TutorEsterno tutorEsterni) {
-    getTutorEsterni().add(tutorEsterni);
-    tutorEsterni.setAzienda(this);
+  public TutorEsterno addTutorEsterno(TutorEsterno tutorEsterno) {
+    getTutorEsterni().add(tutorEsterno);
+    // tutorEsterno.setAzienda(this);
 
-    return tutorEsterni;
+    return tutorEsterno;
   }
 
-  public TutorEsterno removeTutorEsterni(TutorEsterno tutorEsterni) {
-    getTutorEsterni().remove(tutorEsterni);
-    tutorEsterni.setAzienda(null);
+  public TutorEsterno removeTutorEsterno(TutorEsterno tutorEsterno) {
+    getTutorEsterni().remove(tutorEsterno);
+    // tutorEsterno.setAzienda(null);
 
-    return tutorEsterni;
+    return tutorEsterno;
   }
 
 }

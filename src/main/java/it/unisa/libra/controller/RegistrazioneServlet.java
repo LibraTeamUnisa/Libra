@@ -1,23 +1,40 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
-import javax.ejb.EJB;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
+import javax.ejb.EJBTransactionRolledbackException;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Gruppo;
+import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IGruppoDao;
 import it.unisa.libra.model.dao.IUtenteDao;
+
+
+
+/**
+ * Questa classe permette allo studente di registrarsi.
+ *
+ * @author [Vincenzo Gallicchio]
+ * @version [0.0]
+ */
 
 /** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = "/registrazione")
 public class RegistrazioneServlet extends HttpServlet {
 
-  @EJB
+  @Inject
   private IUtenteDao utenteDao;
+  @Inject
+  private IGruppoDao gruppoDao;
 
   private static final long serialVersionUID = 1L;
 
@@ -29,26 +46,61 @@ public class RegistrazioneServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    Azienda azienda = new Azienda();
-    azienda.setUtenteEmail("superAzienda@email.it");
-    azienda.setNome("RagioneSociale");
-    azienda.setPartitaIVA("PartitaIva");
-    azienda.setSede("sede");
+    String errore = "Al momento non è possibile registrarsi al sistema";
+    /**
+     * Parametri necessari alla registrazione presi dall'oggetto request.
+     */
 
-    Utente utente = new Utente();
-    utente.setEmail("superAzienda@email.it");
-    utente.setAzienda(azienda);
-    utente.setImgProfilo("aa");
-    utente.setIndirizzo("indirizzo");
-    utente.setPassword("password");
-    utente.setTelefono("0101201203");
+    String nome = request.getParameter("nome");
+    String cognome = request.getParameter("cognome");
+    String matricola = request.getParameter("matricola");
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
+    String dataNascita = request.getParameter("dataNascita");
+    String indirizzo = request.getParameter("indirizzo");
+    String telefono = request.getParameter("telefono");
+    Date data = null;
+    Gruppo gruppo = null;
 
-    Gruppo gruppo = new Gruppo();
-    gruppo.setRuolo("Azienda");
+    try {
+      DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
+      data = dateFormat.parse(dataNascita);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    /**
+     * Realizzazione di un oggetto di tipo studente
+     */
+    Studente studente = istanziaStudente(nome, cognome, email, matricola, data);
+
+    /**
+     * Realizzazione di utente, generalizzazione dello studente
+     */
+    Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
+
+
+    /**
+     * Realizzazione dell'oggetto gruppo di tipo "Studente"
+     */
+    try {
+      gruppo = gruppoDao.findById(Gruppo.class, "Studente");
+      if (gruppo != null) {
+        errore = "Errore durante la registrazione, è possibile che l'utente sia già registrato";
+      }
+    } catch (EJBTransactionRolledbackException exception) {
+    }
+
     utente.setGruppo(gruppo);
-
-    utenteDao.persist(utente);
-    response.getWriter().append("Served at: ").append(request.getContextPath());
+    try {
+      utenteDao.persist(utente);
+      response.setContentType("text/plain");
+      response.getWriter().write("Registrazione avvenuta con successo");
+      response.sendRedirect("home.jsp");
+    } catch (EJBTransactionRolledbackException exception) {
+      response.setContentType("text/plain");
+      response.getWriter().write(errore);
+    }
   }
 
   /**
@@ -57,5 +109,28 @@ public class RegistrazioneServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     doGet(request, response);
+  }
+
+  private Studente istanziaStudente(String nome, String cognome, String email, String matricola,
+      Date dataNascita) {
+    Studente studente = new Studente();
+    studente.setNome(nome);
+    studente.setCognome(cognome);
+    studente.setUtenteEmail(email);
+    studente.setMatricola(matricola);
+    studente.setDataDiNascita(dataNascita);
+    return studente;
+  }
+
+  private Utente istanziaUtente(String email, Studente studente, String img, String indirizzo,
+      String password, String telefono) {
+    Utente utente = new Utente();
+    utente.setEmail(email);
+    utente.setStudente(studente);
+    utente.setImgProfilo(img);
+    utente.setIndirizzo(indirizzo);
+    utente.setPassword(password);
+    utente.setTelefono(telefono);
+    return utente;
   }
 }

@@ -1,6 +1,5 @@
 package it.unisa.libra.filter;
 
-import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
+import it.unisa.libra.util.JspPagesIndex;
 
 /**
  * Servlet Filter implementation class NegaTutorInterno. Nega l'accesso alla risorsa richiesta dal
@@ -30,7 +31,7 @@ public class NegaTutorInterno implements Filter {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
     // se l'utente è un tutor interno l'accesso è negato
-    if (utenteRuolo.equals("TutorInterno")) {
+    if (StringUtils.isEmpty(utenteRuolo) || utenteRuolo.equals("TutorInterno")) {
       ((HttpServletRequest) request).getServletContext()
           .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
     }

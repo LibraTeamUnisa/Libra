@@ -31,6 +31,8 @@ public class Azienda implements Serializable {
   private String partitaIVA;
 
   private String sede;
+  
+  private String linkSito;
 
   // bi-directional one-to-one association to Utente
   @OneToOne(cascade = {CascadeType.ALL})
@@ -82,6 +84,14 @@ public class Azienda implements Serializable {
   public void setSede(String sede) {
     this.sede = sede;
   }
+  
+  public String getLinkSito() {
+	    return this.linkSito;
+	  }
+
+	  public void setLinkSito(String linkSito) {
+	    this.linkSito = linkSito;
+	  }
 
   public Utente getUtente() {
     return this.utente;

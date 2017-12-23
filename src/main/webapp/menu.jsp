@@ -34,6 +34,9 @@
                             <a href="#" aria-expanded="false"><span class="hide-menu">Ui Elements</span></a>                           
                         </li>
                         <li>
+                            <a href="aggiungiUtente.jsp" aria-expanded="false"><span class="hide-menu">Aggiungi Utente</span></a>                           
+                        </li>
+                        <li>
                             <a href="contattiDipartimento.jsp" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a>                           
                         </li>
                         <li class="nav-devider"></li>

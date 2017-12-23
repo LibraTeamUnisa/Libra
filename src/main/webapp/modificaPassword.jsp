@@ -67,9 +67,92 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <div class="container-fluid" 
+            style="padding-right:10px; padding-left: 10px;">
              
-             
+<section id="wrapper">
+		<div class="ModificaPassword">
+			<div class="login-box card">
+				<div class="card-block">
+					<form class="form-horizontal form-material" id="passwordform" method="post">
+						<h3 class="box-title m-b-20">ModificaPassword</h3>
+						
+						<div class="form-group " id="primoForm">
+							<div class="col-xs-5">
+								<p> Vecchia Password: </p>
+							</div>
+							<div class="col-xs-12">
+								<input id="password" class="form-control" type="password" maxlength="20" required>
+							</div>
+							 
+							<button id="bottone00"
+									class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
+									type="submit">Prosegui</button>
+						</div>
+						
+						<div class="alert alert-success"
+						 id="success" style="display: none">
+						 PASSWORD MODIFICATA CON SUCCESSO, VERRAI REINDIRIZZATO
+						  AL TUO PROFILO. </div>
+						
+						
+						<div class="form-group has-danger">
+							<div class="col-md-12">
+								<div id="error-message" class="alert alert-danger"
+									style="display: none">Password errata, riprova</div>
+							</div>
+						</div>
+						
+					</form>
+					
+					<form class="form-horizontal form-material" id="passwordnuovaform" method="post" style="display: none" >
+						<div class="form-group">
+							<div class="col-xs-5">
+								<p> Nuova Password: </p>
+							</div>
+							<div class="col-xs-12">
+								<input id="pwn1" class="form-control" type="password"
+								 required placeholder="Password" pattern="[A-Za-z0-9]{8,20}$">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-xs-5">
+								<p> Nuova Password: </p>
+							</div>
+							<div class="col-xs-12">
+								<input id="pwn2" class="form-control" type="password"
+									required placeholder="Password" pattern="[A-Za-z0-9]{8,20}$">
+							</div>
+							<div class="col-md-12">
+								<div id="error-message2" class="alert alert-danger"
+									style="display: none">Le password non corrispondono!</div>
+							</div>
+						</div>
+						
+
+						
+						<div class="form-group text-center m-t-20">
+							<div class="col-xs-12">
+								<button
+									class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
+									type="submit">Salva</button>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
+
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -93,6 +176,8 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="js/modificaPassword.js"></script>
+    <script src="js/modificaPw2.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="assets/plugins/bootstrap/js/tether.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -119,6 +204,8 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    
+
 </body>
 
 </html>

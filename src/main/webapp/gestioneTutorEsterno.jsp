@@ -1,7 +1,12 @@
+<%@page import="it.unisa.libra.bean.Azienda"%>
+<%@page import="it.unisa.libra.bean.TutorEsternoPK"%>
+<%@page import="it.unisa.libra.model.dao.ITutorEsternoDao"%>
 <%@page import="it.unisa.libra.bean.TutorEsterno"%>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.Context" %>
+<%@page import="it.unisa.libra.model.jpa.TutorEsternoJpa"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
 
 
 <!DOCTYPE html>
@@ -53,6 +58,7 @@
 	visibility: hidden;
 }
 
+
 @media screen and (min-width: 300px) {
 	#label1 {
 		visibility: hidden;
@@ -64,8 +70,8 @@
 </style>
 </head>
 
-<body class="fix-header fix-sidebar card-no-border"
-	onkeypress="showButton()">
+<body class="fix-header fix-sidebar card-no-border">
+
 	<!-- ============================================================== -->
 	<!-- Preloader - style you can find in spinners.css -->
 	<!-- ============================================================== -->
@@ -101,13 +107,34 @@
 			<!-- ============================================================== -->
 			<div class="container-fluid">
 				<%
-					TutorEsterno tutor = null; //devo recuperarlo prima di tutto (Mauro)
-					String azione = request.getParameter(Actions.ACTION);
-					boolean fail1 = (azione == null);
-					boolean fail2 = ((tutor == null) && !Actions.AGGIUNGI_TUTOR_ESTERNO.equals(azione));
-					boolean fail3 = ((tutor != null) && !Actions.MODIFICA_TUTOR_ESTERNO.equals(azione));
+				boolean badRequest = false;
+				String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
+				String azione = request.getParameter(Actions.ACTION);
+				String ambito = null;
+				TutorEsternoPK id = null;
+				TutorEsterno tutor = null;
+				if(azione != null) {
+					if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) {
+					ambito = (String) request.getParameter("ambito");
+					if (ambito == null) badRequest = true;
+					else {
+				
+						id = new TutorEsternoPK();
+						id.setAziendaEmail(emailAzienda);
+						id.setAmbito(ambito);
 					
-					if (fail1 || fail2 || fail3) {
+						ITutorEsternoDao tutorDao = (ITutorEsternoDao) new InitialContext().lookup("java:app/Libra/TutorEsternoJpa");
+						tutor = tutorDao.findById(TutorEsterno.class, id);
+						if (tutor == null) badRequest = true;
+					}
+					}
+					else if (!azione.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) badRequest = true;
+				}
+				else badRequest = true;
+				
+					if (badRequest) {
+
+            
 						//ERRORE: BAD REQUEST
 					%>
 				<p id="badRequest" style="visibility: hidden;"></p>
@@ -128,6 +155,14 @@
 							<input type="hidden" name="action" value=<%=azione%>
 								id="inputAction" />
 
+							<input type="hidden" name="idTutor"  id="inputOldAmbito" 
+										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										value=<%=id.getAmbito()%>  <%} %> />
+							<input type="hidden" name="idAzienda"  id="inputEmailAzienda" 
+										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										value=<%=emailAzienda%>  <%} %> />
+										
+
 							<div class="form-group row">
 
 								<label for="inputAmbito"
@@ -139,9 +174,11 @@
 								<div class="col-sm-8">
 									<input type="text" name="ambito" required="required"
 										class="form-control" id="inputAmbito" placeholder="Ambito"
-										maxlength="50" pattern="[A-Za-z']*"
+
+										maxlength="50" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value="Ciao" <%} %> />
+										value=<%=id.getAmbito()%>  <%} %> />
+
 								</div>
 							</div>
 							<div class="form-group row">
@@ -155,7 +192,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="nome" required="required"
 										class="form-control" id="inputNome" placeholder="Nome"
-										maxlength="30" pattern="[A-Za-z']*"
+
+										maxlength="30" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getNome()%> <%} %> />
 								</div>
@@ -169,7 +208,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="cognome" required="required"
 										maxlength="30" class="form-control" id="inputCognome"
-										placeholder="Cognome" pattern="[A-Za-z']*"
+
+										placeholder="Cognome" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getCognome()%> <%} %> />
 								</div>
@@ -183,13 +224,31 @@
 								<div class="col-sm-8">
 									<input type="text" name="indirizzo" class="form-control"
 										id="inputIndirizzo" placeholder="Indirizzo"
-										pattern="[A-Za-z]*,[0-9]*" required="required" maxlength="40"
-										title="via,num"
+
+										pattern="[a-zA-Z]+[ ]?[a-zA-Z]*, [0-9]* [a-zA-Z]+[ ]?[a-zA-Z]*" required="required" maxlength="40"
+										title="via, numeroCivico citta'"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getIndirizzo()%> <%} %> />
 								</div>
 							</div>
 							<div class="form-group row">
+
+								<label for="inputDataDiNascita"
+									class="col-sm-2 text-right control-label col-form-label"
+									id="label1">Data di nascita</label> <label for="inputDataDiNascita"
+									class="col-sm-2 text-left control-label col-form-label"
+									id="label2">Data di nascita </label>
+								<div class="col-sm-8">
+									<input type="date" name="dataDiNascita" class="form-control"
+										id="inputDataDiNascita" placeholder="Data di nascita"
+										 required="required" 
+										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										value=<%=tutor.getDataDiNascita()%> <%}%> />
+								</div>
+							</div>							
+							<div class="form-group row">
+
 								<label for="inputTel"
 									class="col-sm-2 text-right control-label col-form-label"
 									id="label1">Telefono</label> <label for="inputTel"
@@ -198,7 +257,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="telefono" class="form-control"
 										id="inputTel" placeholder="Telefono" required="required"
-										maxlength="10" pattern="[0-9]{10}"
+
+										maxlength="10" pattern="[0-9]{10}" title="solo caratteri numerici"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getTelefono()%> <%} %> />
 								</div>
@@ -249,7 +310,8 @@
 						</div>
 					</div>
 				</div>
-				<% } %>
+
+				<%}%>
 				<div class="modal fade" id="modalBadRequest" role="dialog">
 					<div class="modal-dialog">
 
@@ -258,7 +320,9 @@
 								<h4 class="modal-title">Errore</h4>
 							</div>
 							<div class="modal-body">
-								<p>L'operazione richiesta non &egrave; valida.</p>
+
+								<p>L'operazione richiesta non e' valida.</p>
+
 							</div>
 							<div class="modal-footer">
 								<button id="button1" type="button" class="btn btn-primary">
@@ -311,10 +375,17 @@
 													$.post(
 																	'gestioneTutorEsternoServlet',
 																	{
+
+																		idTutor : $("#inputOldAmbito").val(),
+																		idAzienda : $("#inputEmailAzienda").val(),
+
 																		action : $("#inputAction").val(),
 																		ambito : $("#inputAmbito").val(),
 																		nome : $("#inputNome").val(),
 																		cognome : $("#inputCognome").val(),
+
+																		dataDiNascita : $("#inputDataDiNascita").val(),
+
 																		telefono : $("#inputTel").val(),
 																		indirizzo : $("#inputIndirizzo").val()
 
@@ -324,7 +395,9 @@
 																		 $("#buttonTutorEsterno").prop("disabled",true);
 																		 
 																		if (data == "ok") {
-																			$("#modalMessage").text("L'operazione &egrave; avvenuta correttamente");
+
+																			$("#modalMessage").text("L'operazione di aggiunta e' avvenuta correttamente");
+
  																			
 																		} 
 																		else {

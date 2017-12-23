@@ -28,16 +28,41 @@ public class AziendaJpaTest extends GenericJpaTest {
     assertEquals(Azienda.getUtenteEmail(), toCheck.getUtenteEmail());
   }
 
+  @Test
+  public void findByNameSuccessTest() {
+    Azienda a1 = createObject2();
+    jpa.persist(createObject2());
+    Azienda toCheck = jpa.findByName("test2");
+
+    assertNotNull(toCheck);
+    assertEquals(a1.getUtenteEmail(), toCheck.getUtenteEmail());
+    assertEquals(a1.getNome(), toCheck.getNome());
+  }
+
   private Azienda createObject() {
 
     Utente utente = new Utente();
     utente.setEmail("test@email.it");
 
     Azienda toPersist = new Azienda();
+    toPersist.setNome("test");
     toPersist.setUtenteEmail("test@email.it");
     toPersist.setUtente(utente);
 
     return toPersist;
 
+  }
+
+  private Azienda createObject2() {
+
+    Utente utente = new Utente();
+    utente.setEmail("test2@email.it");
+
+    Azienda toPersist = new Azienda();
+    toPersist.setNome("test2");
+    toPersist.setUtenteEmail("test2@email.it");
+    toPersist.setUtente(utente);
+    
+    return toPersist;
   }
 }

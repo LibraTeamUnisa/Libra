@@ -18,7 +18,7 @@ import it.unisa.libra.util.EmailManager;
 
 /**
  * Consente di effettuare l'operazione di recupero password di un utente registrato: quest'ultimo
- * ricever‡ la password smarrita tramite una email ricevuta all'indirizzo di posta elettronica con
+ * ricever√† la password smarrita tramite una email ricevuta all'indirizzo di posta elettronica con
  * cui l'utente ha effettuato la registrazione al sistema.
  * 
  * @author Mauro Vitale
@@ -40,15 +40,17 @@ public class RecuperoPasswordServlet extends HttpServlet {
   private static final String SMTP_SERVER = "smtp.gmail.com";
   private static final Integer SMTP_PORT = 465;
 
+
   private static final String MSG_HEADER = "<h1>La tua password &egrave stata recuperata!</h1>";
+
   private static final String MSG_FOOTER =
       "<h4><i>Lo staff di Libra ci tiene a te ed ai tuoi dati!</i></h4>";
 
   /**
    * Gestisce la richiesta di un utente che richiede il recupero della password restituendo un
    * oggetto HttpServletResponse con codice d'errore 400 nel caso in cui la mail specificata
-   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterr‡ il codice 200 che
-   * denoter‡ la buona riuscita dell operazione; in quest'ultimo caso il sistema ˘provvede ad
+   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterr√† il codice 200 che
+   * denoter√† la buona riuscita dell operazione; in quest'ultimo caso il sistema √πprovvede ad
    * inviare una email opportunamente formattata all'indirizzo di posta elettronica di registrazione
    * dell'utente.
    * 
@@ -75,11 +77,11 @@ public class RecuperoPasswordServlet extends HttpServlet {
         eManager.sendEmail(message);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("L'email Ë stata inviata all'indirizzo specificato.");
+        response.getWriter().write("L'email e' stata inviata all'indirizzo specificato.");
         response.getWriter().flush();
       } else {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().write("L'email inserita non Ë valida.");
+        response.getWriter().write("L'email inserita non e' valida.");
         response.getWriter().flush();
       }
     } catch (Exception ex) {

@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,6 +58,7 @@
 	visibility: hidden;
 }
 
+
 @media screen and (min-width: 300px) {
 	#label1 {
 		visibility: hidden;
@@ -69,6 +71,7 @@
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+
 	<!-- ============================================================== -->
 	<!-- Preloader - style you can find in spinners.css -->
 	<!-- ============================================================== -->
@@ -130,6 +133,8 @@
 				else badRequest = true;
 				
 					if (badRequest) {
+
+            
 						//ERRORE: BAD REQUEST
 					%>
 				<p id="badRequest" style="visibility: hidden;"></p>
@@ -149,6 +154,7 @@
 						<form id="formTutor" class="form-horizontal">
 							<input type="hidden" name="action" value=<%=azione%>
 								id="inputAction" />
+
 							<input type="hidden" name="idTutor"  id="inputOldAmbito" 
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=id.getAmbito()%>  <%} %> />
@@ -156,6 +162,7 @@
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=emailAzienda%>  <%} %> />
 										
+
 							<div class="form-group row">
 
 								<label for="inputAmbito"
@@ -167,9 +174,11 @@
 								<div class="col-sm-8">
 									<input type="text" name="ambito" required="required"
 										class="form-control" id="inputAmbito" placeholder="Ambito"
+
 										maxlength="50" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=id.getAmbito()%>  <%} %> />
+
 								</div>
 							</div>
 							<div class="form-group row">
@@ -183,7 +192,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="nome" required="required"
 										class="form-control" id="inputNome" placeholder="Nome"
+
 										maxlength="30" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getNome()%> <%} %> />
 								</div>
@@ -197,7 +208,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="cognome" required="required"
 										maxlength="30" class="form-control" id="inputCognome"
+
 										placeholder="Cognome" pattern="[a-zA-Z]+[ ]?[a-zA-Z]*" title="solo caratteri alfabetici"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getCognome()%> <%} %> />
 								</div>
@@ -211,13 +224,16 @@
 								<div class="col-sm-8">
 									<input type="text" name="indirizzo" class="form-control"
 										id="inputIndirizzo" placeholder="Indirizzo"
+
 										pattern="[a-zA-Z]+[ ]?[a-zA-Z]*, [0-9]* [a-zA-Z]+[ ]?[a-zA-Z]*" required="required" maxlength="40"
 										title="via, numeroCivico citta'"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getIndirizzo()%> <%} %> />
 								</div>
 							</div>
 							<div class="form-group row">
+
 								<label for="inputDataDiNascita"
 									class="col-sm-2 text-right control-label col-form-label"
 									id="label1">Data di nascita</label> <label for="inputDataDiNascita"
@@ -232,6 +248,7 @@
 								</div>
 							</div>							
 							<div class="form-group row">
+
 								<label for="inputTel"
 									class="col-sm-2 text-right control-label col-form-label"
 									id="label1">Telefono</label> <label for="inputTel"
@@ -240,7 +257,9 @@
 								<div class="col-sm-8">
 									<input type="text" name="telefono" class="form-control"
 										id="inputTel" placeholder="Telefono" required="required"
+
 										maxlength="10" pattern="[0-9]{10}" title="solo caratteri numerici"
+
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getTelefono()%> <%} %> />
 								</div>
@@ -291,6 +310,7 @@
 						</div>
 					</div>
 				</div>
+
 				<%}%>
 				<div class="modal fade" id="modalBadRequest" role="dialog">
 					<div class="modal-dialog">
@@ -300,7 +320,9 @@
 								<h4 class="modal-title">Errore</h4>
 							</div>
 							<div class="modal-body">
+
 								<p>L'operazione richiesta non e' valida.</p>
+
 							</div>
 							<div class="modal-footer">
 								<button id="button1" type="button" class="btn btn-primary">
@@ -353,13 +375,17 @@
 													$.post(
 																	'gestioneTutorEsternoServlet',
 																	{
+
 																		idTutor : $("#inputOldAmbito").val(),
 																		idAzienda : $("#inputEmailAzienda").val(),
+
 																		action : $("#inputAction").val(),
 																		ambito : $("#inputAmbito").val(),
 																		nome : $("#inputNome").val(),
 																		cognome : $("#inputCognome").val(),
+
 																		dataDiNascita : $("#inputDataDiNascita").val(),
+
 																		telefono : $("#inputTel").val(),
 																		indirizzo : $("#inputIndirizzo").val()
 
@@ -369,7 +395,9 @@
 																		 $("#buttonTutorEsterno").prop("disabled",true);
 																		 
 																		if (data == "ok") {
+
 																			$("#modalMessage").text("L'operazione di aggiunta e' avvenuta correttamente");
+
  																			
 																		} 
 																		else {

@@ -56,12 +56,6 @@
 	}
 }
 </style>
-
-
-
-
-
-
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -99,8 +93,8 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-				<form action="recuperaPassword" method="get">
-
+				
+<form id="formRecupera">
 					<div class="card-block" align="center"
 						style="margin-top: 8%; margin-right: 11%; margin-left: 11%; background-color: white;">
 						<h4 class="card-title" style="margin: 2%;">Recupera Password</h4>
@@ -110,24 +104,46 @@
 							la <b>nuova password</b> all'indirizzo fornito
 						</p>
 
-						<div class="form-group row" style="margin-top: 2%;">
+						<div class="group row" style="margin-top: 2%;">
 							<label for="inputEmail" id="label2"
 								class="col-sm-4 text-right control-label col-form-label">Email</label>
-							<label for="inputEmail" id="label1" style="margin-bottom:-50%;"
+							<label for="inputEmail" id="label1" style="margin-bottom: -50%;"
 								class="col-sm-2 text-left control-label col-form-label">Email</label>
 							<div class="col-sm-4">
-								<input type="email" name="email" required="required" id="label2"
+								<input type="email" name="email" required="required" id="labelEmail"
 									class="form-control" placeholder="Email" maxlength="30" /> 
-								<input type="email" name="email" required="required" id="label1" 
-									class="form-control" placeholder="Email" maxlength="30" />
 							</div>
-							<div style="margin-left: 30%;" align="center">
-								<a href="#" id="buttonRichiedi" class="btn btn-info" id="label2">Richiedi Password</a> 
-								<a href="#" id="buttonRichiedi" class="btn btn-info" id="label1">Richiedi Password</a>
+							<div style="margin-left: 30%; margin-top:3%;" align="center">
+							
+								<button id="buttonRichiedi" type="submit" class="btn btn-info" >Richiedi
+									Password</button>
+								
 							</div>
 						</div>
 					</div>
 				</form>
+
+				<div class="modal fade" id="modalResult" role="dialog">
+					<div class="modal-dialog">
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Recupero Password</h4>
+							</div>
+							<div class="modal-body">
+								<p id="modalMessage"></p>
+							</div>
+							<div class="modal-footer">
+								<button id="button1" type="button" class="btn btn-primary">
+									<a class="btn btn-primary" href="dashboardAzienda.jsp"
+										style="text-decoration: none; color: white;"> Dashboard </a>
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
@@ -151,7 +167,39 @@
 	<!-- All Jquery -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap tether Core JavaScript -->
+	<script>
+		$(document).ready(function() {
+							$("#formRecupera").submit(
+											function(e) {
+												e.preventDefault();
+												$.post('recupero', {
+													email : $("#labelEmail").val()
+																},
+																function(data) {
+																	$("#buttonRichiedi").prop("disabled",true);
+																	
+
+																	if (data == "ok") {
+																		$(
+																				"#modalMessage")
+																				.text(
+																						"L'operazione &egrave; avvenuta correttamente");
+
+																	} else {
+																		$(
+																				"#modalMessage")
+																				.text(
+																						data);
+																	}
+																	$(
+																			"#modalResult")
+																			.modal(
+																					'show');
+
+																});
+											});
+						})
+	</script>
 	<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<!-- slimscrollbar scrollbar JavaScript -->

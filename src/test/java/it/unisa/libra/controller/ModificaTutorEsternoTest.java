@@ -276,7 +276,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
   
   private void initTest(String idTutor,String idAzienda,String nome,String cognome,String data,String telefono,String indirizzo,String ambito) throws Exception
   {
-    when(request.getParameter("action")).thenReturn(Actions.UPDATE);
+    when(request.getParameter("action")).thenReturn(Actions.MODIFICA_TUTOR_ESTERNO);
     when(request.getParameter("idTutor")).thenReturn(idTutor);
     when(request.getParameter("idAzienda")).thenReturn(idAzienda);
     when(request.getParameter("nome")).thenReturn(nome);
@@ -292,30 +292,42 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
   {
     private EntityManager em;
     
-    public ITutorEsternoDaoTest(EntityManager em) 
-    {
+    public ITutorEsternoDaoTest(EntityManager em) {
       this.em=em;
     }
-    
+
     @Override
-    public void persist(TutorEsterno entity) 
-    {
+    public void persist(TutorEsterno entity) {
+      // TODO Auto-generated method stub
+      
     }
 
     @Override
-    public void remove(TutorEsterno entity) 
-    {
+    public void remove(Class<TutorEsterno> entityClass, TutorEsternoPK id) {
+      // TODO Auto-generated method stub
+      
     }
 
     @Override
-    public TutorEsterno findById(Class<TutorEsterno> entityClass, TutorEsternoPK id) 
-    {
+    public TutorEsterno findById(Class<TutorEsterno> entityClass, TutorEsternoPK id) {
       return em.find(entityClass,id);
     }
 
     @Override
-    public List<TutorEsterno> findAll(Class<TutorEsterno> entityClass) 
-    {
+    public List<TutorEsterno> findAll(Class<TutorEsterno> entityClass) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public List<TutorEsterno> findByEmailAzienda(String emailAzienda) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public List<TutorEsterno> findByAziendaNome(String nome) {
+      // TODO Auto-generated method stub
       return null;
     }
   }

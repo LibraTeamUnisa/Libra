@@ -3,8 +3,6 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
@@ -16,6 +14,7 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
+
 @NamedQuery(name = "Segreteria.findAll", query = "SELECT s FROM Segreteria s")
 public class Segreteria implements Serializable {
   private static final long serialVersionUID = 1L;

@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
@@ -21,7 +19,9 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+
 @NamedQuery(name = "TutorInterno.findAll", query = "SELECT t FROM TutorInterno t")
+
 public class TutorInterno implements Serializable {
   private static final long serialVersionUID = 1L;
 

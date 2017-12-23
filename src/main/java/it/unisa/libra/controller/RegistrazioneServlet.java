@@ -61,6 +61,7 @@ public class RegistrazioneServlet extends HttpServlet {
 	  Date data = null;
 	  Gruppo gruppo = null;
 	  
+	  
 	  try {  
 		  data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
 	  } catch (ParseException e) {

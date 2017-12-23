@@ -4,6 +4,7 @@ INSERT INTO `libra`.`Gruppo` (`ruolo`) VALUES ('Segreteria');
 INSERT INTO `libra`.`Gruppo` (`ruolo`) VALUES ('Presidente');
 INSERT INTO `libra`.`Gruppo` (`ruolo`) VALUES ('TutorInterno');
 
+
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('filomena@unisa.it', '123123', 'Via del Presidente 1', '0815554689', 'img1', 'Presidente');
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('stefano@unisa.it', '321321', 'Via del Segretario', '0325568798', 'img2', 'Segreteria');
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('alfredo@unisa.it', '312312', 'Via del Presidente 2', '065987855', 'img3', 'Presidente');

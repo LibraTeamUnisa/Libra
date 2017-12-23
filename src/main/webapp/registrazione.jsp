@@ -34,6 +34,9 @@
 <![endif]-->
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+ <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+
 
 
  
@@ -49,35 +52,71 @@
 $(document).ready(function() {
 
   $("#bottoneSubmit").click(function(){
-	  
+	  	var semaforo = false;  
+	
 	    var nome = $('#nome').val();
 		var cognome = $('#cognome').val();
 		var matricola = $('#matricola').val();
 		var email = $('#email').val();
 		var password = $('#password').val();
-		var password1 = $('#password').val();
+		var password1 = $('#password1').val();
 		var dataNascita = $('#dataNascita').val();
 		var indirizzo = $('#indirizzo').val();
 		var telefono = $('#telefono').val();
+			
+		if(nome!=""){
+			if(cognome!=""){
+					if(email!=""&&email.includes("@")&&email.length>2&&email.lastIndexOf("@")<email.length){
+							if(matricola!=""&&matricola.length==10){
+									if(password!=""&&password1!=""){
+											if(password==password1){
+												if(dataNascita!=""){
+														var anno = dataNascita.substring(0,4);
+														var data = new Date();
+														var annoAttuale = data.getFullYear();
+														var differenza = annoAttuale-anno;
+														if(differenza>=18){
+																semaforo = true;
+														}
+														else{
+															alert("L'anno di nascita non puo' essere superiore a "+ (annoAttuale-18));
+															}
+														}
+											}
+											else{
+												alert("Le due password inserite non coincidono");
+												}
+											}	
+										}
+								
+							else{
+								alert("La matricola deve contenere 10 caratteri numerici");
+								}
+						}
+					else{
+						alert("Formato e-mail non corretto");
+						}
+				}
+  }
+
 		
+		
+		
+if(semaforo==true){
     $.ajax({
 
-     //imposto il tipo di invio dati (GET O POST)
       type: "POST",
 
-      //Dove devo inviare i dati recuperati dal form?
       url: "registrazione",
 
-      //Quali dati devo inviare?
       data: "nome= "+ nome + "&cognome=" + cognome + "&matricola=" + matricola + "&email="+ email+"&password="+password+"&dataNascita="+dataNascita+"&indirizzo="+indirizzo+"&telefono="+telefono,
       dataType: "html",
 
-      //Inizio visualizzazione errori
       success: function(responseText)
       {
     	  alert(responseText);
     	  if(responseText.includes("successo")){
-    	 	 window.location.href = "menu.jsp";
+    	 	 window.location.href = "index.jsp";
     	  }
     	  
     	  $('#nome').val("");
@@ -95,6 +134,7 @@ $(document).ready(function() {
           },
       
     });
+}
   });
 });
 </script>
@@ -108,7 +148,7 @@ $(document).ready(function() {
     <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(../assets/images/background/login-register.jpg);">
   <div class="login-box card">
     <div class="card-block">
-      <form class="form-horizontal form-material" id="loginform" >
+      <form class="form-horizontal form-material" id="registrazione" >
         <a href="javascript:void(0)" class="text-center db"><img src="assets/images/logo-icon.png" alt="" class="dark-logo" /><br/><img src="assets/images/logo-icon.png" alt="" class="dark-logo" /></a> 
         <h3 class="box-title m-t-40 m-b-0">REGISTRATI</h3><small>Benvenuto su Libra</small> 
         <div class="form-group m-t-20">
@@ -129,7 +169,7 @@ $(document).ready(function() {
         </div>
         <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="text" required="" placeholder="Matricola" id="matricola" name="email">
+            <input class="form-control" type="number" required="" placeholder="Matricola" id="matricola" name="email">
           </div>
         </div>
         

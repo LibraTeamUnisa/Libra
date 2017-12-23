@@ -49,6 +49,16 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+	<script type="text/javascript">
+		function validate() {
+			var telefono = document.getElementsByName('numeroTelefono')[0];
+			if(!Number.isInteger(telefono)) {
+				document.getElementById('warning').innerHTML = 'Formato errato';
+				return false;
+			}
+			return true;
+		}
+	</script>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -257,7 +267,7 @@
 									</div>
 								</div>
 								<br>
-								<form action="ModificaProfiloServlet" method="post">
+								<form action="modificaProfilo" method="post">
 								<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 								<br>
 
@@ -363,7 +373,7 @@
 										</div>
 									</div>
 									<br>
-									<form action="ModificaProfiloServlet" method="post">
+									<form action="modificaProfilo" method="post">
 									<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 									<br>
 									<div class="row">
@@ -477,7 +487,7 @@
 											</div>
 										</div>
 										<br>
-										<form action="ModificaProfiloServlet" method="post">
+										<form action="modificaProfilo" method="post">
 										<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 										<br>
 
@@ -576,7 +586,7 @@
 										<div class="col-sm-8">
 										<div class="card wild-card"
 											style="color: black; font-size: 120%;">
-											<form action="ModificaProfiloServlet" method="post">
+											<form action="modificaProfilo" method="post" onsubmit="return validate()">
 											<div class="row">
 												<div class="col-sm-4">				
 													<label class="col-md-12">Ricevimento:</label>
@@ -601,7 +611,11 @@
 											<br>
 											<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 											<br>
-
+											<div class="row">
+												<div class="col-sm-4">
+													<p id="warning"></p>
+												</div>
+											</div>
 											<div class="row">
 												<div class="col-sm-4">
 													<label class="col-md-12">Indirizzo:</label>
@@ -662,7 +676,7 @@
 										<div class="card wild-card"
 											style="color: black; font-size: 120%;">
 											<br>
-											<form action="ModificaProfiloServlet" method="post">
+											<form action="modificaProfilo" method="post">
 											<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
 											<br>
 

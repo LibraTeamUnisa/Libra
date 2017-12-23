@@ -1,15 +1,18 @@
 package it.unisa.libra.controller;
 
-import java.io.IOException; 
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import antlr.StringUtils;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Segreteria;
@@ -24,6 +27,7 @@ import it.unisa.libra.model.dao.ITutorInternoDao;
 import it.unisa.libra.util.Actions;
 
 /** Servlet implementation class AutenticazioneServlet */
+@WebServlet(name="ModificaProfiloServlet", urlPatterns="/modificaProfilo")
 public class ModificaProfiloServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   
@@ -47,75 +51,71 @@ public class ModificaProfiloServlet extends HttpServlet {
   @EJB
   private ISegreteriaDao segreteriadao;
   
-  private String newAddress = "";
-  private String newTelephoneNumber = "";
-  private String newSite = "";
-  private String newOffice = "";
-  private String newReception = "";
-
+  private String nuovoIndirizzo;
+  private String nuovoNumeroDiTelefono;
+  private String nuovoSito;
+  private String nuovoUfficio;
+  private String nuovoRicevimento;
+  private String email = "stefano@unisa.it";
+  private String ruolo = "Segreteria";
   /** Default constructor. */
   public ModificaProfiloServlet() {}
-
+  
   /** @throws IOException 
    * @throws ServletException 
  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-      HttpSession session = request.getSession();
+/*      HttpSession session = request.getSession();
       String email = (String) session.getAttribute("utenteEmail");
       String ruolo = (String) session.getAttribute("utenteRuolo");
-      newAddress = request.getParameter("indirizzo");
-      newTelephoneNumber = request.getParameter("numeroTelefono");
-      if(ruolo.equals("Studente")) {  
-          Studente student = (Studente) studenteDao.findById(Studente.class, email);
-          Utente user = student.getUtente();
-          user.setIndirizzo(newAddress);
-          user.setTelefono(newTelephoneNumber);
-          studenteDao.merge(student);
-      } else if (ruolo.equals("TutorInterno")) {
-    	  newSite = request.getParameter("sito");
-    	  TutorInterno ti = (TutorInterno) tutorinternodao.findById(TutorInterno.class, email);
-    	  Utente user = ti.getUtente();
-    	  user.setIndirizzo(newAddress);
-    	  user.setTelefono(newTelephoneNumber);
-    	  ti.setLinkSito(newSite);
-    	  tutorinternodao.merge(ti);
-      } else if (ruolo.equals("Presidente")) {
-    	  newSite = request.getParameter("sito");
-    	  newOffice = request.getParameter("ufficio");
-    	  newReception = request.getParameter("ricevimento");
-    	  Presidente president = (Presidente) presidentedao.findById(Presidente.class, email);
-    	  Utente user = president.getUtente();
-    	  user.setIndirizzo(newAddress);
-    	  user.setTelefono(newTelephoneNumber);
-    	  president.setLinkSito(newSite);
-    	  president.setUfficio(newOffice);
-    	  president.setGiorniDiRicevimento(newReception);
-    	  presidentedao.merge(president);
-      } else if (ruolo.equals("Segreteria")) {
-    	  newReception = request.getParameter("ricevimento");
-    	  Segreteria secretary = (Segreteria) segreteriadao.findById(Segreteria.class, email);
-    	  Utente user = secretary.getUtente();
-    	  user.setIndirizzo(newAddress);
-    	  user.setTelefono(newTelephoneNumber);
-    	  secretary.setGiorniDiRicevimento(newReception);
-    	  segreteriadao.merge(secretary);
-      } else if (ruolo.equals("Azienda")) {
-    	  Azienda company = (Azienda) aziendadao.findById(Azienda.class, email);
-    	  Utente user = company.getUtente();
-    	  user.setTelefono(newTelephoneNumber);
-    	  company.setSede(newAddress);
-    	  aziendadao.merge(company);
-      } else {
-    	  response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-    	  response.getWriter().write("error");
-     }
-      RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("profilo.jsp"); 
-      dispatcher.forward(request, response);
+*/      nuovoIndirizzo = request.getParameter("indirizzo");
+      nuovoNumeroDiTelefono = request.getParameter("numeroTelefono");
+      if(ruolo.equals("Segreteria")) {
+    	  modificaSegreteria(request, response);
+      }
+      response.sendRedirect("aaa.jsp");
   }
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     doGet(request, response);
+  }
+  
+  /* Modifica i dati dell'utente Segreteria */
+  
+  private void modificaSegreteria(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  Segreteria segreteria = (Segreteria) segreteriadao.findById(Segreteria.class, email);
+	  Utente user = segreteria.getUtente();
+	  nuovoRicevimento = request.getParameter("ricevimento");
+	  /* Se non è stato inserito alcun valore, viene preso quello già assegnato */
+	  if(nuovoIndirizzo.equals("")) {
+		  nuovoIndirizzo = user.getIndirizzo();
+	  }
+	  if(nuovoNumeroDiTelefono.equals("")) {
+		  nuovoNumeroDiTelefono = user.getTelefono();
+	  }
+	  if(nuovoRicevimento.equals("")) {
+		  nuovoRicevimento = segreteria.getGiorniDiRicevimento();
+	  }
+	  /* Controlli relativi al test plan */
+/*	  if (nuovoIndirizzo.length() < 2 || nuovoIndirizzo.length() > 100) {
+		  request.setAttribute("erroreModifica", "L'indirizzo deve essere compreso tra i 2 e i 100 caratteri");
+		  RequestDispatcher erroreModifica = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+		  erroreModifica.forward(request, response);
+	  } else if (nuovoNumeroDiTelefono.length() != 10) {
+		  request.setAttribute("erroreModifica", "Il numero di telefono deve essere composto da esattamente 10 caratteri");
+		  RequestDispatcher erroreModifica = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+		  erroreModifica.forward(request, response);
+	  } else if (!org.apache.commons.lang.StringUtils.isNumeric("nuovoNumeroDiTelefono")) {
+		  request.setAttribute("erroreModifica", "Il numero di telefono deve contenere esclusivamente numeri");
+		  RequestDispatcher erroreModifica = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+		  erroreModifica.forward(request, response);
+	  }
+*/	  user.setIndirizzo(nuovoIndirizzo);
+	  user.setTelefono(nuovoNumeroDiTelefono);
+	  segreteria.setGiorniDiRicevimento(nuovoRicevimento);
+	  segreteriadao.merge(segreteria);
+	  
   }
 }

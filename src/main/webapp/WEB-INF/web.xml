@@ -16,7 +16,10 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>FiltroUtente</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>ModificaPasswordServlet</servlet-name>
 	</filter-mapping>
 
 	<filter>
@@ -40,6 +43,9 @@
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -67,7 +73,9 @@
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -93,7 +101,9 @@
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -118,7 +128,9 @@
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -145,7 +157,9 @@
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 </web-app>
 

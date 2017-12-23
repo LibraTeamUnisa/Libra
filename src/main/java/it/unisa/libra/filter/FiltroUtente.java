@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter implementation class FiltroUtente. Garantisce l'accesso alla risorsa richiesta
@@ -29,19 +30,25 @@ public class FiltroUtente implements Filter {
       throws IOException, ServletException {
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
-    // l'utente non loggato può accedere ad alcune pagine
-    // quindi questo filtro non deve essere applicato a queste pagine
-    String path = ((HttpServletRequest) request).getRequestURI();
-    if (path.endsWith(JspPagesIndex.ACCESSO_NEGATO) || path.endsWith(JspPagesIndex.HOME)
-        || path.endsWith(JspPagesIndex.REGISTRAZIONE)) {
+    if (utenteEmail != null) {
+      // l'utente è loggato e può proseguire nella navigazione
       chain.doFilter(request, response);
+      return;
+    } else {
+      // ad alcune pagine possono accedere tutti, anche gli utenti non loggati
+      // quindi questo filtro non deve essere applicato a queste pagine
+      String path = ((HttpServletRequest) request).getRequestURI();
+      if (path.endsWith(JspPagesIndex.ACCESSO_NEGATO) || path.endsWith(JspPagesIndex.HOME)
+          || path.endsWith(JspPagesIndex.REGISTRAZIONE)) {
+        chain.doFilter(request, response);
+        return;
+      } else {
+        // l'utente non è loggato ma desidera accedere a una pagina protetta
+        ((HttpServletResponse) response).sendRedirect(
+            ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
+        return;
+      }
     }
-    // l'utente non è loggato
-    if (utenteEmail == null) {
-      ((HttpServletRequest) request).getServletContext()
-          .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
-    }
-    chain.doFilter(request, response);
   }
 
   /** @see Filter#init(FilterConfig) */

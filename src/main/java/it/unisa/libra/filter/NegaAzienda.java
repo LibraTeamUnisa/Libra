@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter implementation class NegaAzienda. Nega l'accesso alla risorsa richiesta se
@@ -29,10 +30,12 @@ public class NegaAzienda implements Filter {
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
+    // se l'utente non è loggato, si è verificato un errore nella catena di filtri
     // se l'utente è un'azienda l'accesso è negato
-    if (utenteRuolo.equals("Azienda")) {
-      ((HttpServletRequest) request).getServletContext()
-          .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
+    if ((utenteRuolo == null) || "Azienda".equals(utenteRuolo)) {
+      ((HttpServletResponse) response).sendRedirect(
+          ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
+      return;
     }
     chain.doFilter(request, response);
   }

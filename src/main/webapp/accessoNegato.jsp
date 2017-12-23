@@ -1,15 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="it.unisa.libra.model.dao.ISegreteriaDao" %>
-<%@ page import="it.unisa.libra.model.dao.IPresidenteDao" %>
-<%@ page import="javax.naming.InitialContext" %>
-<%@ page import="javax.naming.Context" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Map.Entry" %>
-<%@ page import="it.unisa.libra.bean.Segreteria" %>
-<%@ page import="it.unisa.libra.bean.Presidente" %>
-<%@ page import="it.unisa.libra.util.JsonUtils" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,14 +49,14 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-       	<%@ include file="header.jsp" %>
+       	<%@ include file="header.jsp" %> 
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <%@ include file="menu.jsp" %>
+      <!--   <%@ include file="menu.jsp" %> -->
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -77,105 +68,37 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-            
-             	<div class="row page-titles">
-                    <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Contatti Dipartimento</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-                            <li class="breadcrumb-item active">Contatti</li>
-                        </ol>
-                    </div>
-                    
-                </div>
-                
-            	<div class="row">
-            
-            	<!--SEGRETERIA-->
-            	
-            	<%  ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
-             		List<Segreteria> listSeg = segreteriaDao.findAll(Segreteria.class);
-             		for(Segreteria seg: listSeg){
-            	 %>
-             		<div class="col-md-6 col-lg-5 col-xlg-4">
-                        <div class="card card-block">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="#"><img src="assets/images/users/1.jpg" alt="user" class="img-circle img-responsive"></a>
-                                </div>
-                                <div class="col-md-8 col-lg-9">
-                                    <h3 class="box-title m-b-0">Segreteria</h3>
-                                    <small>Dipartimento di Informatica</small>
-                                    <span class="badge badge-primary">Edificio F</span>
-                                    <br>
-                                    <span class="mail-desc">Orari di apertura</span>
-                                    <address>
-                                    	<% 
-                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
-                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
-                                    	%>
-                                    		<span class="badge badge-info"><%=entry.getKey()%></span>
-                                       		<span class="time"><%=entry.getValue()%></span>
-                                        	<br>
-                                		<%}%>
-                                    </address>
-                                    <span class="mdi mdi-phone"> <%=seg.getUtente().getTelefono()%></span>
-                                    <br>
-                                    <span class="mdi mdi-email"> <%=seg.getUtenteEmail()%></span>
-                                    <br>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-             <% } %>
              
-             <!--PRESIDENTE-->
-            	
-            	<%  IPresidenteDao presidenteDao = (IPresidenteDao) new InitialContext().lookup("java:app/Libra/PresidenteJpa");
-             		List<Presidente> listPres = presidenteDao.findAll(Presidente.class);
-             		for(Presidente pres: listPres){
-            	 %>
-             		<div class="col-md-6 col-lg-5 col-xlg-4">
-                        <div class="card card-block">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="#"><img src="assets/images/users/2.jpg" alt="user" class="img-circle img-responsive"></a>
-                                </div>
-                                <div class="col-md-8 col-lg-9">
-                                    <h3 class="box-title m-b-0"><%=pres.getCognome()+ " " +pres.getNome()%></h3>
-                                    <small>Dipartimento di Informatica</small>
-                                    <span class="badge badge-primary"><%=pres.getUfficio()%></span>
-                                    <br>
-                                    <span class="mail-desc">Orari di ricevimento</span>
-                                    <address>
-                                    	<% 
-                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(pres.getGiorniDiRicevimento());
-                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
-                                    	%>
-                                    		<span class="badge badge-info"><%=entry.getKey()%></span>
-                                       		<span class="time"><%=entry.getValue()%></span>
-                                        	<br>
-                                		<%}%>
-                                    </address>
-                                    <span class="mdi mdi-phone"> <%=pres.getUtente().getTelefono()%></span>
-                                    <br>
-                                    <span class="mdi mdi-email"> <%=pres.getUtenteEmail()%></span>
-                                    <br>
-                                    	<%
-                                    	if(pres.getLinkSito() != null && !pres.getLinkSito().isEmpty()){ %>
-                                    		<span class="fa fa-graduation-cap"> <a href=<%=pres.getLinkSito()%>>Pagina universitaria</a></span>
-                                    	<%} else {%>
-                                    		<br>
-                                    	<%}%>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-             <% } %>
+             <%String ruolo = (String) request.getSession().getAttribute("utenteRuolo"); %>
              
-                </div>
-                
+             <div class="modal fade" id="modalAccessoNegato" role="dialog">
+					<div class="modal-dialog">
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Ops!</h4>
+							</div>
+							<div class="modal-body">
+								<p>Sembra che tu non disponga delle autorizzazioni necessarie per accedere a questa risorsa.</p>
+							</div>
+							<div class="modal-footer">
+									<a class="btn btn-primary" style="text-decoration: none; color: white;"
+									<%if (ruolo == null) { %>
+										href="home.jsp"
+									<%} else { %>
+										href="dashboard<%=ruolo%>.jsp"
+									<%} %>
+									> 
+										Ok 
+									</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+             
+             
+             
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -225,6 +148,12 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+			$("#modalAccessoNegato").modal('show');
+		})
+    </script>
 </body>
 
 </html>

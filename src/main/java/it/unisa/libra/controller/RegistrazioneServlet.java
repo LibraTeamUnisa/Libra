@@ -45,7 +45,7 @@ public class RegistrazioneServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-	  String errore = "Al momento non è possibile registrarsi al sistema";
+	  
 	  /**
 	   * Parametri necessari alla registrazione presi dall'oggetto request.
 	   */
@@ -64,7 +64,7 @@ public class RegistrazioneServlet extends HttpServlet {
 	  try {  
 		  data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
 	  } catch (ParseException e) {
-	    e.printStackTrace();
+		  e.printStackTrace();
 	  }
 	  
 	  /**
@@ -82,22 +82,20 @@ public class RegistrazioneServlet extends HttpServlet {
 	   * Realizzazione dell'oggetto gruppo di tipo "Studente"
 	   */
 	  
-	  try {
-		  gruppo = gruppoDao.findById(Gruppo.class, "Studente");
-		  if(gruppo!=null) {
-			  errore = "Errore durante la registrazione, è possibile che l'utente sia già registrato";
-		  }
-	  }catch(EJBTransactionRolledbackException exception) {
+	  if((gruppo = gruppoDao.findById(Gruppo.class, "Studente"))!=null) {
+	  		utente.setGruppo(gruppo);
+	  }else {
+		  response.setContentType("text/plain"); 
+		  response.getWriter().write("Al momento non è possibile registrarsi al sistema");
 	  }
 	  
-	  utente.setGruppo(gruppo);
-	  try {
+	  if(utenteDao.findById(Utente.class, email)==null) {
 		  utenteDao.persist(utente);
 		  response.setContentType("text/plain");
 		  response.getWriter().write("Registrazione avvenuta con successo");
-    	  }catch(EJBTransactionRolledbackException exception) {
+    	  }else{
     		  response.setContentType("text/plain"); 
-			  response.getWriter().write(errore);
+			  response.getWriter().write("Utente già presente nel sistema");
     	  }
   }
 
@@ -131,4 +129,16 @@ public class RegistrazioneServlet extends HttpServlet {
     utente.setTelefono(telefono);
     return utente;
   }
+
+  public void setUtenteDao(IUtenteDao utenteDao) {
+	  this.utenteDao = utenteDao;
+  }
+
+  public void setGruppoDao(IGruppoDao gruppoDao) {
+	this.gruppoDao = gruppoDao;
+  }
+  
+  
+
+
 }

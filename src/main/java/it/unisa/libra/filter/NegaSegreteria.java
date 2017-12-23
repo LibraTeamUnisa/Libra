@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Servlet Filter implementation class NegaSegreteria. Nega l'accesso alla risorsa richiesta dalla
@@ -30,7 +31,7 @@ public class NegaSegreteria implements Filter {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
     // se l'utente è la segreteria l'accesso è negato
-    if (utenteRuolo.equals("Segreteria")) {
+    if (StringUtils.isEmpty(utenteRuolo) || utenteRuolo.equals("Segreteria")) {
       ((HttpServletRequest) request).getServletContext()
           .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
     }

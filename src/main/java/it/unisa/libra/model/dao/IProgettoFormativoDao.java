@@ -1,5 +1,6 @@
 package it.unisa.libra.model.dao;
 
+import java.util.List;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 
@@ -26,4 +27,5 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
    */
   public ProgettoFormativo getLastProgettoFormativoByStudenteAssociato(Studente studente,
       String tutorInterno);
+  public List<ProgettoFormativo> getProgettiFormativiByAzienda(String nome);
 }

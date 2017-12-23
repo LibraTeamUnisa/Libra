@@ -1,6 +1,15 @@
 package it.unisa.libra.controller;
 
+
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.TutorEsterno;
+import it.unisa.libra.bean.TutorEsternoPK;
+import it.unisa.libra.model.dao.IAziendaDao;
+import it.unisa.libra.model.dao.ITutorEsternoDao;
+import it.unisa.libra.util.Actions;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -8,12 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.TutorEsterno;
-import it.unisa.libra.bean.TutorEsternoPK;
-import it.unisa.libra.model.dao.IAziendaDao;
-import it.unisa.libra.model.dao.ITutorEsternoDao;
-import it.unisa.libra.util.Actions;
 
 /**
  * Servlet implementation class GestioneTutorEsternoServlet. Controller class che gestisce le
@@ -37,30 +40,18 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   /** Default constructor. */
   public GestioneTutorEsternoServlet() {}
 
-  /**
-   * Gestisce la rimozione del tutor aziendale.
+  /** Questa servlet non fornisce servizi tramite il metodo doGet.
    * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String action = request.getParameter(Actions.ACTION);
-    if (action == null) {
-      // bad request 400
-      response.getWriter().write(BADREQUEST_MESS);
-      return;
-    } else if (action.equals(Actions.RIMUOVI_TUTOR_ESTERNO)) {
-      rimuovi(request, response);
-      return;
-    } else {
-      // bad request 400
-      response.getWriter().write(BADREQUEST_MESS);
-      return;
-    }
- }
+    response.getWriter().write(BADREQUEST_MESS);
+    return;
+  }
 
   /**
-   * Gestisce l'aggiunta e la modifica del tutor aziendale.
+   * Gestisce l'aggiunta, la modifica e la rimozione del tutor aziendale.
    * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
@@ -78,7 +69,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     } else if (action.equals(Actions.MODIFICA_TUTOR_ESTERNO)) {
       // Mauro
     } else if (action.equals(Actions.RIMUOVI_TUTOR_ESTERNO)) {
-      doGet(request, response);
+      rimuovi(request, response);
       return;
     } else {
       // bad request 400
@@ -100,14 +91,13 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   private void aggiungi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
-    String emailAzienda = (String) request.getSession().getAttribute("email");
-    emailAzienda = "azienda@prova.it";
+    String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
       // l'utente azienda è stato eliminato dalla segreteria durante questa esecuzione
       // errorCode 422
-      response.getWriter().write("Si &egrave; verificato un errore");
+      response.getWriter().write("Si e' verificato un errore");
       return;
     }
     String ambito = request.getParameter("ambito");
@@ -116,8 +106,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     idTutor.setAmbito(ambito);
     if (tutorDao.findById(TutorEsterno.class, idTutor) != null) {
       // primary key duplicata
-      response.getWriter().write("Non &egrave; stato possibile aggiungere il tutor. "
-          + "Esiste gi&agrave; un tutor responsabile dell'ambito " + ambito);
+      response.getWriter().write("Non e' stato possibile aggiungere il tutor. "
+          + "Esiste gia' un tutor responsabile dell'ambito " + ambito);
       return;
     }
     // creo il tutor da aggiungere
@@ -126,7 +116,13 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     tutor.setId(idTutor);
     tutor.setNome(request.getParameter("nome"));
     tutor.setCognome(request.getParameter("cognome"));
-    Date dataDiNascita = new Date();
+    SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+    Date dataDiNascita;
+    try {
+      dataDiNascita = parser.parse(request.getParameter("dataDiNascita"));
+    } catch (ParseException e) {
+      dataDiNascita = new Date();
+    }
     tutor.setDataDiNascita(dataDiNascita);
     tutor.setIndirizzo(request.getParameter("indirizzo"));
     tutor.setTelefono(request.getParameter("telefono"));
@@ -137,7 +133,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     return;
   }
 
-  
+
+
   /**
    * Gestisce l'operazione di rimozione del tutor esterno.
    * 
@@ -151,14 +148,13 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   private void rimuovi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
-    String emailAzienda = (String) request.getSession().getAttribute("email");
-    emailAzienda = "azienda@prova.it";
+    String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
       // l'utente azienda è stato eliminato dalla segreteria durante questa esecuzione
       // errorCode 422
-      response.getWriter().write("Si &egrave; verificato un errore");
+      response.getWriter().write("Si e' verificato un errore");
       return;
     }
     String ambito = request.getParameter("ambito");
@@ -198,7 +194,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   }
 
   /** messaggio di errore inviato in caso di bad request. **/
-  private static final String BADREQUEST_MESS = "L'operazione richiesta non &egrave; valida.";
+  private static final String BADREQUEST_MESS = "L'operazione richiesta non e' valida.";
 
   /** messaggio restituito in caso di successo dell'operazione. **/
   private static final String SUCCESS_MESS = "ok";

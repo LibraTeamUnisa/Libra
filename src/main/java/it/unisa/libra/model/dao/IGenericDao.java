@@ -8,8 +8,6 @@ public interface IGenericDao<E, K> {
   void remove(Class<E> entityClass, K id);
 
   E findById(Class<E> entityClass, K id);
- 
-  void merge(E entity);
 
   List<E> findAll(Class<E> entityClass);
 

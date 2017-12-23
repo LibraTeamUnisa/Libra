@@ -49,16 +49,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-	<script type="text/javascript">
-		function validate() {
-			var telefono = document.getElementsByName('numeroTelefono')[0];
-			if(!Number.isInteger(telefono)) {
-				document.getElementById('warning').innerHTML = 'Formato errato';
-				return false;
-			}
-			return true;
-		}
-	</script>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -73,15 +63,15 @@
 
 	<!--OGGETTI-->
 	<%
-		/*session = request.getSession();
+		session = request.getSession();
 		String email = (String) session.getAttribute("utenteEmail");
-		String ruolo = (String) session.getAttribute("utenteRuolo");*/
+		String ruolo = (String) session.getAttribute("utenteRuolo");
+		/*
+				String email = request.getParameter("utenteEmail");
+				String ruolo = request.getParameter("utenteRuolo");
+		*/
 
-		String email = request.getParameter("utenteEmail");
-		String ruolo = request.getParameter("utenteRuolo");
-		
-
-		if(email==null || ruolo==null){
+		if (email == null || ruolo == null) {
 			response.sendRedirect("/Libra/errore.jsp");
 		}
 	%>
@@ -129,7 +119,6 @@
 				<%
 					IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 					Utente u = utenteDao.findById(Utente.class, email);
-					
 				%>
 
 				<div class="card card-block">
@@ -137,7 +126,7 @@
 						<div class="col-sm-4">
 							<div class="card wild-card">
 								<h4 class="text-themecolor m-b-0 m-t-0">
-									Profilo di 
+									Profilo di
 									<%
 									if (ruolo.equals("Azienda")) {
 								%>
@@ -193,7 +182,8 @@
 							<div class="card wild-card">
 								<div class="col-md-8 col-lg-9 text-center"
 									style="margin: 0 auto;">
-									<a href="#"><img src="assets/images/users/<%=u.getImgProfilo()%>" alt="user"
+									<a href="#"><img
+										src="assets/images/users/<%=u.getImgProfilo()%>" alt="user"
 										class="img-circle img-responsive"></a>
 								</div>
 								<input type="file" placeholder="<%=u.getImgProfilo()%>"
@@ -213,7 +203,9 @@
 							<div class="card wild-card"
 								style="color: black; font-size: 120%;">
 
-								<h3 class="box-title m-b-0"><b>Dati personali:</b></h3>
+								<h3 class="box-title m-b-0">
+									<b>Dati personali:</b>
+								</h3>
 								<br>
 
 								<div class="row">
@@ -268,114 +260,138 @@
 								</div>
 								<br>
 								<form action="modificaProfilo" method="post">
-								<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
+									<br>
+									<div class="col-sm-10">
+										<%
+											String error = (String) request.getAttribute("erroreModifica");
+												if (error != null) {
+										%>
+										<p id="warning" style="color: red;"><%=error%></p>
+										<%
+											}
+										%>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Indirizzo:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getIndirizzo()%>"
+												class="form-control form-control-line" name="indirizzo">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Email:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getEmail()%>"
+												class="form-control form-control-line" disabled>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-2"></div>
+										<div class="col-sm-4">
+											<br> <input type="submit" value="Modifica">
+										</div>
+									</div>
+								</form>
+								<br>
+							</div>
+						</div>
+						<%
+							}
+						%>
+
+						<!--TUTOR INTERNO-->
+						<%
+							ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext()
+									.lookup("java:app/Libra/TutorInternoJpa");
+							TutorInterno ti = tutorInternoDao.findById(TutorInterno.class, email);
+
+							if (ruolo.equals("TutorInterno")) {
+						%>
+						<div class="col-sm-8">
+							<div class="card wild-card"
+								style="color: black; font-size: 120%;">
+
+								<h3 class="box-title m-b-0">
+									<b>Dati personali:</b>
+								</h3>
 								<br>
 
 								<div class="row">
 									<div class="col-sm-4">
-										<label class="col-md-12">Indirizzo:</label>
+										<label class="col-md-12">Nome:</label>
 									</div>
 									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getIndirizzo()%>"
-											class="form-control form-control-line" name="indirizzo">
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Email:</label>
-									</div>
-									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getEmail()%>"
+										<input type="text" placeholder="<%=ti.getNome()%>"
 											class="form-control form-control-line" disabled>
 									</div>
 								</div>
 
 								<div class="row">
 									<div class="col-sm-4">
-										<label class="col-md-12">Telefono:</label>
+										<label class="col-md-12">Cognome:</label>
 									</div>
 									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getTelefono()%>"
-											class="form-control form-control-line" name="numeroTelefono">
+										<input type="text" placeholder="<%=ti.getCognome()%>"
+											class="form-control form-control-line" disabled>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-sm-4"></div>
-									<div class="col-sm-2"></div>
 									<div class="col-sm-4">
-										<br>
-										<input type="submit" value="Modifica">
+										<label class="col-md-12">Data di nascita:</label>
+									</div>
+									<div class="col-sm-5">
+										<%
+											Date date = ti.getDataDiNascita();
+												Calendar calendar = new GregorianCalendar();
+												calendar.setTime(date);
+												int year = calendar.get(Calendar.YEAR);
+												int mm = calendar.get(Calendar.MONTH) + 1;
+												int gg = calendar.get(Calendar.DAY_OF_MONTH);
+												String day = String.format("%02d", gg);
+												String month = String.format("%02d", mm);
+										%>
+										<input type="date" value="<%=year%>-<%=month%>-<%=day%>"
+											min="1900-01-01" class="form-control form-control-line"
+											disabled>
 									</div>
 								</div>
-								</form>
 								<br>
-							</div>
-						</div>	
-							<%
-								}
-							%>
-
-							<!--TUTOR INTERNO-->
-							<%
-								ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext()
-										.lookup("java:app/Libra/TutorInternoJpa");
-								TutorInterno ti = tutorInternoDao.findById(TutorInterno.class, email);
-
-								if (ruolo.equals("TutorInterno")) {
-							%>
-							<div class="col-sm-8">
-								<div class="card wild-card"
-									style="color: black; font-size: 120%;">
-
-									<h3 class="box-title m-b-0"><b>Dati personali:</b></h3>
+								<form action="modificaProfilo" method="post">
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
 									<br>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Nome:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=ti.getNome()%>"
-												class="form-control form-control-line" disabled>
-										</div>
+									<div class="col-sm-10">
+										<%
+											String error = (String) request.getAttribute("erroreModifica");
+												if (error != null) {
+										%>
+										<p id="warning" style="color: red;"><%=error%></p>
+										<%
+											}
+										%>
 									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Cognome:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=ti.getCognome()%>"
-												class="form-control form-control-line" disabled>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Data di nascita:</label>
-										</div>
-										<div class="col-sm-5">
-											<%
-												Date date = ti.getDataDiNascita();
-													Calendar calendar = new GregorianCalendar();
-													calendar.setTime(date);
-													int year = calendar.get(Calendar.YEAR);
-													int mm = calendar.get(Calendar.MONTH) + 1;
-													int gg = calendar.get(Calendar.DAY_OF_MONTH);
-													String day = String.format("%02d", gg);
-													String month = String.format("%02d", mm);
-											%>
-											<input type="date" value="<%=year%>-<%=month%>-<%=day%>"
-												min="1900-01-01" class="form-control form-control-line"
-												disabled>
-										</div>
-									</div>
-									<br>
-									<form action="modificaProfilo" method="post">
-									<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
-									<br>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -420,359 +436,389 @@
 										<div class="col-sm-4"></div>
 										<div class="col-sm-2"></div>
 										<div class="col-sm-4">
-											<br>
-											<input type="submit" value="Modifica">
+											<br> <input type="submit" value="Modifica">
 										</div>
 									</div>
-									</form>
-									<br>
-								</div>
-							</div>	
-								<%
-									}
-								%>
-
-								<!--PRESIDENTE-->
-								<%
-									IPresidenteDao presidenteDao = (IPresidenteDao) new InitialContext().lookup("java:app/Libra/PresidenteJpa");
-									Presidente p = presidenteDao.findById(Presidente.class, email);
-
-									if (ruolo.equals("Presidente")) {
-								%>
-								<div class="col-sm-8">
-									<div class="card wild-card"
-										style="color: black; font-size: 120%;">
-
-										<h3 class="box-title m-b-0"><b>Dati personali:</b></h3>
-										<br>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Nome:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=p.getNome()%>"
-													class="form-control form-control-line" disabled>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Cognome:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=p.getCognome()%>"
-													class="form-control form-control-line" disabled>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Data di nascita:</label>
-											</div>
-											<div class="col-sm-5">
-												<%
-													Date date = p.getDataDiNascita();
-														Calendar calendar = new GregorianCalendar();
-														calendar.setTime(date);
-														int year = calendar.get(Calendar.YEAR);
-														int mm = calendar.get(Calendar.MONTH) + 1;
-														int gg = calendar.get(Calendar.DAY_OF_MONTH);
-														String day = String.format("%02d", gg);
-														String month = String.format("%02d", mm);
-												%>
-												<input type="date" value="<%=year%>-<%=month%>-<%=day%>"
-													min="1900-01-01" class="form-control form-control-line"
-													disabled>
-											</div>
-										</div>
-										<br>
-										<form action="modificaProfilo" method="post">
-										<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
-										<br>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Indirizzo:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=u.getIndirizzo()%>"
-													class="form-control form-control-line" name="indirizzo">
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Email:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=u.getEmail()%>"
-													class="form-control form-control-line" disabled>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Telefono:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=u.getTelefono()%>"
-													class="form-control form-control-line" name="numeroTelefono">
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Sito:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=p.getLinkSito()%>"
-													class="form-control form-control-line" name="sito">
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Ufficio:</label>
-											</div>
-											<div class="col-sm-5">
-												<input type="text" placeholder="<%=p.getUfficio()%>"
-													class="form-control form-control-line" name="ufficio">
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label class="col-md-12">Ricevimento:</label>
-											</div>
-											<div class="col-sm-5">
-												<address>
-				                                    	<% 
-				                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
-				                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
-				                                    	%>
-				                                       		<input type="text"
-																		placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-																		class="form-control form-control-line" nome="ricevimento">
-				                                        	<br>
-				                                		<%}%>
-				                                    </address>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-4"></div>
-											<div class="col-sm-2"></div>
-											<div class="col-sm-4">
-												<br>
-												<input type="submit" value="Modifica">
-											</div>
-										</div>
-										</form>
-										<br>
-									</div>
-								</div>	
-									<%
-										}
-									%>
-
-									<!--SEGRETERIA-->
-									<%
-										ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
-										Segreteria seg = segreteriaDao.findById(Segreteria.class, email);
-
-										if (ruolo.equals("Segreteria")) {
-									%>
-										<div class="col-sm-8">
-										<div class="card wild-card"
-											style="color: black; font-size: 120%;">
-											<form action="modificaProfilo" method="post" onsubmit="return validate()">
-											<div class="row">
-												<div class="col-sm-4">				
-													<label class="col-md-12">Ricevimento:</label>
-												</div>
-												
-												<div class="col-sm-5">
-													
-													<address>
-				                                    	<% 
-				                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
-				                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
-				                                    	%>
-				                                       		<input type="text"
-																		placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-																		class="form-control form-control-line" name="ricevimento">
-				                                        	<br>
-				                                		<%}%>
-				                                    </address>
-												</div>
-											</div>
-
-											<br>
-											<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
-											<br>
-											<div class="row">
-												<div class="col-sm-4">
-													<p id="warning"></p>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-sm-4">
-													<label class="col-md-12">Indirizzo:</label>
-												</div>
-
-												<div class="col-sm-5">
-													<input type="text" placeholder="<%=u.getIndirizzo()%>"
-														class="form-control form-control-line" name="indirizzo">
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-sm-4">
-													<label class="col-md-12">Email:</label>
-												</div>
-
-												<div class="col-sm-5">
-													<input type="text" placeholder="<%=u.getEmail()%>"
-														class="form-control form-control-line" disabled>
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-sm-4">
-													<label class="col-md-12">Telefono:</label>
-												</div>
-
-												<div class="col-sm-5">
-													<input type="text" placeholder="<%=u.getTelefono()%>"
-														class="form-control form-control-line" name="numeroTelefono">
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-sm-4"></div>
-												<div class="col-sm-2"></div>
-												<div class="col-sm-4">
-													<br>
-													<input type="submit" value="Modifica">
-												</div>
-											</div>
-											</form>
-											<br>
-										</div>
-									</div>
-									<%
-										}
-									%>
-
-									<!--AZIENDA-->
-									<%
-										IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-										Azienda a = aziendaDao.findById(Azienda.class, email);
-
-										if (ruolo.equals("Azienda")) {
-									%>
-									<div class="col-sm-8">
-										<div class="card wild-card"
-											style="color: black; font-size: 120%;">
-											<br>
-											<form action="modificaProfilo" method="post">
-											<h3 class="box-title m-b-0"><b>Contatti:</b></h3>
-											<br>
-
-											<div class="row">
-												<div class="col-sm-4">
-													<label class="col-md-12">Sede:</label>
-												</div>
-
-												<div class="col-sm-5">
-													<input type="text" placeholder="<%=a.getSede()%>"
-														class="form-control form-control-line" name="sede">
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-sm-4">
-													<label class="col-md-12">Telefono:</label>
-												</div>
-
-												<div class="col-sm-5">
-													<input type="text" placeholder="<%=u.getTelefono()%>"
-														class="form-control form-control-line" name="numeroTelefono">
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-sm-4"></div>
-												<div class="col-sm-2"></div>
-												<div class="col-sm-4">
-													<br>
-													<input type="submit" value="Modifica">
-												</div>
-											</div>
-											</form>
-											<br>
-
-										</div>
-									</div>
-
-									<%
-										}
-									%>
-								</div>
+								</form>
+								<br>
 							</div>
-
 						</div>
-						<!-- ============================================================== -->
-						<!-- End Container fluid  -->
-						<!-- ============================================================== -->
-						<!-- ============================================================== -->
-						<!-- footer -->
-						<!-- ============================================================== -->
-						<%@ include file="footer.jsp"%>
-						<!-- ============================================================== -->
-						<!-- End footer -->
-						<!-- ============================================================== -->
+						<%
+							}
+						%>
+
+						<!--PRESIDENTE-->
+						<%
+							IPresidenteDao presidenteDao = (IPresidenteDao) new InitialContext().lookup("java:app/Libra/PresidenteJpa");
+							Presidente p = presidenteDao.findById(Presidente.class, email);
+
+							if (ruolo.equals("Presidente")) {
+						%>
+						<div class="col-sm-8">
+							<div class="card wild-card"
+								style="color: black; font-size: 120%;">
+
+								<h3 class="box-title m-b-0">
+									<b>Dati personali:</b>
+								</h3>
+								<br>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Nome:</label>
+									</div>
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=p.getNome()%>"
+											class="form-control form-control-line" disabled>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Cognome:</label>
+									</div>
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=p.getCognome()%>"
+											class="form-control form-control-line" disabled>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Data di nascita:</label>
+									</div>
+									<div class="col-sm-5">
+										<%
+											Date date = p.getDataDiNascita();
+												Calendar calendar = new GregorianCalendar();
+												calendar.setTime(date);
+												int year = calendar.get(Calendar.YEAR);
+												int mm = calendar.get(Calendar.MONTH) + 1;
+												int gg = calendar.get(Calendar.DAY_OF_MONTH);
+												String day = String.format("%02d", gg);
+												String month = String.format("%02d", mm);
+										%>
+										<input type="date" value="<%=year%>-<%=month%>-<%=day%>"
+											min="1900-01-01" class="form-control form-control-line"
+											disabled>
+									</div>
+								</div>
+								<br>
+								<form action="modificaProfilo" method="post">
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
+									<br>
+									<div class="col-sm-10">
+										<%
+											String error = (String) request.getAttribute("erroreModifica");
+												if (error != null) {
+										%>
+										<p id="warning" style="color: red;"><%=error%></p>
+										<%
+											}
+										%>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Indirizzo:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getIndirizzo()%>"
+												class="form-control form-control-line" name="indirizzo">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Email:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getEmail()%>"
+												class="form-control form-control-line" disabled>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Sito:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=p.getLinkSito()%>"
+												class="form-control form-control-line" name="sito">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Ufficio:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=p.getUfficio()%>"
+												class="form-control form-control-line" name="ufficio">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Ricevimento:</label>
+										</div>
+										<div class="col-sm-5">
+											<address>
+												<%
+													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
+														for (Entry<String, String> entry : giorniAp.entrySet()) {
+												%>
+												<input type="text"
+													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+													class="form-control form-control-line" name="ricevimento">
+												<br>
+												<%
+													}
+												%>
+											</address>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-2"></div>
+										<div class="col-sm-4">
+											<br> <input type="submit" value="Modifica">
+										</div>
+									</div>
+								</form>
+								<br>
+							</div>
+						</div>
+						<%
+							}
+						%>
+
+						<!--SEGRETERIA-->
+						<%
+							ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
+							Segreteria seg = segreteriaDao.findById(Segreteria.class, email);
+
+							if (ruolo.equals("Segreteria")) {
+						%>
+						<div class="col-sm-8">
+							<div class="card wild-card"
+								style="color: black; font-size: 120%;">
+								<form action="modificaProfilo" method="post">
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Ricevimento:</label>
+										</div>
+
+										<div class="col-sm-5">
+
+											<address>
+												<%
+													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+														for (Entry<String, String> entry : giorniAp.entrySet()) {
+												%>
+												<input type="text"
+													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+													class="form-control form-control-line" name="ricevimento">
+												<br>
+												<%
+													}
+												%>
+											</address>
+										</div>
+									</div>
+
+									<br>
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
+									<br>
+									<div class="col-sm-10">
+										<%
+											String error = (String) request.getAttribute("erroreModifica");
+												if (error != null) {
+										%>
+										<p id="warning" style="color: red;"><%=error%></p>
+										<%
+											}
+										%>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Indirizzo:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getIndirizzo()%>"
+												class="form-control form-control-line" name="indirizzo">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Email:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getEmail()%>"
+												class="form-control form-control-line" disabled>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-2"></div>
+										<div class="col-sm-4">
+											<br> <input type="submit" value="Modifica">
+										</div>
+									</div>
+								</form>
+								<br>
+							</div>
+						</div>
+						<%
+							}
+						%>
+
+						<!--AZIENDA-->
+						<%
+							IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+							Azienda a = aziendaDao.findById(Azienda.class, email);
+
+							if (ruolo.equals("Azienda")) {
+						%>
+						<div class="col-sm-8">
+							<div class="card wild-card"
+								style="color: black; font-size: 120%;">
+								<br>
+								<form action="modificaProfilo" method="post">
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
+									<br>
+									<div class="col-sm-10">
+										<%
+											String error = (String) request.getAttribute("erroreModifica");
+												if (error != null) {
+										%>
+										<p id="warning" style="color: red;"><%=error%></p>
+										<%
+											}
+										%>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Sede:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=a.getSede()%>"
+												class="form-control form-control-line" name="sede">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-2"></div>
+										<div class="col-sm-4">
+											<br> <input type="submit" value="Modifica">
+										</div>
+									</div>
+								</form>
+								<br>
+
+							</div>
+						</div>
+
+						<%
+							}
+						%>
 					</div>
-					<!-- ============================================================== -->
-					<!-- End Page wrapper  -->
-					<!-- ============================================================== -->
 				</div>
-				<!-- ============================================================== -->
-				<!-- End Wrapper -->
-				<!-- ============================================================== -->
-				<!-- ============================================================== -->
-				<!-- All Jquery -->
-				<!-- ============================================================== -->
-				<script src="assets/plugins/jquery/jquery.min.js"></script>
-				<!-- Bootstrap tether Core JavaScript -->
-				<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
-				<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-				<!-- slimscrollbar scrollbar JavaScript -->
-				<script src="js/jquery.slimscroll.js"></script>
-				<!--Wave Effects -->
-				<script src="js/waves.js"></script>
-				<!--Menu sidebar -->
-				<script src="js/sidebarmenu.js"></script>
-				<!--stickey kit -->
-				<script
-					src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-				<!--Custom JavaScript -->
-				<script src="js/custom.min.js"></script>
-				<!-- ============================================================== -->
-				<!-- This page plugins -->
-				<!-- ============================================================== -->
-				<!-- chartist chart -->
-				<script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
-				<script
-					src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-				<!-- Chart JS -->
-				<script src="assets/plugins/echarts/echarts-all.js"></script>
-				<script src="js/dashboard5.js"></script>
-				<!-- ============================================================== -->
-				<!-- Style switcher -->
-				<!-- ============================================================== -->
-				<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- footer -->
+			<!-- ============================================================== -->
+			<%@ include file="footer.jsp"%>
+			<!-- ============================================================== -->
+			<!-- End footer -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page wrapper  -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Wrapper -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- All Jquery -->
+	<!-- ============================================================== -->
+	<script src="assets/plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap tether Core JavaScript -->
+	<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
+	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<!-- slimscrollbar scrollbar JavaScript -->
+	<script src="js/jquery.slimscroll.js"></script>
+	<!--Wave Effects -->
+	<script src="js/waves.js"></script>
+	<!--Menu sidebar -->
+	<script src="js/sidebarmenu.js"></script>
+	<!--stickey kit -->
+	<script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+	<!--Custom JavaScript -->
+	<script src="js/custom.min.js"></script>
+	<!-- ============================================================== -->
+	<!-- This page plugins -->
+	<!-- ============================================================== -->
+	<!-- chartist chart -->
+	<script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
+	<script
+		src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+	<!-- Chart JS -->
+	<script src="assets/plugins/echarts/echarts-all.js"></script>
+	<script src="js/dashboard5.js"></script>
+	<!-- ============================================================== -->
+	<!-- Style switcher -->
+	<!-- ============================================================== -->
+	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 
 </html>

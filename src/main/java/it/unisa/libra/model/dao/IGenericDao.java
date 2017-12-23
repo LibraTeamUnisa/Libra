@@ -12,5 +12,5 @@ public interface IGenericDao<E, K> {
   void merge(E entity);
 
   List<E> findAll(Class<E> entityClass);
-  
+
 }

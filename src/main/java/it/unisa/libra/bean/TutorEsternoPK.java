@@ -36,6 +36,7 @@ public class TutorEsternoPK implements Serializable {
     this.ambito = ambito;
   }
 
+  @Override
   public boolean equals(Object other) {
     if (other == null) {
       return false;
@@ -51,16 +52,19 @@ public class TutorEsternoPK implements Serializable {
       if (this.ambito != null) {
         return this.aziendaEmail.equals(castOther.aziendaEmail)
             && this.ambito.equals(castOther.ambito);
-      } else
+      } else {
         return this.aziendaEmail.equals(castOther.aziendaEmail) && (castOther.ambito == null);
+      }
     } else {
       if (this.ambito != null) {
         return (castOther.aziendaEmail == null) && this.ambito.equals(castOther.ambito);
-      } else
+      } else {
         return (castOther.aziendaEmail == null) && (castOther.ambito == null);
+      }
     }
   }
 
+  @Override
   public int hashCode() {
     final int prime = 31;
     int hash = 17;

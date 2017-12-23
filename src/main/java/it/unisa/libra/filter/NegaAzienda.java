@@ -8,7 +8,16 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-/** Servlet Filter implementation class FiltroUtente */
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
+import it.unisa.libra.util.JspPagesIndex;
+
+/**
+ * Servlet Filter implementation class NegaAzienda. Nega l'accesso alla risorsa richiesta se
+ * l'utente è un'azienda.
+ * 
+ * @see javax.servlet.Filter
+ */
 public class NegaAzienda implements Filter {
 
   /** Default constructor. */
@@ -20,6 +29,14 @@ public class NegaAzienda implements Filter {
   /** @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+    String utenteRuolo =
+        (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
+    // se l'utente è un'azienda l'accesso è negato
+    if (StringUtils.isEmpty(utenteRuolo) || utenteRuolo.equals("Azienda")) {
+      ((HttpServletRequest) request).getServletContext()
+          .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
+    }
+
     chain.doFilter(request, response);
   }
 

@@ -13,14 +13,9 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
   public GenericJpa() {}
 
   public void persist(E entity) {
-    entityManager.persist(entity);
+    entityManager.merge(entity);
   }
   
-  public void merge(E entity) {
-	  entityManager.merge(entity);
-	    entityManager.flush();
-  }
-
   public void remove(Class<E> entityClass, K id) {
     E toRemove = (E) entityManager.find(entityClass, id);
     entityManager.remove(toRemove);

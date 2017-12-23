@@ -24,7 +24,7 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     TutorEsterno t = createTutor();
     jpa.persist(t);
     TutorEsterno found = jpa.findAll(TutorEsterno.class).get(0);
-    assertEquals(t, found);
+    assertEquals(t.getNome(), found.getNome());
   }
 
   @Test
@@ -41,7 +41,7 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     TutorEsterno t = createTutor2();
     jpa.persist(t);
     TutorEsterno found = jpa.findByAziendaNome("prova").get(0);
-    assertEquals(t, found);
+    assertEquals(t.getNome(), found.getNome());
   }
 
   private TutorEsterno createTutor() {

@@ -141,7 +141,7 @@ public class ModificaPasswordServletTest {
 			when(response.getWriter()).thenReturn(responseWriter);
 			servlet.setUtenteDao(utenteDao);
 			servlet.aggiornaPassword(utente, pwd2, pwd3);
-			utenteDao.merge(utente);
+			utenteDao.persist(utente);
 			servlet.doPost(request, response);
 			verify(responseWriter).write("finito");
 		} catch (Exception ex) {
@@ -169,7 +169,7 @@ public class ModificaPasswordServletTest {
 			when(response.getWriter()).thenReturn(responseWriter);
 			servlet.setUtenteDao(utenteDao);
 			servlet.aggiornaPassword(utente, pwd2, pwd3);
-			utenteDao.merge(utente);
+			utenteDao.persist(utente);
 			servlet.doPost(request, response);
 			verify(responseWriter).write("errore");
 		} catch (Exception ex) {

@@ -31,7 +31,6 @@ public class ModificaPasswordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
-
 		String email=(String) request.getSession().getAttribute("utenteEmail");
 		Utente utente =  utenteDao.findById(Utente.class, email);
 		String action = request.getParameter("action");

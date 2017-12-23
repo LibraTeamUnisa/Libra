@@ -25,14 +25,10 @@ public class ModificaPasswordServletTest {
 	@Mock
 	private Utente utente;
 
-
-	//@InjectMocks
 	ModificaPasswordServlet servlet = new ModificaPasswordServlet();
 
 	@Mock
 	private HttpSession session;
-
-
 	HttpServletRequest request;
 	HttpServletResponse response;
 	PrintWriter responseWriter;
@@ -97,7 +93,7 @@ public class ModificaPasswordServletTest {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}// fine onSuccessTest
+	}
 
 	@Test
 	public void verificaFailTest() {

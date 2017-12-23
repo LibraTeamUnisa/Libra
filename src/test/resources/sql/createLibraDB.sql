@@ -30,7 +30,8 @@ CREATE TABLE `azienda` (
   `utenteEmail` varchar(50) NOT NULL,
   `nome` varchar(30) NOT NULL,
   `partitaIVA` varchar(15) NOT NULL,
-  `sede` varchar(100) NOT NULL,
+  `sede` varchar(100)  NOT NULL,
+  `linkSito` varchar(500) NOT NULL,
   PRIMARY KEY (`utenteEmail`),
   CONSTRAINT `emailAzienda` FOREIGN KEY (`utenteEmail`) REFERENCES `utente` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

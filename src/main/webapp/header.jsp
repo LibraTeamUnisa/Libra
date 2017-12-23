@@ -1,4 +1,5 @@
- <%@page import="it.unisa.libra.util.Actions"%>
+
+    <%@page import="it.unisa.libra.util.Actions"%>
 <header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <!-- ============================================================== -->

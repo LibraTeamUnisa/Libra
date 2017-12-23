@@ -6446,4 +6446,8 @@ a.mytooltip {
     .chat-list li .chat-content {
         width: calc(100% - 80px)
     }
-}
+    }
+
+	.customalignment{
+		margin: 0 auto;
+	}

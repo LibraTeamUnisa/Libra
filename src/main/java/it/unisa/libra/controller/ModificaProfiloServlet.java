@@ -47,8 +47,8 @@ public class ModificaProfiloServlet extends HttpServlet {
   private ISegreteriaDao segreteriadao;
 
   /* Variabili di istanza */
-  private String email = "stefano@unisa.it";
-  private String ruolo = "Segreteria";
+  private String email /* = "stefano@unisa.it" */;
+  private String ruolo /* = "Segreteria" */;
   private boolean filtro = true;
   private String indirizzo;
   private String telefono;
@@ -66,10 +66,10 @@ public class ModificaProfiloServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    /*
-     * HttpSession session = request.getSession(); email = (String)
-     * session.getAttribute("utenteEmail"); ruolo = (String) session.getAttribute("utenteRuolo");
-     */ if (ruolo.equals(STUDENTE)) {
+    HttpSession session = request.getSession();
+    email = (String) session.getAttribute("utenteEmail");
+    ruolo = (String) session.getAttribute("utenteRuolo");
+    if (ruolo.equals(STUDENTE)) {
       modificaStudente(request, response);
     } else if (ruolo.equals(TUTOR_INTERNO)) {
       modificaTutorInterno(request, response);
@@ -79,6 +79,9 @@ public class ModificaProfiloServlet extends HttpServlet {
       modificaSegreteria(request, response);
     } else if (ruolo.equals(AZIENDA)) {
       modificaAzienda(request, response);
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("error");
     }
     response.sendRedirect("profilo.jsp");
   }

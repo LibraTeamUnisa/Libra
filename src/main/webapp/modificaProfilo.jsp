@@ -63,13 +63,13 @@
 
 	<!--OGGETTI-->
 	<%
-		session = request.getSession();
+/*		session = request.getSession();
 		String email = (String) session.getAttribute("utenteEmail");
 		String ruolo = (String) session.getAttribute("utenteRuolo");
-		/*
+*/		
 				String email = request.getParameter("utenteEmail");
 				String ruolo = request.getParameter("utenteRuolo");
-		*/
+		
 
 		if (email == null || ruolo == null) {
 			response.sendRedirect("/Libra/errore.jsp");

@@ -2,47 +2,58 @@ package it.unisa.libra.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import static org.mockito.Mockito.*;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import it.unisa.libra.controller.ModificaProfiloServlet;
-import it.unisa.libra.util.Actions;
-/**
+
 public class ModificaProfiloServletTest {
 
+    @InjectMocks
 	private ModificaProfiloServlet servlet = new ModificaProfiloServlet();
-	HttpServletRequest request;
-	HttpServletResponse response;
-	PrintWriter responseWriter;
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
+	@Mock
+	private PrintWriter responseWriter;
+	@Mock
+	private HttpSession session;
 	
 	@Before
 	public void setUp() throws Exception {
-	    request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
-	    response = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
-	    responseWriter = mock(PrintWriter.class);
+	    MockitoAnnotations.initMocks(this);
 	    when(response.getWriter()).thenReturn(responseWriter);
 	  }
 	
-	 @After
-	  public void tearDown() {
-	    request = null;
-	    response = null;
-	    responseWriter = null;
-	  }
-
 	 @Test
-	  public void testModificaStudente() throws ServletException, IOException {
-		 when(request.getParameter(Actions.UTENTE_RUOLO)).thenReturn(null);
-		 servlet.doPost(request, response);
+	  public void ruoloBadRequestTest() throws Exception {
+	    when(request.getSession().getAttribute("utenteRuolo")).thenReturn(null);
+	    servlet.doPost(request, response);
+	    verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	    verify(response.getWriter()).write("false");
+	 }
+
+	 
+	 @Test
+	 public void lunghezzaIndirizzoTestoError() throws ServletException, IOException {
+	   when(request.getParameter("Indirizzo")).thenReturn(null);
+	   servlet.doPost(request, response);
+	   verify(request).setAttribute("erroreModifica", "Troppo corto");;	   
+	 }
+	 
+	 @Test
+	 public void lunghezzaTelefonoError() throws ServletException, IOException {
+	   when(request.getParameter("Telefono")).thenReturn(null);
+	   servlet.doPost(request, response);
+	   verify(request).setAttribute("erroreModifica", "TroppoCorto");
 	 }
 }
-*/

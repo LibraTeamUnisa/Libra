@@ -52,8 +52,8 @@ public class ModificaProfiloServlet extends HttpServlet {
   private String nuovoUfficio;
   private String nuovoRicevimento;
   private boolean flag = true;
-  private String email = "stefano@unisa.it";
-  private String ruolo = "Segreteria";
+  private String email /* = "stefano@unisa.it" */;
+  private String ruolo /* = "Segreteria" */;
 
   /** Default constructor. */
   public ModificaProfiloServlet() {}
@@ -68,20 +68,23 @@ public class ModificaProfiloServlet extends HttpServlet {
     HttpSession session = request.getSession();
     String email = (String) session.getAttribute("utenteEmail");
     String ruolo = (String) session.getAttribute("utenteRuolo");
-    nuovoNumeroDiTelefono = request.getParameter("numeroTelefono");
-    if (ruolo.equals("Segreteria")) {
-      modificaSegreteria(request, response);
-    } else if (ruolo.equals("Studente")) {
-      modificaStudente(request, response);
-    } else if (ruolo.equals("TutorInterno")) {
-      modificaTutorInterno(request, response);
-    } else if (ruolo.equals("Presidente")) {
-      modificaPresidente(request, response);
-    } else if (ruolo.equals("Azienda")) {
-      modificaAzienda(request, response);
+      nuovoNumeroDiTelefono = request.getParameter("numeroTelefono");
+      if (ruolo.equals("Segreteria")) {
+        modificaSegreteria(request, response);
+      } else if (ruolo.equals("Studente")) {
+        modificaStudente(request, response);
+      } else if (ruolo.equals("TutorInterno")) {
+        modificaTutorInterno(request, response);
+      } else if (ruolo.equals("Presidente")) {
+        modificaPresidente(request, response);
+      } else if (ruolo.equals("Azienda")) {
+        modificaAzienda(request, response);
+      } else {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.getWriter().write("false");
+      }
+      response.sendRedirect("profilo.jsp");
     }
-    response.sendRedirect("profilo.jsp");
-  }
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)

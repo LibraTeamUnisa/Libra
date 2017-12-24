@@ -35,11 +35,13 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaS.persist(studente);
     ProgettoFormativo progettoFormativo = createProgettoFormativoObject();
     progettoFormativo.setStudente(studente);
+    int id = jpaP.findAll(ProgettoFormativo.class).size();
+    progettoFormativo.setId(id+1);
     jpaP.persist(progettoFormativo);
 
     ProgettoFormativo toCheck = jpaP.getLastProgettoFormativoByStudente(studente);
     assertNotNull(toCheck);
-    //assertEquals(progettoFormativo.getId(), toCheck.getId());
+    assertEquals(progettoFormativo.getId(), toCheck.getId());
   }
 
   @Test
@@ -60,14 +62,17 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     TutorInterno tutor = createTutorInternoObject("test@unisa.it");
     jpaT.persist(tutor);
     ProgettoFormativo progettoFormativo = createProgettoFormativoObject();
-    jpaP.persist(progettoFormativo);
+    int id = jpaP.findAll(ProgettoFormativo.class).size();
+    progettoFormativo.setId(id+1);
 
     progettoFormativo.setStudente(studente);
     progettoFormativo.setTutorInterno(tutor);
+    jpaP.persist(progettoFormativo);
+
     ProgettoFormativo toCheck =
         jpaP.getLastProgettoFormativoByStudenteAssociato(studente, tutor.getUtenteEmail());
-    //assertNotNull(toCheck);
-    //assertEquals(progettoFormativo.getId(), toCheck.getId());
+    assertNotNull(toCheck);
+    assertEquals(progettoFormativo.getId(), toCheck.getId());
   }
 
   @Test
@@ -107,7 +112,6 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
 
   private ProgettoFormativo createProgettoFormativoObject() {
     ProgettoFormativo toPersist = new ProgettoFormativo();
-    toPersist.setDataInvio(new Date());
     return toPersist;
   }
 

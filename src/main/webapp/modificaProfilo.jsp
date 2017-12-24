@@ -63,13 +63,13 @@
 
 	<!--OGGETTI-->
 	<%
-/*		session = request.getSession();
+		session = request.getSession();
 		String email = (String) session.getAttribute("utenteEmail");
 		String ruolo = (String) session.getAttribute("utenteRuolo");
-*/		
-				String email = request.getParameter("utenteEmail");
-				String ruolo = request.getParameter("utenteRuolo");
-		
+		/*		
+						String email = request.getParameter("utenteEmail");
+						String ruolo = request.getParameter("utenteRuolo");
+		*/
 
 		if (email == null || ruolo == null) {
 			response.sendRedirect("/Libra/errore.jsp");
@@ -264,16 +264,7 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
-									<div class="col-sm-10">
-										<%
-											String error = (String) request.getAttribute("erroreModifica");
-												if (error != null) {
-										%>
-										<p id="warning" style="color: red;"><%=error%></p>
-										<%
-											}
-										%>
-									</div>
+									<div class="col-sm-10"></div>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -382,16 +373,6 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
-									<div class="col-sm-10">
-										<%
-											String error = (String) request.getAttribute("erroreModifica");
-												if (error != null) {
-										%>
-										<p id="warning" style="color: red;"><%=error%></p>
-										<%
-											}
-										%>
-									</div>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -509,281 +490,250 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
-									<div class="col-sm-10">
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Indirizzo:</label>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" placeholder="<%=u.getIndirizzo()%>"
+										class="form-control form-control-line" name="indirizzo">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Email:</label>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" placeholder="<%=u.getEmail()%>"
+										class="form-control form-control-line" disabled>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Telefono:</label>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" placeholder="<%=u.getTelefono()%>"
+										class="form-control form-control-line" name="numeroTelefono">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Sito:</label>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" placeholder="<%=p.getLinkSito()%>"
+										class="form-control form-control-line" name="sito">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Ufficio:</label>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" placeholder="<%=p.getUfficio()%>"
+										class="form-control form-control-line" name="ufficio">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Ricevimento:</label>
+								</div>
+								<div class="col-sm-5">
+									<address>
 										<%
-											String error = (String) request.getAttribute("erroreModifica");
-												if (error != null) {
+											Map<String, String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
+												for (Entry<String, String> entry : giorniAp.entrySet()) {
 										%>
-										<p id="warning" style="color: red;"><%=error%></p>
+										<input type="text"
+											placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+											class="form-control form-control-line" name="ricevimento">
+										<br>
 										<%
 											}
 										%>
-									</div>
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Indirizzo:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getIndirizzo()%>"
-												class="form-control form-control-line" name="indirizzo">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Email:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getEmail()%>"
-												class="form-control form-control-line" disabled>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Telefono:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getTelefono()%>"
-												class="form-control form-control-line" name="numeroTelefono">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Sito:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=p.getLinkSito()%>"
-												class="form-control form-control-line" name="sito">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Ufficio:</label>
-										</div>
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=p.getUfficio()%>"
-												class="form-control form-control-line" name="ufficio">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Ricevimento:</label>
-										</div>
-										<div class="col-sm-5">
-											<address>
-												<%
-													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
-														for (Entry<String, String> entry : giorniAp.entrySet()) {
-												%>
-												<input type="text"
-													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-													class="form-control form-control-line" name="ricevimento">
-												<br>
-												<%
-													}
-												%>
-											</address>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4"></div>
-										<div class="col-sm-2"></div>
-										<div class="col-sm-4">
-											<br> <input type="submit" value="Modifica">
-										</div>
-									</div>
-								</form>
-								<br>
+									</address>
+								</div>
 							</div>
-						</div>
-						<%
-							}
-						%>
 
-						<!--SEGRETERIA-->
-						<%
-							ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
-							Segreteria seg = segreteriaDao.findById(Segreteria.class, email);
-
-							if (ruolo.equals("Segreteria")) {
-						%>
-						<div class="col-sm-8">
-							<div class="card wild-card"
-								style="color: black; font-size: 120%;">
-								<form action="modificaProfilo" method="post">
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Ricevimento:</label>
-										</div>
-
-										<div class="col-sm-5">
-
-											<address>
-												<%
-													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
-														for (Entry<String, String> entry : giorniAp.entrySet()) {
-												%>
-												<input type="text"
-													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-													class="form-control form-control-line" name="ricevimento">
-												<br>
-												<%
-													}
-												%>
-											</address>
-										</div>
-									</div>
-
-									<br>
-									<h3 class="box-title m-b-0">
-										<b>Contatti:</b>
-									</h3>
-									<br>
-									<div class="col-sm-10">
-										<%
-											String error = (String) request.getAttribute("erroreModifica");
-												if (error != null) {
-										%>
-										<p id="warning" style="color: red;"><%=error%></p>
-										<%
-											}
-										%>
-									</div>
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Indirizzo:</label>
-										</div>
-
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getIndirizzo()%>"
-												class="form-control form-control-line" name="indirizzo">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Email:</label>
-										</div>
-
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getEmail()%>"
-												class="form-control form-control-line" disabled>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Telefono:</label>
-										</div>
-
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getTelefono()%>"
-												class="form-control form-control-line" name="numeroTelefono">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4"></div>
-										<div class="col-sm-2"></div>
-										<div class="col-sm-4">
-											<br> <input type="submit" value="Modifica">
-										</div>
-									</div>
-								</form>
-								<br>
+							<div class="row">
+								<div class="col-sm-4"></div>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-4">
+									<br> <input type="submit" value="Modifica">
+								</div>
 							</div>
+							</form>
+							<br>
 						</div>
-						<%
-							}
-						%>
-
-						<!--AZIENDA-->
-						<%
-							IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-							Azienda a = aziendaDao.findById(Azienda.class, email);
-
-							if (ruolo.equals("Azienda")) {
-						%>
-						<div class="col-sm-8">
-							<div class="card wild-card"
-								style="color: black; font-size: 120%;">
-								<br>
-								<form action="modificaProfilo" method="post">
-									<h3 class="box-title m-b-0">
-										<b>Contatti:</b>
-									</h3>
-									<br>
-									<div class="col-sm-10">
-										<%
-											String error = (String) request.getAttribute("erroreModifica");
-												if (error != null) {
-										%>
-										<p id="warning" style="color: red;"><%=error%></p>
-										<%
-											}
-										%>
-									</div>
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Sede:</label>
-										</div>
-
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=a.getSede()%>"
-												class="form-control form-control-line" name="sede">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4">
-											<label class="col-md-12">Telefono:</label>
-										</div>
-
-										<div class="col-sm-5">
-											<input type="text" placeholder="<%=u.getTelefono()%>"
-												class="form-control form-control-line" name="numeroTelefono">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-4"></div>
-										<div class="col-sm-2"></div>
-										<div class="col-sm-4">
-											<br> <input type="submit" value="Modifica">
-										</div>
-									</div>
-								</form>
-								<br>
-
-							</div>
-						</div>
-
-						<%
-							}
-						%>
 					</div>
-				</div>
+					<%
+						}
+					%>
 
+					<!--SEGRETERIA-->
+					<%
+						ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
+						Segreteria seg = segreteriaDao.findById(Segreteria.class, email);
+
+						if (ruolo.equals("Segreteria")) {
+					%>
+					<div class="col-sm-8">
+						<div class="card wild-card" style="color: black; font-size: 120%;">
+							<form action="modificaProfilo" method="post">
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Ricevimento:</label>
+									</div>
+
+									<div class="col-sm-5">
+
+										<address>
+											<%
+												Map<String, String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+													for (Entry<String, String> entry : giorniAp.entrySet()) {
+											%>
+											<input type="text"
+												placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+												class="form-control form-control-line" name="ricevimento">
+											<br>
+											<%
+												}
+											%>
+										</address>
+									</div>
+								</div>
+
+								<br>
+								<h3 class="box-title m-b-0">
+									<b>Contatti:</b>
+								</h3>
+								<br>
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Indirizzo:</label>
+									</div>
+
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=u.getIndirizzo()%>"
+											class="form-control form-control-line" name="indirizzo">
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Email:</label>
+									</div>
+
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=u.getEmail()%>"
+											class="form-control form-control-line" disabled>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Telefono:</label>
+									</div>
+
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=u.getTelefono()%>"
+											class="form-control form-control-line" name="numeroTelefono">
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4"></div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-4">
+										<br> <input type="submit" value="Modifica">
+									</div>
+								</div>
+							</form>
+							<br>
+						</div>
+					</div>
+					<%
+						}
+					%>
+
+					<!--AZIENDA-->
+					<%
+						IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+						Azienda a = aziendaDao.findById(Azienda.class, email);
+
+						if (ruolo.equals("Azienda")) {
+					%>
+					<div class="col-sm-8">
+						<div class="card wild-card" style="color: black; font-size: 120%;">
+							<br>
+							<form action="modificaProfilo" method="post">
+								<h3 class="box-title m-b-0">
+									<b>Contatti:</b>
+								</h3>
+								<br>
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Sede:</label>
+									</div>
+
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=a.getSede()%>"
+											class="form-control form-control-line" name="sede">
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Telefono:</label>
+									</div>
+
+									<div class="col-sm-5">
+										<input type="text" placeholder="<%=u.getTelefono()%>"
+											class="form-control form-control-line" name="numeroTelefono">
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4"></div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-4">
+										<br> <input type="submit" value="Modifica">
+									</div>
+								</div>
+							</form>
+							<br>
+
+						</div>
+					</div>
+
+					<%
+						}
+					%>
+				</div>
 			</div>
-			<!-- ============================================================== -->
-			<!-- End Container fluid  -->
-			<!-- ============================================================== -->
-			<!-- ============================================================== -->
-			<!-- footer -->
-			<!-- ============================================================== -->
-			<%@ include file="footer.jsp"%>
-			<!-- ============================================================== -->
-			<!-- End footer -->
-			<!-- ============================================================== -->
+
 		</div>
 		<!-- ============================================================== -->
-		<!-- End Page wrapper  -->
+		<!-- End Container fluid  -->
 		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- footer -->
+		<!-- ============================================================== -->
+		<%@ include file="footer.jsp"%>
+		<!-- ============================================================== -->
+		<!-- End footer -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page wrapper  -->
+	<!-- ============================================================== -->
 	</div>
 	<!-- ============================================================== -->
 	<!-- End Wrapper -->

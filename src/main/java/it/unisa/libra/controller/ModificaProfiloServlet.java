@@ -46,14 +46,15 @@ public class ModificaProfiloServlet extends HttpServlet {
   @EJB
   private ISegreteriaDao segreteriadao;
 
-  private String nuovoIndirizzo;
-  private String nuovoNumeroDiTelefono;
-  private String nuovoSito;
-  private String nuovoUfficio;
-  private String nuovoRicevimento;
-  private boolean flag = true;
-  private String email /* = "stefano@unisa.it" */;
-  private String ruolo /* = "Segreteria" */;
+  /* Variabili di istanza */
+  private String email = "stefano@unisa.it";
+  private String ruolo = "Segreteria";
+  private boolean filtro = true;
+  private String indirizzo;
+  private String telefono;
+  private String sito;
+  private String ufficio;
+  private String ricevimento;
 
   /** Default constructor. */
   public ModificaProfiloServlet() {}
@@ -65,26 +66,192 @@ public class ModificaProfiloServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    HttpSession session = request.getSession();
-    String email = (String) session.getAttribute("utenteEmail");
-    String ruolo = (String) session.getAttribute("utenteRuolo");
-      nuovoNumeroDiTelefono = request.getParameter("numeroTelefono");
-      if (ruolo.equals("Segreteria")) {
-        modificaSegreteria(request, response);
-      } else if (ruolo.equals("Studente")) {
-        modificaStudente(request, response);
-      } else if (ruolo.equals("TutorInterno")) {
-        modificaTutorInterno(request, response);
-      } else if (ruolo.equals("Presidente")) {
-        modificaPresidente(request, response);
-      } else if (ruolo.equals("Azienda")) {
-        modificaAzienda(request, response);
-      } else {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().write("false");
-      }
-      response.sendRedirect("profilo.jsp");
+    /*
+     * HttpSession session = request.getSession(); email = (String)
+     * session.getAttribute("utenteEmail"); ruolo = (String) session.getAttribute("utenteRuolo");
+     */ if (ruolo.equals(STUDENTE)) {
+      modificaStudente(request, response);
+    } else if (ruolo.equals(TUTOR_INTERNO)) {
+      modificaTutorInterno(request, response);
+    } else if (ruolo.equals(PRESIDENTE)) {
+      modificaPresidente(request, response);
+    } else if (ruolo.equals(SEGRETERIA)) {
+      modificaSegreteria(request, response);
+    } else if (ruolo.equals(AZIENDA)) {
+      modificaAzienda(request, response);
     }
+    response.sendRedirect("profilo.jsp");
+  }
+
+  /* Modifica Azienda */
+  private void modificaAzienda(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    Azienda azienda = aziendadao.findById(Azienda.class, email);
+    Utente utente = azienda.getUtente();
+    indirizzo = request.getParameter(SEDE);
+    telefono = request.getParameter(TELEFONO);
+    if (!telefono.equals("")) {
+      utente.setTelefono(telefono);
+    } else {
+      telefono = utente.getTelefono();
+    }
+    if (!indirizzo.equals("")) {
+      azienda.setSede(indirizzo);
+    } else {
+      indirizzo = azienda.getSede();
+    }
+    controllaParametri(request, response);
+    if (filtro == true) {
+      aziendadao.persist(azienda);
+    }
+  }
+
+  /* Modifica Segreteria */
+  private void modificaSegreteria(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    Segreteria segreteria = segreteriadao.findById(Segreteria.class, email);
+    Utente utente = segreteria.getUtente();
+    indirizzo = request.getParameter(INDIRIZZO);
+    telefono = request.getParameter(TELEFONO);
+    ricevimento = request.getParameter(RICEVIMENTO);
+    if (!telefono.equals("")) {
+      utente.setTelefono(telefono);
+    } else {
+      telefono = utente.getTelefono();
+    }
+    if (!indirizzo.equals("")) {
+      utente.setIndirizzo(indirizzo);
+    } else {
+      indirizzo = utente.getIndirizzo();
+    }
+    if (!ricevimento.equals("")) {
+      segreteria.setGiorniDiRicevimento(ricevimento);
+    } else {
+      ricevimento = segreteria.getGiorniDiRicevimento();
+    }
+    controllaParametri(request, response);
+    if (filtro == true) {
+      segreteriadao.persist(segreteria);
+    }
+  }
+
+  /* Modifica Presidente */
+  private void modificaPresidente(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    Presidente presidente = (Presidente) presidentedao.findById(Presidente.class, email);
+    Utente utente = presidente.getUtente();
+    indirizzo = request.getParameter(INDIRIZZO);
+    telefono = request.getParameter(TELEFONO);
+    sito = request.getParameter(SITO);
+    ufficio = request.getParameter(UFFICIO);
+    ricevimento = request.getParameter(RICEVIMENTO);
+    if (!telefono.equals("")) {
+      utente.setTelefono(telefono);
+    } else {
+      telefono = utente.getTelefono();
+    }
+    if (!indirizzo.equals("")) {
+      utente.setIndirizzo(indirizzo);
+    } else {
+      indirizzo = utente.getIndirizzo();
+    }
+    if (!sito.equals("")) {
+      presidente.setLinkSito(sito);
+    } else {
+      sito = presidente.getLinkSito();
+    }
+    if (!ufficio.equals("")) {
+      presidente.setUfficio(ufficio);
+    } else {
+      ufficio = presidente.getUfficio();
+    }
+    if (!ricevimento.equals("")) {
+      presidente.setGiorniDiRicevimento(ricevimento);
+    } else {
+      ricevimento = presidente.getGiorniDiRicevimento();
+    }
+    controllaParametri(request, response);
+    if (filtro == true) {
+      presidentedao.persist(presidente);
+    }
+  }
+
+  /* Modifica Tutor Interno */
+  private void modificaTutorInterno(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    TutorInterno tutor = tutorinternodao.findById(TutorInterno.class, email);
+    Utente utente = tutor.getUtente();
+    indirizzo = request.getParameter(INDIRIZZO);
+    telefono = request.getParameter(TELEFONO);
+    sito = request.getParameter(SITO);
+    if (!telefono.equals("")) {
+      utente.setTelefono(telefono);
+    } else {
+      telefono = utente.getTelefono();
+    }
+    if (!indirizzo.equals("")) {
+      utente.setIndirizzo(indirizzo);
+    } else {
+      indirizzo = utente.getIndirizzo();
+    }
+    if (!sito.equals("")) {
+      tutor.setLinkSito(sito);
+    } else {
+      sito = tutor.getLinkSito();
+    }
+    controllaParametri(request, response);
+    if (filtro == true) {
+      tutorinternodao.persist(tutor);
+    }
+  }
+
+  /* Modifica Studente */
+  private void modificaStudente(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    Studente studente = studenteDao.findById(Studente.class, email);
+    Utente utente = studente.getUtente();
+    indirizzo = request.getParameter(INDIRIZZO);
+    telefono = request.getParameter(TELEFONO);
+    if (!telefono.equals("")) {
+      utente.setTelefono(telefono);
+    } else {
+      telefono = utente.getTelefono();
+    }
+    if (!indirizzo.equals("")) {
+      utente.setIndirizzo(indirizzo);
+    } else {
+      indirizzo = utente.getIndirizzo();
+    }
+    controllaParametri(request, response);
+    if (filtro == true) {
+      studenteDao.persist(studente);
+    }
+  }
+
+  /* Controlla i parametri in base al test plan */
+  private void controllaParametri(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    if (indirizzo.length() < 2 || indirizzo.length() > 100 || telefono.length() != 10) {
+      filtro = false;
+      response.getWriter().write("Lunghezza non consentita");
+      response.getWriter().flush();
+    } else if (!isNumeric(telefono)) {
+      filtro = false;
+      response.getWriter().write("Input non valido");
+      response.getWriter().flush();
+    }
+  }
+
+  /* Controlla che la stringa passata sia composta di soli numeri */
+  private static boolean isNumeric(String str) {
+    try {
+      @SuppressWarnings("unused")
+      long l = Long.parseLong(str);
+    } catch (NumberFormatException nfe) {
+      return false;
+    }
+    return true;
+  }
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -92,175 +259,17 @@ public class ModificaProfiloServlet extends HttpServlet {
     doGet(request, response);
   }
 
-  /* Modifica i dati dell'azienda */
+  /* MACRO */
+  private static final String STUDENTE = "Studente";
+  private static final String TUTOR_INTERNO = "TutorInterno";
+  private static final String PRESIDENTE = "Presidente";
+  private static final String SEGRETERIA = "Segreteria";
+  private static final String AZIENDA = "Azienda";
 
-  private void modificaAzienda(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    Azienda azienda = (Azienda) aziendadao.findById(Azienda.class, email);
-    Utente user = azienda.getUtente();
-    nuovoIndirizzo = request.getParameter("sede");
-    /* Se non è stato inserito alcun valore, viene preso quello già assegnato */
-    if (nuovoIndirizzo.equals("")) {
-      nuovoIndirizzo = azienda.getSede();
-    }
-    if (nuovoNumeroDiTelefono.equals("")) {
-      nuovoNumeroDiTelefono = user.getTelefono();
-    }
-    controllaErrori(request, response);
-    user.setTelefono(nuovoNumeroDiTelefono);
-    azienda.setSede(nuovoIndirizzo);
-    if (flag == true) {
-      aziendadao.persist(azienda);
-    }
-  }
-
-  /* Modifica i dati del Presidente */
-
-  private void modificaPresidente(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    Presidente presidente = (Presidente) presidentedao.findById(Presidente.class, email);
-    Utente user = presidente.getUtente();
-    nuovoIndirizzo = request.getParameter("indirizzo");
-    nuovoSito = request.getParameter("sito");
-    nuovoUfficio = request.getParameter("ufficio");
-    nuovoRicevimento = request.getParameter("ricevimento");
-    /* Se non è stato inserito alcun valore, viene preso quello già assegnato */
-    if (nuovoIndirizzo.equals("")) {
-      nuovoIndirizzo = user.getIndirizzo();
-    }
-    if (nuovoNumeroDiTelefono.equals("")) {
-      nuovoNumeroDiTelefono = user.getTelefono();
-    }
-    if (nuovoSito.equals("")) {
-      nuovoSito = presidente.getLinkSito();
-    }
-    if (nuovoUfficio.equals("")) {
-      nuovoUfficio = presidente.getUfficio();
-    }
-    if (nuovoRicevimento.equals("")) {
-      nuovoRicevimento = presidente.getGiorniDiRicevimento();
-    }
-    controllaErrori(request, response);
-    user.setIndirizzo(nuovoIndirizzo);
-    user.setTelefono(nuovoNumeroDiTelefono);
-    presidente.setLinkSito(nuovoSito);
-    presidente.setUfficio(nuovoUfficio);
-    presidente.setGiorniDiRicevimento(nuovoRicevimento);
-    if (flag == true) {
-      presidentedao.persist(presidente);
-    }
-  }
-
-  /* Modifica i dati del tutor interno */
-
-  private void modificaTutorInterno(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    TutorInterno tutorInterno = (TutorInterno) tutorinternodao.findById(TutorInterno.class, email);
-    Utente user = tutorInterno.getUtente();
-    nuovoIndirizzo = request.getParameter("indirizzo");
-    nuovoSito = request.getParameter("sito");
-    /* Se non è stato inserito alcun valore, viene preso quello già assegnato */
-    if (nuovoIndirizzo.equals("")) {
-      nuovoIndirizzo = user.getIndirizzo();
-    }
-    if (nuovoNumeroDiTelefono.equals("")) {
-      nuovoNumeroDiTelefono = user.getTelefono();
-    }
-    if (nuovoSito.equals("")) {
-      nuovoSito = tutorInterno.getLinkSito();
-    }
-    controllaErrori(request, response);
-    user.setIndirizzo(nuovoIndirizzo);
-    user.setTelefono(nuovoNumeroDiTelefono);
-    tutorInterno.setLinkSito(nuovoSito);
-    if (flag == true) {
-      tutorinternodao.persist(tutorInterno);
-    }
-  }
-
-  /* Modifica i dati dello studente */
-
-  private void modificaStudente(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    Studente studente = (Studente) studenteDao.findById(Studente.class, email);
-    Utente user = studente.getUtente();
-    nuovoIndirizzo = request.getParameter("indirizzo");
-    /* Se non è stato inserito alcun valore, viene preso quello già assegnato */
-    if (nuovoIndirizzo.equals("")) {
-      nuovoIndirizzo = user.getIndirizzo();
-    }
-    if (nuovoNumeroDiTelefono.equals("")) {
-      nuovoNumeroDiTelefono = user.getTelefono();
-    }
-    controllaErrori(request, response);
-    user.setIndirizzo(nuovoIndirizzo);
-    user.setTelefono(nuovoNumeroDiTelefono);
-    if (flag == true) {
-      studenteDao.persist(studente);
-    }
-  }
-
-  /* Modifica i dati dell'utente Segreteria */
-
-  private void modificaSegreteria(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    Segreteria segreteria = (Segreteria) segreteriadao.findById(Segreteria.class, email);
-    Utente user = segreteria.getUtente();
-    nuovoIndirizzo = request.getParameter("indirizzo");
-    nuovoRicevimento = request.getParameter("ricevimento");
-    /* Se non è stato inserito alcun valore, viene preso quello già assegnato */
-    if (nuovoIndirizzo.equals("")) {
-      nuovoIndirizzo = user.getIndirizzo();
-    }
-    if (nuovoNumeroDiTelefono.equals("")) {
-      nuovoNumeroDiTelefono = user.getTelefono();
-    }
-    if (nuovoRicevimento.equals("")) {
-      nuovoRicevimento = segreteria.getGiorniDiRicevimento();
-    }
-    controllaErrori(request, response);
-    user.setIndirizzo(nuovoIndirizzo);
-    user.setTelefono(nuovoNumeroDiTelefono);
-    segreteria.setGiorniDiRicevimento(nuovoRicevimento);
-    if (flag == true) {
-      segreteriadao.persist(segreteria);
-    }
-  }
-
-
-  /* Controlli relativi al test plan */
-  private void controllaErrori(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    if (nuovoIndirizzo.length() < 2 || nuovoIndirizzo.length() > 100) {
-      flag = false;
-      request.setAttribute("erroreModifica",
-          "L'indirizzo deve essere compreso tra i 2 e i 100 caratteri");
-      RequestDispatcher erroreModifica =
-          request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
-      erroreModifica.forward(request, response);
-    } else if (nuovoNumeroDiTelefono.length() != 10) {
-      flag = false;
-      request.setAttribute("erroreModifica",
-          "Il numero di telefono deve essere composto da esattamente 10 caratteri");
-      RequestDispatcher erroreModifica =
-          request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
-      erroreModifica.forward(request, response);
-    } else if (!isNumeric(nuovoNumeroDiTelefono)) {
-      flag = false;
-      request.setAttribute("erroreModifica",
-          "Il numero di telefono deve contenere esclusivamente numeri");
-      RequestDispatcher erroreModifica =
-          request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
-      erroreModifica.forward(request, response);
-    }
-  }
-
-  private static boolean isNumeric(String str) {
-    try {
-      long l = Long.parseLong(str);
-    } catch (NumberFormatException nfe) {
-      return false;
-    }
-    return true;
-  }
+  private static final String INDIRIZZO = "indirizzo";
+  private static final String TELEFONO = "numeroTelefono";
+  private static final String SITO = "sito";
+  private static final String UFFICIO = "ufficio";
+  private static final String RICEVIMENTO = "ricevimento";
+  private static final String SEDE = "sede";
 }

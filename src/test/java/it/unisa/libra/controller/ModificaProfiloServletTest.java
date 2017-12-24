@@ -47,13 +47,20 @@ public class ModificaProfiloServletTest {
 	 public void lunghezzaIndirizzoTestoError() throws ServletException, IOException {
 	   when(request.getParameter("Indirizzo")).thenReturn(null);
 	   servlet.doPost(request, response);
-	   verify(request).setAttribute("erroreModifica", "Troppo corto");;	   
+	   verify(request).setAttribute("erroreModifica", "too short");;	   
 	 }
 	 
 	 @Test
 	 public void lunghezzaTelefonoError() throws ServletException, IOException {
 	   when(request.getParameter("Telefono")).thenReturn(null);
 	   servlet.doPost(request, response);
-	   verify(request).setAttribute("erroreModifica", "TroppoCorto");
+	   verify(request).setAttribute("erroreModifica", "too short");
+	 }
+	 
+	 @Test
+	 public void formatoTelefonoError() throws ServletException, IOException {
+	   when(request.getParameter("Telefono")).thenReturn("a string");
+	   servlet.doPost(request, response);
+	   verify(request).setAttribute("erroreModifica", "is not a number");
 	 }
 }

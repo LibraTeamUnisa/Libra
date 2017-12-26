@@ -27,6 +27,7 @@ public class FiltroUtente implements Filter {
   /** @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+	  
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
     // l'utente non loggato può accedere ad alcune pagine
@@ -38,10 +39,13 @@ public class FiltroUtente implements Filter {
     }
     // l'utente non è loggato
     if (utenteEmail == null) {
+    	/*
       ((HttpServletRequest) request).getServletContext()
           .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
+          */
     }
     chain.doFilter(request, response);
+    
   }
 
   /** @see Filter#init(FilterConfig) */

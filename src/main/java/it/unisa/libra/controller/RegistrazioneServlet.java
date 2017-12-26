@@ -1,10 +1,9 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -46,62 +45,63 @@ public class RegistrazioneServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String errore = "Al momento non è possibile registrarsi al sistema";
-    /**
-     * Parametri necessari alla registrazione presi dall'oggetto request.
-     */
+	  
+	  /**
+	   * Parametri necessari alla registrazione presi dall'oggetto request.
+	   */
+	  
+	  String nome = request.getParameter("nome");
+	  String cognome = request.getParameter("cognome");
+	  String matricola = request.getParameter("matricola");
+	  String email = request.getParameter("email");
+	  String password = request.getParameter("password");
+	  String dataNascita = request.getParameter("dataNascita");
+	  String indirizzo = request.getParameter("indirizzo");
+	  String telefono = request.getParameter("telefono");
+	  Date data = null;
+	  Gruppo gruppo = null;
+	  
+	  
+	  try {  
+		  data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
+	  } catch (ParseException e) {
+		  e.printStackTrace();
+	  }
+	  
+	  /**
+	   * Realizzazione di un oggetto di tipo studente
+	   */
+	  Studente studente = istanziaStudente(nome, cognome, email, matricola, data);
 
-    String nome = request.getParameter("nome");
-    String cognome = request.getParameter("cognome");
-    String matricola = request.getParameter("matricola");
-    String email = request.getParameter("email");
-    String password = request.getParameter("password");
-    String dataNascita = request.getParameter("dataNascita");
-    String indirizzo = request.getParameter("indirizzo");
-    String telefono = request.getParameter("telefono");
-    Date data = null;
-    Gruppo gruppo = null;
-
-    try {
-      DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
-      data = dateFormat.parse(dataNascita);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    /**
-     * Realizzazione di un oggetto di tipo studente
-     */
-    Studente studente = istanziaStudente(nome, cognome, email, matricola, data);
-
-    /**
-     * Realizzazione di utente, generalizzazione dello studente
-     */
-    Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
-
-
-    /**
-     * Realizzazione dell'oggetto gruppo di tipo "Studente"
-     */
-    try {
-      gruppo = gruppoDao.findById(Gruppo.class, "Studente");
-      if (gruppo != null) {
-        errore = "Errore durante la registrazione, è possibile che l'utente sia già registrato";
-      }
-    } catch (EJBTransactionRolledbackException exception) {
-    }
-
-    utente.setGruppo(gruppo);
-    try {
-      utenteDao.persist(utente);
-      response.setContentType("text/plain");
-      response.getWriter().write("Registrazione avvenuta con successo");
-      response.sendRedirect("home.jsp");
-    } catch (EJBTransactionRolledbackException exception) {
-      response.setContentType("text/plain");
-      response.getWriter().write(errore);
-    }
-  }
+	  /**
+	   * Realizzazione di utente, generalizzazione dello studente
+	   */
+	  Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
+	  
+	 
+	  /**
+	   * Realizzazione dell'oggetto gruppo di tipo "Studente"
+	   */
+	  
+	  if((gruppo = gruppoDao.findById(Gruppo.class,"Studente"))!=null) {
+	  		utente.setGruppo(gruppo);
+	  }
+	
+	  		
+	  if(gruppo!=null) {
+	  if(utenteDao.findById(Utente.class, email)==null&&gruppo!=null) {
+		  utenteDao.persist(utente);
+		  response.setContentType("text/plain");
+		  response.getWriter().write("Registrazione avvenuta con successo");
+    	  }else{
+    		  response.setContentType("text/plain"); 
+			  response.getWriter().write("Utente già presente nel sistema");
+    	  }  
+	  }else {
+		  response.setContentType("text/plain"); 
+		  response.getWriter().write("Al momento non è possibile registrarsi al sistema");
+	  }
+}
 
   /**
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -133,4 +133,16 @@ public class RegistrazioneServlet extends HttpServlet {
     utente.setTelefono(telefono);
     return utente;
   }
+
+public void setUtenteDao(IUtenteDao utenteDao) {
+	  this.utenteDao = utenteDao;
+  }
+
+public void setGruppoDao(IGruppoDao gruppoDao) {
+	this.gruppoDao = gruppoDao;
+  }
+  
+  
+
+
 }

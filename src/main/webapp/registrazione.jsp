@@ -145,7 +145,7 @@ if(semaforo==true){
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(../assets/images/background/login-register.jpg);">
+    <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(assets/images/background/sfondo.jpg);">
   <div class="login-box card">
     <div class="card-block">
       <form class="form-horizontal form-material" id="registrazione" >

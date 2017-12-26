@@ -131,11 +131,11 @@ public class RegistrazioneServlet extends HttpServlet {
     return utente;
   }
 
-private void setUtenteDao(IUtenteDao utenteDao) {
+public void setUtenteDao(IUtenteDao utenteDao) {
 	  this.utenteDao = utenteDao;
   }
 
-private void setGruppoDao(IGruppoDao gruppoDao) {
+public void setGruppoDao(IGruppoDao gruppoDao) {
 	this.gruppoDao = gruppoDao;
   }
   

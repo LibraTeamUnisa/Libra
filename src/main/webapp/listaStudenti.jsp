@@ -139,7 +139,7 @@
 									}
 								%>
 									<tr>
-										<td><a href="${pageContext.request.contextPath}/dettaglioStudente/email-studente=<%=studente.getUtenteEmail()%>"><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></a></td>
+										<td><a href="${pageContext.request.contextPath}/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></a></td>
 										<td><%=studente.getCognome() %> <%=studente.getNome() %></td>
 										<td>
 										<%if(progettoFormativo==null) {%>
@@ -235,14 +235,14 @@
 				  ],
 			  "language": {
 		            "lengthMenu": "Mostra _MENU_ risultati per pagina",
-		            "zeroRecords": "Nessun record trovato",
+		            "zeroRecords": "Nessun risultato trovato",
 		            "info": "Pagina _PAGE_ di _PAGES_",
-		            "infoEmpty": "Nessun record presente",
-		            "infoFiltered": "(Cercati da _MAX_ record totali)",
+		            "infoEmpty": "Nessun risultato presente",
+		            "infoFiltered": "(Cercati su _MAX_ risultati totali)",
 		            "paginate": {
 		                "first":      "Prima",
 		                "last":       "Ultima",
-		                "next":       "Prossima",
+		                "next":       "Successiva",
 		                "previous":   "Precedente"
 		            }
 		        },

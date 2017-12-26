@@ -65,7 +65,8 @@ public class RegistrazioneServlet extends HttpServlet {
 	  try {  
 		  data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
 	  } catch (ParseException e) {
-		  e.printStackTrace();
+		  response.setContentType("text/plain"); 
+		  response.getWriter().write("Errore durante il parse della data");
 	  }
 	  
 	  /**

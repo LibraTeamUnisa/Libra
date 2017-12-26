@@ -112,7 +112,7 @@ if(semaforo==true){
       {
     	  alert(responseText);
     	  if(responseText.includes("successo")){
-    	 	 window.location.href = "index.jsp";
+    	 	 window.location.href = "home.jsp";
     	  }
     	  
     	  $('#nome').val("");
@@ -145,7 +145,7 @@ if(semaforo==true){
   <div class="login-box card">
     <div class="card-block">
       <form class="form-horizontal form-material" id="registrazione" >
-        <a href="javascript:void(0)" class="text-center db"><img src="assets/images/logo-icon.png" alt="" class="dark-logo" /><br/><img src="assets/images/logo-icon.png" alt="" class="dark-logo" /></a> 
+        <a href="javascript:void(0)" class="text-left db"><img src="assets/images/logo-icon.png" alt="" width="15%" height="20%" class="dark-logo"  /></a> 
         <h3 class="box-title m-t-40 m-b-0">REGISTRATI</h3><small>Benvenuto su Libra</small> 
         <div class="form-group m-t-20">
           <div class="col-xs-12">
@@ -204,7 +204,7 @@ if(semaforo==true){
         </div>
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
-            <p>Hai già un account? <a href="" class="text-info m-l-5"><b>Accedi</b></a></p>
+            <p>Hai già un account? <a href="home.jsp" class="text-info m-l-5"><b>Accedi</b></a></p>
           </div>
         </div>
       </form>

@@ -31,10 +31,12 @@ public class NegaAzienda implements Filter {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
     // se l'utente è un'azienda l'accesso è negato
+    /*
     if (StringUtils.isEmpty(utenteRuolo) || utenteRuolo.equals("Azienda")) {
       ((HttpServletRequest) request).getServletContext()
           .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
     }
+    */
     chain.doFilter(request, response);
   }
 

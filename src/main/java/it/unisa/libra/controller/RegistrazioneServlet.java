@@ -83,22 +83,25 @@ public class RegistrazioneServlet extends HttpServlet {
 	   * Realizzazione dell'oggetto gruppo di tipo "Studente"
 	   */
 	  
-	  if((gruppo = gruppoDao.findById(Gruppo.class, "Studente"))!=null) {
+	  if((gruppo = gruppoDao.findById(Gruppo.class,"Studente"))!=null) {
 	  		utente.setGruppo(gruppo);
-	  }else {
-		  response.setContentType("text/plain"); 
-		  response.getWriter().write("Al momento non è possibile registrarsi al sistema");
 	  }
-	  
-	  if(utenteDao.findById(Utente.class, email)==null) {
+	
+	  		
+	  if(gruppo!=null) {
+	  if(utenteDao.findById(Utente.class, email)==null&&gruppo!=null) {
 		  utenteDao.persist(utente);
 		  response.setContentType("text/plain");
 		  response.getWriter().write("Registrazione avvenuta con successo");
     	  }else{
     		  response.setContentType("text/plain"); 
 			  response.getWriter().write("Utente già presente nel sistema");
-    	  }
-  }
+    	  }  
+	  }else {
+		  response.setContentType("text/plain"); 
+		  response.getWriter().write("Al momento non è possibile registrarsi al sistema");
+	  }
+}
 
   /**
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -64,23 +64,15 @@ $(document).ready(function() {
 		var indirizzo = $('#indirizzo').val();
 		var telefono = $('#telefono').val();
 			
-		if(nome!=""){
-			if(cognome!=""){
+		if(nome!=""&&nome.length>1&&nome.length<21){
+			if(cognome!=""&&cognome.length>1&&cognome.length<21){
 					if(email!=""&&email.includes("@")&&email.length>2&&email.lastIndexOf("@")<email.length){
 							if(matricola!=""&&matricola.length==10){
-									if(password!=""&&password1!=""){
+								if(matricola.substring(0,5)=="05121"||matricola.substring(0,5)=="05225"||matricola.substring(0,5)=="05122"){
+									if(password!=""&&password.length>7&&password.length<21&&password1!=""){
 											if(password==password1){
 												if(dataNascita!=""){
-														var anno = dataNascita.substring(0,4);
-														var data = new Date();
-														var annoAttuale = data.getFullYear();
-														var differenza = annoAttuale-anno;
-														if(differenza>=18){
-																semaforo = true;
-														}
-														else{
-															alert("L'anno di nascita non puo' essere superiore a "+ (annoAttuale-18));
-															}
+														semaforo = true;
 														}
 											}
 											else{
@@ -88,7 +80,11 @@ $(document).ready(function() {
 												}
 											}	
 										}
-								
+					
+					else{
+							alert("La matricola puo' iniziare con i seguenti prefissi:05121,05225,05122");
+						}
+							}
 							else{
 								alert("La matricola deve contenere 10 caratteri numerici");
 								}
@@ -153,34 +149,34 @@ if(semaforo==true){
         <h3 class="box-title m-t-40 m-b-0">REGISTRATI</h3><small>Benvenuto su Libra</small> 
         <div class="form-group m-t-20">
           <div class="col-xs-12">
-            <input class="form-control" type="text" required=""  placeholder="Nome" id="nome" name="nome">
+            <input class="form-control" type="text" required=""  placeholder="Nome" id="nome" name="nome" maxlength="20" minlength="2">
           </div>
         </div>
         <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="text" required="" placeholder="Cognome" id="cognome" name="cognome">
+            <input class="form-control" type="text" required="" placeholder="Cognome" id="cognome" name="cognome"   maxlength="20" minlength="2">
           </div>
         </div>
         <div class="form-group ">
           <div class="col-xs-12">
           
-            <input class="form-control" type="email" required="" placeholder="E-mail" id="email" name="email">
+            <input class="form-control" type="email" required="" placeholder="E-mail" id="email" name="email" maxlength="50" minlength="19">
           </div>
         </div>
         <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="number" required="" placeholder="Matricola" id="matricola" name="email">
+            <input class="form-control" type="number" required="" placeholder="Matricola" id="matricola" name="matricola">
           </div>
         </div>
         
         <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="password" required="" placeholder="Password" id="password" name="password">
+            <input class="form-control" type="password" required="" placeholder="Password" id="password" name="password" maxlength="20" minlength="8" pattern="[A-Za-z0-9]{8,20}$">
           </div>
         </div>
         <div class="form-group">
           <div class="col-xs-12">
-            <input class="form-control" type="password" required="" placeholder="Confirm Password" id="password1" name="password1">
+            <input class="form-control" type="password" required="" placeholder="Confirm Password" id="password1" name="password1"  pattern="[A-Za-z0-9]{8,20}$">
           </div>
         </div>
         
@@ -191,12 +187,12 @@ if(semaforo==true){
         </div>
          <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="text" required="" placeholder="Indirizzo" id="indirizzo" name="indirizzo">
+            <input class="form-control" type="text"  placeholder="Indirizzo" id="indirizzo" name="indirizzo">
           </div>
         </div>
          <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="number" required="" placeholder="Telefono" id="telefono" name="telefono">
+            <input class="form-control" type="number" placeholder="Telefono" id="telefono" name="telefono" length="10">
           </div>
         </div>
         

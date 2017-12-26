@@ -31,10 +31,12 @@ public class NegaSegreteria implements Filter {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
     // se l'utente è la segreteria l'accesso è negato
+    /*
     if (StringUtils.isEmpty(utenteRuolo) || utenteRuolo.equals("Segreteria")) {
       ((HttpServletRequest) request).getServletContext()
           .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
     }
+    */
     chain.doFilter(request, response);
   }
 

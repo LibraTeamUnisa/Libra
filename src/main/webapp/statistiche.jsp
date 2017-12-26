@@ -124,7 +124,7 @@
 									<tr role="row">
 										<th class="sorting_desc" tabindex="0"
 											aria-controls="example23" rowspan="1" colspan="1"
-											aria-label="NUmero: activate to sort column ascending"
+											aria-label="Numero: activate to sort column ascending"
 											style="width: 91px;" aria-sort="descending">#</th>
 										<th class="sorting" tabindex="0" aria-controls="example23"
 											rowspan="1" colspan="1"

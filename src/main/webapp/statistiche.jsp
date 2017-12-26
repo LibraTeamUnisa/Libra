@@ -14,10 +14,6 @@
 <%@page import="it.unisa.libra.bean.TutorInterno"%>
 <%@page import="java.util.*,it.unisa.*"%>
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,14 +88,17 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-
 				<div class="card">
 					<div class="card-block">
 						<h4 class="card-title">Lista Studenti</h4>
-						<% String emailTutor = (String) request.getSession().getAttribute("giando26@gmail.com");
-					
+						<% 		
+						
+						String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
+						String emailTutorParamiter = (String) request.getParameter("email");
+						
+						
 						ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext().lookup("java:app/Libra/TutorInternoJpa");
-						TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, "giando26@gmail.com");
+						TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, "utenteEmail");
 			
 						
 						if(emailTutor.length()==0 || tutorInterno==null ){

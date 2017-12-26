@@ -29,7 +29,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgettoFormativo.findByStudenteAssociato",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.studente=:studente AND p.tutorInterno.utenteEmail=:tutorinterno ORDER BY p.id DESC"),
     @NamedQuery(name = "ProgettoFormativo.findByAziendaNome",
-        query = "SELECT p FROM ProgettoFormativo p WHERE p.azienda.nome=:nomeAzienda")})
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.azienda.nome=:nomeAzienda"),
+    @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda", query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda")})
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
 

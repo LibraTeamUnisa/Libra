@@ -197,6 +197,19 @@
 					{ "searchable": false, "targets": 0 },
 					{ "searchable": false, "targets": 2 },
 				  ],
+				"language": {
+		            "lengthMenu": "Mostra _MENU_ risultati per pagina",
+		            "zeroRecords": "Nessun risultato trovato",
+		            "info": "Pagina _PAGE_ di _PAGES_",
+		            "infoEmpty": "Nessun risultato presente",
+		            "infoFiltered": "(Cercati su _MAX_ risultati totali)",
+		            "paginate": {
+		                "first":      "Prima",
+		                "last":       "Ultima",
+		                "next":       "Successiva",
+		                "previous":   "Precedente"
+		            }
+			    },
 				"initComplete" : function() {
 					$(".dataTables_filter").empty();
 					$(".dataTables_filter").html(

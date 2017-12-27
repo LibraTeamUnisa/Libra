@@ -58,7 +58,7 @@ public class VerificaPfServlet extends HttpServlet {
 		try {
 			id = Integer.parseInt(request.getParameter("pf_id"));
 		} catch (NumberFormatException e) {
-			response.getWriter().println("Parse Integer error");
+			response.getWriter().write(PARSE_ERROR_MSG);
 			return;
 		}
 		String ruolo = (String) request.getSession().getAttribute("utenteRuolo");
@@ -66,33 +66,84 @@ public class VerificaPfServlet extends HttpServlet {
 		String motivazioneRifiuto = request.getParameter("motivazione");
 		ProgettoFormativo pf = progettoformativoDao.findById(ProgettoFormativo.class, id);
 
-		
+		// Se il progetto formativo non è presente
 		if (pf == null) {
-			response.getWriter().println("Progetto Formativo inesistente.");
+			response.getWriter().write(PF_NOTFOUND_ERROR_MSG);
 			return;
 		}
 		if (ruolo.equals("Presidente")) {
-			if (pf.getStato() == 3) {// In attesa della firma del presidente
+			// Il progetto formativo deve essere in attesa della firma del presidente per
+			// poter essere rifiutato
+			if (pf.getStato() == 3) {
 				pf.setStato(6);
 				pf.setMotivazioneRifiuto(motivazioneRifiuto);
 			} else {
-				response.getWriter().println("Operazione non consentita.");
+				response.getWriter().write(STATO_ERROR_MSG);
 				return;
 			}
 		} else if (ruolo.equals("TutorInterno")) {
-			if (pf.getTutorInterno().getUtenteEmail().equals(email) && pf.getStato() == 2) {// In attesa della firma del																			// tutor interno
-				pf.setStato(6);
-				pf.setMotivazioneRifiuto(motivazioneRifiuto);
+			// Il tutor interno deve essere associato al progetto formativo
+			if (pf.getTutorInterno().getUtenteEmail().equals(email)) {
+				// Il progetto formativo deve essere in attesa della firma del tutor interno
+				if (pf.getStato() == 2) {
+					pf.setStato(6);
+					pf.setMotivazioneRifiuto(motivazioneRifiuto);
+				} else {
+					response.getWriter().write(STATO_ERROR_MSG);
+					return;
+				}
 			} else {
-				response.getWriter().println("Operazione non consentita.");
+				response.getWriter().write(TUTOR_ERROR_MSG);
 				return;
 			}
 		} else {
-			response.getWriter().println("Non hai l'autorizzazione necessaria.");
+			response.getWriter().write(RUOLO_ERROR_MSG);
 			return;
 		}
 		progettoformativoDao.persist(pf);
-		response.getWriter().println("ok");
+		response.getWriter().write(SUCCESS_MSG);
 		return;
 	}
+
+	/**
+	 * Questo metodo imposta il DAO della servlet.
+	 * 
+	 * @param dao
+	 *            Il dao che si occupa della gestione della persistenza del progetto
+	 *            formativo
+	 */
+	public void setProgettoFormativoDao(IProgettoFormativoDao dao) {
+		this.progettoformativoDao = dao;
+	}
+
+	/**
+	 * Messaggio restituito nel caso in cui l'operazione è stata completata con
+	 * successo.
+	 */
+	private static final String SUCCESS_MSG = "ok";
+	/**
+	 * Messaggio restituito nel caso in cui lo stato del progetto formativo non è
+	 * quello atteso.
+	 */
+	private static final String STATO_ERROR_MSG = "Operazione non consentita";
+	/**
+	 * Messaggio restituito nel caso in cui il l'utente non è un presidente o un
+	 * tutor interno.
+	 */
+	private static final String RUOLO_ERROR_MSG = "Non hai l'autorizzazione necessaria per effettuare questa operazione";
+	/**
+	 * Messaggio restituito nel caso in cui il tutor interno non è associato al
+	 * progetto formativo da rifiutare.
+	 */
+	private static final String TUTOR_ERROR_MSG = "Non sei associato a questo progetto formativo";
+	/**
+	 * Messaggio restituito nel caso in cui il progetto formativo non viene trovato
+	 * nel database.
+	 */
+	private static final String PF_NOTFOUND_ERROR_MSG = "Progetto formativo non trovato";
+	/**
+	 * Messaggio restituito nel caso in cui il parametro relativo all'id del
+	 * progetto formativo non è un intero.
+	 */
+	private static final String PARSE_ERROR_MSG = "Parametro errato";
 }

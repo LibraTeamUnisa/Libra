@@ -38,6 +38,8 @@
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/listaStudenti.jsp</url-pattern>
 		<url-pattern>/profiloAziendale.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
@@ -67,6 +69,7 @@
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
@@ -96,6 +99,7 @@
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
@@ -123,6 +127,8 @@
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/listaStudenti.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
@@ -151,6 +157,7 @@
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>

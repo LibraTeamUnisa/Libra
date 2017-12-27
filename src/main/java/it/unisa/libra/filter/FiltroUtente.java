@@ -38,6 +38,12 @@ public class FiltroUtente implements Filter {
    */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+    // evita il bug: dopo il logout, tornando indietro nel browser posso vedere ancora le pagine
+    ((HttpServletResponse) response).setHeader("Cache-Control",
+        "no-cache,no-store,must-revalidate");
+    ((HttpServletResponse) response).setHeader("Pragma", "no-cache");
+    ((HttpServletResponse) response).setDateHeader("Expires", 0);
+
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
     if (!(StringUtils.isNullOrEmpty(utenteEmail))) {

@@ -85,6 +85,9 @@ class="fix-header fix-sidebar card-no-border"
 							</div>
 							<div class="modal-body">
 								<p>Sembra che tu non disponga delle autorizzazioni necessarie per accedere a questa risorsa.</p>
+								<% if (ruolo == null) { %>
+								<p>Effettua il login per proseguire nella navigazione.
+								<% } %>
 							</div>
 							<div class="modal-footer">
 									<a class="btn btn-warning" style="text-decoration: none; color: white;"

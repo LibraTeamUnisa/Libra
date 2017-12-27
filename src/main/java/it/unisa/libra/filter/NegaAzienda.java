@@ -1,5 +1,6 @@
 package it.unisa.libra.filter;
 
+import com.mysql.jdbc.StringUtils;
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -22,17 +23,25 @@ public class NegaAzienda implements Filter {
   /** Default constructor. */
   public NegaAzienda() {}
 
-  /** @see Filter#destroy() */
+  /**
+   * Override.
+   * 
+   * @see Filter#destroy()
+   */
   public void destroy() {}
 
-  /** @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) */
+  /**
+   * Override. Se l'utente loggato è un'azienda, reindirizza ad una pagina di errore.
+   * 
+   * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+   */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
     // se l'utente non è loggato, si è verificato un errore nella catena di filtri
     // se l'utente è un'azienda l'accesso è negato
-    if ((utenteRuolo == null) || "Azienda".equals(utenteRuolo)) {
+    if ((StringUtils.isNullOrEmpty(utenteRuolo)) || "Azienda".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;
@@ -40,6 +49,10 @@ public class NegaAzienda implements Filter {
     chain.doFilter(request, response);
   }
 
-  /** @see Filter#init(FilterConfig) */
+  /**
+   * Override.
+   * 
+   * @see Filter#init(FilterConfig)
+   */
   public void init(FilterConfig fConfig) throws ServletException {}
 }

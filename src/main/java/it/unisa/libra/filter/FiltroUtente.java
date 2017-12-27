@@ -1,5 +1,6 @@
 package it.unisa.libra.filter;
 
+import com.mysql.jdbc.StringUtils;
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -22,15 +23,24 @@ public class FiltroUtente implements Filter {
   /** Default constructor. */
   public FiltroUtente() {}
 
-  /** @see Filter#destroy() */
+  /**
+   * Override.
+   * 
+   * @see Filter#destroy()
+   */
   public void destroy() {}
 
-  /** @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) */
+  /**
+   * Override. Garantisce l'accesso alla risorsa richiesta solo se l'utente è loggato. In caso
+   * contrario, rimanda a una pagina di errore.
+   * 
+   * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+   */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
-    if (utenteEmail != null) {
+    if (!(StringUtils.isNullOrEmpty(utenteEmail))) {
       // l'utente è loggato e può proseguire nella navigazione
       chain.doFilter(request, response);
       return;
@@ -51,6 +61,10 @@ public class FiltroUtente implements Filter {
     }
   }
 
-  /** @see Filter#init(FilterConfig) */
+  /**
+   * Override.
+   * 
+   * @see Filter#init(FilterConfig)
+   */
   public void init(FilterConfig fConfig) throws ServletException {}
 }

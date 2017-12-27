@@ -1,7 +1,6 @@
 <%@ page import="it.unisa.libra.util.Actions" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="it.unisa.libra.model.dao.ISegreteriaDao" %>
 <%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.Context" %>
@@ -10,19 +9,30 @@
 <%@ page import="java.util.Map.Entry" %>
 <%@ page import="it.unisa.libra.bean.Segreteria" %>
 <%@ page import="it.unisa.libra.bean.Utente" %>
+<%@ page import="it.unisa.libra.bean.Presidente" %>
 
 
 <%
-	 
+	String nome = null;
+	String cognome = null;
+	Utente utente = null;
+	Presidente accountPresidente = null;
 	IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
-	request.getSession().setAttribute("utenteRuolo", "Segreteria");
-	request.getSession().setAttribute("utenteEmail", "segreteriaprova@unisa.it");
 	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
 	String email = (String) request.getSession().getAttribute("utenteEmail");
 	boolean segreteria = false;
+	boolean presidente = false;
 	if(request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
-		Utente utente = utenteDao.findById(Utente.class, "segreteriaprova@unisa.it");
+		utente = utenteDao.findById(Utente.class, email);
+		nome = email;
+		cognome = "";
 		segreteria = true;
+	}else if(request.getSession().getAttribute("utenteRuolo").equals("Presidente")){
+		utente = utenteDao.findById(Utente.class, email);
+		accountPresidente = utente.getPresidente();
+		nome = accountPresidente.getNome();
+		cognome = accountPresidente.getCognome();
+		presidente = true;	
 	}
 %>
 
@@ -33,12 +43,16 @@
                 <!-- User profile -->
                 <div class="user-profile">
                     <!-- User profile image -->
-                    <div class="profile-img"> <img src="assets/images/users/1.jpg" alt="" /> </div>
+                    <%if(utente.getImgProfilo()!=null||!(utente.getImgProfilo().equals(""))){ %>
+                    <div class="profile-img"> <img src=<%=utente.getImgProfilo()+""%> alt="" /> </div>
+                    <%}else { %>
+                    <div class="profile-img"> <img src="assets/images/logo-icon.png" alt="" /> </div>
+                    <%} %>
                     <!-- User profile text-->
-                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
+                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%=(nome+" "+cognome)%><span class="caret"></span></a>
                         <div class="dropdown-menu animated flipInY">
                             <a href="profilo.jsp" class="dropdown-item"><i class="ti-user"></i> Il mio profilo</a>
-                            <a href="#" class="dropdown-item"><i class="ti-email"></i> Notifiche</a>
+                            <a href="notifiche.jsp" class="dropdown-item"><i class="ti-email"></i> Notifiche</a>
                           <!--    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a> -->
                             <div class="dropdown-divider"></div> <a href="${pageContext.request.contextPath}/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
@@ -49,43 +63,51 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li>
-                        	<%if(segreteria==true){ %>
-                        	<a href="#" aria-expanded="false"><span class="hide-menu">Catalogo aziende</span></a>     
-                        	<%}else { %>
-                            <a href="#" aria-expanded="false"><span class="hide-menu">Dashboard </span></a>    
-                            <%} %>                        
+                        	<%if(segreteria==true || presidente==true){ %>
+                        	<a href="catalogoAziende.jsp" aria-expanded="false"><span class="hide-menu">Catalogo aziende</span></a>       
+                            <%}else {%>
+                            <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
+                            <%} %>                     
                         </li>
                         <li>
-                        	<%if(segreteria==true){ %>
-                        	<a href="#" aria-expanded="false"><span class="hide-menu">Studenti</span></a> 
-                        	<%}else {%>
+                        	<%if(segreteria==true || presidente ==true){ %>
+                        	<a href="listaStudenti.jsp" aria-expanded="false"><span class="hide-menu">Studenti</span></a> 
+                            <%}else {%>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
                             <%} %>
                         </li>
                         <li>
                         	<%if(segreteria==true){ %>
-                        	<a href="#" aria-expanded="false"><span class="hide-menu">Statistiche</span></a>  
-                        	<%}else {%>
-                            <a href="#" aria-expanded="false"><span class="hide-menu">Inbox</span></a>              
-                            <%} %>              
+                        	<a href="statistiche.jsp" aria-expanded="false"><span class="hide-menu">Statistiche</span></a>  
+                        	<%}else if(presidente==true){%>
+                            <a href="reportStudente.jsp" aria-expanded="false"><span class="hide-menu">Report</span></a>              
+                            <%}else {%>
+                            <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
+                            <%} %>            
                         </li>
                         <li>
                         	<%if(segreteria==true){ %>
-                        	<a href="#" aria-expanded="false"><span class="hide-menu">Permessi feedback</span></a>   
-                        	<%}else {%>
-                            <a href="#" aria-expanded="false"><span class="hide-menu">Ui Elements</span></a>       
+                        	<a href="gestionePermessi.jsp" aria-expanded="false"><span class="hide-menu">Permessi feedback</span></a>   
+                        	<%}else if(presidente == true){%>
+                            <a href="statistiche.jsp" aria-expanded="false"><span class="hide-menu">Statistiche</span></a>       
+                            <%}else {%>
+                            <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
                             <%} %>                    
                         </li>
                         	<%if(segreteria==true){ %>
                         	<li>
-                        	<a href="#" aria-expanded="false"><span class="hide-menu">Aggiungi utente</span></a> 
+                        	<a href="aggiungiUtente.jsp" aria-expanded="false"><span class="hide-menu">Aggiungi utente</span></a> 
                         	 </li>
                         	<li>
-                            <a href="#" aria-expanded="false"><span class="hide-menu">Rimuovi utente</span></a> 
+                            <a href="rimuoviUtente.jsp" aria-expanded="false"><span class="hide-menu">Rimuovi utente</span></a> 
                         	<% }%>
                         	 </li>
                         <li>
-                            <a href="contattiDipartimento.jsp" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a>                           
+                        	<%if(segreteria==true || presidente==true){ %>
+                        	<a href="contattiDipartimento.jsp" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a>    
+                            <%}else {%>
+                            <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
+                            <%} %>                               
                         </li>
                         <li class="nav-devider"></li>
                    

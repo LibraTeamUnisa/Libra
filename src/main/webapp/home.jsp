@@ -44,7 +44,8 @@
 	<!-- Main wrapper - style you can find in pages.scss -->
 	<!-- ============================================================== -->
 	<section id="wrapper">
-		<div class="login-register" style="background-image:url(assets/images/background/sfondo.jpg);">
+		<div class="login-register"
+			style="background-image: url(assets/images/background/sfondo.jpg);background-size:cover;position:fixed;z-index:-1;">
 			<div class="login-box card">
 				<div class="card-block">
 					<form class="form-horizontal form-material" id="loginform"
@@ -62,15 +63,18 @@
 									required placeholder="Password" pattern="[A-Za-z0-9]{8,20}$">
 							</div>
 						</div>
-						<div class="form-group has-danger">
+						<div class="form-group">
 							<div class="col-md-12">
 
-								<div id="error-message" class="alert alert-danger"
-									style="display: none">Login errato, riprova</div>
-
-								<a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
+								<a href="javascript:void(0)" id="to-recover"
+									class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password
+									dimenticata?</a>
 							</div>
 						</div>
+						
+						<div id="error-message" class="col-md-12 alert alert-danger has-danger"
+									style="display:none">Credenziali non corrette, riprova</div>
+						
 						<div class="form-group text-center m-t-20">
 							<div class="col-xs-12">
 								<button
@@ -82,12 +86,16 @@
 							<div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
 
 							</div>
-						</div><div class="form-group m-b-0">
-                        <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="register.html" class="text-info m-l-5"><b>Sign Up</b></a></p>
-                        </div>
-                    </div>
-						
+						</div>
+						<div class="form-group m-b-0">
+							<div class="col-sm-12 text-center">
+								<p>
+									Non hai ancora un account? <a href="register.html"
+										class="text-info m-l-5"><b>Registrati</b></a>
+								</p>
+							</div>
+						</div>
+
 					</form>
 
 				</div>

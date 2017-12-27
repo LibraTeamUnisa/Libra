@@ -32,7 +32,7 @@ public class NegaSegreteria implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Se l'utente loggato è la segreteria, reindirizza ad una pagina di errore.
+   * Override. Se l'utente loggato Ã¨ la segreteria, reindirizza ad una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */
@@ -40,8 +40,8 @@ public class NegaSegreteria implements Filter {
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-    // se l'utente non è loggato, si è verificato un errore nella catena di filtri
-    // se l'utente è la segreteria l'accesso è negato
+    // se l'utente non Ã¨ loggato, si Ã¨ verificato un errore nella catena di filtri
+    // se l'utente Ã¨ la segreteria l'accesso Ã¨ negato
     if ((StringUtils.isNullOrEmpty(utenteRuolo)) || "Segreteria".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);

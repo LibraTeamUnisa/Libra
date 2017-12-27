@@ -32,7 +32,7 @@ public class NegaTutorInterno implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Se l'utente loggato è un tutor interno, reindirizza ad una pagina di errore.
+   * Override. Se l'utente loggato Ã¨ un tutor interno, reindirizza ad una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */
@@ -40,8 +40,8 @@ public class NegaTutorInterno implements Filter {
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-    // se l'utente non è loggato, si è verificato un errore nella catena di filtri
-    // se l'utente è un tutor interno l'accesso è negato
+    // se l'utente non Ã¨ loggato, si Ã¨ verificato un errore nella catena di filtri
+    // se l'utente Ã¨ un tutor interno l'accesso Ã¨ negato
     if ((StringUtils.isNullOrEmpty(utenteRuolo)) || "TutorInterno".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);

@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"
+	import="it.unisa.libra.bean.*,
+			it.unisa.libra.model.dao.*,
+			javax.ejb.EJB,
+			javax.naming.InitialContext,
+			java.util.Date,
+			java.util.Calendar,
+			java.util.GregorianCalendar,
+			java.util.List,
+			java.util.Map,
+			java.util.Map.Entry,
+			it.unisa.libra.util.JsonUtils
+			"%>
 
 
 <!DOCTYPE html>
@@ -42,6 +54,20 @@
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
     </div>
+   <!-- STUDENTE --> 
+                 	<%
+/*		session = request.getSession();
+		String email = (String) session.getAttribute("utenteEmail");
+		String ruolo = (String) session.getAttribute("utenteRuolo");
+		
+		if (email == null || ruolo == null || !ruolo.equals("Studente")) {
+			response.sendRedirect("/Libra/errore.jsp");
+		}
+		IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+		Utente u = utenteDao.findById(Utente.class, email);
+		IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
+		Studente s = studenteDao.findById(Studente.class, email);
+*/	%>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -68,8 +94,75 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             
+
+				<div class="card card-block">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="card wild-card">
+								<h4 class="text-themecolor m-b-0 m-t-0">
+									Dettaglio Proposta
+								</h4>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<!-- PROGETTO FORMATIVO-->
+						<%
+							String idString = request.getParameter("id");
+							int id = Integer.parseInt(idString);
+							IProgettoFormativoDao pfdao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+							ProgettoFormativo pf = pfdao.findById(ProgettoFormativo.class, id);
+						%>
+						<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Data invio:</label>
+									</div>
+									<div class="col-sm-5">
+										<%
+											Date date = pf.getDataInvio();
+												Calendar calendar = new GregorianCalendar();
+												calendar.setTime(date);
+												int year = calendar.get(Calendar.YEAR);
+												int mm = calendar.get(Calendar.MONTH) + 1;
+												int gg = calendar.get(Calendar.DAY_OF_MONTH);
+												String day = String.format("%02d", gg);
+												String month = String.format("%02d", mm);
+										%>
+										<p><%=year%>-<%=month%>-<%=day%></p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Azienda:</label>
+									</div>
+									<div class="col-sm-5">
+									<%
+										Azienda azienda = pf.getAzienda();
+									%>
+									<p><%=azienda.getNome() %></p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Note:</label>
+									</div>
+									<div class="col-sm-5">
+										<p><%=pf.getNote() %></p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<label class="col-md-12">Contenuto proposta:</label>
+									</div>
+									<div class="col-sm-5">
+										<p><%=pf.getDocumento() %></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>           
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

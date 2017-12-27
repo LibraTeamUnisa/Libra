@@ -3,6 +3,7 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,7 +26,7 @@ public class Permesso implements Serializable {
   private boolean abilitazione;
 
   // bi-directional many-to-many association to Gruppo
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "possesso", joinColumns = {@JoinColumn(name = "tipo")},
       inverseJoinColumns = {@JoinColumn(name = "ruolo")})
   private List<Gruppo> gruppi;

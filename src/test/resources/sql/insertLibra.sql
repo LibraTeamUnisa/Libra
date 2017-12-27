@@ -15,3 +15,18 @@ INSERT INTO `libra`.`Presidente` (`utenteEmail`, `cognome`, `nome`, `dataDiNasci
 INSERT INTO libra.Utente (email, imgProfilo, indirizzo, password, telefono, ruolo) VALUES ('azienda@prova.it', 'xxx', 'Via delle Aziende', '123123', '0892221113', 'Azienda');
 INSERT INTO libra.Azienda (utenteEmail, nome, partitaIVA, sede) VALUES ('azienda@prova.it', 'Azienda', 'PartIva', 'Trivio');
 INSERT INTO libra.Tutoresterno (ambito, aziendaEmail, cognome, nome, telefono, indirizzo, dataDiNascita) VALUES ('ambito', 'azienda@prova.it', 'Brazorf', 'Ajeje', '1112223331', 'via Roma, 1', '1992-08-15 00:00:00');
+
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('anonimi','1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('conFirma','1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('noFeedback','1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('ricevuti','1');
+
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Azienda','conFirma');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Presidente','conFirma');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Segreteria','conFirma');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Studente','conFirma');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('TutorInterno','conFirma');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Presidente','ricevuti');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Segreteria','ricevuti');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Studente','ricevuti');
+INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('TutorInterno','ricevuti');

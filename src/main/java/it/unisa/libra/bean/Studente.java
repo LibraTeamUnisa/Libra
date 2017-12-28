@@ -23,8 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s"),
-	@NamedQuery(name = "Studente.occorrenze", query = "SELECT COUNT(s) FROM Studente s")
+	@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s")
 })
 
 public class Studente implements Serializable {

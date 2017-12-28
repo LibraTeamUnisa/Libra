@@ -18,9 +18,6 @@
 	Utente utenteVar = null;
 	Presidente accountPresidente = null;
 	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
-	//
-	request.getSession().setAttribute("utenteRuolo", "Presidente");
-	request.getSession().setAttribute("utenteEmail", "presidente@unisa.it");
 	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
 	String emailUtente = (String) request.getSession().getAttribute("utenteEmail");
 	boolean segreteria = false;

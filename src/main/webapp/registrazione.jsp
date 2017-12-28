@@ -139,27 +139,19 @@ if(semaforo==true){
 
 
 function verificaStringa(nome){
-	if(nome!=""&&nome.length>1&&nome.length<21){
-			return true;
-		}
+	return (nome!=""&&nome.length>1&&nome.length<21);
 	}
 
 function verificaEmail(email){
-	if(email!=""&&email.includes("@")&&email.length>19&&email.lastIndexOf("@")<email.length){
-			return true;
-		}
+	return (email!=""&&email.includes("@")&&email.length>19&&email.lastIndexOf("@")<email.length);
 	}
 
 function verificaFormatoMatricola(matricola){
-	if(matricola.substring(0,5)=="05121"||matricola.substring(0,5)=="05225"||matricola.substring(0,5)=="05122"){
-			return true;
-		}
+	return (matricola.substring(0,5)=="05121"||matricola.substring(0,5)=="05225"||matricola.substring(0,5)=="05122");
 	}
 
 function verificaFormatoPassword(password){
-	if(password!=""&&password.length>7&&password.length<21&&password1!=""){
-			return true;
-		}
+	return (password!=""&&password.length>7&&password.length<21&&password1!="");
 	}
 </script>
     <!-- ============================================================== -->

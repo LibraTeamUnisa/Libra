@@ -111,38 +111,47 @@
                         <div class="card" >
                         
                             <div class="card">
-                                <h4 class="card-title">Tirocinii in corso</h4>
+                                
                                 <div class="table-responsive m-t-40">
+                                
                                     <table class="table stylish-table">
+                                    <h4 class="card-title">Tirocinii in corso</h4>
                                         <thead>
                                             <tr>
-                                                <th colspan="2">Assigned</th>
-                                                <th>Name</th>
-                                                <th>Priority</th>
-                                                <th>Budget</th>
+                                                <th colspan="2">Azienda</th>
+                                                <th>Studente</th>
+                                                <th>Tutor interno</th>
+                                                <th>Ambito</th>
+                                                <th>Data inizio</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <% 
+                                        /*
                                         for(ProgettoFormativo p: progettiInCorso){
                                         	if(p.getDataInizio().before(new Date())){
                                         		if(p.getDataFine()==null||p.getDataFine().after(new Date())){
-                                        		
-                                        		
+                                        			*/
+                                        		if(true){
                                         
                                         	%>
                                             <tr>
                                                 <td style="width:50px;"><span class="round">S</span></td>
                                                 <td>
-                                                    <h6>Sunil Joshi</h6><small class="text-muted">Web Designer</small></td>
-                                                <td>Elite Admin</td>
-                                                <td><span class="label label-light-success">Low</span></td>
-                                                <td>$3.9K</td>
+                                                    <h6>Ubisoft</h6></td>
+                                                    <td>
+                                                    <h6>Vincenzo Gallicchio</h6></td>
+                                                <td>Gianni morandi</td>
+                                                <td><span class="label label-light-success">AI</span></td>
+                                                <td>12/12/2012</td>
                                             </tr>
                                             <%
                                         		}
+                                            /*
+                                        		}
                                        		 }
                                         }
+                                        */
                                             %>
                                             
                                         </tbody>

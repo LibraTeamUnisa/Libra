@@ -71,30 +71,28 @@ public class RichiediPfServlet extends HttpServlet {
         String defaultString = "/";
         int deafuletInt = 0;
 
-          if(azienda != null && studente != null) {
-            ProgettoFormativo pf = new ProgettoFormativo();
-            pf.setAzienda(azienda);
-            pf.setStudente(studente);
-    
-            // Valori di default per i campi not null
-            pf.setTutorInterno(null);
-            pf.setAmbito(defaultString);
-            pf.setDocumento(defaultString);
-            pf.setStato(deafuletInt);
-            pf.setPeriodoReport(deafuletInt);
-    
-            pfDao.persist(pf);
-            response.getWriter().write(SUCCESS_MSG);
-            response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome="
-                + azienda.getNome() + "&stato=success");
-          }
-          else if(studente == null){
-            response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
-          }
-          else {
-            response.getWriter().write(AZIENDA_NOT_FOUND_MSG);
-          }
-          
+        if (azienda != null && studente != null) {
+          ProgettoFormativo pf = new ProgettoFormativo();
+          pf.setAzienda(azienda);
+          pf.setStudente(studente);
+
+          // Valori di default per i campi not null
+          pf.setTutorInterno(null);
+          pf.setAmbito(defaultString);
+          pf.setDocumento(defaultString);
+          pf.setStato(deafuletInt);
+          pf.setPeriodoReport(deafuletInt);
+
+          pfDao.persist(pf);
+          response.getWriter().write(SUCCESS_MSG);
+          response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome="
+              + azienda.getNome() + "&stato=success");
+        } else if (studente == null) {
+          response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
+        } else {
+          response.getWriter().write(AZIENDA_NOT_FOUND_MSG);
+        }
+
       } else {
         response.getWriter().write(USER_ERROR_MSG);
       }
@@ -107,42 +105,37 @@ public class RichiediPfServlet extends HttpServlet {
   /**
    * Questo metodo imposta il DAO della servlet.
    * 
-   * @param dao
-   *            Il dao che si occupa della gestione della persistenza del progetto
-   *            formativo
+   * @param dao Il dao che si occupa della gestione della persistenza del progetto formativo
    */
   public void setProgettoFormativoDao(IProgettoFormativoDao dao) {
-      this.pfDao = dao;
+    this.pfDao = dao;
   }
-  
+
   /**
    * Questo metodo imposta il DAO della servlet.
    * 
-   * @param dao
-   *            Il dao che si occupa della ricerca dell'utente
+   * @param dao Il dao che si occupa della ricerca dell'utente
    */
   public void setUtenteDao(IUtenteDao dao) {
-      this.utenteDao = dao;
+    this.utenteDao = dao;
   }
-  
+
   /**
    * Questo metodo imposta il DAO della servlet.
    * 
-   * @param dao
-   *            Il dao che si occupa della ricerca dello studente
+   * @param dao Il dao che si occupa della ricerca dello studente
    */
   public void setStudenteDao(IStudenteDao dao) {
-      this.studenteDao = dao;
+    this.studenteDao = dao;
   }
-  
+
   /**
    * Questo metodo imposta il DAO della servlet.
    * 
-   * @param dao
-   *            Il dao che si occupa della ricerca dell'azienda
+   * @param dao Il dao che si occupa della ricerca dell'azienda
    */
   public void setAziendaDao(IAziendaDao dao) {
-      this.aziendaDao = dao;
+    this.aziendaDao = dao;
   }
 
   /**

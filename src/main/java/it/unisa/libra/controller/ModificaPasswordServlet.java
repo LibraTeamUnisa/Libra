@@ -30,7 +30,7 @@ public class ModificaPasswordServlet extends HttpServlet {
       throws ServletException, IOException {
     response.setContentType("text/html");
     String email = (String) request.getSession().getAttribute("utenteEmail");
-    Utente utente = utenteDao.findById(Utente.class, email);
+    Utente utente = (Utente) utenteDao.findById(Utente.class, email);
     String action = request.getParameter("action");
     if (action == null) {
       response.getWriter().write("errore");
@@ -74,5 +74,6 @@ public class ModificaPasswordServlet extends HttpServlet {
     } else {
       return false;
     }
+
   }
 }

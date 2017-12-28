@@ -22,8 +22,7 @@ import javax.persistence.OneToOne;
 
 @NamedQueries({@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a"),
     @NamedQuery(name = "Azienda.findName",
-        query = "SELECT a FROM Azienda a WHERE a.nome=:nomeAzienda"),
-	@NamedQuery(name = "Azienda.occorrenze", query = "SELECT COUNT(a) FROM Azienda a")
+        query = "SELECT a FROM Azienda a WHERE a.nome=:nomeAzienda")
 		
 })
 

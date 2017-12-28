@@ -32,7 +32,7 @@ public class NegaStudente implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Se l'utente loggato è uno studente, reindirizza ad una pagina di errore.
+   * Override. Se l'utente loggato Ã¨ uno studente, reindirizza ad una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */
@@ -40,7 +40,7 @@ public class NegaStudente implements Filter {
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-    // se l'utente è uno studente l'accesso è negato
+    // se l'utente ï¿½ uno studente l'accesso ï¿½ negato
     if ("Studente".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);

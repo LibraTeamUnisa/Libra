@@ -6,11 +6,13 @@
 	import="it.unisa.libra.bean.TutorEsterno"
 	import="it.unisa.libra.bean.ProgettoFormativo"
 	import="it.unisa.libra.bean.Feedback"
+	import="it.unisa.libra.bean.Studente"
 	import="it.unisa.libra.model.dao.IAziendaDao"
 	import="it.unisa.libra.model.dao.IFeedbackDao"
 	import="it.unisa.libra.model.dao.IProgettoFormativoDao"
 	import="it.unisa.libra.model.dao.ITutorEsternoDao"
-	import="java.util.List" import="javax.naming.InitialContext"%>
+	import="it.unisa.libra.model.dao.IStudenteDao" import="java.util.List"
+	import="javax.naming.InitialContext"%>
 <%
 	HttpSession sessione = request.getSession();
 	//sessione.setAttribute("utenteEmail", "email@email.it");
@@ -25,6 +27,7 @@
 			.lookup("java:app/Libra/TutorEsternoJpa");
 	IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext()
 			.lookup("java:app/Libra/ProgettoFormativoJpa");
+	IStudenteDao studenteDAO = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	//IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
 	Azienda a = aziendaDAO.findByName(nome);
 	List<TutorEsterno> tutorEsterni = tutorDAO.findByAziendaNome(nome);
@@ -136,8 +139,8 @@
 						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli Azienda</h3>
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-							<li class="breadcrumb-item"><a href="catalogoAziende.jsp"></a>Catalogo
-								Aziende</li>
+							<li class="breadcrumb-item"><a href="catalogoAziende.jsp">Catalogo
+									Aziende</a></li>
 							<li class="breadcrumb-item active">Dettagli Azienda</li>
 						</ol>
 					</div>
@@ -219,24 +222,60 @@
 								<p>
 									<strong>Sede</strong> <span class="text-muted"><%=a.getUtente().getIndirizzo()%>,
 										<%=a.getSede()%></span>
+									<%
+										
+									%>
 								</p>
 								<div class="text-right">
 									<!-- CONTROLLO SE E' UNO STUDENTE -->
 									<%
-										if (utenteRuolo.equals("Studente")){
+										Studente s = studenteDAO.findById(Studente.class, utenteEmail);
+												ProgettoFormativo progettoFormativo = progettoFormativoDAO.getLastProgettoFormativoByStudente(s);
+										
+												if (utenteRuolo.equals("Studente")) {
+													//Controllo se lo studente ha già un progetto formativo attivo
+													if (progettoFormativo == null || progettoFormativo.getStato() == 5
+															|| progettoFormativo.getStato() == 6) {
 									%>
-									<button type="button" class="btn btn-rounded btn-danger">Iscriviti</button>
+														<form method="post" id="formRichiediPF">
+															<input type="hidden" id="aziendaName" name="aziendaName" value="<%=nome%>" >
+															<button type="submit" class="btn btn-rounded btn-danger" id="iscrivitiButton" name="iscrivitiButton">Iscriviti</button>
+														</form>
 									<%
-									} 
+													}
+													 else{
 									%>
+														 	<div id="errore-message" class="alert alert-danger" style="text-align: center">
+													  		<strong>Attenzione!</strong><br> Non è possibile iscriversi all'azienda poichè risulta che lei abbia un progetto formativo attivo.  
+															</div>
+									<%
+													 }
+												}
+									%>
+									
+														<div class="modal fade" id="dialogMsg" role="dialog">
+															<div class="modal-dialog">
+																<div class="modal-content" >
+																	<div class="modal-body" style="text-align:center; color:black;">
+																	  Iscrizione effettuata!
+																	</div>
+																	
+																	<div class="modal-footer">
+																		<a href="profiloAziendale.jsp?nome=<%=nome%>" class="btn btn-success" style="text-decoration:none; color:white;" id="okButton">
+																		 Ok
+																		</a>
+																	</div>
+																</div>
+															</div>
+														</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<%
+					 }
 					}
-				}
 				%>
 
 			</div>
@@ -291,9 +330,25 @@
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-	
+
+	<script>
+		$(document).ready(function() {
+			$("#formRichiediPF").submit(function(e) {
+				e.preventDefault();
+				
+				$.post('richiediPfServlet', {
+					aziendaName : $("#aziendaName").val()
+					}, 
+				function(data) {
+					if (data == "Iscrizione effettuata!") {
+						$("#dialogMsg").modal({backdrop: 'static', keyboard: false});
+					} else {
+						$(".modal-body").html(data);
+						$("#dialogMsg").modal({backdrop: 'static', keyboard: false});
+					}
+				});
+			});
+		})
+	</script>
 </body>
-
 </html>
-
-

@@ -88,40 +88,43 @@
 		<!-- ============================================================== -->
 		<!-- Page wrapper  -->
 		<!-- ============================================================== -->
-		<div class="page-wrapper">
+		<div class="page-wrapper"
+			>
 			<!-- ============================================================== -->
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
-			<div class="container-fluid">
-				
-<form id="formRecupera">
-					<div class="card-block" align="center"
-						style="margin-top: 8%; margin-right: 11%; margin-left: 11%; background-color: white;">
-						<h4 class="card-title" style="margin: 2%;">Recupera Password</h4>
-						<p class="card-text">
-							Se hai dimenticato la password del tuo Account, <br>inserisci
-							la tua <b>email istituzionale</b> qui sotto.<br>Ti invieremo
-							la <b>nuova password</b> all'indirizzo fornito
-						</p>
-
-						<div class="group row" style="margin-top: 2%;">
-							<label for="inputEmail" id="label2"
-								class="col-sm-4 text-right control-label col-form-label">Email</label>
-							<label for="inputEmail" id="label1" style="margin-bottom: -50%;"
-								class="col-sm-2 text-left control-label col-form-label">Email</label>
-							<div class="col-sm-4">
-								<input type="email" name="email" required="required" id="labelEmail"
-									class="form-control" placeholder="Email" maxlength="30" /> 
-							</div>
-							<div style="margin-left: 30%; margin-top:3%;" align="center">
-							
-								<button id="buttonRichiedi" type="submit" class="btn btn-info" >Richiedi
-									Password</button>
-								
-							</div>
+	
+				<div class="login-register" style="background-image: url(assets/images/background/sfondo.jpg);">
+					<div class="login-box card">
+						<div class="card-block">
+							<form id="formRecupera" class="form-horizontal form-material">
+								<h3 class="box-title m-b-20">Recupera Password</h3>
+								<div class="form-group ">
+									<div class="col-xs-12">
+										<p class="card-text">
+											Se hai dimenticato la password del tuo Account, <br>inserisci
+											la tua <b>email istituzionale</b> qui sotto.<br>Ti
+											invieremo la <b>nuova password</b> all'indirizzo fornito
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-12">
+										<input type="email" name="email" required="required"
+											id="labelEmail" class="form-control" placeholder="Email"
+											maxlength="30" />
+									</div>
+								</div>
+								<div class="form-group text-center m-t-20">
+									<div class="col-xs-12">
+										<button id="buttonRichiedi" type="submit" class="btn btn-info">Richiedi
+											Password</button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
-				</form>
+				</div>
 
 				<div class="modal fade" id="modalResult" role="dialog">
 					<div class="modal-dialog">
@@ -144,7 +147,6 @@
 					</div>
 				</div>
 
-			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->
@@ -168,16 +170,27 @@
 	<!-- ============================================================== -->
 	<script src="assets/plugins/jquery/jquery.min.js"></script>
 	<script>
-		$(document).ready(function() {
-							$("#formRecupera").submit(
+		$(document)
+				.ready(
+						function() {
+							$("#formRecupera")
+									.submit(
 											function(e) {
 												e.preventDefault();
-												$.post('recupero', {
-													email : $("#labelEmail").val()
+												$
+														.post(
+																'recupero',
+																{
+																	email : $(
+																			"#labelEmail")
+																			.val()
 																},
 																function(data) {
-																	$("#buttonRichiedi").prop("disabled",true);
-																	
+																	$(
+																			"#buttonRichiedi")
+																			.prop(
+																					"disabled",
+																					true);
 
 																	if (data == "ok") {
 																		$(

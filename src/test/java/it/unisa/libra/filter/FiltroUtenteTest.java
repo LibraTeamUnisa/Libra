@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FiltroUtenteTest {
-
+	
   FiltroUtente filter = new FiltroUtente();
   HttpServletRequest request;
   HttpServletResponse response;
@@ -56,4 +56,5 @@ public class FiltroUtenteTest {
     filter.doFilter(request, response, chain);
     verify(response).sendRedirect("provaLibra" + JspPagesIndex.ACCESSO_NEGATO);
   }
+  
 }

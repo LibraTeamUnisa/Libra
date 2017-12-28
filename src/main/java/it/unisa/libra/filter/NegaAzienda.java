@@ -35,8 +35,10 @@ public class NegaAzienda implements Filter {
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */
+  
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+	  
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
 
@@ -50,6 +52,7 @@ public class NegaAzienda implements Filter {
    
     }
     chain.doFilter(request, response);
+    
   }
 
   /**

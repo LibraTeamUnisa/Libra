@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
 	<display-name>Libra</display-name>
-	
+	<!--  
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
@@ -168,5 +168,6 @@
 		<servlet-name>RecuperoPasswordServlet</servlet-name>
 		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
+	-->
 </web-app>
 

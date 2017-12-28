@@ -13,28 +13,28 @@
 <%@ page import="it.unisa.libra.util.Actions" %>
 
 <%
-	String nome = null;
-	String cognome = null;
-	Utente utente = null;
+	String nomeUtente = null;
+	String cognomeUtente = null;
+	Utente utenteVar = null;
 	Presidente accountPresidente = null;
-	IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 	//
 	request.getSession().setAttribute("utenteRuolo", "Presidente");
 	request.getSession().setAttribute("utenteEmail", "presidente@unisa.it");
 	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
-	String email = (String) request.getSession().getAttribute("utenteEmail");
+	String emailUtente = (String) request.getSession().getAttribute("utenteEmail");
 	boolean segreteria = false;
 	boolean presidente = false;
 	if(request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
-		utente = utenteDao.findById(Utente.class, email);
-		nome = email;
-		cognome = "";
+		utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
+		nomeUtente = emailUtente;
+		cognomeUtente = "";
 		segreteria = true;
 	}else if(request.getSession().getAttribute("utenteRuolo").equals("Presidente")){
-		utente = utenteDao.findById(Utente.class, email);
-		accountPresidente = utente.getPresidente();
-		nome = accountPresidente.getNome();
-		cognome = accountPresidente.getCognome();
+		utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
+		accountPresidente = utenteVar.getPresidente();
+		nomeUtente = accountPresidente.getNome();
+		cognomeUtente = accountPresidente.getCognome();
 		presidente = true;	
 	}
 %>
@@ -46,13 +46,13 @@
                 <!-- User profile -->
                 <div class="user-profile">
                     <!-- User profile image -->
-                    <%if(utente.getImgProfilo()!=null||!(utente.getImgProfilo().equals(""))){ %>
-                    <div class="profile-img"> <img src=<%=utente.getImgProfilo()+""%> alt="" /> </div>
+                    <%if(utenteVar.getImgProfilo()!=null||!(utenteVar.getImgProfilo().equals(""))){ %>
+                    <div class="profile-img"> <img src=<%=utenteVar.getImgProfilo()+""%> alt="" /> </div>
                     <%}else { %>
                     <div class="profile-img"> <img src="assets/images/logo-icon.png" alt="" /> </div>
                     <%} %>
                     <!-- User profile text-->
-                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%=(nome+" "+cognome)%><span class="caret"></span></a>
+                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%=(nomeUtente+" "+cognomeUtente)%><span class="caret"></span></a>
                         <div class="dropdown-menu animated flipInY">
                             <a href="profilo.jsp" class="dropdown-item"><i class="ti-user"></i> Il mio profilo</a>
                             <a href="notifiche.jsp" class="dropdown-item"><i class="ti-email"></i> Notifiche</a>

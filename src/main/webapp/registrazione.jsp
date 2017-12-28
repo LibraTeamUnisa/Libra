@@ -63,13 +63,15 @@ $(document).ready(function() {
 		var dataNascita = $('#dataNascita').val();
 		var indirizzo = $('#indirizzo').val();
 		var telefono = $('#telefono').val();
+
+		
 			
-		if(nome!=""&&nome.length>1&&nome.length<21){
-			if(cognome!=""&&cognome.length>1&&cognome.length<21){
-					if(email!=""&&email.includes("@")&&email.length>2&&email.lastIndexOf("@")<email.length){
+		if(verificaStringa(nome)){
+			if(verificaStringa(cognome)){
+					if(verificaEmail(email)){
 							if(matricola!=""&&matricola.length==10){
-								if(matricola.substring(0,5)=="05121"||matricola.substring(0,5)=="05225"||matricola.substring(0,5)=="05122"){
-									if(password!=""&&password.length>7&&password.length<21&&password1!=""){
+								if(verificaFormatoMatricola(matricola)){
+									if(verificaFormatoPassword(password)){
 											if(password==password1){
 												if(dataNascita!=""){
 														semaforo = true;
@@ -132,7 +134,33 @@ if(semaforo==true){
     });
 }
   });
+  
 });
+
+
+function verificaStringa(nome){
+	if(nome!=""&&nome.length>1&&nome.length<21){
+			return true;
+		}
+	}
+
+function verificaEmail(email){
+	if(email!=""&&email.includes("@")&&email.length>19&&email.lastIndexOf("@")<email.length){
+			return true;
+		}
+	}
+
+function verificaFormatoMatricola(matricola){
+	if(matricola.substring(0,5)=="05121"||matricola.substring(0,5)=="05225"||matricola.substring(0,5)=="05122"){
+			return true;
+		}
+	}
+
+function verificaFormatoPassword(password){
+	if(password!=""&&password.length>7&&password.length<21&&password1!=""){
+			return true;
+		}
+	}
 </script>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->

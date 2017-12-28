@@ -79,7 +79,7 @@ public class RichiediPfServletTest {
     richiediPfServlet.setAziendaDao(aziendaDao);
     richiediPfServlet.setProgettoFormativoDao(pfDao);
     richiediPfServlet.doPost(request, response);
-    verify(printWriter).write(SUCCESS_MSG);
+    verify(printWriter).write(ISCRIZIONE_SUCCESS_MSG);
   }
 
   @Test
@@ -120,7 +120,7 @@ public class RichiediPfServletTest {
     richiediPfServlet.setAziendaDao(aziendaDao);
     richiediPfServlet.setProgettoFormativoDao(pfDao);
     richiediPfServlet.doPost(request, response);
-    verify(printWriter).write(SUCCESS_MSG);
+    verify(printWriter).write(ISCRIZIONE_SUCCESS_MSG);
   }
 
   @Test
@@ -161,7 +161,7 @@ public class RichiediPfServletTest {
     richiediPfServlet.setAziendaDao(aziendaDao);
     richiediPfServlet.setProgettoFormativoDao(pfDao);
     richiediPfServlet.doPost(request, response);
-    verify(printWriter).write(SUCCESS_MSG);
+    verify(printWriter).write(ISCRIZIONE_SUCCESS_MSG);
   }
 
   @Test
@@ -196,7 +196,7 @@ public class RichiediPfServletTest {
     richiediPfServlet.setAziendaDao(aziendaDao);
     richiediPfServlet.setProgettoFormativoDao(pfDao);
     richiediPfServlet.doPost(request, response);
-    verify(printWriter).write(SUCCESS_MSG);
+    verify(printWriter).write(ISCRIZIONE_SUCCESS_MSG);
   }
 
   @Test
@@ -209,7 +209,7 @@ public class RichiediPfServletTest {
   private static final String SESSION_ERROR_MSG =
       "Impossibile recuperare i parametri dalla sessione!";
   private static final String USER_ERROR_MSG = "Utente non trovato!";
-  private static final String SUCCESS_MSG = "Richiesta di PF effettuata!";
+  private static final String ISCRIZIONE_SUCCESS_MSG = "Iscrizione effettuata!";
   private static final String STUDENTE_NOT_FOUND_MSG = "Studente non trovato!";
   private static final String AZIENDA_NOT_FOUND_MSG = "Azienda non trovata!";
 }

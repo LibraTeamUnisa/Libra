@@ -23,7 +23,7 @@ import it.unisa.libra.model.dao.IStudenteDao;
  * Consente di effettuare una richiesta di progetto formativo ad un utente registrato con ruolo
  * studente
  */
-@WebServlet("/RichiediPfServlet")
+@WebServlet(name = "richiediPfServlet", urlPatterns = "/richiediPfServlet")
 public class RichiediPfServlet extends HttpServlet {
 
   @EJB
@@ -84,9 +84,9 @@ public class RichiediPfServlet extends HttpServlet {
           pf.setPeriodoReport(deafuletInt);
 
           pfDao.persist(pf);
-          response.getWriter().write(SUCCESS_MSG);
-          response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome="
-              + azienda.getNome() + "&stato=success");
+          response.getWriter().write(ISCRIZIONE_SUCCESS_MSG);
+          /*response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome="
+              + azienda.getNome() + "&stato=success");*/
         } else if (studente == null) {
           response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
         } else {
@@ -152,7 +152,7 @@ public class RichiediPfServlet extends HttpServlet {
   /**
    * Messaggio restituito nel caso in cui l'operazione è stata completata con successo.
    */
-  private static final String SUCCESS_MSG = "Richiesta di PF effettuata!";
+  private static final String ISCRIZIONE_SUCCESS_MSG = "Iscrizione effettuata!";
   /**
    * Messaggio restituito nel caso in cui la ricerca dello studente non ottiene risultato
    */

@@ -232,55 +232,49 @@
 										Studente s = studenteDAO.findById(Studente.class, utenteEmail);
 												ProgettoFormativo progettoFormativo = progettoFormativoDAO.getLastProgettoFormativoByStudente(s);
 										
-										//Creo una stringa che mi permetta di capire lo stato del PF (success = ha appena effettuato l'iscrizione, error = possiede un PF attivo, default = non possiede PF attivi)
-										String stato = "default";
-										//Controllo se viene passato lo stato dalla servlet
-										if(request.getParameter("stato") != null){
-										 stato = (String)request.getParameter("stato");
-										}
 												if (utenteRuolo.equals("Studente")) {
 													//Controllo se lo studente ha già un progetto formativo attivo
 													if (progettoFormativo == null || progettoFormativo.getStato() == 5
 															|| progettoFormativo.getStato() == 6) {
 									%>
-														<form action="RichiediPfServlet" method="post"
-															id="formRichiediPF">
-															<input type="hidden" name="aziendaName" value="<%=nome%>" >
-															<button type="submit" class="btn btn-rounded btn-danger">Iscriviti</button>
+														<form method="post" id="formRichiediPF">
+															<input type="hidden" id="aziendaName" name="aziendaName" value="<%=nome%>" >
+															<button type="submit" class="btn btn-rounded btn-danger" id="iscrivitiButton" name="iscrivitiButton">Iscriviti</button>
 														</form>
 									<%
 													}
 													 else{
-														if(!stato.equals("success") && stato != null){ 
-														 stato = "error";
-														}
+									%>
+														 	<div id="errore-message" class="alert alert-danger" style="text-align: center">
+													  		<strong>Attenzione!</strong><br> Non è possibile iscriversi all'azienda poichè risulta che lei abbia un progetto formativo attivo.  
+															</div>
+									<%
 													 }
 												}
 									%>
-									<%			
-													//Mostro il messaggio all'utente in base allo stato della richiesta di PF 
-													if(stato != null && stato.equals("success")){
-									%>
-														<div id="success-message" class="alert alert-success" style="text-align: center">
-													  		<strong>Richiesta effettuata!</strong><br>Abbiamo inoltrato la sua richiesta all'azienda <%=nome %>.
+									
+														<div class="modal fade" id="dialogMsg" role="dialog">
+															<div class="modal-dialog">
+																<div class="modal-content" >
+																	<div class="modal-body" style="text-align:center; color:black;">
+																	  Iscrizione effettuata!
+																	</div>
+																	
+																	<div class="modal-footer">
+																		<a href="profiloAziendale.jsp?nome=<%=nome%>" class="btn btn-success" style="text-decoration:none; color:white;" id="okButton">
+																		 Ok
+																		</a>
+																	</div>
+																</div>
+															</div>
 														</div>
-									<%
-													}
-													 else if(stato != null && stato.equals("error")){
-									%>
-														<div id="errore-message" class="alert alert-danger" style="text-align: center">
-													  		<strong>Attenzione!</strong><br> Non è possibile iscriversi all'azienda poichè risulta che lei abbia un progetto formativo attivo.  
-														</div>
-									<%
-													 }		
-									%>	
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<%
-					}
+					 }
 					}
 				%>
 
@@ -337,8 +331,24 @@
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
+	<script>
+		$(document).ready(function() {
+			$("#formRichiediPF").submit(function(e) {
+				e.preventDefault();
+				
+				$.post('richiediPfServlet', {
+					aziendaName : $("#aziendaName").val()
+					}, 
+				function(data) {
+					if (data == "Iscrizione effettuata!") {
+						$("#dialogMsg").modal({backdrop: 'static', keyboard: false});
+					} else {
+						$(".modal-body").html(data);
+						$("#dialogMsg").modal({backdrop: 'static', keyboard: false});
+					}
+				});
+			});
+		})
+	</script>
 </body>
-
 </html>
-
-

@@ -39,9 +39,8 @@ public class NegaPresidente implements Filter {
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-    // se l'utente non è loggato, si è verificato un errore nella catena di filtri
-    // se l'utente è il presidente l'accesso è negato
-    if ((StringUtils.isNullOrEmpty(utenteRuolo)) || "Presidente".equals(utenteRuolo)) {
+    // se l'utente � il presidente l'accesso � negato
+    if ("Presidente".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;

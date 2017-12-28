@@ -40,9 +40,8 @@ public class NegaSegreteria implements Filter {
       throws IOException, ServletException {
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-    // se l'utente non è loggato, si è verificato un errore nella catena di filtri
-    // se l'utente è la segreteria l'accesso è negato
-    if ((StringUtils.isNullOrEmpty(utenteRuolo)) || "Segreteria".equals(utenteRuolo)) {
+    // se l'utente � la segreteria l'accesso � negato
+    if ("Segreteria".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;

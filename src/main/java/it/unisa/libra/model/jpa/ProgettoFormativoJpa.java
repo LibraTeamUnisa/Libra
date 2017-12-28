@@ -56,10 +56,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     }
   }
 
-@Override
-public int contaOccorrenze() {
-	int count = ((Number)entityManager.createNamedQuery("ProgettoFormativo.occorrenze").getSingleResult()).intValue();
-	return count;
-}
+
 
 }

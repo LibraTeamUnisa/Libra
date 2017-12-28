@@ -31,7 +31,7 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
       String tutorInterno);
   public List<ProgettoFormativo> getProgettiFormativiByAzienda(String nome);
   
-  public int contaOccorrenze();
+ 
   
   
 }

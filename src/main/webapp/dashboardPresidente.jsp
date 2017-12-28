@@ -12,7 +12,7 @@
 <%@ page import="java.util.Map.Entry" %>
 <%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
 <%@ page import="it.unisa.libra.bean.Studente" %>
-
+<%@ page import="it.unisa.libra.bean.Azienda" %>
 
 <%
 	
@@ -22,7 +22,7 @@
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
 	int numeroStudenti = studenteDao.findAll(Studente.class).size();
 	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
-	int numeroAziende = aziendaDao.contaOccorrenze();
+	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
 	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.findAll(ProgettoFormativo.class);
 %>
 

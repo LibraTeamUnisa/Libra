@@ -34,14 +34,6 @@ public class NegaAziendaTest {
   }
 
   @Test
-  public void erroreNonLoggatoTest() throws Exception {
-    when(request.getSession().getAttribute("utenteRuolo")).thenReturn(null);
-    when(request.getContextPath()).thenReturn("provaLibra");
-    filter.doFilter(request, response, chain);
-    verify(response).sendRedirect("provaLibra" + JspPagesIndex.ACCESSO_NEGATO);
-  }
-
-  @Test
   public void nonAutorizzatoTest() throws Exception {
     when(request.getSession().getAttribute("utenteRuolo")).thenReturn("Azienda");
     when(request.getContextPath()).thenReturn("provaLibra");

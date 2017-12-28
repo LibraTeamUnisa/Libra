@@ -62,7 +62,7 @@ public class RecuperoPasswordServlet extends HttpServlet {
 
     try {
       if (checkEmail(email)) {
-        Utente passLessUser = userDao.findById(Utente.class, email);
+        Utente passLessUser = (Utente) userDao.findById(Utente.class, email);
         EmailManager eManager =
             new EmailManager(SMTP_SERVER, SMTP_PORT, EMAIL_NOREPLY, NAME_NOREPLY);
         eManager.setAccessEmail(ACCESS_EMAIL);

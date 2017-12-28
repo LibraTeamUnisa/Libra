@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter implementation class FiltroUtente. Garantisce l'accesso alla risorsa richiesta
- * solo se l'utente è loggato.
+ * solo se l'utente Ã¨ loggato.
  * 
  * @see javax.servlet.Filter
  */
@@ -31,7 +31,7 @@ public class FiltroUtente implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Garantisce l'accesso alla risorsa richiesta solo se l'utente è loggato. In caso
+   * Override. Garantisce l'accesso alla risorsa richiesta solo se l'utente Ã¨ loggato. In caso
    * contrario, rimanda a una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -49,7 +49,7 @@ public class FiltroUtente implements Filter {
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
     if (!(StringUtils.isNullOrEmpty(utenteEmail))) {
-      // l'utente è loggato e può proseguire nella navigazione
+      // l'utente Ã¨ loggato e puÃ² proseguire nella navigazione
       chain.doFilter(request, response);
       return;
     } else {
@@ -62,8 +62,8 @@ public class FiltroUtente implements Filter {
         chain.doFilter(request, response);
         return;
       } else {
-    	  
-        // l'utente non è loggato ma desidera accedere a una pagina protetta
+
+        // l'utente non Ã¨ loggato ma desidera accedere a una pagina protetta
         ((HttpServletResponse) response).sendRedirect(
             ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
         return;

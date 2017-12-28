@@ -1,5 +1,4 @@
 package it.unisa.libra.filter;
-
 import com.mysql.jdbc.StringUtils;
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;

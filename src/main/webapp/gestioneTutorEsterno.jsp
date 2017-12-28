@@ -7,8 +7,12 @@
 <%@page import="it.unisa.libra.model.jpa.TutorEsternoJpa"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<<<<<<< HEAD
+<!-- 
+=======
 
 
+>>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git
 <!DOCTYPE html>
 <html lang="en">
 
@@ -400,5 +404,5 @@
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 </html>
-
+-->
 

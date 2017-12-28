@@ -15,3 +15,4 @@ INSERT INTO `libra`.`Presidente` (`utenteEmail`, `cognome`, `nome`, `dataDiNasci
 INSERT INTO libra.Utente (email, imgProfilo, indirizzo, password, telefono, ruolo) VALUES ('azienda@prova.it', 'xxx', 'Via delle Aziende', '123123', '0892221113', 'Azienda');
 INSERT INTO libra.Azienda (utenteEmail, nome, partitaIVA, sede) VALUES ('azienda@prova.it', 'Azienda', 'PartIva', 'Trivio');
 INSERT INTO libra.Tutoresterno (ambito, aziendaEmail, cognome, nome, telefono, indirizzo, dataDiNascita) VALUES ('ambito', 'azienda@prova.it', 'Brazorf', 'Ajeje', '1112223331', 'via Roma, 1', '1992-08-15 00:00:00');
+

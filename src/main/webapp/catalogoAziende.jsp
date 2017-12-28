@@ -15,6 +15,9 @@
 	IAziendaDao aziendaDAO= (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
 	IUtenteDao utenteDAO= (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 	List<Azienda> aziende = aziendaDAO.findAll(Azienda.class);
+	HttpSession sessione = request.getSession();
+	String email = (String) sessione.getAttribute("utenteEmail");
+	
 %>
 
 
@@ -120,16 +123,21 @@
 								</tr>
 							</thead>
 							<tbody>
-								<%for(Azienda a: aziende){
+							<%
+								if(email != null){	
+									for(Azienda a: aziende){
 										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
-									%>
+							%>
 								<tr>
 									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
 											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" class="img-circle img-responsive"/></a></td>
 									<td><%=a.getNome() %></td>
 									<td><%=a.getSede() %></td>
 								</tr>
-								<%} %>
+							<%
+									}
+								}
+							%>
 							</tbody>
 						</table>
 					</div>

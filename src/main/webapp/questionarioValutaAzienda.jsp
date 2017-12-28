@@ -8,7 +8,9 @@
 
 <%
 	IDomandaDao dao= (IDomandaDao) new  InitialContext().lookup("java:app/Libra/DomandaJpa");
-	List<Domanda> domande= dao.findByType("Studente");   
+	List<Domanda> domande= dao.findByType("Studente");
+	HttpSession sessione = request.getSession();
+	String email = (String) sessione.getAttribute("utenteEmail");
 %>
 
 
@@ -99,9 +101,12 @@
 				<div class="card wizard-card" style="padding: 1%">
 					<form>
 						<div class="container">
-						<%
+					<%
+						if(email != null){
 							for(Domanda d: domande){ 
-						%>
+								if(d.getTesto().equals("Note"))
+									continue;
+					%>
 								<div class="row">
 									<!-- panel preview -->						
 									<div class="form-group col-md-8">
@@ -130,9 +135,10 @@
 											%>		
 									</div>
 								</div>
-						<%
+					<%
 							}
-						%>
+						}
+					%>
 							<div class="row">
 								<div class="form-group col-md-8">
 									<label for="note">Note:</label>

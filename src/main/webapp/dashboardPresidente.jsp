@@ -13,7 +13,7 @@
 <%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
 <%@ page import="it.unisa.libra.bean.Studente" %>
 <%@ page import="it.unisa.libra.bean.Azienda" %>
-
+<%@ page import="it.unisa.libra.bean.TutorInterno" %>
 <%
 	
 	
@@ -23,7 +23,28 @@
 	int numeroStudenti = studenteDao.findAll(Studente.class).size();
 	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
 	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
+	int numeroStudentiAttivi = 0;
 	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.findAll(ProgettoFormativo.class);
+	ProgettoFormativo progetto = null;
+	boolean pass = false;
+	if(progettiInCorso!=null){
+		for(int i=0;i<progettiInCorso.size();i++){
+			progetto = progettiInCorso.get(i);
+			if(progetto.getDataInizio()!=null&&progetto.getDataInizio().before(new Date())){
+				if(progetto.getDataFine()==null||progetto.getDataFine().after(new Date())){
+					numeroStudentiAttivi++;
+					pass = true;
+				}
+			}
+			if(pass==false){
+				progettiInCorso.remove(i);
+				i--;
+			}
+			else{
+				pass=false;
+			}
+	}
+	}
 %>
 
 
@@ -84,7 +105,7 @@
         <!-- 
 
         -->
-                <%@ include file="menu.jsp" %>
+       
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -111,11 +132,11 @@
                         <div class="card" >
                         
                             <div class="card">
-                                
+                                <h4 class="card-title">Progetti formativi in corso</h4>
                                 <div class="table-responsive m-t-40">
                                 
                                     <table class="table stylish-table">
-                                    <h4 class="card-title">Tirocinii in corso</h4>
+                                    
                                         <thead>
                                             <tr>
                                                 <th colspan="2">Azienda</th>
@@ -125,35 +146,50 @@
                                                 <th>Data inizio</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                        <% 
-                                        /*
-                                        for(ProgettoFormativo p: progettiInCorso){
-                                        	if(p.getDataInizio().before(new Date())){
-                                        		if(p.getDataFine()==null||p.getDataFine().after(new Date())){
-                                        			*/
-                                        		if(true){
                                         
-                                        	%>
-                                            <tr>
-                                                <td style="width:50px;"><span class="round">S</span></td>
-                                                <td>
-                                                    <h6>Ubisoft</h6></td>
-                                                    <td>
-                                                    <h6>Vincenzo Gallicchio</h6></td>
-                                                <td>Gianni morandi</td>
-                                                <td><span class="label label-light-success">AI</span></td>
-                                                <td>12/12/2012</td>
+                                        <%if(progettiInCorso!=null && progettiInCorso.size()>0){
+                                        	for(ProgettoFormativo p:progettiInCorso){
+                                        %>
+                                        <tbody><tr>
+                                        		<%if(p.getAzienda()!=null&&p.getAzienda().getNome()!=null) {
+                                        		%>
+                                               <td style="width:50px;"><span class="round"><%=p.getAzienda().getNome().charAt(0) %></span></td>
+                                                <td><h6><%=p.getAzienda().getNome() %></h6></td>
+                                               <% } else{%>
+                                               <td style="width:50px;"><span class="round">NA</span></td>
+                                                <td><h6>Non disponibile</h6></td>
+                                                <%} 
+                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getNome()!=null){
+                                                %>
+                                               	 <td> <h6> <%=(p.getStudente().getNome()+" "+p.getStudente().getCognome()) %></h6></td>
+                                               	 <%} else{ %>
+                                               	 <td> <h6> Non disponibileee</h6></td>
+                                               	 <%}
+                                                if(p.getTutorInterno()!=null&&p.getTutorInterno().getNome()!=null&&p.getTutorInterno().getNome()!=null){
+                                                %>
+                                                <td> <h6> <%=(p.getTutorInterno().getNome()+" "+p.getTutorInterno().getCognome()) %></h6></td>
+                                                <%} else{ %>
+                                                <td> <h6> Non disponibile</h6></td>
+                                                 <%}
+                                                if(p.getAmbito()!=null){
+                                                %>
+                                                <td><span class="label label-light-success"><%=p.getAmbito() %></span></td>
+                                                <%} else{ %>
+                                                <td> <h6> Non disponibile</h6></td>
+                                               	<%}
+                                                if(p.getDataInizio()!=null){
+                                                %>
+                                                <td><%=(p.getDataInizio().getDate()+"/"+(p.getDataInizio().getMonth()+1)+"/"+(p.getDataInizio().getYear()+1900)) %></td>
+                                                <%}else{
+                                                	%>
+                                                	<td> <h6> Non disponibile</h6></td>
+                                               <% }%> 
                                             </tr>
-                                            <%
-                                        		}
-                                            /*
-                                        		}
-                                       		 }
-                                        }
-                                        */
-                                            %>
-                                            
+                                          <% 
+                                            	}
+                                        	}
+                                        
+                                        %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -172,7 +208,7 @@
                                         <!-- Column -->
                                         <div class="col p-r-0">
                                             <h1 class="font-light"><%=numeroStudenti %></h1>
-                                            <h6 class="text-muted">Studenti iscritti</h6></div>
+                                            <h6 class="text-muted">Studenti iscritti alla piattaforma</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
                                             <div data-label="20%" class="css-bar m-b-0 css-bar-primary css-bar-20"><i class="mdi mdi-receipt"></i></div>
@@ -219,8 +255,8 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light">159</h1>
-                                            <h6 class="text-muted">Invoices</h6></div>
+                                            <h1 class="font-light"><%=numeroStudentiAttivi%></h1>
+                                            <h6 class="text-muted">Numero studenti attivi</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
                                             <div data-label="60%" class="css-bar m-b-0 css-bar-info css-bar-60"><i class="mdi mdi-receipt"></i></div>
@@ -230,7 +266,9 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
+                 
                 <!-- Row -->
                 
                 

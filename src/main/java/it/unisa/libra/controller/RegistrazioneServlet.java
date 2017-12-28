@@ -49,16 +49,12 @@ public class RegistrazioneServlet extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+      throws ServletException, IOException { 
 	  
 	  /**
 	   * Parametri necessari alla registrazione presi dall'oggetto request.
 	   */
 	 
-	    
-		
-	  
-	  
 	  String nome = request.getParameter("nome");
 	  String cognome = request.getParameter("cognome");
 	  String matricola = request.getParameter("matricola");
@@ -118,7 +114,7 @@ public class RegistrazioneServlet extends HttpServlet {
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    doGet(request, response);
+	  doGet(request, response);
   }
 
   private Studente istanziaStudente(String nome, String cognome, String email, String matricola,

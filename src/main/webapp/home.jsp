@@ -66,9 +66,11 @@
 						<div class="form-group">
 							<div class="col-md-12">
 
-								<a href="javascript:void(0)" id="to-recover"
-									class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password
-									dimenticata?</a>
+								<div id="error-message" class="alert alert-danger"
+									style="display: none">Login errato, riprova</div>
+
+								<a href="recuperaPassword.jsp" id="to-recover" class="text-dark pull-right" ><i  class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
+
 							</div>
 						</div>
 						

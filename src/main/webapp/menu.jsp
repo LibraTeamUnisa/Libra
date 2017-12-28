@@ -1,4 +1,4 @@
-<%@ page import="it.unisa.libra.util.Actions" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
@@ -10,7 +10,7 @@
 <%@ page import="it.unisa.libra.bean.Segreteria" %>
 <%@ page import="it.unisa.libra.bean.Utente" %>
 <%@ page import="it.unisa.libra.bean.Presidente" %>
-
+<%@ page import="it.unisa.libra.util.Actions" %>
 
 <%
 	String nome = null;
@@ -18,6 +18,9 @@
 	Utente utente = null;
 	Presidente accountPresidente = null;
 	IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	//
+	request.getSession().setAttribute("utenteRuolo", "Presidente");
+	request.getSession().setAttribute("utenteEmail", "presidente@unisa.it");
 	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
 	String email = (String) request.getSession().getAttribute("utenteEmail");
 	boolean segreteria = false;
@@ -54,7 +57,7 @@
                             <a href="profilo.jsp" class="dropdown-item"><i class="ti-user"></i> Il mio profilo</a>
                             <a href="notifiche.jsp" class="dropdown-item"><i class="ti-email"></i> Notifiche</a>
                           <!--    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a> -->
-                            <div class="dropdown-divider"></div> <a href="${pageContext.request.contextPath}/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                              <div class="dropdown-divider"></div> <a href="${pageContext.request.contextPath}/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
                     </div>
                 </div>

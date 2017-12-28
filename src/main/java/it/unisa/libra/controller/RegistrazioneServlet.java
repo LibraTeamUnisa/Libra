@@ -5,15 +5,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.inject.Inject;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Gruppo;
+import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IGruppoDao;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.IUtenteDao;
 
 
@@ -34,6 +39,7 @@ public class RegistrazioneServlet extends HttpServlet {
   @Inject
   private IGruppoDao gruppoDao;
 
+
   private static final long serialVersionUID = 1L;
 
   /** Default constructor. */
@@ -48,6 +54,10 @@ public class RegistrazioneServlet extends HttpServlet {
 	  /**
 	   * Parametri necessari alla registrazione presi dall'oggetto request.
 	   */
+	 
+	    
+		
+	  
 	  
 	  String nome = request.getParameter("nome");
 	  String cognome = request.getParameter("cognome");

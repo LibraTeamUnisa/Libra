@@ -130,24 +130,26 @@
 								.lookup("java:app/Libra/ProgettoFormativoJpa");
 						ProgettoFormativo pf = pfdao.findById(ProgettoFormativo.class, Integer.parseInt(id));
 					%>
-					<div class="col-sm-4">
-						<label class="col-md-12">Data invio:</label>
-					</div>
-					<div class="col-sm-5">
-						<%
-							Date date = pf.getDataInvio();
-							Calendar calendar = new GregorianCalendar();
-							calendar.setTime(date);
-							int year = calendar.get(Calendar.YEAR);
-							int mm = calendar.get(Calendar.MONTH) + 1;
-							int gg = calendar.get(Calendar.DAY_OF_MONTH);
-							String day = String.format("%02d", gg);
-							String month = String.format("%02d", mm);
-						%>
-						<p><%=year%>-<%=month%>-<%=day%></p>
-					</div>
 					<div class="col-sm-8">
 						<div class="card wild-card" style="color: black; font-size: 120%;">
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="col-md-12">Data invio:</label>
+								</div>
+								<div class="col-sm-5">
+									<%
+										Date date = pf.getDataInvio();
+										Calendar calendar = new GregorianCalendar();
+										calendar.setTime(date);
+										int year = calendar.get(Calendar.YEAR);
+										int mm = calendar.get(Calendar.MONTH) + 1;
+										int gg = calendar.get(Calendar.DAY_OF_MONTH);
+										String day = String.format("%02d", gg);
+										String month = String.format("%02d", mm);
+									%>
+									<p><%=year%>-<%=month%>-<%=day%></p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-sm-4">
 									<label class="col-md-12">Azienda:</label>
@@ -159,22 +161,31 @@
 									<p><%=azienda.getNome()%></p>
 								</div>
 							</div>
-							<br>
 							<div class="row">
 								<div class="col-sm-4">
 									<label class="col-md-12">Note:</label>
 								</div>
 								<div class="col-sm-5">
-									<p><%=pf.getNote()%></p>
+									<%
+										String note = pf.getNote();
+										if (note != null) {
+									%>
+									<p><%=note%></p>
+									<%
+										} else {
+									%>
+									<p>Non ci sono note</p>
+									<%
+										}
+									%>
 								</div>
 							</div>
-							<br>
 							<div class="row">
 								<div class="col-sm-4">
 									<label class="col-md-12">Contenuto proposta:</label>
 								</div>
 								<div class="col-sm-5">
-									<a href="<%=pf.getDocumento()%>">Progetto Formativo</a>
+									<a href="<%=pf.getDocumento()%>">Progetto formativo</a>
 								</div>
 							</div>
 						</div>

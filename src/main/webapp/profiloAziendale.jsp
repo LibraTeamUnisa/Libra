@@ -240,8 +240,8 @@
 										}
 												if (utenteRuolo.equals("Studente")) {
 													//Controllo se lo studente ha già un progetto formativo attivo
-													if (progettoFormativo == null || progettoFormativo.getStato() == 3
-															|| progettoFormativo.getStato() == 4) {
+													if (progettoFormativo == null || progettoFormativo.getStato() == 5
+															|| progettoFormativo.getStato() == 6) {
 									%>
 														<form action="RichiediPfServlet" method="post"
 															id="formRichiediPF">

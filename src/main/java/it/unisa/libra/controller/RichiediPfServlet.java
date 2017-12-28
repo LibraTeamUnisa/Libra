@@ -40,13 +40,20 @@ public class RichiediPfServlet extends HttpServlet {
   /** Default constructor. */
   public RichiediPfServlet() {}
 
-  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  /**
+   * Questa servlet non fornisce alcun servizio tramite GET.
+   */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.getWriter().append("Served at: ").append(request.getContextPath());
+    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    return;
   }
 
-  /** Gestisce le richieste di progetto formativo degli studenti */
+  /**
+   * Gestisce le richieste di progetto formativo degli studenti
+   * 
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
@@ -64,27 +71,101 @@ public class RichiediPfServlet extends HttpServlet {
         String defaultString = "/";
         int deafuletInt = 0;
 
-        ProgettoFormativo pf = new ProgettoFormativo();
-        pf.setAzienda(azienda);
-        pf.setStudente(studente);
-
-        // Valori di default per i campi not null
-        pf.setTutorInterno(null);
-        pf.setAmbito(defaultString);
-        pf.setDocumento(defaultString);
-        pf.setStato(deafuletInt);
-        pf.setPeriodoReport(deafuletInt);
-
-        pfDao.persist(pf);
-
-        response.sendRedirect(
-            request.getContextPath() + "/profiloAziendale.jsp?nome=" + azienda.getNome() + "&stato=success");
+          if(azienda != null && studente != null) {
+            ProgettoFormativo pf = new ProgettoFormativo();
+            pf.setAzienda(azienda);
+            pf.setStudente(studente);
+    
+            // Valori di default per i campi not null
+            pf.setTutorInterno(null);
+            pf.setAmbito(defaultString);
+            pf.setDocumento(defaultString);
+            pf.setStato(deafuletInt);
+            pf.setPeriodoReport(deafuletInt);
+    
+            pfDao.persist(pf);
+            response.getWriter().write(SUCCESS_MSG);
+            response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome="
+                + azienda.getNome() + "&stato=success");
+          }
+          else if(studente == null){
+            response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
+          }
+          else {
+            response.getWriter().write(AZIENDA_NOT_FOUND_MSG);
+          }
+          
       } else {
-        response.getWriter().write("false");
+        response.getWriter().write(USER_ERROR_MSG);
       }
 
     } else {
-      response.getWriter().write("false");
+      response.getWriter().write(SESSION_ERROR_MSG);
     }
   }
+
+  /**
+   * Questo metodo imposta il DAO della servlet.
+   * 
+   * @param dao
+   *            Il dao che si occupa della gestione della persistenza del progetto
+   *            formativo
+   */
+  public void setProgettoFormativoDao(IProgettoFormativoDao dao) {
+      this.pfDao = dao;
+  }
+  
+  /**
+   * Questo metodo imposta il DAO della servlet.
+   * 
+   * @param dao
+   *            Il dao che si occupa della ricerca dell'utente
+   */
+  public void setUtenteDao(IUtenteDao dao) {
+      this.utenteDao = dao;
+  }
+  
+  /**
+   * Questo metodo imposta il DAO della servlet.
+   * 
+   * @param dao
+   *            Il dao che si occupa della ricerca dello studente
+   */
+  public void setStudenteDao(IStudenteDao dao) {
+      this.studenteDao = dao;
+  }
+  
+  /**
+   * Questo metodo imposta il DAO della servlet.
+   * 
+   * @param dao
+   *            Il dao che si occupa della ricerca dell'azienda
+   */
+  public void setAziendaDao(IAziendaDao dao) {
+      this.aziendaDao = dao;
+  }
+
+  /**
+   * Messaggio restituito nel caso in cui il parametro relativo all'email dello studente non viene
+   * riconosciuto
+   */
+  private static final String SESSION_ERROR_MSG =
+      "Impossibile recuperare i parametri dalla sessione!";
+  /**
+   * Messaggio restituito nel caso in cui il parametro relativo all'email dello studente non viene
+   * riconosciuto
+   */
+  private static final String USER_ERROR_MSG = "Utente non trovato!";
+  /**
+   * Messaggio restituito nel caso in cui l'operazione è stata completata con successo.
+   */
+  private static final String SUCCESS_MSG = "Richiesta di PF effettuata!";
+  /**
+   * Messaggio restituito nel caso in cui la ricerca dello studente non ottiene risultato
+   */
+  private static final String STUDENTE_NOT_FOUND_MSG = "Studente non trovato!";
+  /**
+   * Messaggio restituito nel caso in cui la ricerca dell'azienda non ottiene risultato
+   */
+  private static final String AZIENDA_NOT_FOUND_MSG = "Azienda non trovata!";
 }

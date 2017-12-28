@@ -14,10 +14,6 @@
 <%@page import="it.unisa.libra.bean.TutorInterno"%>
 <%@page import="java.util.*,it.unisa.*"%>
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,111 +88,154 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-
 				<div class="card">
 					<div class="card-block">
 						<h4 class="card-title">Lista Studenti</h4>
-						<% String emailTutor = (String) request.getSession().getAttribute("giando26@gmail.com");
-					
-						ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext().lookup("java:app/Libra/TutorInternoJpa");
-						TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, "giando26@gmail.com");
-			
-						
-						if(emailTutor.length()==0 || tutorInterno==null ){
-							
-							
-							%>
+						<%
+							String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
+							String emailTutorParamiter = (String) request.getParameter("email");
+
+							ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext()
+									.lookup("java:app/Libra/TutorInternoJpa");
+							TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, "utenteEmail");
+
+							if (emailTutor.length() == 0 || tutorInterno == null) {
+						%>
 						<h6 class="card-subtitle">Nessuno Studente Presente</h6>
-						<% 
-							
-						}else{
-	
-			
-	List<ProgettoFormativo> listaPF = tutorInterno.getProgettiFormativi();
-	if (listaPF.isEmpty()){
-		%>
-		<h6 class="card-subtitle">Nessuno Studente Presente</h6>
-		<% 
-	}else{
-%>
+						<%
+							} else {
+
+								List<ProgettoFormativo> listaPF = tutorInterno.getProgettiFormativi();
+								if (listaPF.isEmpty()) {
+						%>
+						<h6 class="card-subtitle">Nessuno Studente Presente</h6>
+						<%
+							} else {
+						%>
 
 						<h6 class="card-subtitle"></h6>
 						<div class="table-responsive">
-							<table id="demo-foo-addrow"
-								class="table m-t-30 table-hover contact-list footable-loaded footable"
-								data-page-size="10">
+
+							<table id="example23"
+								class="display nowrap table table-hover table-striped table-bordered dataTable"
+								cellspacing="0" width="100%" role="grid"
+								aria-describedby="example23_info" style="width: 100%;">
 								<thead>
-									<tr>
-										<th class="footable-sortable footable-sorted">#<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Matricola<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Nome<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Cognome<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Azienda<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Ambito<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Stato Tirocinio<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Data Inizio<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Data Fine<span
-											class="footable-sort-indicator"></span></th>
+									<tr role="row">
+										<th class="sorting_desc" tabindex="0"
+											aria-controls="example23" rowspan="1" colspan="1"
+											aria-label="Numero: activate to sort column ascending"
+											style="width: 91px;" aria-sort="descending">#</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Matricola: activate to sort column ascending"
+											style="width: 121px;">Matricola</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Cognome: activate to sort column ascending"
+											style="width: 75px;">Cognome</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Nome: activate to sort column ascending"
+											style="width: 50px;">Nome</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Azienda: activate to sort column ascending"
+											style="width: 85px;">Azienda</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Ambito: activate to sort column ascending"
+											style="width: 83px;">Ambito</th>
+											<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Stato Tirocinio: activate to sort column ascending"
+											style="width: 83px;">Stato Tirocinio</th>
+											<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Data Inizio: activate to sort column ascending"
+											style="width: 83px;">Data Inizio</th>
+											<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Data Fine: activate to sort column ascending"
+											style="width: 83px;">Data Fine</th>
 									</tr>
 								</thead>
-								<tbody>
-									<% Iterator<?> it = listaPF.iterator(); 
-									int i = 1;
-									while (it.hasNext()) {
-										ProgettoFormativo progettoFormativo = (ProgettoFormativo) it.next();
+								<tfoot>
+									<tr>
+										<th rowspan="1" colspan="1">#</th>
+										<th rowspan="1" colspan="1">Matricola</th>
+										<th rowspan="1" colspan="1">Cognome</th>
+										<th rowspan="1" colspan="1">Nome</th>
+										<th rowspan="1" colspan="1">Azienda</th>
+										<th rowspan="1" colspan="1">Ambito</th>
 										
-                                	   %>
-									<tr class="footable-even" style="">
-										<td><span class="footable-toggle"></span><%=i %></td>
-										<td><%=progettoFormativo.getStudente().getMatricola() %></td>
-										<td><%=progettoFormativo.getStudente().getNome() %></td>
-										<td><%=progettoFormativo.getStudente().getCognome() %></td>
+										<th rowspan="1" colspan="1">Stato Tirocinio</th>
+										
+										<th rowspan="1" colspan="1">Data Inizio</th>
+										
+										<th rowspan="1" colspan="1">Data Fine</th>
+									</tr>
+								</tfoot>
+											
+								<tbody>
+									<%
+										Iterator<?> it = listaPF.iterator();
+												int i = 1;
+												while (it.hasNext()) {
+													ProgettoFormativo progettoFormativo = (ProgettoFormativo) it.next();
+									%>
+									<tr role="row" class="odd">
+										<td class="sorting_1"><%=i%></td>
+										<td><%=progettoFormativo.getStudente().getMatricola()%></td>
+										<td><%=progettoFormativo.getStudente().getNome()%></td>
+										<td><%=progettoFormativo.getStudente().getCognome()%></td>
 										<td><%=progettoFormativo.getAzienda()%></td>
 										<td><%=progettoFormativo.getAmbito()%></td>
+										<td>
 										<%
-										if((progettoFormativo.getStato() >=0) && (progettoFormativo.getStato()<4)){%>
-										<td><span class="label label-warning">In Attesa</span></td>
-										
-										<%}else if(progettoFormativo.getStato()==4){ %>
+											if ((progettoFormativo.getStato() >= 0) && (progettoFormativo.getStato() < 4)) {
+										%>
+										<span class="label label-warning">In Attesa</span>
+
+										<%
+											} else if (progettoFormativo.getStato() == 4) {
+										%>
 
 										<span class="label label-primary">Verificato</span>
-										</td>
-										<%}else if(progettoFormativo.getStato()==5){%>
-										<td>
-										
+									
+										<%
+											} else if (progettoFormativo.getStato() == 5) {
+										%>
 										<span class="label label-success">Approvato</span>
-										</td>
-										<%}else if(progettoFormativo.getStato()==6){%>
-										<td>
-										
+										<%
+											} else if (progettoFormativo.getStato() == 6) {
+										%>
 										<span class="label label-danger">Rifiutato</span>
-										</td>
-										<%} %>
-
+										<%
+											}
+										%>
+</td>
 										<td><%=progettoFormativo.getDataInizio()%></td>
-										<td><%=progettoFormativo.getDataFine() %></td>
+										<td><%=progettoFormativo.getDataFine()%></td>
 
 									</tr>
-									<% i++;		}
+									<%
+										i++;
+												}
 									%>
 
 								</tbody>
 							</table>
-							
+
 						</div>
-						<%}}%>
-						
+						<%
+							}
+							}
+						%>
+
 					</div>
 				</div>
-</div>
+			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
+import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.bean.Studente;
@@ -40,7 +41,21 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
       return query.getResultList();
     }
   }
+  
+  @Override
+  public List<Studente> getStudentiByAzienda(Azienda azienda) {
+    TypedQuery<Studente> query = entityManager
+        .createNamedQuery("ProgettoFormativo.findStudenteByAzienda", Studente.class);
+    query.setParameter("azienda", azienda);
 
+    if (query.getResultList().isEmpty()) {
+      System.out.println(query.getResultList());
+      return null;
+    } else {
+      return query.getResultList();
+    }
+  }
+  
   @Override
   public ProgettoFormativo getLastProgettoFormativoByStudenteAssociato(Studente studente,
       String tutorInterno) {

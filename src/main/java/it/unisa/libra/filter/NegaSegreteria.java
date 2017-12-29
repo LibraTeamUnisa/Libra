@@ -1,5 +1,5 @@
 package it.unisa.libra.filter;
-
+import com.mysql.jdbc.StringUtils;
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -9,7 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.StringUtils;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Servlet Filter implementation class NegaSegreteria. Nega l'accesso alla risorsa richiesta dalla
@@ -22,22 +23,40 @@ public class NegaSegreteria implements Filter {
   /** Default constructor. */
   public NegaSegreteria() {}
 
-  /** @see Filter#destroy() */
+  /**
+   * Override.
+   * 
+   * @see Filter#destroy()
+   */
   public void destroy() {}
 
-  /** @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain) */
+  /**
+   * Override. Se l'utente loggato Ã¨ la segreteria, reindirizza ad una pagina di errore.
+   * 
+   * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+   */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+	  
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-    // se l'utente è la segreteria l'accesso è negato
-    if (StringUtils.isEmpty(utenteRuolo) || utenteRuolo.equals("Segreteria")) {
-      ((HttpServletRequest) request).getServletContext()
-          .getRequestDispatcher(JspPagesIndex.ACCESSO_NEGATO).forward(request, response);
+
+    // se l'utente ï¿½ la segreteria l'accesso ï¿½ negato
+    if ("Segreteria".equals(utenteRuolo)) {
+      ((HttpServletResponse) response).sendRedirect(
+          ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
+      return;
+
     }
+    
     chain.doFilter(request, response);
+    
   }
 
-  /** @see Filter#init(FilterConfig) */
+  /**
+   * Override.
+   * 
+   * @see Filter#init(FilterConfig)
+   */
   public void init(FilterConfig fConfig) throws ServletException {}
 }

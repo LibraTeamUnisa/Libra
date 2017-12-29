@@ -25,7 +25,6 @@
 	
 	String email = (String) sessione.getAttribute("utenteEmail");
 	Utente user= uDao.findById(Utente.class, email);
-	String exist= (String) request.getAttribute("feedback_persisted");
 %>
 
 
@@ -127,17 +126,17 @@
 
 							ProgettoFormativo pf= pfDao.getLastProgettoFormativoByStudente(studente);
 							String note=null;
+							Boolean persisted= false;
 							if(pf.getStato() == 4){
 							
 								for(Domanda d: domande){ 
-					
+									FeedbackPK pk= new FeedbackPK();
+									pk.setProgettoFormativoID(pf.getId());
+									pk.setDomandaID(d.getId());
+									Feedback feed= fDao.findById(Feedback.class, pk);
 									if(d.getTesto().equals("Note")){
-										if(exist != null){
-											FeedbackPK pk= new FeedbackPK();
-											pk.setProgettoFormativoID(pf.getId());
-											pk.setDomandaID(d.getId());
-											Feedback f= fDao.findById(Feedback.class, pk);
-											note= f.getValutazione();
+										if(feed != null){
+											note= feed.getValutazione();
 										}
 										
 										continue;
@@ -154,7 +153,7 @@
 												%>
 												<label class="radio-inline" style="margin-left: 3.5%;">
 														<%
-														if(exist == null){		
+														if(feed == null){		
 															if(i==3){ 
 														%> 
 															<input type="radio" name="<%=d.getId()%>" value="<%=i%>" checked="checked">
@@ -168,11 +167,8 @@
 											
 													<%
 														}else{
-															FeedbackPK pk= new FeedbackPK();
-															pk.setProgettoFormativoID(pf.getId());
-															pk.setDomandaID(d.getId());
-															Feedback f= fDao.findById(Feedback.class, pk);
-															if(i==Integer.parseInt(f.getValutazione())){
+															
+															if(i==Integer.parseInt(feed.getValutazione())){
 															
 													%>
 																<input type="radio" name="<%=d.getId()%>" checked="checked" disabled>
@@ -202,7 +198,7 @@
 									<div class="form-group col-md-8">
 										<label for="note">Note:</label>
 										<%
-											if(exist == null){ 
+											if(note == null){ 
 										%>
 												<textarea class="form-control" rows="5" id="note" name="note"></textarea>
 										<%
@@ -212,11 +208,12 @@
 										<%
 											}
 										%>
-										<textarea style="display: none" name="idProgettoFormativo"><%=pf.getId()%></textarea>
+										<textarea style="display: none" name="idProgettoFormativo" disabled><%=pf.getId()%></textarea>
 									</div>
 								</div>
 								<%
-									if(exist == null){
+									if(!persisted){
+										persisted= true;
 								%>
 										<button class="btn btn-primary" type="submit" style="margin:0 auto;">Invia</button>
 					<%

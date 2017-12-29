@@ -34,14 +34,6 @@ public class GestioneFeedbackAziendaServlet extends HttpServlet {
 	public GestioneFeedbackAziendaServlet() {
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -50,30 +42,29 @@ public class GestioneFeedbackAziendaServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Domanda> domande = domandaDao.findByType("Studente");
-		String idPF= request.getParameter("idProgettoFormativo");
+		int idPF = Integer.parseInt(request.getParameter("idProgettoFormativo"));
 		for (Domanda d : domande) {
-			String input= null;
-			if(d.getTesto().equals("Note")) {
+			String input = null;
+			
+			if (d.getTesto().equals("Note")) {
+				
 				input = request.getParameter("note");
-				persistFeedback(input, d.getId(), Integer.parseInt(idPF));
-				continue;
+			}else {
+				
+				input = request.getParameter("" + d.getId());
 			}
-			
-			input = request.getParameter(""+d.getId());
-			persistFeedback(input, d.getId(), Integer.parseInt(idPF));
-			
-			
-			
+
+			persistFeedback(input, d.getId(), idPF);
+
 		}
 
-		
-		request.setAttribute("feedback_persisted", "persisted");
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/questionarioValutaAzienda.jsp");
+		RequestDispatcher dispatcher = request.getServletContext()
+				.getRequestDispatcher("/questionarioValutaAzienda.jsp");
 		dispatcher.forward(request, response);
 
 	}
 
-	private void persistFeedback(String value, int idDomanda, int idPF) {
+	public void persistFeedback(String value, int idDomanda, int idPF) {
 		Feedback f = new Feedback();
 		FeedbackPK feedback_pk = new FeedbackPK();
 		feedback_pk.setDomandaID(idDomanda);
@@ -82,6 +73,18 @@ public class GestioneFeedbackAziendaServlet extends HttpServlet {
 		f.setValutazione(value);
 		f.setProgettoFormativo(pfDao.findById(ProgettoFormativo.class, idPF));
 		feedbackDao.persist(f);
+	}
+
+	public void setDomandaDao(IDomandaDao dao) {
+		this.domandaDao = dao;
+	}
+
+	public void setProgettoFormativoDao(IProgettoFormativoDao dao) {
+		this.pfDao = dao;
+	}
+
+	public void setFeedbackDao(IFeedbackDao dao) {
+		this.feedbackDao = dao;
 	}
 
 }

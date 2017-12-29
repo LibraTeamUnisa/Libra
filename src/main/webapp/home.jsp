@@ -90,17 +90,12 @@
 							<div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
 
 							</div>
-					</div><div class="form-group m-b-0">
-                        <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="registrazione.jsp" class="text-info m-l-5"><b>Sign Up</b></a></p>
-                        </div>
-                    </div>
-
+					</div>
 						</div>
 						<div class="form-group m-b-0">
 							<div class="col-sm-12 text-center">
 								<p>
-									Non hai ancora un account? <a href="register.html"
+									Non hai ancora un account? <a href="registrazione.jsp"
 										class="text-info m-l-5"><b>Registrati</b></a>
 								</p>
 							</div>

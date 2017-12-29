@@ -18,16 +18,20 @@
 	Utente utenteVar = null;
 	Presidente accountPresidente = null;
 	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	/*
 	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
 	String emailUtente = (String) request.getSession().getAttribute("utenteEmail");
+	*/
+	String ruoloUtente = "";
+	String emailUtente = "";
 	boolean segreteria = false;
 	boolean presidente = false;
-	if(request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
+	if(ruoloUtente.equals("Segreteria")){
 		utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
 		nomeUtente = emailUtente;
 		cognomeUtente = "";
 		segreteria = true;
-	}else if(request.getSession().getAttribute("utenteRuolo").equals("Presidente")){
+	}else if(ruoloUtente.equals("Presidente")){
 		utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
 		accountPresidente = utenteVar.getPresidente();
 		nomeUtente = accountPresidente.getNome();

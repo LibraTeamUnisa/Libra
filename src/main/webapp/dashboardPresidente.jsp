@@ -78,6 +78,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<script>
+
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -105,7 +109,7 @@
         <!-- 
 
         -->
-       <%@ include file="menu.jsp" %>
+       <%//@ include file="menu.jsp" %>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -132,6 +136,7 @@
                         <div class="card" >
                         
                             <div class="card">
+                            <h4 class="card-title" align="center"></h4>
                                 <h4 class="card-title" align="center">PROGETTI FORMATIVI IN CORSO</h4>
                                 <div class="table-responsive m-t-40">
                                 
@@ -265,11 +270,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                        
                     </div>
-                    
+                    <!--               -->
+                   <div class="row">
+                    <!-- Column -->
+					<canvas id="myLineChart" width="600" height="600">gfhfdgfd</canvas> 
+ 
+fdgfdgdfgfdgd
+                        </div>
+                        <!--          -->
+                     
                 </div>
                  
-                <!-- Row -->
+                
                 
                 
                 <div class="right-sidebar">
@@ -372,8 +387,8 @@
     <script src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
     <!-- Chart JS -->
     <script src="assets/plugins/echarts/echarts-all.js"></script>
-    <script src="js/dashboard5.js"></script>
-    <!-- ============================================================== -->
+    <script src="js/dashboard5.js"></script> 
+    <!-- ======================     ======================================= -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
@@ -408,7 +423,6 @@
     <script src="../assets/plugins/calendar/dist/cal-init.js"></script>
     <!-- sparkline chart -->
     <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="js/dashboard4.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->

@@ -79,7 +79,7 @@
        	<%@ include file="header.jsp" %>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
-        <%@ include file="menu.jsp" %>
+        <%//@ include file="menu.jsp" %>
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
@@ -101,8 +101,9 @@
 
                         <div class="card" >
                             <div class="card">
-                            
-                                <h4 class="card-title" align="center" marginTop="50%">LISTA STUDENTI ISCRITTI</h4>
+                            <h4 class="card-title" align="center">
+</h4>
+                                <h4 class="card-title" align="center">LISTA STUDENTI ISCRITTI</h4>
                                 <div class="table-responsive m-t-40">
                                 
                                     <table class="table stylish-table">

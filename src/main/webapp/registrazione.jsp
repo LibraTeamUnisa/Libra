@@ -116,7 +116,6 @@ if(semaforo==true){
     	  if(responseText.includes("successo")){
     	 	 window.location.href = "home.jsp";
     	  }
-    	  
     	  $('#nome').val("");
     	  $('#cognome').val("");
     	  $('#matricola').val("");

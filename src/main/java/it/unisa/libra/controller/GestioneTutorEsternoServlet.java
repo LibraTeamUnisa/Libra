@@ -17,6 +17,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.TutorEsterno;
+import it.unisa.libra.bean.TutorEsternoPK;
+import it.unisa.libra.model.dao.IAziendaDao;
+import it.unisa.libra.model.dao.ITutorEsternoDao;
+import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.CheckUtils;
 
 /**
  * Servlet implementation class GestioneTutorEsternoServlet. Controller class che gestisce le
@@ -67,7 +74,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       aggiungi(request, response);
       return;
     } else if (action.equals(Actions.MODIFICA_TUTOR_ESTERNO)) {
-      // Mauro
+      aggiorna(request,response);
     } else if (action.equals(Actions.RIMUOVI_TUTOR_ESTERNO)) {
       rimuovi(request, response);
       return;
@@ -132,8 +139,99 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     response.getWriter().write(SUCCESS_MESS);
     return;
   }
-
-
+  
+  /**
+   * Consente di gestire la richiesta di modifica delle informazioni di un tutor associato
+   * ad un'azienda e restituisce il codice 200 nel caso in cui l'operazione sia andata a buon
+   * fine o, in caso contrario, il codice 400, a fronte dalle specifica di parametri non validi.
+   * @param request Indica l'oggetto HttpServletRequest generato dal container contenente la richiesta
+   *                inviata dal client
+   * @param response Indica l'oggetto HttpServletResponse generato dal container contenente la risposta
+   *                 inviata al client
+   * @throws IOException Lanciata nel caso in cui non è possibile ottenere il writer associato all'oggetto 
+   *                     HttpServletResponse
+   */
+  private void aggiorna(HttpServletRequest request,HttpServletResponse response) 
+          throws IOException
+  {
+    String idTutor=request.getParameter("idTutor");
+    String idAzienda=request.getParameter("idAzienda");
+    
+    if(CheckUtils.checkEmptiness(idTutor)&&CheckUtils.checkEmail(idAzienda)) {
+      
+      TutorEsternoPK tutorKey=new TutorEsternoPK();
+      tutorKey.setAmbito(idTutor);
+      tutorKey.setAziendaEmail(idAzienda);
+      
+      TutorEsterno tutor=tutorDao.findById(TutorEsterno.class, tutorKey);
+      if(tutor!=null) {
+        
+        String nome=request.getParameter("nome");
+        String cognome=request.getParameter("cognome");
+        String telefono=request.getParameter("telefono");
+        String data=request.getParameter("dataDiNascita");
+        String indirizzo=request.getParameter("indirizzo");
+        String ambito=request.getParameter("ambito");
+        Integer count=0;
+        
+        if(CheckUtils.checkEmptiness(ambito)) {
+            tutorKey.setAmbito(ambito);
+            boolean notSet=tutorDao.findById(TutorEsterno.class, tutorKey)==null;
+            try {
+              if(notSet) {
+                tutor.setId(tutorKey);
+                count++;
+              } else
+                throw new IllegalArgumentException();
+            } catch(IllegalArgumentException ex) {
+              response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+              response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
+              response.getWriter().flush();
+              return;
+            }
+        }
+        if(CheckUtils.checkEmptiness(nome)) {
+          tutor.setNome(nome);
+          count++;
+        }
+        if(CheckUtils.checkEmptiness(cognome)) {
+          tutor.setCognome(cognome);
+          count++;
+        }
+        if(CheckUtils.checkTelephone(telefono)) {
+          tutor.setTelefono(telefono);
+          count++;
+        }
+        if(CheckUtils.checkDate(data)!=null) {
+          tutor.setDataDiNascita(CheckUtils.checkDate(data));
+          count++;
+        }
+        if(CheckUtils.checkEmptiness(indirizzo)) {
+          tutor.setIndirizzo(indirizzo);
+          count++;
+        }
+        
+        if(count==0) {
+          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          response.getWriter().write("Le informazioni specificate non sono corrette");
+        } else {
+          response.setStatus(HttpServletResponse.SC_OK);
+          response.getWriter().write("Operazione terminata. Aggionati "+count+" campi");
+        }
+        
+        response.getWriter().flush();
+        
+      } else {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.getWriter().write("Il tutor specificato non è registrato a Libra");
+        response.getWriter().flush();
+      }
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Non hai specificato correttamente il tutor da modificare");
+      response.getWriter().flush();
+    }
+  }
 
   /**
    * Gestisce l'operazione di rimozione del tutor esterno.

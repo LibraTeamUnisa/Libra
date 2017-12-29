@@ -1,3 +1,7 @@
+<%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
+<%@page import="it.unisa.libra.bean.Studente"%>
+<%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
+<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.unisa.libra.bean.FeedbackPK"%>
 <%@page import="it.unisa.libra.bean.Feedback"%>
@@ -11,13 +15,17 @@
 
 
 <%
-	IDomandaDao dao= (IDomandaDao) new  InitialContext().lookup("java:app/Libra/DomandaJpa");
-	IFeedbackDao feedbackDao = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
-	List<Domanda> domande= dao.findByType("Studente");
 	HttpSession sessione = request.getSession();
+
+	IDomandaDao ddao= (IDomandaDao) new  InitialContext().lookup("java:app/Libra/DomandaJpa");
+	IFeedbackDao fDao = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
+	IProgettoFormativoDao pfDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+	IStudenteDao sDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
+	IUtenteDao uDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	
 	String email = (String) sessione.getAttribute("utenteEmail");
-	String idPF = (String) request.getParameter("pf");
-	String exist= (String) sessione.getAttribute("feedback_persisted");
+	Utente user= uDao.findById(Utente.class, email);
+	String exist= (String) request.getAttribute("feedback_persisted");
 %>
 
 
@@ -106,94 +114,117 @@
 					</div>
 				</div>
 				<div class="card wizard-card" style="padding: 1%">
-					<form id="form-questionario" method="post">
+					<form id="form-questionario" method="post" action="gestioneFeedbackAzienda">
 						<div class="container">
 					<%
 						if (email == null ) {
 							response.sendRedirect("/Libra/errore.jsp");
 						}
-						else{
-							for(Domanda d: domande){ 
-								if(d.getTesto().equals("Note")){
-									//get note here
-									continue;
-								}
-					%>
-								<div class="row">
-									<!-- panel preview -->						
-									<div class="form-group col-md-8">
-										<label><%=d.getTesto()%></label>
-									</div>
-									<div class="form-group col-md-4" style="text-align: center;">
-											<%
-												for (int i = 1; i <= 5; i++) {
-											%>
-											<label class="radio-inline" style="margin-left: 3.5%;">
-													<%
-													if(exist == null){		
-														if(i==3){ 
-													%> 
-														<input type="radio" name="<%=d.getId()%>" checked="checked">
-													<%
-														}else{ 
-													%>
-														<input type="radio" name="<%=d.getId()%>">
-													<%
-														}
-													%> 
+						else if(email != null && user.getGruppo().getRuolo().equals("Studente")){
+							
+							Studente studente = sDao.findById(Studente.class, email);
+							List<Domanda> domande= ddao.findByType("Studente");
+
+							ProgettoFormativo pf= pfDao.getLastProgettoFormativoByStudente(studente);
+							String note=null;
+							if(pf.getStato() == 4){
+							
+								for(Domanda d: domande){ 
+					
+									if(d.getTesto().equals("Note")){
+										if(exist != null){
+											FeedbackPK pk= new FeedbackPK();
+											pk.setProgettoFormativoID(pf.getId());
+											pk.setDomandaID(d.getId());
+											Feedback f= fDao.findById(Feedback.class, pk);
+											note= f.getValutazione();
+										}
 										
+										continue;
+									}
+						%>
+									<div class="row">
+										<!-- panel preview -->						
+										<div class="form-group col-md-8">
+											<label><%=d.getTesto()%></label>
+										</div>
+										<div class="form-group col-md-4" style="text-align: center;">
 												<%
-													}else{
-														FeedbackPK pk= new FeedbackPK();
-														pk.setProgettoFormativoID(Integer.parseInt(idPF));
-														pk.setDomandaID(d.getId());
-														Feedback f= feedbackDao.findById(Feedback.class, pk);
-														if(i==Integer.parseInt(f.getValutazione())){
-														
+													for (int i = 1; i <= 5; i++) {
 												%>
-															<input type="radio" name="<%=d.getId()%>" checked="checked" disabled="disabled">
-														
-												<%
+												<label class="radio-inline" style="margin-left: 3.5%;">
+														<%
+														if(exist == null){		
+															if(i==3){ 
+														%> 
+															<input type="radio" name="<%=d.getId()%>" value="<%=i%>" checked="checked">
+														<%
+															}else{ 
+														%>
+															<input type="radio" name="<%=d.getId()%>" value="<%=i%>">
+														<%
+															}
+														%> 
+											
+													<%
 														}else{
+															FeedbackPK pk= new FeedbackPK();
+															pk.setProgettoFormativoID(pf.getId());
+															pk.setDomandaID(d.getId());
+															Feedback f= fDao.findById(Feedback.class, pk);
+															if(i==Integer.parseInt(f.getValutazione())){
 															
-												%>
-															<input type="radio" name="<%=d.getId()%>" disabled="disabled">
+													%>
+																<input type="radio" name="<%=d.getId()%>" checked="checked" disabled>
 															
-												<%
+													<%
+															}else{
+																
+													%>
+																<input type="radio" name="<%=d.getId()%>" disabled>
+																
+													<%
+															}
 														}
+													%>	
+														<%=i%>
+													</label>	
+												<%
 													}
-												%>	
-													<%=i%>
-												</label>	
-											<%
-												}
-											%>
+												%>
+										</div>
+									</div>
+						<%
+								}
+							
+						%>
+								<div class="row">
+									<div class="form-group col-md-8">
+										<label for="note">Note:</label>
+										<%
+											if(exist == null){ 
+										%>
+												<textarea class="form-control" rows="5" id="note" name="note"></textarea>
+										<%
+											}else{ 
+										%>
+												<textarea class="form-control" rows="5" id="note" name="note"><%=note%></textarea>
+										<%
+											}
+										%>
+										<textarea style="display: none" name="idProgettoFormativo"><%=pf.getId()%></textarea>
 									</div>
 								</div>
+								<%
+									if(exist == null){
+								%>
+										<button class="btn btn-primary" type="submit" style="margin:0 auto;">Invia</button>
 					<%
+									}
 							}
 						}
 					%>
-							<div class="row">
-								<div class="form-group col-md-8">
-									<label for="note">Note:</label>
-									<%
-										if(exist == null){ 
-									%>
-											<textarea class="form-control" rows="5" id="note" name="note"></textarea>
-									<%
-										}else{ 
-									%>
-											<textarea class="form-control" rows="5" id="note" name="note">skdkddkdtktd</textarea>
-									<%
-										}
-									%>
-								</div>
-							</div>
-							<%
-								if(exist == null)
-							%>
-									<button class="btn btn-primary" type="submit" style="margin:0 auto;">Invia</button>
+						
 						</div>
 					</form>
 				</div>
@@ -249,7 +280,7 @@
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 	
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js">
-		$(document).ready(function(){
+		/*$(document).ready(function(){
 			$.post('gestioneFeedbackAzienda', function() {
 				alert("Submitted");
 				$('#form-questionario').validate({
@@ -273,7 +304,7 @@
 				});
 			});
 		
-		});
+		});*/
 	
 	
 	

@@ -20,7 +20,7 @@ INSERT INTO `libra`.`Tutoresterno` (`ambito`, `aziendaEmail`, `cognome`, `nome`,
 INSERT INTO `libra`.`Tutorinterno` (`utenteEmail`, `cognome`, `nome`, `dataDiNascita`, `linkSito`) VALUES ('pippo@unisa.it', 'Cattaneo', 'Pippo', '1900-01-01', 'www.unisa.it');
 INSERT INTO `libra`.`Studente` (`utenteEmail`, `matricola`, `cognome`, `nome`, `dataDiNascita`) VALUES ('mario@studenti.it', '0215103555', 'Ruggiero', 'Mario', '1995-05-11');
 
-INSERT INTO `libra`.`progettoformativo` (`stato`, `dataInizio`, `dataFine`, `ambito`, `note`, `documento`, `motivazioneRifiuto`, `periodoReport`, `studenteEmail`, `aziendaEmail`, `tutorInternoEmail`, `dataInvio`) VALUES (4,'2017-08-01', '2017-10-05','Biometria', '', 'doc.pdf','', 3, 'mario@studenti.it', 'azienda@prova.it', 'pippo@unisa.it', '2017-09-23'); 
+INSERT INTO `libra`.`progettoformativo` (`stato`, `dataInizio`, `dataFine`, `ambito`, `note`, `documento`, `motivazioneRifiuto`, `periodoReport`, `studenteEmail`, `aziendaEmail`, `tutorInternoEmail`, `dataInvio`) VALUES (4,'2017-08-01', '2017-10-05','Biometria', '', 'doc.pdf','', 4, 'mario@studenti.it', 'azienda@prova.it', 'pippo@unisa.it', '2017-09-23'); 
 
 INSERT INTO `libra`.`domanda`(`testo`, `tipo`) VALUES ('La durata del tirocinio è stata adeguata agli obiettivi formativi', 'Azienda');
 INSERT INTO `libra`.`domanda`(`testo`, `tipo`) VALUES ('Gli obiettivi formativi previsti sono stati raggiunti', 'Azienda');

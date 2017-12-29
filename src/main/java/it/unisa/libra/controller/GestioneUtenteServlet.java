@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Hibernate;
+
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.jpa.StudenteJpa;
 import it.unisa.libra.util.Actions;
@@ -24,6 +27,9 @@ public class GestioneUtenteServlet extends HttpServlet {
   
   @EJB
   private IStudenteDao studenteDao;
+  
+  @EJB
+  private IProgettoFormativoDao pfDao;
 
   /** Default constructor. */
   public GestioneUtenteServlet() {}
@@ -63,10 +69,7 @@ public class GestioneUtenteServlet extends HttpServlet {
 	  String mailStudente = request.getParameter("email-studente");
 	  if (mailStudente != null && studenteDao.findById(Studente.class, mailStudente) != null) {
 		  Studente s = studenteDao.findById(Studente.class, mailStudente);
-		  ProgettoFormativo pf = null;
-		  if (!s.getProgettiFormativi().isEmpty()) {
-			  pf = s.getProgettiFormativi().get(s.getProgettiFormativi().size()-1);
-		  }
+		  ProgettoFormativo pf = pfDao.getLastProgettoFormativoByStudente(s);
 		  request.setAttribute("studente", s);
 		  request.setAttribute("progettoFormativo", pf);
 		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettaglioStudente.jsp");

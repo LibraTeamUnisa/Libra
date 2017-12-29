@@ -6,7 +6,7 @@
 	<display-name>Libra</display-name>
 	
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>home.jsp</welcome-file>
 	</welcome-file-list>
 	<filter>
 		<display-name>FiltroUtente</display-name>

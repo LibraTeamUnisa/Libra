@@ -55,7 +55,7 @@ public class FiltroUtente implements Filter {
       // quindi questo filtro non deve essere applicato a queste pagine
       String path = ((HttpServletRequest) request).getRequestURI();
       if (path.endsWith(JspPagesIndex.ACCESSO_NEGATO) || path.endsWith(JspPagesIndex.HOME)
-          || path.endsWith(JspPagesIndex.REGISTRAZIONE)) {
+          || path.endsWith(JspPagesIndex.REGISTRAZIONE) || path.equals("/Libra/")) {
         chain.doFilter(request, response);
         return;
       } else {

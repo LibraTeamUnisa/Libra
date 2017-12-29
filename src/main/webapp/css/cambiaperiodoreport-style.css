@@ -200,3 +200,14 @@ div.element-separator
     background-color: #e0e0e0!important;
     border-color: #e0e0e0!important;
 }
+
+p#empty-card
+{
+    text-align: center;
+}
+
+p#empty-card i
+{
+    font-size: large;
+    color: #D32F2F;
+}

@@ -55,6 +55,8 @@
     <link href="css/colors/red.css" id="theme" rel="stylesheet">
     <!-- Bootstrap Form Helper for number spinner -->
     <link href="assets/plugins/bootstrap-form-helper/css/bootstrap-formhelpers.min.css" rel="stylesheet"/>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -218,21 +220,23 @@
                                       </div>
                                   </div>
                               </form>
-                             <%
+                               <%
                                      //Aggiungi separator se ci sono altre elementi
                                      if(pfList.indexOf(pf)+1<pfList.size()){
-                              %>
+                                %>
                                         <br><div class="separator element-separator"></div><br>
-                              <%       } else{ 
-                               %>
+                               <%       } else{ 
+                                %>
                                         <br><br>
                                <%
                                        }
                                 	}
                                 } else {
-                                	
+                                %>
+                                	<p id="empty-card"><i class="fa fa-times" aria-hidden="true"></i> Non stai seguendo nessuno studente con tirocini in corso</p>
+                               <%
                                 }
-                              %>
+                                %>
                          </div>
                          <!-- CARD FOOTER -->
                          <div class="card-footer"></div>

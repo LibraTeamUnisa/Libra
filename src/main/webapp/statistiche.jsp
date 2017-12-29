@@ -93,7 +93,6 @@
 						<h4 class="card-title">Lista Studenti</h4>
 						<%
 							String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
-							String emailTutorParamiter = (String) request.getParameter("email");
 
 							ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext()
 									.lookup("java:app/Libra/TutorInternoJpa");

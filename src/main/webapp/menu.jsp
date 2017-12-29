@@ -18,12 +18,10 @@
 	Utente utenteVar = null;
 	Presidente accountPresidente = null;
 	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
-	/*
+	
 	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
 	String emailUtente = (String) request.getSession().getAttribute("utenteEmail");
-	*/
-	String ruoloUtente = "";
-	String emailUtente = "";
+	
 	boolean segreteria = false;
 	boolean presidente = false;
 	if(ruoloUtente.equals("Segreteria")){

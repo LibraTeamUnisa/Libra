@@ -4,11 +4,10 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
 	<display-name>Libra</display-name>
-	
+	<!--  
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>home.jsp</welcome-file>
 	</welcome-file-list>
-
 	<filter>
 		<display-name>FiltroUtente</display-name>
 		<filter-name>FiltroUtente</filter-name>
@@ -16,7 +15,10 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>FiltroUtente</filter-name>
-		<url-pattern>/indeaaa</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>ModificaPasswordServlet</servlet-name>
 	</filter-mapping>
 
 	<filter>
@@ -35,11 +37,16 @@
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/listaStudenti.jsp</url-pattern>
 		<url-pattern>/profiloAziendale.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -61,13 +68,16 @@
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -88,12 +98,15 @@
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -113,12 +126,16 @@
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/listaStudenti.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter>
@@ -139,13 +156,17 @@
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
-		<url-pattern>/gestioneTutorEsternoServlet</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
+	-->
 </web-app>
 

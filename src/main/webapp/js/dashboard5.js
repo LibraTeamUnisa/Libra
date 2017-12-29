@@ -10,9 +10,9 @@ $(function () {
     // Total revenue chart
     // ============================================================== 
     new Chartist.Line('.total-revenue', {
-        labels: ['0', '4', '8', '12', '16', '20']
+        labels: ['1', '2', '3', '4', '5', '6','7','8','9','10','11','12']
         , series: [
-        [4, 2, 3.5, 1.5, 4, 3]
+        [5, 2, 3.5, 1.5, 4, 3]
         , [2, 4, 2, 4, 2, 4]
       ]
     }, {
@@ -27,7 +27,7 @@ $(function () {
             onlyInteger: true
             , offset: 20
             , labelInterpolationFnc: function (value) {
-                return (value / 1) + 'k';
+                return (value / 3) + 'k';
             }
         }
     });

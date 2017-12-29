@@ -38,16 +38,23 @@ public class NegaTutorInterno implements Filter {
    */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+	  
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
+
+
+
     // se l'utente � un tutor interno l'accesso � negato
     if ("TutorInterno".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;
+
     }
 
+
     chain.doFilter(request, response);
+    
   }
 
   /**

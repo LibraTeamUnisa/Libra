@@ -1,5 +1,7 @@
 package it.unisa.libra.model.jpa;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -68,4 +70,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
       return query.getResultList().get(0);
     }
   }
+
+
+
 }

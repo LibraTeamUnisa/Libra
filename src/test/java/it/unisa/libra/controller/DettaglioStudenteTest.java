@@ -22,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.util.Actions;
 
@@ -37,6 +38,8 @@ public class DettaglioStudenteTest {
 	private Studente studente;
 	@Mock
 	private IStudenteDao studenteDao;
+	@Mock
+	private IProgettoFormativoDao pfDao;
 	@InjectMocks
 	private GestioneUtenteServlet servlet;
 	@Mock
@@ -65,6 +68,7 @@ public class DettaglioStudenteTest {
 		when(request.getParameter(Actions.ACTION)).thenReturn("dettaglioStudente");
 		when(request.getParameter("email-studente")).thenReturn(mail);
 		when(studenteDao.findById(Studente.class, mail)).thenReturn(studente);
+		when(pfDao.getLastProgettoFormativoByStudente(studente)).thenReturn(null);
 		when(servlet.getServletContext()).thenReturn(context);
 		when(context.getRequestDispatcher("/dettaglioStudente.jsp")).thenReturn(dispatcher);
 

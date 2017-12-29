@@ -13,8 +13,6 @@
 	import="java.util.List" import="javax.naming.InitialContext"%>
 <%
 	HttpSession sessione = request.getSession();
-	//sessione.setAttribute("utenteEmail", "email@email.it");
-	//sessione.setAttribute("utenteRuolo", "Presidente");
 	String utenteEmail = (String) sessione.getAttribute("utenteEmail");
 	String utenteRuolo = (String) sessione.getAttribute("utenteRuolo");
 

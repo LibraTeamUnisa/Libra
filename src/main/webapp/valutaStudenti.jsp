@@ -147,7 +147,7 @@
 									<th></th>
 									<th>Nome</th>
 									<th>Stato</th>
-									<th>Data Fine</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -159,8 +159,10 @@
 											progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
 								%>
 								<tr>
-									<td><img src="<%=utente.getImgProfilo()%>" alt="user" width="40"
-											class="img-circle"></td>
+									<td><a
+										href="${pageContext.request.contextPath}/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img
+											src="<%=utente.getImgProfilo()%>" alt="user" width="40"
+											class="img-circle"></a></td>
 									<td><%=studente.getCognome()%> <%=studente.getNome()%></td>
 									<td>
 										<%
@@ -178,13 +180,15 @@
  %>
 									</td>
 
-									
-								<td>
-								<a href="${pageContext.request.contextPath}/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
-								
-								<button type="button" class="btn btn-success" <%if(progettoFormativo.getStato() != 4){%>disabled<%} %>>Valuta</button>
-								</a>
-								</td></tr>
+
+									<td><a
+										href="${pageContext.request.contextPath}/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
+
+											<button type="button" class="btn btn-success"
+												<%if (progettoFormativo.getStato() != 4) {%> disabled
+												title="Valutazione non disponibile" <%}%>>Valuta</button>
+									</a></td>
+								</tr>
 								<%
 									}
 								%>
@@ -257,15 +261,19 @@
 												"paging" : true,
 												"searching" : true,
 												"pageLength" : 10,
+
 												"columnDefs" : [ {
 													"searchable" : false,
+													"orderable" : false,
 													"targets" : 0
 												}, {
 													"searchable" : false,
-													"targets" : 2
+													"targets" : 2,
+													"orderable" : false
 												}, {
 													"searchable" : false,
-													"targets" : 3
+													"targets" : 3,
+													"orderable" : false
 												}, ],
 												"language" : {
 													"lengthMenu" : "Mostra _MENU_ risultati per pagina",

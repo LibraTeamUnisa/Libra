@@ -138,8 +138,8 @@
 							</div>
 							<div class="modal-footer">
 								<button id="button1" type="button" class="btn btn-primary">
-									<a class="btn btn-primary" href="dashboardAzienda.jsp"
-										style="text-decoration: none; color: white;"> Dashboard </a>
+									<a class="btn btn-primary" href="JspPagesIndex.HOME"
+										style="text-decoration: none; color: white;"> Login </a>
 								</button>
 							</div>
 						</div>

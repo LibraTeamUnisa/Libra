@@ -18,7 +18,7 @@ public class FiltroUtenteTest {
   HttpServletRequest request;
   HttpServletResponse response;
   FilterChain chain;
-
+ 
   @Before
   public void setUp() {
     request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);

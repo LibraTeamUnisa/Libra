@@ -5,8 +5,10 @@ $(document).ready(function(){
 //Ajax Requet to servlet   
 $(document).ready(function(){
 			 $("form").on("submit",function(event){
-				 $.post("URL",$(this).serialize(),function(data,status,xhr){
+				 $.post("periodoReport",$(this).serialize(),function(data,status,xhr){
+					 toastr.success(data,'Ottimo!');
 				 }).fail(function(xhr, status, error) {
+					 toastr.error(data,'Accipicchia!');
 				    });
 			     
 				 event.preventDefault();

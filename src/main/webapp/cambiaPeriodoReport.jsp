@@ -57,6 +57,8 @@
     <link href="assets/plugins/bootstrap-form-helper/css/bootstrap-formhelpers.min.css" rel="stylesheet"/>
     <!-- FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Toastr's toast CSS -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -209,7 +211,10 @@
                                               <dd class="col-sm-6 periodo">
                                                   <!-- NUMBER SPINNER -->
                                                   <div class="row row-spinner">
-                                                      <input name="period" type="text" class="form-control bfh-number" value="<%=pf.getPeriodoReport() %>" data-min="1" data-max="30">
+                                                      <!-- TRAINERSHIP ID -->
+                                                      <input type="hidden" name="pf" value="<%=pf.getId()%>"/>
+                                                      <!-- TRAINERSHIP PERIOD -->
+                                                      <input name="periodo" type="text" class="form-control bfh-number" value="<%=pf.getPeriodoReport() %>" data-min="1" data-max="30">
                                                   </div>
                                               </dd>
                                           </dl>
@@ -276,6 +281,8 @@
     <script src="js/sidebarmenu.js"></script>
     <!--stickey kit -->
     <script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!-- Script for Toastr's toast -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
     <script src="js/cambiaperiodoreport.js"></script>

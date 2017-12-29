@@ -183,6 +183,12 @@ div.row-spinner
     border-color: 007bff!important;
 }
 
+.btn-outline-primary:active,.btn-outline-primary:focus
+{
+    background-color: #007bff!important;
+    color: white!important;
+}
+
 .badge-primary
 {
     background-color:#007bff!important;

@@ -19,9 +19,9 @@ import it.unisa.libra.model.dao.ITutorInternoDao;
 public class CambiaPeriodoReportServlet extends HttpServlet 
 {
   @Inject
-  private IProgettoFormativoDao pfDao;
+  protected IProgettoFormativoDao pfDao;
   @Inject
-  private ITutorInternoDao      tutorDao;
+  protected ITutorInternoDao      tutorDao;
   
   private Integer idPf;
   private Integer periodo;

@@ -124,7 +124,10 @@
 							</thead>
 							<tbody>
 							<%
-								if(email != null){	
+								if (email == null ) {
+									response.sendRedirect("/Libra/errore.jsp");
+								}
+								else{
 									for(Azienda a: aziende){
 										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
 							%>

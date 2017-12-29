@@ -13,28 +13,36 @@
 <%@ page import="it.unisa.libra.util.Actions" %>
 
 <%
-	String nomeUtente = null;
-	String cognomeUtente = null;
-	Utente utenteVar = null;
-	Presidente accountPresidente = null;
-	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
-	
-	String ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
-	String emailUtente = (String) request.getSession().getAttribute("utenteEmail");
-	
+	String nomeUtente = "";
+	String cognomeUtente = "";
+	String ruoloUtente = "";
+	String emailUtente = "";
 	boolean segreteria = false;
 	boolean presidente = false;
-	if(ruoloUtente.equals("Segreteria")){
-		utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
-		nomeUtente = emailUtente;
-		cognomeUtente = "";
-		segreteria = true;
-	}else if(ruoloUtente.equals("Presidente")){
-		utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
-		accountPresidente = utenteVar.getPresidente();
-		nomeUtente = accountPresidente.getNome();
-		cognomeUtente = accountPresidente.getCognome();
-		presidente = true;	
+	String immagineProfilo = "";
+	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	if(request.getSession().getAttribute("utenteRuolo")!=null && request.getSession().getAttribute("utenteEmail")!=null){
+		ruoloUtente = (String) request.getSession().getAttribute("utenteRuolo");
+		emailUtente = (String) request.getSession().getAttribute("utenteEmail");
+		
+		Utente utenteVar = null;
+		Presidente accountPresidente = null;
+		
+		if(ruoloUtente.equals("Segreteria")){
+			utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
+			nomeUtente = emailUtente;
+			immagineProfilo = utenteVar.getImgProfilo();
+			cognomeUtente = "";
+			segreteria = true;
+			
+		}else if(ruoloUtente.equals("Presidente")){
+			utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
+			accountPresidente = utenteVar.getPresidente();
+			immagineProfilo = utenteVar.getImgProfilo();
+			nomeUtente = accountPresidente.getNome();
+			cognomeUtente = accountPresidente.getCognome();
+			presidente = true;	
+		}
 	}
 %>
 
@@ -45,8 +53,8 @@
                 <!-- User profile -->
                 <div class="user-profile">
                     <!-- User profile image -->
-                    <%if(utenteVar.getImgProfilo()!=null||!(utenteVar.getImgProfilo().equals(""))){ %>
-                    <div class="profile-img"> <img src=<%=utenteVar.getImgProfilo()+""%> alt="" /> </div>
+                    <%if(immagineProfilo!=null&&!(immagineProfilo.equals(""))){ %>
+                    <div class="profile-img"> <img src=<%=immagineProfilo+""%> alt="" /> </div>
                     <%}else { %>
                     <div class="profile-img"> <img src="assets/images/logo-icon.png" alt="" /> </div>
                     <%} %>

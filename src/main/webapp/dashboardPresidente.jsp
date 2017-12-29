@@ -79,7 +79,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<script>
 
 
 </head>
@@ -109,7 +108,7 @@
         <!-- 
 
         -->
-       <%//@ include file="menu.jsp" %>
+       <%@ include file="menu.jsp" %>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -277,8 +276,7 @@
                    <div class="row">
                     <!-- Column -->
 					<canvas id="myLineChart" width="600" height="600">gfhfdgfd</canvas> 
- 
-fdgfdgdfgfdgd
+
                         </div>
                         <!--          -->
                      

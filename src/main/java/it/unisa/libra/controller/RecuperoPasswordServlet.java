@@ -93,15 +93,5 @@ public class RecuperoPasswordServlet extends HttpServlet {
   {
 	  doGet(request, response);
   }
-  
-  /**
-   * Effettua la validazione dell'email ricevuta
-   * @param email Indica l'email da validare
-   * @return Restituisce true nel caso in cui si tratti di una email vailda,false altrimenti.
-   */
-  private boolean checkEmail(String email)
-  {
-	  return CheckUtils.checkEmail(email)&&userDao.findById(Utente.class,email)!=null;
-  }
 }
 

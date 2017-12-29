@@ -248,7 +248,7 @@
 							</div>
 							<button class="btn btn-primary" type="submit"
 								id="inviaValutazione" onclick='controlloNote()'
-								style="margin: 0 auto;" disabled>Invia</button>
+								style="margin:0 auto;<%if(esistente){%>display:none;<%}%>" disabled>Invia</button>
 							<div class="alert alert-success" id="success"
 								style="display: none">Valutazione effettuata con successo!</div>
 						</div>

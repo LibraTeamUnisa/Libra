@@ -7,10 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.FeedbackPK;
-import it.unisa.libra.model.dao.IAziendaDao;
 import it.unisa.libra.model.dao.IFeedbackDao;
 
 /** Servlet implementation class AutenticazioneServlet */
@@ -27,9 +25,7 @@ public class GestioneFeedbackStudenteServlet extends HttpServlet {
 
   /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    // response.getWriter().append("Served at: ").append(request.getContextPath());
-  }
+      throws ServletException, IOException {}
 
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -75,5 +71,9 @@ public class GestioneFeedbackStudenteServlet extends HttpServlet {
     f.setId(fpk);
     f.setValutazione(val);
     feedbackDao.persist(f);
+  }
+
+  public void setFeedbackDao(IFeedbackDao feedbackDao) {
+    this.feedbackDao = feedbackDao;
   }
 }

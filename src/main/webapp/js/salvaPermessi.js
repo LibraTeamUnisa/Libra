@@ -6,12 +6,11 @@
 $(document).ready(function() {
 	$("#permessiForm").submit(function(e) {
 		e.preventDefault();
-		alert("ciao");
 		$.post('permessi', {
 			checkboxStudente: $('#studenteRicevuti').is(':checked'),
 			radioStudente: $("input[name='radioStudente']:checked").val(),//attenzione ad undefined
 			radioAzienda: $("input[name='radioAzienda']:checked").val(),
-			checkboxTutorInterno: $('#tutorIntRicevuti').is(':checked'),
+			checkboxTutorInterno: $('#tutorInternoRicevuti').is(':checked'),
 			radioTutorInterno: $("input[name='radioTutorInterno']:checked").val(),
 			checkboxPresidente: $('#presidenteRicevuti').is(':checked'),
 			radioPresidente: $("input[name='radioPresidente']:checked").val(),
@@ -21,7 +20,7 @@ $(document).ready(function() {
 			if (data == "true") {
 				alert("modifiche effettuate");
 			} else {
-				alert("errore");
+				alert("errore"+data);
 			}
 		});
 	});

@@ -215,16 +215,16 @@
 						<h4 class="card-title">Tutor Interno</h4>
 
 						<div class="checkbox checkbox-danger">
-							<input id="tutorIntRicevuti" type="checkbox"
+							<input id="tutorInternoRicevuti" type="checkbox"
 								<%if (checkRicevuti != null && checkRicevuti.getGruppi().contains(g)) {%>
-								checked <%}%>><label for="tutorIntRicevuti"> Un
+								checked <%}%>><label for="tutorInternoRicevuti"> Un
 								tutor interno può visualizzare i feedback lasciati dalle aziende
 								ai propri studenti</label>
 						</div>
 
 						<div class="radio radio-danger">
 							<input type="radio" name="radioTutorInterno"
-								id="radio1TutorInterno" value="conFirmaTutorInt"
+								id="radio1TutorInterno" value="conFirmaTutorInterno"
 								<%if (conFirma != null && conFirma.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio1TutorInterno">
 								Un tutor interno può visualizzare i feedback lasciati dai propri
@@ -232,7 +232,7 @@
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioTutorInterno"
-								id="radio2TutorInterno" value="anonimiTutorInt"
+								id="radio2TutorInterno" value="anonimiTutorInterno"
 								<%if (anonimi != null && anonimi.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio2TutorInterno">
 								Un tutor interno può visualizzare i feedback lasciati dai propri
@@ -240,7 +240,7 @@
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioTutorInterno"
-								id="radio3TutorInterno" value="noFeedbackTutorInt"
+								id="radio3TutorInterno" value="noFeedbackTutorInterno"
 								<%if (noFeedback != null && noFeedback.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio3TutorInterno">
 								Un tutor interno non può visualizzare i feedback lasciati dai

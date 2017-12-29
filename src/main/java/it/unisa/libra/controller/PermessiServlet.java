@@ -46,7 +46,7 @@ public class PermessiServlet extends HttpServlet {
     HttpSession session = request.getSession();
     if (session.getAttribute("utenteRuolo") != null
         && session.getAttribute("utenteRuolo").equals("Segreteria")) {
-      
+
       listPerm = permessoDao.findAll(Permesso.class);
 
       for (Permesso p : listPerm) {
@@ -80,14 +80,14 @@ public class PermessiServlet extends HttpServlet {
       permessoDao.persist(noFeedback);
       permessoDao.persist(conFirma);
       permessoDao.persist(anonimi);
-      
+
       if (b) {
         response.getWriter().write("true");
       } else {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("errore");
       }
-      
+
     } else {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().write("non consentito");
@@ -143,7 +143,7 @@ public class PermessiServlet extends HttpServlet {
       if (!ricevuti.getGruppi().contains(g)) {
         ricevuti.getGruppi().add(g);
       }
-    } else if (request.getParameter(("checkbox").concat(utente)).equals("false")){
+    } else if (request.getParameter(("checkbox").concat(utente)).equals("false")) {
       ricevuti.getGruppi().remove(g);
     } else {
       return false;

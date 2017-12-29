@@ -18,6 +18,7 @@
 		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
 		<servlet-name>GestioneUtenteServlet</servlet-name>
 		<servlet-name>ModificaPasswordServlet</servlet-name>
+		<servlet-name>CambiaPeriodoReportServlet</servlet-name>
 	</filter-mapping>
 
 	<filter>

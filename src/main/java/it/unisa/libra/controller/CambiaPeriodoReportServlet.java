@@ -14,7 +14,11 @@ import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.ITutorInternoDao;
 
-/** Servlet implementation class AutenticazioneServlet */
+/**
+ * 
+ * @author Mauro Vitale
+ * @version 1.0
+ */
 @WebServlet(name = "CambiaPeriodoReportServlet", urlPatterns = "/periodoReport")
 public class CambiaPeriodoReportServlet extends HttpServlet 
 {
@@ -28,7 +32,9 @@ public class CambiaPeriodoReportServlet extends HttpServlet
   
   private static final long serialVersionUID = 1L;
 
-  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  /** 
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
+   */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
   {
@@ -62,7 +68,9 @@ public class CambiaPeriodoReportServlet extends HttpServlet
     }
   }
 
-  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
+  /** 
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) 
+   */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
   {

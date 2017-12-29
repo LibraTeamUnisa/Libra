@@ -28,6 +28,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaS.entityManager = em;
     jpaT.entityManager = em;
   }
+  
 
   @Test
   public void getLastTest() {

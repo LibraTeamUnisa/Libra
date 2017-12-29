@@ -19,6 +19,7 @@ import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
 
+
 public class RecuperoPasswordServletTest extends RecuperoPasswordServlet {
   /*
    * private Utente utente; private Gruppo gruppo; private EntityManager em;
@@ -81,3 +82,4 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet {
    * }
    */
 }
+

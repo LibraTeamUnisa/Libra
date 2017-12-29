@@ -1,6 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
+<%@ page import="it.unisa.libra.bean.Studente" %>
+<%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
+<%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@page import="java.text.DateFormat" %>
+<%@page import="java.text.SimpleDateFormat" %>
+
+<% 
+	int propostaId = 0;
+	try {
+		propostaId = Integer.parseInt(request.getParameter("id"));
+	} catch(NumberFormatException e) {
+		
+	}
+	if(propostaId==0){
+		response.sendRedirect("errore.jsp");
+	}
+	IProgettoFormativoDao pfDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+	ProgettoFormativo progettoFormativo = pfDao.findById(ProgettoFormativo.class, propostaId);
+	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,8 +90,79 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             
+	            <div class="row page-titles">
+	                <div class="col-md-6 col-8 align-self-center">
+	                    <h3 class="text-themecolor m-b-0 m-t-0">Rifiuta Proposta</h3>
+	                    <ol class="breadcrumb">
+	                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+	                        <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=progettoFormativo.getStudente().getUtenteEmail()%>">Dettaglio Studente</a></li>
+	                        <li class="breadcrumb-item active">Rifiuta Proposta</li>
+	                    </ol>
+	                </div>
+	                
+	            </div>
+	            <div class="card card-block">
+		            	<h3 class="box-title m-b-0">Studente: <%=progettoFormativo.getStudente().getCognome() %> <%=progettoFormativo.getStudente().getNome() %></h3>
+			            <div class="row mt-4">
+			            	<div class="col-sm-2 col-md-1 mt-2">
+			            	 	<a href="<%=progettoFormativo.getDocumento()%>""><i class="fa fa-file-pdf-o" style="font-size:60px;"></i></a>
+			            	 </div>
+			            	<div class="col-sm mt-2">
+			            		<p class="text-left"><i>Inviata il <%=formatter.format(progettoFormativo.getDataInvio())%></i></p>
+			            		<p class="text-left"><strong>Azienda: </strong><%=progettoFormativo.getAzienda().getNome() %></p>
+			            		<p class="text-left"><strong>Note: </strong>
+			            			<%if(progettoFormativo.getNote()==null) {%>
+			            				<i>Nessuna nota</i>
+			            			<%} else { %>
+			            				<%=progettoFormativo.getNote() %>
+			            			<%} %>
+			            		</p>
+			            	</div>
+			            </div>
+			            <div class="mt-4">
+				            <form action="<%=request.getContextPath()%>/verificaProgettoFormativo" method="post">
+				            	<input type="hidden" id="pf_idInput" name="pf_id" value="<%=propostaId%>">
+				            	<div class="form-group">
+							    	<label for="motRifiuto">Motivazione</label>
+							    	<textarea class="form-control" id="motRifiuto" maxlength="500" rows="3" name="motivazione"></textarea>
+							  	</div>
+							  	<div class="row">
+							  		<div class="col-6"><button type="button" id="rifiutaButton" class="btn btn-primary">Rifiuta</button></div>
+		  							<div class="col-6"><a class="btn btn-secondary pull-right" href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=progettoFormativo.getStudente().getUtenteEmail()%>">Annulla</a></div>
+				            	</div>
+				            </form>
+				        </div>
+		            </div>
+		        <div class="modal fade" id="okDialogMsg" role="dialog">
+		            <div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								L'operazione è avvenuta con successo!
+							</div>
+							<div class="modal-footer">
+									<a class="btn btn-success" style="text-decoration: none; color: white;" href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=progettoFormativo.getStudente().getUtenteEmail()%>">
+										Ok 
+									</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="errorDialogMsg" role="dialog">
+		            <div class="modal-dialog">
+		           		<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Ops!</h4>
+							</div>
+							<div class="modal-body" id="error-modal-body">
+							</div>
+							<div class="modal-footer">
+									<a id="okButton" class="btn btn-warning" style="text-decoration: none; color: white;">
+										Ok 
+									</a>
+							</div>
+						</div>
+					</div>
+				</div>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -119,8 +212,32 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+    	$("#rifiutaButton").click(function(e){
+    		e.preventDefault();
+    		
+    		$.post('verificaProgettoFormativo', {
+    			pf_id : $("#pf_idInput").val(),
+    			motivazione : $("#motRifiuto").val()
+    			},
+    		function(data){
+    			if(data == "ok"){
+    				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
+    				
+    			}else {
+    				$("#error-modal-body").html(data);
+    				$('#errorDialogMsg').modal({backdrop: 'static', keyboard: false});
+    				$('#okButton').click(function() {
+    					$('#errorDialogMsg').modal('toggle');
+    				});
+    			}
+    			
+    		});
+    	});
+    });
+    </script>
 </body>
 
 </html>
-
-

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+<%@page import="it.unisa.libra.util.JspPagesIndex"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +71,7 @@
 								<div id="error-message" class="alert alert-danger"
 									style="display: none">Login errato, riprova</div>
 
-								<a href="recuperaPassword.jsp" id="to-recover" class="text-dark pull-right" ><i  class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
+								<a href="<%=JspPagesIndex.RECUPERA_PASSWORD%>" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
 
 							</div>
 						</div>
@@ -88,17 +90,12 @@
 							<div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
 
 							</div>
-					</div><div class="form-group m-b-0">
-                        <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="registrazione.jsp" class="text-info m-l-5"><b>Sign Up</b></a></p>
-                        </div>
-                    </div>
-
+					</div>
 						</div>
 						<div class="form-group m-b-0">
 							<div class="col-sm-12 text-center">
 								<p>
-									Non hai ancora un account? <a href="register.html"
+									Non hai ancora un account? <a href="registrazione.jsp"
 										class="text-info m-l-5"><b>Registrati</b></a>
 								</p>
 							</div>

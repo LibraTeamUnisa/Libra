@@ -63,7 +63,14 @@ public class PermessiServlet extends HttpServlet {
           ricevuti = p;
         }
       }
-
+      /*
+       * String data = request.getParameter("checkboxStudente") +
+       * request.getParameter("radioStudente") + request.getParameter("radioAzienda") +
+       * request.getParameter("checkboxTutorInterno") + request.getParameter("radioTutorInterno") +
+       * request.getParameter("checkboxPresidente") + request.getParameter("radioPresidente") +
+       * request.getParameter("checkboxSegreteria") + request.getParameter("radioSegreteria");
+       * response.getWriter().write(data);
+       */
       boolean b = true;
 
       b = b && setPermessiRicevuti(request, response, "Studente");
@@ -84,12 +91,12 @@ public class PermessiServlet extends HttpServlet {
       if (b) {
         response.getWriter().write("true");
       } else {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("errore");
       }
 
     } else {
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().write("non consentito");
     }
   }
@@ -105,19 +112,22 @@ public class PermessiServlet extends HttpServlet {
     Gruppo g = new Gruppo();
 
     g.setRuolo(utente);
-    if (request.getParameter(("radio").concat(utente)).equals("conFirma".concat(utente))) {
+    if (request.getParameter(("radio").concat(utente)) != null
+        && request.getParameter(("radio").concat(utente)).equals("conFirma".concat(utente))) {
       if (!conFirma.getGruppi().contains(g)) {
         conFirma.getGruppi().add(g);
         noFeedback.getGruppi().remove(g);
         anonimi.getGruppi().remove(g);
       }
-    } else if (request.getParameter(("radio").concat(utente)).equals("anonimi".concat(utente))) {
+    } else if (request.getParameter(("radio").concat(utente)) != null
+        && request.getParameter(("radio").concat(utente)).equals("anonimi".concat(utente))) {
       if (!anonimi.getGruppi().contains(g)) {
         anonimi.getGruppi().add(g);
         noFeedback.getGruppi().remove(g);
         conFirma.getGruppi().remove(g);
       }
-    } else if (request.getParameter(("radio").concat(utente)).equals("noFeedback".concat(utente))) {
+    } else if (request.getParameter(("radio").concat(utente)) != null
+        && request.getParameter(("radio").concat(utente)).equals("noFeedback".concat(utente))) {
       if (!noFeedback.getGruppi().contains(g)) {
         noFeedback.getGruppi().add(g);
         anonimi.getGruppi().remove(g);

@@ -79,16 +79,16 @@ public class PermessiServletTest {
   public void testTrue() throws Exception {
     when(session.getAttribute("utenteRuolo")).thenReturn("Segreteria");
     when(permessoDao.findAll(Permesso.class)).thenReturn(listPerm);
-   
+
     when(request.getParameter(("checkbox").concat(Mockito.anyString()))).thenReturn("true");
     when(request.getParameter(("checkbox").concat("Segreteria"))).thenReturn("false");
-    
+
     when(request.getParameter(("radio").concat("Studente"))).thenReturn("conFirmaStudente");
     when(request.getParameter(("radio").concat("Azienda"))).thenReturn("anonimiAzienda");
     when(request.getParameter(("radio").concat("TutorInterno"))).thenReturn("anonimiTutorInterno");
     when(request.getParameter(("radio").concat("Presidente"))).thenReturn("noFeedbackPresidente");
     when(request.getParameter(("radio").concat("Segreteria"))).thenReturn("conFirmaSegreteria");
-    
+
     servlet.doPost(request, response);
 
     verify(responseWriter).write("true");

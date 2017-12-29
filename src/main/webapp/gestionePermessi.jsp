@@ -24,16 +24,19 @@
 <!-- Bootstrap Core CSS -->
 <link href="assets/plugins/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
+<!--  alert CSS -->
+<link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet"
+	type="text/css">
 <!-- chartist CSS -->
 <link href="assets/plugins/chartist-js/dist/chartist.min.css"
 	rel="stylesheet">
 <link href="assets/plugins/chartist-js/dist/chartist-init.css"
-	rel="stylesheet">	
+	rel="stylesheet">
 <link
 	href="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
 	rel="stylesheet">
-	
-	
+
+
 <!--  link href="assets/plugins/css-chart/css-chart.css" rel="stylesheet"-->
 
 
@@ -101,63 +104,65 @@
 				</div>
 
  -->
-				<div class="row page-titles">
-					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Gestione permessi sui
-							feedback</h3>
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a
-								href="dashboardSegreteria.jsp">Home</a></li>
-							<li class="breadcrumb-item active">Permessi sui feedback</li>
-						</ol>
+				<form id="permessiForm" method="post">
+					<div class="row page-titles">
+						<div class="col-md-6 col-8 align-self-center">
+							<h3 class="text-themecolor m-b-0 m-t-0">Gestione permessi
+								sui feedback</h3>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a
+									href="dashboardSegreteria.jsp">Home</a></li>
+								<li class="breadcrumb-item active">Permessi sui feedback</li>
+							</ol>
+						</div>
+						<div class="col-md-6 col-4 align-self-center">
+							<button class="btn pull-right btn-rounded btn-danger"
+								type="submit">Salva modifiche</button>
+						</div>
 					</div>
-				</div>
 
-				<%
-					IPermessoDao permessoDao = (IPermessoDao) new InitialContext().lookup("java:app/Libra/PermessoJpa");
-					List<Permesso> listPerm = permessoDao.findAll(Permesso.class);
-					Permesso checkRicevuti = null, noFeedback = null, conFirma = null, anonimi = null;
-					Gruppo g = new Gruppo();
-					for (Permesso p : listPerm) {
-						if (p.getTipo().equals("conFirma")) {
-							conFirma = p;
-							continue;
-						} else if (p.getTipo().equals("anonimi")) {
-							anonimi = p;
-							continue;
-						} else if (p.getTipo().equals("noFeedback")) {
-							noFeedback = p;
-							continue;
-						} else if (p.getTipo().equals("ricevuti")) {
-							checkRicevuti = p;
+					<%
+						IPermessoDao permessoDao = (IPermessoDao) new InitialContext().lookup("java:app/Libra/PermessoJpa");
+						List<Permesso> listPerm = permessoDao.findAll(Permesso.class);
+						Permesso checkRicevuti = null, noFeedback = null, conFirma = null, anonimi = null;
+						Gruppo g = new Gruppo();
+						for (Permesso p : listPerm) {
+							if (p.getTipo().equals("conFirma")) {
+								conFirma = p;
+								continue;
+							} else if (p.getTipo().equals("anonimi")) {
+								anonimi = p;
+								continue;
+							} else if (p.getTipo().equals("noFeedback")) {
+								noFeedback = p;
+								continue;
+							} else if (p.getTipo().equals("ricevuti")) {
+								checkRicevuti = p;
+							}
 						}
-					}
-				%>
+					%>
 
-				<div class="card card-block">
-					<form id="permessiForm" method="post">
-						<button class="btn pull-right btn btn-rounded btn-danger"
-							type="submit">Salva modifiche</button>
-
+					<div class="card card-block">
 						<!-- Studente -->
 						<%
 							g.setRuolo("Studente");
 						%>
-						<h4 class="card-title">Studente</h4>
-
-						<div class="checkbox checkbox-danger">
+						<h4 class="card-title text-themecolor">Studente</h4>
+						<br>
+						<div class="checkbox checkbox-danger" style="margin-left: 18px">
 							<input id="studenteRicevuti" type="checkbox"
 								<%if (checkRicevuti != null && checkRicevuti.getGruppi().contains(g)) {%>
 								checked <%}%>><label for="studenteRicevuti"> Uno
-								studente può visualizzare il feedback lasciatogli dall'azienda</label>
+								studente pu&ograve; visualizzare il feedback lasciatogli
+								dall'azienda</label>
 						</div>
-
+						<br>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioStudente" id="radio1Studente"
 								value="conFirmaStudente"
 								<%if (conFirma != null && conFirma.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio1Studente"> Uno
-								studente può visualizzare i feedback lasciati dagli altri
+								studente pu&ograve; visualizzare i feedback lasciati dagli altri
 								studenti alle aziende (Con firma)</label>
 						</div>
 						<div class="radio radio-danger">
@@ -165,7 +170,7 @@
 								value="anonimiStudente"
 								<%if (anonimi != null && anonimi.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio2Studente"> Uno
-								studente può visualizzare i feedback lasciati dagli altri
+								studente pu&ograve; visualizzare i feedback lasciati dagli altri
 								studenti alle aziende (Mantenendo l'anonimato)</label>
 						</div>
 						<div class="radio radio-danger">
@@ -173,161 +178,169 @@
 								value="noFeedbackStudente"
 								<%if (noFeedback != null && noFeedback.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio3Studente"> Uno
-								studente non può visualizzare i feedback lasciati dagli altri
-								studenti alle aziende</label>
+								studente non pu&ograve; visualizzare i feedback lasciati dagli
+								altri studenti alle aziende</label>
 						</div>
+					</div>
 
+					<div class="card card-block">
 						<!-- Azienda -->
 						<%
 							g.setRuolo("Azienda");
 						%>
-						<h4 class="card-title">Azienda</h4>
-
+						<h4 class="card-title text-themecolor">Azienda</h4>
+						<br>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioAzienda" id="radio1Azienda"
 								value="conFirmaAzienda"
 								<%if (conFirma != null && conFirma.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio1Azienda">
-								Un'azienda può visualizzare i feedback lasciati dagli studenti
-								(Con firma)</label>
+								Un'azienda pu&ograve; visualizzare i feedback lasciati dagli
+								studenti (Con firma)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioAzienda" id="radio2Azienda"
 								value="anonimiAzienda"
 								<%if (anonimi != null && anonimi.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio2Azienda">
-								Un'azienda può visualizzare i feedback lasciati dagli studenti
-								(Mantenendo l'anonimato)</label>
+								Un'azienda pu&ograve; visualizzare i feedback lasciati dagli
+								studenti (Mantenendo l'anonimato)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioAzienda" id="radio3Azienda"
 								value="noFeedbackAzienda"
 								<%if (noFeedback != null && noFeedback.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio3Azienda">
-								Un'azienda non può visualizzare i feedback lasciati dagli
+								Un'azienda non pu&ograve; visualizzare i feedback lasciati dagli
 								studenti</label>
 						</div>
+					</div>
 
+					<div class="card card-block">
 						<!-- TutorInterno -->
 						<%
 							g.setRuolo("TutorInterno");
 						%>
-						<h4 class="card-title">Tutor Interno</h4>
-
-						<div class="checkbox checkbox-danger">
+						<h4 class="card-title text-themecolor">Tutor Interno</h4>
+						<br>
+						<div class="checkbox checkbox-danger" style="margin-left: 18px">
 							<input id="tutorInternoRicevuti" type="checkbox"
 								<%if (checkRicevuti != null && checkRicevuti.getGruppi().contains(g)) {%>
-								checked <%}%>><label for="tutorInternoRicevuti"> Un
-								tutor interno può visualizzare i feedback lasciati dalle aziende
-								ai propri studenti</label>
+								checked <%}%>><label for="tutorInternoRicevuti">
+								Un tutor interno pu&ograve; visualizzare i feedback lasciati
+								dalle aziende ai propri studenti</label>
 						</div>
-
+						<br>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioTutorInterno"
 								id="radio1TutorInterno" value="conFirmaTutorInterno"
 								<%if (conFirma != null && conFirma.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio1TutorInterno">
-								Un tutor interno può visualizzare i feedback lasciati dai propri
-								studenti alle aziende (Con firma)</label>
+								Un tutor interno pu&ograve; visualizzare i feedback lasciati dai
+								propri studenti alle aziende (Con firma)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioTutorInterno"
 								id="radio2TutorInterno" value="anonimiTutorInterno"
 								<%if (anonimi != null && anonimi.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio2TutorInterno">
-								Un tutor interno può visualizzare i feedback lasciati dai propri
-								studenti alle aziende (Mantenendo l'anonimato)</label>
+								Un tutor interno pu&ograve; visualizzare i feedback lasciati dai
+								propri studenti alle aziende (Mantenendo l'anonimato)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioTutorInterno"
 								id="radio3TutorInterno" value="noFeedbackTutorInterno"
 								<%if (noFeedback != null && noFeedback.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio3TutorInterno">
-								Un tutor interno non può visualizzare i feedback lasciati dai
-								propri studenti alle aziende </label>
+								Un tutor interno non pu&ograve; visualizzare i feedback lasciati
+								dai propri studenti alle aziende </label>
 						</div>
+					</div>
 
+					<div class="card card-block">
 						<!-- Presidente -->
 						<%
 							g.setRuolo("Presidente");
 						%>
-						<h4 class="card-title">Presidente</h4>
-
-						<div class="checkbox checkbox-danger">
+						<h4 class="card-title text-themecolor">Presidente</h4>
+						<br>
+						<div class="checkbox checkbox-danger" style="margin-left: 18px">
 							<input id="presidenteRicevuti" type="checkbox"
 								<%if (checkRicevuti != null && checkRicevuti.getGruppi().contains(g)) {%>
 								checked <%}%>><label for="presidenteRicevuti">
-								Il Presidente può visualizzare i feedback lasciati dalle aziende
-								agli studenti</label>
+								Il Presidente pu&ograve; visualizzare i feedback lasciati dalle
+								aziende agli studenti</label>
 						</div>
-
+						<br>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioPresidente" id="radio1Presidente"
 								value="conFirmaPresidente"
 								<%if (conFirma != null && conFirma.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio1Presidente"> Il
-								Presidente può visualizzare i feedback lasciati dagli studenti
-								alle aziende (Con firma)</label>
+								Presidente pu&ograve; visualizzare i feedback lasciati dagli
+								studenti alle aziende (Con firma)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioPresidente" id="radio2Presidente"
 								value="anonimiPresidente"
 								<%if (anonimi != null && anonimi.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio2Presidente"> Il
-								Presidente può visualizzare i feedback lasciati dagli studenti
-								alle aziende (Mantenendo l'anonimato)</label>
+								Presidente pu&ograve; visualizzare i feedback lasciati dagli
+								studenti alle aziende (Mantenendo l'anonimato)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioPresidente" id="radio3Presidente"
 								value="noFeedbackPresidente"
 								<%if (noFeedback != null && noFeedback.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio3Presidente"> Il
-								Presidente non può visualizzare i feedback lasciati dagli
+								Presidente non pu&ograve; visualizzare i feedback lasciati dagli
 								studenti alle aziende </label>
 						</div>
+					</div>
 
+					<div class="card card-block">
 						<!-- Segreteria -->
 						<%
 							g.setRuolo("Segreteria");
 						%>
-						<h4 class="card-title">Segreteria</h4>
-
-						<div class="checkbox checkbox-danger">
+						<h4 class="card-title text-themecolor">Segreteria</h4>
+						<br>
+						<div class="checkbox checkbox-danger" style="margin-left: 18px">
 							<input id="segreteriaRicevuti" type="checkbox"
 								<%if (checkRicevuti != null && checkRicevuti.getGruppi().contains(g)) {%>
 								checked <%}%>><label for="segreteriaRicevuti">
-								Il personale di segreteria può visualizzare i feedback lasciati
-								dalle aziende agli studenti</label>
+								Il personale di segreteria pu&ograve; visualizzare i feedback
+								lasciati dalle aziende agli studenti</label>
 						</div>
-
+						<br>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioSegreteria" id="radio1Segreteria"
 								value="conFirmaSegreteria"
 								<%if (conFirma != null && conFirma.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio1Segreteria"> Il
-								personale di segreteria può visualizzare i feedback lasciati
-								dagli studenti alle aziende (Con firma)</label>
+								personale di segreteria pu&ograve; visualizzare i feedback
+								lasciati dagli studenti alle aziende (Con firma)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioSegreteria" id="radio2Segreteria"
 								value="anonimiSegreteria"
 								<%if (anonimi != null && anonimi.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio2Segreteria"> Il
-								personale di segreteria può visualizzare i feedback lasciati
-								dagli studenti alle aziende (Mantenendo l'anonimato)</label>
+								personale di segreteria pu&ograve; visualizzare i feedback
+								lasciati dagli studenti alle aziende (Mantenendo l'anonimato)</label>
 						</div>
 						<div class="radio radio-danger">
 							<input type="radio" name="radioSegreteria" id="radio3Segreteria"
 								value="noFeedbackSegreteria"
 								<%if (noFeedback != null && noFeedback.getGruppi().contains(g)) {%>
 								checked <%}%>> <label for="radio3Segreteria"> Il
-								personale di segreteria non può visualizzare i feedback lasciati
-								dagli studenti alle aziende </label>
+								personale di segreteria non pu&ograve; visualizzare i feedback
+								lasciati dagli studenti alle aziende </label>
 						</div>
+					</div>
 
+				</form>
 
-					</form>
-				</div>
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
@@ -369,21 +382,21 @@
 	<!-- ============================================================== -->
 	<!-- chartist chart -->
 	<script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
-	
-	
+	<!-- SweetAlert -->
+	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
 	<!--  script
 		src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script-->
 	<!-- Chart JS >
 	<script src="assets/plugins/echarts/echarts-all.js"></script>
 	<script src="js/dashboard5.js"></script-->
-	
-	
+
+
 	<!-- ============================================================== -->
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
-	<script src="js/salvaPermessi.js"></script>
 </body>
 
 </html>

@@ -95,10 +95,10 @@ public class RegistrazioneServlet extends HttpServlet {
 	
 	  		
 	  if(gruppo!=null) {
-	  if(utenteDao.findById(Utente.class, email)==null&&gruppo!=null) {
-		  utenteDao.persist(utente);
-		  response.setContentType("text/plain");
-		  response.getWriter().write("Registrazione avvenuta con successo");
+		  if(utenteDao.findById(Utente.class, email)==null) {
+			  utenteDao.persist(utente);
+			  response.setContentType("text/plain");
+			  response.getWriter().write("Registrazione avvenuta con successo");
     	  }else{
     		  response.setContentType("text/plain"); 
 			  response.getWriter().write("Utente già presente nel sistema");

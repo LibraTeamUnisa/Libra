@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
+<%@page import="it.unisa.libra.util.JspPagesIndex"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,11 +43,9 @@
 #label1 {
 	visibility: hidden;
 }
-
 #label2 {
 	visibility: visible;
 }
-
 @media screen and (max-width: 600px) {
 	#label1 {
 		visibility: visible;
@@ -67,29 +66,6 @@
             <circle class="path" cx="50" cy="50" r="20" fill="none"
 				stroke-width="2" stroke-miterlimit="10" /> </svg>
 	</div>
-	<!-- ============================================================== -->
-	<!-- Main wrapper - style you can find in pages.scss -->
-	<!-- ============================================================== -->
-	<div id="main-wrapper">
-		<!-- ============================================================== -->
-		<!-- Topbar header - style you can find in pages.scss -->
-		<!-- ============================================================== -->
-		<%@ include file="header.jsp"%>
-		<!-- ============================================================== -->
-		<!-- End Topbar header -->
-		<!-- ============================================================== -->
-		<!-- ============================================================== -->
-		<!-- Left Sidebar - style you can find in sidebar.scss  -->
-		<!-- ============================================================== -->
-		<%@ include file="menu.jsp"%>
-		<!-- ============================================================== -->
-		<!-- End Left Sidebar - style you can find in sidebar.scss  -->
-		<!-- ============================================================== -->
-		<!-- ============================================================== -->
-		<!-- Page wrapper  -->
-		<!-- ============================================================== -->
-		<div class="page-wrapper"
-			>
 			<!-- ============================================================== -->
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
@@ -138,8 +114,8 @@
 							</div>
 							<div class="modal-footer">
 								<button id="button1" type="button" class="btn btn-primary">
-									<a class="btn btn-primary" href="dashboardAzienda.jsp"
-										style="text-decoration: none; color: white;"> Dashboard </a>
+									<a class="btn btn-primary" href="/Libra<%=JspPagesIndex.HOME%> "
+										style="text-decoration: none; color: white;"> Login </a>
 								</button>
 							</div>
 						</div>
@@ -150,24 +126,7 @@
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->
-			<!-- ============================================================== -->
-			<!-- footer -->
-			<!-- ============================================================== -->
-			<%@ include file="footer.jsp"%>
-			<!-- ============================================================== -->
-			<!-- End footer -->
-			<!-- ============================================================== -->
-		</div>
-		<!-- ============================================================== -->
-		<!-- End Page wrapper  -->
-		<!-- ============================================================== -->
-	</div>
-	<!-- ============================================================== -->
-	<!-- End Wrapper -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- All Jquery -->
-	<!-- ============================================================== -->
+			
 	<script src="assets/plugins/jquery/jquery.min.js"></script>
 	<script>
 		$(document)
@@ -191,13 +150,11 @@
 																			.prop(
 																					"disabled",
 																					true);
-
 																	if (data == "ok") {
 																		$(
 																				"#modalMessage")
 																				.text(
 																						"L'operazione &egrave; avvenuta correttamente");
-
 																	} else {
 																		$(
 																				"#modalMessage")
@@ -208,7 +165,6 @@
 																			"#modalResult")
 																			.modal(
 																					'show');
-
 																});
 											});
 						})
@@ -242,5 +198,3 @@
 </body>
 
 </html>
-
-

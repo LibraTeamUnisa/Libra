@@ -112,14 +112,25 @@
 							<div class="modal-body">
 								<p id="modalMessage"></p>
 							</div>
-							<div class="modal-footer">
-								<button id="button1" type="button" class="btn btn-primary">
+							
+							
+<div class="modal-footer">
+              <%
+              String login = request.getContextPath() + JspPagesIndex.HOME;
+                        %>
 
-									<a class="btn btn-primary" href="/Libra<%=JspPagesIndex.HOME%> "
-
-										style="text-decoration: none; color: white;"> Login </a>
-								</button>
-							</div>
+                <button id="button1" type="button" class="btn btn-primary">
+                  <a class="btn btn-primary" href="<%=login%>"
+                    style="text-decoration: none; color: white;"> Login </a>
+                </button>
+              </div>
+							
+							
+								
+			
+										
+					
+						
 						</div>
 
 					</div>

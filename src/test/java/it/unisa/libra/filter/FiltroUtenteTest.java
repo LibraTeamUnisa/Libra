@@ -13,12 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FiltroUtenteTest {
-
+	
   FiltroUtente filter = new FiltroUtente();
   HttpServletRequest request;
   HttpServletResponse response;
   FilterChain chain;
-
+ 
   @Before
   public void setUp() {
     request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
@@ -56,4 +56,5 @@ public class FiltroUtenteTest {
     filter.doFilter(request, response, chain);
     verify(response).sendRedirect("provaLibra" + JspPagesIndex.ACCESSO_NEGATO);
   }
+  
 }

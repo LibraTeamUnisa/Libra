@@ -39,16 +39,17 @@ public class CaricaImmagineServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
     HttpSession session = request.getSession();
     String email = (String) session.getAttribute("utenteEmail");
     Utente user = utenteDao.findById(Utente.class, email);
-    Part fileePart = request.getPart("proPic");
-    File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/" + fileePart.getSubmittedFileName());
-    InputStream filestream = fileePart.getInputStream();
+    Part filePart = request.getPart("proPic");
+    if(!filePart.getSubmittedFileName().equals("")) {
+    File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/" + filePart.getSubmittedFileName());
+    InputStream filestream = filePart.getInputStream();
     Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    user.setImgProfilo("assets/images/users/" + fileePart.getSubmittedFileName());
+    user.setImgProfilo("assets/images/users/" + filePart.getSubmittedFileName());
     utenteDao.persist(user);
+    } else {}
     response.sendRedirect("profilo.jsp");
   }
 
@@ -59,5 +60,4 @@ public class CaricaImmagineServlet extends HttpServlet {
       throws ServletException, IOException {
     doGet(request, response);
   }
-
 }

@@ -20,10 +20,10 @@ INSERT INTO libra.Tutoresterno (ambito, aziendaEmail, cognome, nome, telefono, i
 INSERT INTO `libra`.`utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('a.piccolella1@studenti.unisa.it', 'angelopiccolella', 'via G. Galilei 20, Capodrise', '3381798928', 'null', 'Studente');
 INSERT INTO `libra`.`studente` (`utenteEmail`, `matricola`, `cognome`, `nome`, `dataDiNascita`) VALUES ('a.piccolella1@studenti.unisa.it', '0512103817', 'Piccolella', 'Angelo', '1996/07/09');
 
-INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('anonimi','1');
-INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('conFirma','1');
-INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('noFeedback','1');
-INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('ricevuti','1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('anonimi',b'1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('conFirma',b'1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('noFeedback',b'1');
+INSERT INTO `permesso` (`tipo`,`abilitazione`) VALUES ('ricevuti',b'1');
 
 INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Azienda','conFirma');
 INSERT INTO `possesso` (`ruolo`,`tipo`) VALUES ('Presidente','conFirma');

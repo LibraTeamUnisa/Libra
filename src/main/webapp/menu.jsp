@@ -137,7 +137,7 @@
             <div class="sidebar-footer">
                 
                 <!-- item -->
-                <a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"= "+ Actions.LOGOUT %>" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
+                <a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"="+ Actions.LOGOUT %>" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
           
             </div>
             <!-- End Bottom points-->

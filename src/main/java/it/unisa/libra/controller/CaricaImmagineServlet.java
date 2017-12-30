@@ -47,7 +47,7 @@ public class CaricaImmagineServlet extends HttpServlet {
     File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/" + fileePart.getSubmittedFileName());
     InputStream filestream = fileePart.getInputStream();
     Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    user.setImgProfilo(file.toPath().toString());
+    user.setImgProfilo("assets/images/users/" + fileePart.getSubmittedFileName());
     utenteDao.persist(user);
     response.sendRedirect("profilo.jsp");
   }

@@ -43,11 +43,9 @@
 #label1 {
 	visibility: hidden;
 }
-
 #label2 {
 	visibility: visible;
 }
-
 @media screen and (max-width: 600px) {
 	#label1 {
 		visibility: visible;
@@ -116,7 +114,9 @@
 							</div>
 							<div class="modal-footer">
 								<button id="button1" type="button" class="btn btn-primary">
-									<a class="btn btn-primary" href="<%=JspPagesIndex.HOME.substring(1)%> "
+
+									<a class="btn btn-primary" href="/Libra<%=JspPagesIndex.HOME%> "
+
 										style="text-decoration: none; color: white;"> Login </a>
 								</button>
 							</div>
@@ -152,7 +152,6 @@
 																			.prop(
 																					"disabled",
 																					true);
-
 																	if (data == "ok") {
 																		$(
 																				"#modalMessage")
@@ -201,5 +200,3 @@
 </body>
 
 </html>
-
-

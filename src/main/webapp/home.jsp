@@ -71,7 +71,10 @@
 								<div id="error-message" class="alert alert-danger"
 									style="display: none">Login errato, riprova</div>
 
-								<a href="<%=JspPagesIndex.RECUPERA_PASSWORD.substring(1)%>" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
+
+								<a href="/Libra<%=JspPagesIndex.RECUPERA_PASSWORD%>" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Password dimenticata?</a>
+
+
 
 							</div>
 						</div>

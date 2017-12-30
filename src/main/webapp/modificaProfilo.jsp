@@ -185,7 +185,8 @@
 									<img src="<%=u.getImgProfilo()%>" alt="user"
 										class="img-circle img-responsive">
 								</div>
-								<form action="caricaImmagine" method="post" enctype="multipart/form-data">
+								<form action="caricaImmagine" method="post"
+									enctype="multipart/form-data">
 									<input type="file" placeholder="<%=u.getImgProfilo()%>"
 										class="form-control form-control-line" name="proPic"
 										accept="images/*"> <br> <br>

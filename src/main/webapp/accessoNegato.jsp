@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,8 +30,12 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-
-<body class="fix-header fix-sidebar card-no-border">
+<%String ruolo = (String) request.getSession().getAttribute("utenteRuolo"); %>
+<body 
+<% if (ruolo != null) { %>
+class="fix-header fix-sidebar card-no-border"
+<% } %>
+>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -49,6 +50,7 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
+       	<% if(ruolo != null) { %>
        	<%@ include file="header.jsp" %> 
         <!-- ============================================================== -->
         <!-- End Topbar header -->
@@ -56,10 +58,11 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-      <!--   <%@ include file="menu.jsp" %> -->
+        <%@ include file="menu.jsp" %> 
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
+         <% } %>
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
@@ -68,21 +71,26 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             <%String ruolo = (String) request.getSession().getAttribute("utenteRuolo"); %>
-             
-             <div class="modal fade" id="modalAccessoNegato" role="dialog">
+            
+            <!-- modal -->
+             <div class="modal fade" id="modalAccessoNegato" role="dialog"
+              <% if (ruolo == null) { %>
+			    style="background-image:url(assets/images/background/sfondo.jpg); background-size:cover;"
+			  <% } %>
+			  >
 					<div class="modal-dialog">
-
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title">Ops!</h4>
 							</div>
 							<div class="modal-body">
 								<p>Sembra che tu non disponga delle autorizzazioni necessarie per accedere a questa risorsa.</p>
+								<% if (ruolo == null) { %>
+								<p>Effettua il login per proseguire nella navigazione.
+								<% } %>
 							</div>
 							<div class="modal-footer">
-									<a class="btn btn-primary" style="text-decoration: none; color: white;"
+									<a class="btn btn-warning" style="text-decoration: none; color: white;"
 									<%if (ruolo == null) { %>
 										href="home.jsp"
 									<%} else { %>
@@ -96,13 +104,12 @@
 
 					</div>
 				</div>
-             
-             
-             
-            </div>
+             <!-- End modal -->
+           </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
+         <% if (ruolo != null) {%>
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
@@ -110,11 +117,12 @@
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
+            <% } %>
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
-    </div>
+      </div>
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -157,5 +165,3 @@
 </body>
 
 </html>
-
-

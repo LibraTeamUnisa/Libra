@@ -20,5 +20,7 @@ public class AziendaJpa extends GenericJpa<Azienda, String> implements IAziendaD
       return query.getResultList().get(0);
     }
   }
+
+
   
 }

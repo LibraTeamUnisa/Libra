@@ -188,7 +188,7 @@
 								<form action="caricaImmagine" method="post" enctype="multipart/form-data">
 									<input type="file" placeholder="<%=u.getImgProfilo()%>"
 										class="form-control form-control-line" name="proPic"
-										accept="image/*"> <br> <br>
+										accept="images/*"> <br> <br>
 									<div class="row">
 										<div class="col-sm-4"></div>
 										<button type="submit" class="btn btn-success">Modifica
@@ -197,9 +197,6 @@
 								</form>
 							</div>
 						</div>
-
-
-
 
 						<!--STUDENTE-->
 						<%

@@ -3,13 +3,9 @@ package it.unisa.libra.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Scanner;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +27,7 @@ public class CaricaImmagineServlet extends HttpServlet {
 
   private String email;
   @EJB
-  private IUtenteDao uenteDao;
+  private IUtenteDao utenteDao;
 
   /**
    * @see HttpServlet#HttpServlet()
@@ -43,21 +39,16 @@ public class CaricaImmagineServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+
     HttpSession session = request.getSession();
-    email = (String) session.getAttribute("emailUtente");
-    Part filePart = request.getPart("proPic");
-    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); 
-    InputStream fileContent = filePart.getInputStream();    
-    String nome = email + ".png";   
-    File file = new File("D:/" + nome);
-    PrintStream ps = new PrintStream(file);  
-    Scanner in = new Scanner(fileContent);
-    while(in.hasNext())
-    {
-        ps.println(in.next());
-    }
-    in.close();
-    ps.close();
+    String email = (String) session.getAttribute("utenteEmail");
+    Utente user = utenteDao.findById(Utente.class, email);
+    Part fileePart = request.getPart("proPic");
+    File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/" + fileePart.getSubmittedFileName());
+    InputStream filestream = fileePart.getInputStream();
+    Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    user.setImgProfilo(file.toPath().toString());
+    utenteDao.persist(user);
     response.sendRedirect("profilo.jsp");
   }
 

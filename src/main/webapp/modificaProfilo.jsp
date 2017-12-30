@@ -182,14 +182,23 @@
 							<div class="card wild-card">
 								<div class="col-md-8 col-lg-9 text-center"
 									style="margin: 0 auto;">
-									<img
-										src="<%=u.getImgProfilo()%>" alt="user"
+									<img src="<%=u.getImgProfilo()%>" alt="user"
 										class="img-circle img-responsive">
 								</div>
-								<input type="file" placeholder="<%=u.getImgProfilo()%>"
-									class="form-control form-control-line" accept="image/*">
+								<form action="caricaImmagine" method="post" enctype="multipart/form-data">
+									<input type="file" placeholder="<%=u.getImgProfilo()%>"
+										class="form-control form-control-line" name="proPic"
+										accept="image/*"> <br> <br>
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<button type="submit" class="btn btn-success">Modifica
+											immagine</button>
+									</div>
+								</form>
 							</div>
 						</div>
+
+
 
 
 						<!--STUDENTE-->

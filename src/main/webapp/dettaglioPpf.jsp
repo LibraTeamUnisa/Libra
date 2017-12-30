@@ -63,7 +63,7 @@
 	</div>
 	<!-- STUDENTE -->
 	<%
-		/*		session = request.getSession();
+				session = request.getSession();
 				String email = (String) session.getAttribute("utenteEmail");
 				String ruolo = (String) session.getAttribute("utenteRuolo");
 				
@@ -74,7 +74,7 @@
 				Utente u = utenteDao.findById(Utente.class, email);
 				IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 				Studente s = studenteDao.findById(Studente.class, email);
-		*/
+		
 	%>
 	<!-- ============================================================== -->
 	<!-- Main wrapper - style you can find in pages.scss -->

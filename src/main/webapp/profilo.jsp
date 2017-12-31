@@ -178,9 +178,9 @@
 							<div class="card wild-card">
 								<div class="col-md-8 col-lg-9 text-center"
 									style="margin: 0 auto;">
-									<a href="#"><img
-										src="assets/images/users/<%=u.getImgProfilo()%>" alt="user"
-										class="img-circle img-responsive"></a>
+									<img
+										src="<%=u.getImgProfilo()%>" alt="user"
+										class="img-circle img-responsive">
 								</div>
 								<input type="file" placeholder="<%=u.getImgProfilo()%>"
 									class="form-control form-control-line" disabled>

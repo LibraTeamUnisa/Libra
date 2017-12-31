@@ -167,7 +167,7 @@
 											
 													<%
 														}else{
-															
+															persisted=true;
 															if(i==Integer.parseInt(feed.getValutazione())){
 															
 													%>
@@ -204,16 +204,15 @@
 										<%
 											}else{ 
 										%>
-												<textarea class="form-control" rows="5" id="note" name="note"><%=note%></textarea>
+												<textarea class="form-control" rows="5" id="note" name="note" disabled><%=note%></textarea>
 										<%
 											}
 										%>
-										<textarea style="display: none" name="idProgettoFormativo" disabled><%=pf.getId()%></textarea>
+										<input type="hidden" name="idProgettoFormativo" value="<%=pf.getId()%>"/>
 									</div>
 								</div>
 								<%
 									if(!persisted){
-										persisted= true;
 								%>
 										<button class="btn btn-primary" type="submit" style="margin:0 auto;">Invia</button>
 					<%

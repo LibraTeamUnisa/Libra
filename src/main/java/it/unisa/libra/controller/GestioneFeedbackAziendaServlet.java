@@ -1,6 +1,7 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,49 +33,52 @@ public class GestioneFeedbackAziendaServlet extends HttpServlet {
 
 	/** Default constructor. */
 	public GestioneFeedbackAziendaServlet() {
-	}
+	} 
 
-
-	/**
+	/** 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException { 
 		List<Domanda> domande = domandaDao.findByType("Studente");
-		int idPF = Integer.parseInt(request.getParameter("idProgettoFormativo"));
-		for (Domanda d : domande) {
-			String input = null;
-			
-			if (d.getTesto().equals("Note")) {
-				
-				input = request.getParameter("note");
-			}else {
-				
-				input = request.getParameter("" + d.getId());
-			}
-
-			persistFeedback(input, d.getId(), idPF);
-
+		String idPF = request.getParameter("idProgettoFormativo"); 
+		for(Domanda d: domande){
+			persistFeedback(request, d, Integer.parseInt(idPF));   
 		}
-
 		RequestDispatcher dispatcher = request.getServletContext()
 				.getRequestDispatcher("/questionarioValutaAzienda.jsp");
 		dispatcher.forward(request, response);
+	} 
 
-	}
-
-	public void persistFeedback(String value, int idDomanda, int idPF) {
+	
+	
+	
+	/**
+	 * Questo metodo ha la funzione di persistere un oggetto Feedback. In Particolare controlla se la domanda è di tipo valutativa
+	 * o se riguarda una descrizione in merito all'esperienza. 
+	 * @param: HttpSerlvletRequest request: oggetto request della serlvet.
+	 * @param: Domanda domanda: oggetto contenente l'id necessario ad associare la valutazione alla relativa domanda.
+	 * @param: int idPF: intero rappresentante l'id del progetto formativo che si sta valutando.
+	 * */
+	public void persistFeedback(HttpServletRequest request, Domanda domanda, int idPF) {
 		Feedback f = new Feedback();
 		FeedbackPK feedback_pk = new FeedbackPK();
-		feedback_pk.setDomandaID(idDomanda);
+		feedback_pk.setDomandaID(domanda.getId());
 		feedback_pk.setProgettoFormativoID(idPF);
 		f.setId(feedback_pk);
+		String value= "";
+		if(domanda.getTesto().equals("Note")) {
+			value= request.getParameter("note"); 
+		}else { 
+			value= request.getParameter(""+domanda.getId());
+		}
 		f.setValutazione(value);
 		f.setProgettoFormativo(pfDao.findById(ProgettoFormativo.class, idPF));
 		feedbackDao.persist(f);
 	}
 
+	
 	public void setDomandaDao(IDomandaDao dao) {
 		this.domandaDao = dao;
 	}

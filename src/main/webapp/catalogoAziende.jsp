@@ -133,7 +133,7 @@
 							%>
 								<tr>
 									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
-											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" class="img-circle img-responsive"/></a></td>
+											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" width="40" class="img-circle"/></a></td>
 									<td><%=a.getNome() %></td>
 									<td><%=a.getSede() %></td>
 								</tr>

@@ -68,8 +68,15 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             
+             <form class="form-horizontal form-material" method="post" id="reportform">
+				<div class="form-group">
+					<label class="col-md-12">Nuovo Report!</label>
+					<div class="col-md-12">
+						<textarea id="testoNuovoReport" class="form-control form-control-line" rows="5"></textarea>
+					</div>
+				</div>
+				<button type="submit">Conferma</button>
+			 </form>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -93,7 +100,8 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
+        <script src="js/aggiungiReport.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
     <script src="assets/plugins/bootstrap/js/tether.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->

@@ -16,7 +16,7 @@ public class ReportPK implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Temporal(TemporalType.TIMESTAMP)
-  private java.util.Date data;
+  public java.util.Date data;
 
   @Column(insertable = false, updatable = false)
   private int progettoFormativoID;

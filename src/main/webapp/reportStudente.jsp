@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%@ page import="it.unisa.libra.model.dao.IReportDao" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Map.Entry" %>
+<%@ page import="it.unisa.libra.bean.Report" %>
+<%@ page import="it.unisa.libra.util.JsonUtils" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,6 +75,79 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+			<form class="form-horizontal form-material" method="post" id="listReport">
+			<div class="card-block">
+				<h4 class="card-title"> Lista Report </h4>
+				<div class="bootstrap-table">
+					<div class="fixed-table-container" style="">
+						
+						<div class="fixed-table-header" style="margin-right: 0px;">
+							<table class="table table table-hover" style="width:992px;">	
+								<thead>
+									<tr>
+										<th style="" data-field="0">
+											<div class="th-inner"> Data </div>
+											<div class="fht-cell" style="width:173.46px;"></div>
+										</th>
+										<th style="" data-field="1">
+											<div class="th-inner"> Ora </div>
+											<div class="fht-cell" style="width:173.46px;"></div>
+										</th>								
+										<th style="" data-field="2">
+											<div class="th-inner"> Oggetto </div>
+											<div class="fht-cell" style="width:173.46px;"></div>
+										</th>		
+									</tr>
+								</thead>
+							</table>
+						</div>
+					
+						<div class="fixed-table-body">
+							<table class="table-striped table table-hover" style="margin-top: 0px;" data-toggle="table" data-mobile-responsive="true" data-height="250">
+					<%  IReportDao reportDao = (IReportDao) new InitialContext().lookup("java:app/Libra/ReportJpa");
+             		List<Report> listRep = reportDao.findAll(Report.class);
+             		for(Report rep: listRep){
+					%>
+				
+									<tr>
+										<th style="">
+											<div class="th-inner"> 
+											<% 
+													
+													String x = ""+rep.getId().data.getYear()+ " / " + rep.getId().data.getMonth()+ " / " + rep.getId().data.getDay();
+											%>
+											<%= x %>
+											 </div>
+											<div class="fht-cell" style="width:173.46px;"></div>
+										</th>
+										
+										<th style="">
+											<div class="th-inner"> 
+											<%
+											String y = ""+rep.getId().data.getHours()+ " : " + rep.getId().data.getMinutes();
+											%>
+											<%=	y %>
+											</div>
+											<div class="fht-cell" style="width:173.46px;"></div>
+										</th>		
+																
+										<th style="">
+											<div class="th-inner">
+												 <%=rep.getTesto() %>
+ 											</div>
+											<div class="fht-cell" style="width:173.46px;"></div>
+										</th>		
+									</tr>
+					<%}%>
+					</table>
+					</div>
+					</div>
+				</div>
+				</div>
+				</form>
+				            </div>
+
+			
              <form class="form-horizontal form-material" method="post" id="reportform">
 				<div class="form-group">
 					<label class="col-md-12">Nuovo Report!</label>
@@ -76,8 +156,12 @@
 					</div>
 				</div>
 				<button type="submit">Conferma</button>
+						<div class="alert alert-success"
+						 id="success" style="display: none">
+						 REPORT AGGIUNTO CON SUCCESSO. </div>
 			 </form>
-            </div>
+		</div>
+
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

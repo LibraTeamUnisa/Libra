@@ -145,7 +145,8 @@ public class ReportStudenteServlet extends HttpServlet {
 				ex.printStackTrace();
 			}
 		}
-
+	//	Date data = new Date();
+		
 	}
 
 	/** messaggio di errore inviato in caso di bad request. **/

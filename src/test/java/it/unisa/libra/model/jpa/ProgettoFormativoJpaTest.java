@@ -1,7 +1,8 @@
 package it.unisa.libra.model.jpa;
 
-import static org.junit.Assert.*;
-import java.util.Date;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import it.unisa.libra.bean.Azienda;
@@ -28,7 +29,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaS.entityManager = em;
     jpaT.entityManager = em;
   }
-  
+
 
   @Test
   public void getLastTest() {
@@ -37,7 +38,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     ProgettoFormativo progettoFormativo = createProgettoFormativoObject();
     progettoFormativo.setStudente(studente);
     int id = jpaP.findAll(ProgettoFormativo.class).size();
-    progettoFormativo.setId(id+1);
+    progettoFormativo.setId(id + 1);
     jpaP.persist(progettoFormativo);
 
     ProgettoFormativo toCheck = jpaP.getLastProgettoFormativoByStudente(studente);
@@ -64,7 +65,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaT.persist(tutor);
     ProgettoFormativo progettoFormativo = createProgettoFormativoObject();
     int id = jpaP.findAll(ProgettoFormativo.class).size();
-    progettoFormativo.setId(id+1);
+    progettoFormativo.setId(id + 1);
 
     progettoFormativo.setStudente(studente);
     progettoFormativo.setTutorInterno(tutor);
@@ -97,7 +98,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaP.persist(pf);
     ProgettoFormativo toCheck =
         (ProgettoFormativo) jpaP.getProgettiFormativiByAzienda("prova").get(0);
-    //assertEquals(pf, toCheck);
+    // assertEquals(pf, toCheck);
   }
 
   private ProgettoFormativo createPF() {

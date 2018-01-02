@@ -1,8 +1,7 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.unisa.libra.bean.FeedbackPK;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Report;
 import it.unisa.libra.bean.ReportPK;
@@ -77,8 +75,9 @@ public class ReportStudenteServlet extends HttpServlet {
 		 * (action.equals(Actions.MODIFICA_REPORT)) { modificaReport(request, response);
 		 * return; }
 		 */
-		if (action.equals("aggiungiReport")) {
-			aggiungiReport(request, response);
+	//	if (action.equals("aggiungiReport")) {
+		if(action.equals(Actions.AGGIUNGI_REPORT)) {
+		aggiungiReport(request, response);
 			return;
 		} else {
 			response.getWriter().write("nulla");
@@ -126,27 +125,25 @@ public class ReportStudenteServlet extends HttpServlet {
 		ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
 		if (studente == null) {
 			response.getWriter().write("errore");
-			return;
 		} else if (progettoFormativo == null) {
 			response.getWriter().write("errorePf");
-		}
-		// OK, FIN QUI FUNZIONA
-		String testoNuovoReport = (String) request.getParameter("testoNuovoReport");
-		try {
+		} else {
+			String testoNuovoReport = (String) request.getParameter("testoNuovoReport");
 			Report report = new Report();
-			ReportPK rep = new ReportPK();
-			rep.setProgettoFormativoID(progettoFormativo.getId());
-			report.setTesto(testoNuovoReport);
-			report.setId(rep);
-			//report.setProgettoFormativo(progettoFormativo);	//ULTIMA MODIFICA 16.40
-			progettoFormativo.addReport(report);
-			progettoFormativoDao.persist(progettoFormativo);
-			
-			reportDao.persist(report);
-			response.getWriter().write("finito");
-		} catch (Exception ex) {
-			response.getWriter().write("errore2");
-			ex.printStackTrace();
+			ReportPK rep = new ReportPK(); // chiave primaria per il report
+			try {
+				Date data = new Date();
+				rep.setData(data);
+				rep.setProgettoFormativoID(progettoFormativo.getId());
+				report.setTesto(testoNuovoReport);
+				report.setId(rep);
+				report.setProgettoFormativo(progettoFormativo);
+				reportDao.persist(report);
+				response.getWriter().write("finito");
+			} catch (Exception ex) {
+				response.getWriter().write("errore2");
+				ex.printStackTrace();
+			}
 		}
 
 	}

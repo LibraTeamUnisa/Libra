@@ -1,6 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
+<%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
+<%@page import="it.unisa.libra.model.dao.IUtenteDao"%>
+<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
+<%@page import="it.unisa.libra.bean.Studente"%>
+<%@page import="it.unisa.libra.bean.Utente"%>
+<%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="it.unisa.libra.model.dao.ITutorInternoDao"%>
+<%@ page import="javax.naming.InitialContext"%>
+<%@ page import="javax.naming.Context"%>
+<%@page import="it.unisa.libra.bean.TutorInterno"%>
+<%@page import="java.util.*,it.unisa.*"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,9 +41,6 @@
 	href="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
 	rel="stylesheet">
 <link href="assets/plugins/css-chart/css-chart.css" rel="stylesheet">
-<!-- Editable CSS -->
-    <link type="text/css" rel="stylesheet" href="assets/plugins/jsgrid/dist/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="assets/plugins/jsgrid/dist/jsgrid-theme.min.css" />
 <!-- Custom CSS -->
 <link href="css/style.css" rel="stylesheet">
 <!-- You can change the theme colors from here -->
@@ -41,9 +51,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-<style>
-#topLast30Days svg { height: 345px; }
-</style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -81,90 +88,150 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-			
-			  <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Statistiche Studenti</h3>
-                        <ol class="breadcrumb">
-                        <%
-                        if(session != null && session.getAttribute("utenteRuolo") != null){ 
-                        	String dashboard = request.getContextPath()
-                                + "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
-                        %>
-                            <li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
-                            <li class="breadcrumb-item active">Statistiche</li>
-                        <%} %>
-                        </ol>
-                    </div>
-                </div>
-			
-				<div class="row">
-                    <!-- column -->
-                     <div class="col-lg-6 col-md-12">
-                        <div class="card">
-                            <div class="card-block">
-                                <h4 class="card-title text-center">Nuovi tirocinanti negli ultimi 30 giorni</h4>
-                                <div id="topLast30Days"></div>
-                                <ul id = "topLast30DaysList" class="list-inline text-center"></ul>
-                            </div>
-                        </div>
-                     </div>
-                     <div class="col-lg-6 col-md-12">
-                     	 <!-- Column -->
-                        <div class="card card-inverse card-warning" style="margin-bottom:15px">
-                            <div class="card-block">
-                                <div class="d-flex">
-                                    <div class="m-r-20 align-self-center">
-                                        <h1 class="text-white"><i class="ti-stats-up"></i></h1></div>
-                                    <div>
-                                        <h3 class="card-title">Tirocini completati</h3>
-                                        <h6 id="currentDateCompletati" class="card-subtitle"></h6></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 align-self-center text-center">
-                                        <font class="display-3 text-white">256</font>
-                                    </div>
-                                    <div class="col-8 align-self-center">
-                                        <div class="usage chartist-chart" style="height:120px"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                        <div class="card card-inverse card-danger">
-                            <div class="card-block">
-                                <div class="d-flex">
-                                    <div class="m-r-20 align-self-center">
-                                        <h1 class="text-white"><i class="ti-agenda"></i></h1></div>
-                                    <div>
-                                        <h3 class="card-title">Report generati</h3>
-                                        <h6 id="currentDateReports" class="card-subtitle"></h6> </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 align-self-center text-center">
-                                        <font class="display-3 text-white">35487</font>
-                                    </div>
-                                    <div class="col-8  text-right">
-                                        <div class="spark-count" style="height:120px"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                     </div>
-				</div>
-				<div class="row">
-					<div class="col-12">
-                        <!-- Column -->
-                        <div class="card">
-                            <div class="card-block">
-                                <h4 class="card-title">Editable with Datatable</h4>
-                                <div id="basicgrid"></div>
-                            </div>
-                        </div>
+				<div class="card">
+					<div class="card-block">
+						<h4 class="card-title">Lista Studenti</h4>
+						<%
+							String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
+
+							ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext()
+									.lookup("java:app/Libra/TutorInternoJpa");
+							TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, "utenteEmail");
+
+							if (emailTutor.length() == 0 || tutorInterno == null) {
+						%>
+						<h6 class="card-subtitle">Nessuno Studente Presente</h6>
+						<%
+							} else {
+
+								List<ProgettoFormativo> listaPF = tutorInterno.getProgettiFormativi();
+								if (listaPF.isEmpty()) {
+						%>
+						<h6 class="card-subtitle">Nessuno Studente Presente</h6>
+						<%
+							} else {
+						%>
+
+						<h6 class="card-subtitle"></h6>
+						<div class="table-responsive">
+
+							<table id="example23"
+								class="display nowrap table table-hover table-striped table-bordered dataTable"
+								cellspacing="0" width="100%" role="grid"
+								aria-describedby="example23_info" style="width: 100%;">
+								<thead>
+									<tr role="row">
+										<th class="sorting_desc" tabindex="0"
+											aria-controls="example23" rowspan="1" colspan="1"
+											aria-label="Numero: activate to sort column ascending"
+											style="width: 91px;" aria-sort="descending">#</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Matricola: activate to sort column ascending"
+											style="width: 121px;">Matricola</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Cognome: activate to sort column ascending"
+											style="width: 75px;">Cognome</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Nome: activate to sort column ascending"
+											style="width: 50px;">Nome</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Azienda: activate to sort column ascending"
+											style="width: 85px;">Azienda</th>
+										<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Ambito: activate to sort column ascending"
+											style="width: 83px;">Ambito</th>
+											<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Stato Tirocinio: activate to sort column ascending"
+											style="width: 83px;">Stato Tirocinio</th>
+											<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Data Inizio: activate to sort column ascending"
+											style="width: 83px;">Data Inizio</th>
+											<th class="sorting" tabindex="0" aria-controls="example23"
+											rowspan="1" colspan="1"
+											aria-label="Data Fine: activate to sort column ascending"
+											style="width: 83px;">Data Fine</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th rowspan="1" colspan="1">#</th>
+										<th rowspan="1" colspan="1">Matricola</th>
+										<th rowspan="1" colspan="1">Cognome</th>
+										<th rowspan="1" colspan="1">Nome</th>
+										<th rowspan="1" colspan="1">Azienda</th>
+										<th rowspan="1" colspan="1">Ambito</th>
+										
+										<th rowspan="1" colspan="1">Stato Tirocinio</th>
+										
+										<th rowspan="1" colspan="1">Data Inizio</th>
+										
+										<th rowspan="1" colspan="1">Data Fine</th>
+									</tr>
+								</tfoot>
+											
+								<tbody>
+									<%
+										Iterator<?> it = listaPF.iterator();
+												int i = 1;
+												while (it.hasNext()) {
+													ProgettoFormativo progettoFormativo = (ProgettoFormativo) it.next();
+									%>
+									<tr role="row" class="odd">
+										<td class="sorting_1"><%=i%></td>
+										<td><%=progettoFormativo.getStudente().getMatricola()%></td>
+										<td><%=progettoFormativo.getStudente().getNome()%></td>
+										<td><%=progettoFormativo.getStudente().getCognome()%></td>
+										<td><%=progettoFormativo.getAzienda()%></td>
+										<td><%=progettoFormativo.getAmbito()%></td>
+										<td>
+										<%
+											if ((progettoFormativo.getStato() >= 0) && (progettoFormativo.getStato() < 4)) {
+										%>
+										<span class="label label-warning">In Attesa</span>
+
+										<%
+											} else if (progettoFormativo.getStato() == 4) {
+										%>
+
+										<span class="label label-primary">Verificato</span>
+									
+										<%
+											} else if (progettoFormativo.getStato() == 5) {
+										%>
+										<span class="label label-success">Approvato</span>
+										<%
+											} else if (progettoFormativo.getStato() == 6) {
+										%>
+										<span class="label label-danger">Rifiutato</span>
+										<%
+											}
+										%>
+</td>
+										<td><%=progettoFormativo.getDataInizio()%></td>
+										<td><%=progettoFormativo.getDataFine()%></td>
+
+									</tr>
+									<%
+										i++;
+												}
+									%>
+
+								</tbody>
+							</table>
+
+						</div>
+						<%
+							}
+							}
+						%>
+
 					</div>
 				</div>
 			</div>
@@ -174,9 +241,7 @@
 			<!-- ============================================================== -->
 			<!-- footer -->
 			<!-- ============================================================== -->
-			<footer class="footer">
-      			© 2017 Monster Admin by wrappixel.com
-			</footer>
+			<%@ include file="footer.jsp"%>
 			<!-- ============================================================== -->
 			<!-- End footer -->
 			<!-- ============================================================== -->
@@ -215,27 +280,10 @@
 	<!-- Chart JS -->
 	<script src="assets/plugins/echarts/echarts-all.js"></script>
 	<script src="js/dashboard5.js"></script>
-	 <!--Morris JavaScript -->
-    <script src="assets/plugins/raphael/raphael-min.js"></script>
-    <script src="assets/plugins/morrisjs/morris.js"></script>
-    <script src="assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="js/stats.js"></script>
-    <script src="js/jQuery.date.js"></script>
-	<script>
-		var date = $.date('F Y');
-		document.getElementById("currentDateCompletati").innerHTML = date;
-		document.getElementById("currentDateReports").innerHTML = date;
-	</script>
-	
-	<script src="assets/plugins/jsgrid/db.js"></script>
-    <script type="text/javascript" src="assets/plugins/jsgrid/dist/jsgrid.min.js"></script>
-    <script src="js/jsgrid-init.js"></script>
-    <!-- ====================================
 	<!-- ============================================================== -->
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-    
 </body>
 
 </html>

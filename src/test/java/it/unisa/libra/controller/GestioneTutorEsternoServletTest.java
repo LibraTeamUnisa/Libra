@@ -29,7 +29,7 @@ public class GestioneTutorEsternoServletTest {
     request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
     response = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
     responseWriter = mock(PrintWriter.class);
-    when(response.getWriter()).thenReturn(responseWriter);
+    when(response.getWriter()).thenReturn(responseWriter); 
   }
 
   @After

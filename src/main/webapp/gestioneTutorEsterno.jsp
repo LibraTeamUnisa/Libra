@@ -1,3 +1,4 @@
+<%@page import="it.unisa.libra.util.JspPagesIndex"%>
 <%@page import="it.unisa.libra.bean.Azienda"%>
 <%@page import="it.unisa.libra.bean.TutorEsternoPK"%>
 <%@page import="it.unisa.libra.model.dao.ITutorEsternoDao"%>
@@ -7,12 +8,6 @@
 <%@page import="it.unisa.libra.model.jpa.TutorEsternoJpa"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<<<<<<< HEAD
-<!-- 
-=======
-
-
->>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git
 <!DOCTYPE html>
 <html lang="en">
 
@@ -131,12 +126,13 @@
 							Modifica Tutor Esterno
 							<%} %></h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard </a></li>
-                            <li class="breadcrumb-item active"><%if (azione.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) {%>
-							Aggiungi Tutor Esterno
+                            <li class="breadcrumb-item"><a href="<%=JspPagesIndex.DASHBOARD_AZIENDA.substring(1)%>">Dashboard </a></li>
+                            <%if (azione.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) {%>
+							<li class="breadcrumb-item active">Aggiungi Tutor Esterno</li>
 							<%} else { %>
-							Modifica Tutor Esterno
-							<%} %></li>
+							<li class="breadcrumb-item"><a href="<%=JspPagesIndex.CATALOGO_TUTOR_ESTERNI.substring(1)%>">Tutor</a></li>
+                            <li class="breadcrumb-item active">Modifica Tutor Esterno</li>
+							<%} %>
                         </ol>
                     </div>
                     
@@ -222,7 +218,7 @@
                                         <div class="col-10">
                                             <input class="form-control"  id="example-password-input" type="text" name="telefono" placeholder="Telefono" required="required"
 
-										maxlength="10" pattern="[0-9]{10}" title="solo caratteri numerici"
+										maxlength="10" pattern="[0-9]{8,11}" title="solo caratteri numerici"
 
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=tutor.getTelefono()%> <%} %> />
@@ -354,17 +350,9 @@
 																		indirizzo : $("#example-url-input").val()
 
 																	},
-																	function(
-																			data) {
+																	function(data) {
 																		 $("#buttonTutorEsterno").prop("disabled",true);
-																		 
-																		if ((data == "ok")||($("#inputAction").val()=='modificaTutorEsterno')) {
-
-																			$("#modalMessage").text("L'operazione e' avvenuta correttamente");
-																		} 
-																		else {
-																			$("#modalMessage").text(data);
-																		}
+																		 $("#modalMessage").text(data);
 																		 $("#modalResult").modal('show');
 																			
 																	});
@@ -404,5 +392,4 @@
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 </html>
--->
 

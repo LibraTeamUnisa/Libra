@@ -163,13 +163,13 @@
                                                <td style="width:50px;"><span class="round">NA</span></td>
                                                 <td><h6>Non disponibile</h6></td>
                                                 <%} 
-                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getNome()!=null){
+                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getCognome()!=null){
                                                 %>
                                                	 <td> <h6> <%=(p.getStudente().getNome()+" "+p.getStudente().getCognome()) %></h6></td>
                                                	 <%} else{ %>
-                                               	 <td> <h6> Non disponibileee</h6></td>
+                                               	 <td> <h6> Non disponibile</h6></td>
                                                	 <%}
-                                                if(p.getTutorInterno()!=null&&p.getTutorInterno().getNome()!=null&&p.getTutorInterno().getNome()!=null){
+                                                if(p.getTutorInterno()!=null&&p.getTutorInterno().getNome()!=null&&p.getTutorInterno().getCognome()!=null){
                                                 %>
                                                 <td> <h6> <%=(p.getTutorInterno().getNome()+" "+p.getTutorInterno().getCognome()) %></h6></td>
                                                 <%} else{ %>
@@ -272,11 +272,6 @@
                         <div class="row">
                         
                     </div>
-                    <!--               -->
-                   <div class="row">
-                    <!-- Column -->
-					<canvas id="myLineChart" width="600" height="600">gfhfdgfd</canvas> 
-
                         </div>
                         <!--          -->
                      

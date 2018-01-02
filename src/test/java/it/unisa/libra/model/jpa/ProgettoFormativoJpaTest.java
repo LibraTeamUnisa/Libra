@@ -34,7 +34,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaS.entityManager = em;
     jpaT.entityManager = em;
   }
-  
+
 
   @Test
   public void getLastTest() {
@@ -103,7 +103,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaP.persist(pf);
     ProgettoFormativo toCheck =
         (ProgettoFormativo) jpaP.getProgettiFormativiByAzienda("prova").get(0);
-    //assertEquals(pf, toCheck);
+    // assertEquals(pf, toCheck);
   }
 
   private ProgettoFormativo createPf() {

@@ -44,12 +44,11 @@ public class CaricaImmagineServlet extends HttpServlet {
     Utente user = utenteDao.findById(Utente.class, email);
     Part filePart = request.getPart("proPic");
     if (!filePart.getSubmittedFileName().equals("")) {
-      File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/"
-          + filePart.getSubmittedFileName());
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      user.setImgProfilo("assets/images/users/" + filePart.getSubmittedFileName());
-      utenteDao.persist(user);
+//      File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/" + filePart.getSubmittedFileName());
+//      InputStream filestream = filePart.getInputStream();
+//      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//      user.setImgProfilo("assets/images/users/" + filePart.getSubmittedFileName());
+//      utenteDao.persist(user);
     } else {
     }
     response.sendRedirect("profilo.jsp");

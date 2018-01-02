@@ -1,5 +1,5 @@
 package it.unisa.libra.filter;
-import com.mysql.jdbc.StringUtils;
+
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -30,26 +30,26 @@ public class NegaPresidente implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Se l'utente loggato è un presidente, reindirizza ad una pagina di errore.
+   * Override. Se l'utente loggato e' un presidente, reindirizza ad una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-	  
+
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
 
-    
-    // se l'utente � il presidente l'accesso � negato
+
+    // se l'utente e' il presidente l'accesso e' negato
     if ("Presidente".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;
     }
-  
+
     chain.doFilter(request, response);
-    
+
   }
 
   /**
@@ -57,5 +57,5 @@ public class NegaPresidente implements Filter {
    * 
    * @see Filter#init(FilterConfig)
    */
-  public void init(FilterConfig fConfig) throws ServletException {}
+  public void init(FilterConfig filterConfig) throws ServletException {}
 }

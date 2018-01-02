@@ -33,9 +33,11 @@
                         <li>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Ui Elements</span></a>                           
                         </li>
+                        <% if(request.getSession().getAttribute("utenteRuolo") == "Segreteria") { %>
                         <li>
                             <a href="aggiungiUtente.jsp" aria-expanded="false"><span class="hide-menu">Aggiungi Utente</span></a>                           
                         </li>
+                        <% } %>
                         <li>
                             <a href="contattiDipartimento.jsp" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a>                           
                         </li>

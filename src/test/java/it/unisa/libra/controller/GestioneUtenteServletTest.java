@@ -1,3 +1,4 @@
+
 package it.unisa.libra.controller;
 
 import static org.mockito.Mockito.mock;
@@ -150,31 +151,5 @@ public class GestioneUtenteServletTest {
 		}
 	}
 
-	@Test
-	public void verificaErroreTest2() {
-		try {
-			Utente utente = new Utente();
-			String mail = "mail@mail.it";
-			String pwd =  "passwordok";
-			String pwd2 = "password";
-			String pwd3 = "passwordsbagliata";
-			utente.setEmail(mail);
-			utente.setPassword(pwd);
-			when(request.getSession()).thenReturn(session);
-			when(session.getAttribute("utenteEmail")).thenReturn(mail);
-			when(utenteDao.findById(Utente.class, mail)).thenReturn(utente);
-			when(request.getParameter("password")).thenReturn(pwd);
-			when(request.getParameter("action")).thenReturn("cambia");
-			when(request.getParameter("pwn1")).thenReturn(pwd2);
-			when(request.getParameter("pwn2")).thenReturn(pwd3);
-			when(response.getWriter()).thenReturn(responseWriter);
-			//servlet.setUtenteDao(utenteDao);
-			//servlet.aggiornaPassword(utente, pwd2, pwd3);
-			//utenteDao.merge(utente);
-			servlet.doPost(request, response);
-			verify(responseWriter).write("errore");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+	
 }

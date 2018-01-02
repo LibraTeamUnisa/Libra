@@ -85,13 +85,13 @@ public class GestioneUtenteServlet extends HttpServlet {
     		
  		
 	    	if(ruolo.equals("Presidente")) {
-	    		pres.setUtente(utente);
+	    		//pres.setUtente(utente);
 	    		String data = request.getParameter("bday");
 	    		
 	    		
 	    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    		Date result =  df.parse(data);
-	    		//pres.setUtenteEmail(request.getParameter("email"));
+	    		pres.setUtenteEmail(request.getParameter("email"));
 	    		pres.setDataDiNascita(result);
 	    		pres.setLinkSito(request.getParameter("webSite"));
 	    		pres.setNome(request.getParameter("nome"));
@@ -105,11 +105,12 @@ public class GestioneUtenteServlet extends HttpServlet {
 	    	}
 	    	else if(ruolo.equals("TutorInterno")) {
 	    		
-	    		tut.setUtente(utente);
+	    		//tut.setUtente(utente);
 	    		String data = request.getParameter("bday");
 	    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    		Date result =  df.parse(data);
 	    		
+	    		tut.setUtenteEmail(request.getParameter("email"));
 	    		tut.setDataDiNascita(result);
 	    		tut.setLinkSito(request.getParameter("website"));
 	    		tut.setNome(request.getParameter("Nome"));
@@ -121,9 +122,9 @@ public class GestioneUtenteServlet extends HttpServlet {
 			
 	    	else if(ruolo.equals("Azienda")) {
 	    		
-	    		azienda.setUtente(utente);
+	    		//azienda.setUtente(utente);
 	    	
-	    		
+	    		azienda.setUtenteEmail(request.getParameter("email"));
 	    		azienda.setNome(request.getParameter("Nome"));
 	    		azienda.setPartitaIVA(request.getParameter("partitaIva"));
 	    		azienda.setLinkSito(request.getParameter("website"));

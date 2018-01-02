@@ -1,15 +1,14 @@
 package it.unisa.libra.model.jpa;
 
-import java.util.ArrayList;
-import java.util.Date;
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.bean.TutorEsterno;
+
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>

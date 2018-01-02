@@ -230,7 +230,6 @@
 	<script src="assets/plugins/jsgrid/db.js"></script>
     <script type="text/javascript" src="assets/plugins/jsgrid/dist/jsgrid.min.js"></script>
     <script src="js/jsgrid-init.js"></script>
-    <!-- ====================================
 	<!-- ============================================================== -->
 	<!-- Style switcher -->
 	<!-- ============================================================== -->

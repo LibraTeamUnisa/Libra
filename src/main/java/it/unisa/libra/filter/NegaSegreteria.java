@@ -36,20 +36,15 @@ public class NegaSegreteria implements Filter {
    */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-
     // se l'utente e' la segreteria l'accesso e' negato
     if ("Segreteria".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;
-
     }
-
     chain.doFilter(request, response);
-
   }
 
   /**

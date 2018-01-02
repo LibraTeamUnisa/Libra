@@ -36,22 +36,15 @@ public class NegaStudente implements Filter {
    */
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-
-
-
     // se l'utente e' uno studente l'accesso e' negato
     if ("Studente".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;
-
     }
-
     chain.doFilter(request, response);
-
   }
 
   /**

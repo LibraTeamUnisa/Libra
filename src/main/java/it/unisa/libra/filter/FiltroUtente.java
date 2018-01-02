@@ -39,13 +39,12 @@ public class FiltroUtente implements Filter {
 
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
     // evita il bug: dopo il logout, tornando indietro nel browser posso vedere ancora le pagine
     ((HttpServletResponse) response).setHeader("Cache-Control",
         "no-cache,no-store,must-revalidate");
     ((HttpServletResponse) response).setHeader("Pragma", "no-cache");
     ((HttpServletResponse) response).setDateHeader("Expires", 0);
-
+    
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
     if (!(StringUtils.isNullOrEmpty(utenteEmail))) {
@@ -56,18 +55,15 @@ public class FiltroUtente implements Filter {
       // ad alcune pagine possono accedere tutti, anche gli utenti non loggati
       // quindi questo filtro non deve essere applicato a queste pagine
       String path = ((HttpServletRequest) request).getRequestURI();
-
       if (path.endsWith(JspPagesIndex.ACCESSO_NEGATO) || path.endsWith(JspPagesIndex.HOME)
           || path.endsWith(JspPagesIndex.REGISTRAZIONE) || path.equals("/Libra/")) {
         chain.doFilter(request, response);
         return;
       } else {
-
         // l'utente non e' loggato ma desidera accedere a una pagina protetta
         ((HttpServletResponse) response).sendRedirect(
             ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
         return;
-
       }
     }
 

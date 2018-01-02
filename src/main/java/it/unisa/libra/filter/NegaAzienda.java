@@ -37,22 +37,15 @@ public class NegaAzienda implements Filter {
 
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
     String utenteRuolo =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteRuolo");
-
-
     // se l'utente e' un'azienda l'accesso e' negato
     if ("Azienda".equals(utenteRuolo)) {
       ((HttpServletResponse) response).sendRedirect(
           ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
       return;
-
-
     }
-
     chain.doFilter(request, response);
-
   }
 
   /**

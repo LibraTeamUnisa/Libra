@@ -64,6 +64,7 @@ public class CaricaImmagineServletTest {
 
   @Test
   public void cambioImmagineOk() throws Exception {
+	  
     when(request.getSession()).thenReturn(session);
     when(session.getAttribute("utenteEmail")).thenReturn(email);
     when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
@@ -72,5 +73,6 @@ public class CaricaImmagineServletTest {
     when(part.getInputStream()).thenReturn(is);
     servlet.doPost(request, response);
     verify(response).sendRedirect("profilo.jsp");
+    
   }
 }

@@ -26,6 +26,7 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
     return (E) entityManager.find(entityClass, id);
   }
 
+  @SuppressWarnings("unchecked")
   public List<E> findAll(Class<E> entityClass) {
     return (List<E>) entityManager.createNamedQuery(entityClass.getSimpleName() + ".findAll")
         .getResultList();

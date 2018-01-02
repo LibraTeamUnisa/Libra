@@ -202,8 +202,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           tutor.setTelefono(telefono);
           count++;
         }
-        if(CheckUtils.checkDate(data)!=null) {
-          tutor.setDataDiNascita(CheckUtils.checkDate(data));
+        if(CheckUtils.parseDate(data)!=null) {
+          tutor.setDataDiNascita(CheckUtils.parseDate(data));
           count++;
         }
         if(CheckUtils.checkEmptiness(indirizzo)) {

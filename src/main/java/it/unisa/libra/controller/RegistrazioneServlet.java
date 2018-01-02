@@ -1,5 +1,10 @@
 package it.unisa.libra.controller;
 
+import it.unisa.libra.bean.Gruppo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IGruppoDao;
+import it.unisa.libra.model.dao.IUtenteDao;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,11 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.bean.Gruppo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IGruppoDao;
-import it.unisa.libra.model.dao.IUtenteDao;
+
 
 /**
  * Questa classe permette allo studente di registrarsi.
@@ -47,7 +48,6 @@ public class RegistrazioneServlet extends HttpServlet {
 	  /**
 	   * Parametri necessari alla registrazione presi dall'oggetto request.
 	   */
-	 
 	  String nome = request.getParameter("nome");
 	  String cognome = request.getParameter("cognome");
 	  String matricola = request.getParameter("matricola");

@@ -2,6 +2,7 @@ package it.unisa.libra.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,9 +15,11 @@ import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Report;
 import it.unisa.libra.bean.ReportPK;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.IReportDao;
 import it.unisa.libra.model.dao.IStudenteDao;
+import it.unisa.libra.model.dao.IUtenteDao;
 import it.unisa.libra.util.Actions;
 
 /**
@@ -47,6 +50,9 @@ public class ReportStudenteServlet extends HttpServlet {
 	@EJB
 	private IStudenteDao studenteDao;
 
+	@EJB
+	private IUtenteDao utenteDao;
+	
 	/** Default constructor. */
 	public ReportStudenteServlet() {
 	}
@@ -84,41 +90,41 @@ public class ReportStudenteServlet extends HttpServlet {
 		}
 	}
 
-	/*
-	 * private void modificaReport(HttpServletRequest request, HttpServletResponse
-	 * response) throws IOException, ServletException { String emailStudente =
-	 * (String) request.getSession().getAttribute("utenteEmail"); String
-	 * idProgettoFormativo = (String) request.getParameter("idPF");
-	 * 
-	 * int id; try { id = Integer.parseInt(idProgettoFormativo); } catch
-	 * (NumberFormatException e) {
-	 * response.getWriter().write("Si e' verificato un errore"); return; }
-	 * 
-	 * Studente studente = studenteDao.findById(Studente.class, emailStudente);
-	 * ProgettoFormativo progettoFormativo =
-	 * progettoFormativoDao.findById(ProgettoFormativo.class, id);
-	 * 
-	 * if ((studente == null) || (progettoFormativo == null)) {
-	 * 
-	 * response.getWriter().write("Si e' verificato un errore"); return; } String
-	 * indiceReport = (String) request.getParameter("indiceReport");
-	 * 
-	 * if (indiceReport == null) { response.getWriter().write(BADREQUEST_MESS);
-	 * return; }
-	 * 
-	 * int indice; try { indice = Integer.parseInt(indiceReport); } catch
-	 * (NumberFormatException e) {
-	 * response.getWriter().write("Si e' verificato un errore"); return; }
-	 * 
-	 * String testoReport = (String) request.getParameter("testoReport"); if
-	 * (testoReport == null) { response.getWriter().write(BADREQUEST_MESS); return;
-	 * }
-	 * 
-	 * List<Report> listReport = progettoFormativo.getReports();
-	 * listReport.get(indice).setTesto(testoReport);
-	 * progettoFormativoDao.persist(progettoFormativo);
-	 * response.getWriter().write(SUCCESS_MESS); return; }
-	 */
+	
+	  private void modificaReport(HttpServletRequest request, HttpServletResponse
+	  response) throws IOException, ServletException { String emailStudente =
+	  (String) request.getSession().getAttribute("utenteEmail"); String
+	  idProgettoFormativo = (String) request.getParameter("idPF");
+	  
+	  int id; try { id = Integer.parseInt(idProgettoFormativo); } catch
+	  (NumberFormatException e) {
+	  response.getWriter().write("Si e' verificato un errore"); return; }
+	  
+	  Studente studente = studenteDao.findById(Studente.class, emailStudente);
+	  ProgettoFormativo progettoFormativo =
+	  progettoFormativoDao.findById(ProgettoFormativo.class, id);
+	  
+	  if ((studente == null) || (progettoFormativo == null)) {
+	  
+	  response.getWriter().write("Si e' verificato un errore"); return; } String
+	  indiceReport = (String) request.getParameter("indiceReport");
+	  
+	  if (indiceReport == null) { response.getWriter().write(BADREQUEST_MESS);
+	  return; }
+	  
+	  int indice; try { indice = Integer.parseInt(indiceReport); } catch
+	  (NumberFormatException e) {
+	  response.getWriter().write("Si e' verificato un errore"); return; }
+	  
+	  String testoReport = (String) request.getParameter("testoReport"); if
+	  (testoReport == null) { response.getWriter().write(BADREQUEST_MESS); return;
+	  }
+	  
+	  List<Report> listReport = progettoFormativo.getReports();
+	  listReport.get(indice).setTesto(testoReport);
+	  progettoFormativoDao.persist(progettoFormativo);
+	  response.getWriter().write(SUCCESS_MESS); return; }
+	 
 	private void aggiungiReport(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 		Studente studente = studenteDao.findById(Studente.class, emailStudente);
@@ -144,9 +150,7 @@ public class ReportStudenteServlet extends HttpServlet {
 				response.getWriter().write("errore2");
 				ex.printStackTrace();
 			}
-		}
-	//	Date data = new Date();
-		
+		}		
 	}
 
 	/** messaggio di errore inviato in caso di bad request. **/

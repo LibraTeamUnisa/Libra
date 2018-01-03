@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="it.unisa.libra.model.dao.IReportDao" %>
+<%@page import="it.unisa.libra.model.dao.IReportDao" %>
+<%@page import="it.unisa.libra.model.dao.IStudenteDao" %>
+<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
+<%@page import="it.unisa.libra.bean.Studente" %>
+<%@page import="it.unisa.libra.bean.ProgettoFormativo" %>
+<%@page import="it.unisa.libra.bean.Report" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.Context" %>
 <%@ page import="java.util.List" %>
+<%@  page import="javax.servlet.*" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.Map.Entry" %>
 <%@ page import="it.unisa.libra.bean.Report" %>
 <%@ page import="it.unisa.libra.util.JsonUtils" %>
@@ -24,6 +31,8 @@
     <title>Libra</title>
     <!-- Bootstrap Core CSS -->
     <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/plugins/bootstrap/css/bootstrap-table.css" rel="stylesheet">
+    <link href="assets/plugins/bootstrap/css/bootstrap-table.min.css" rel="stylesheet">
     <!-- chartist CSS -->
     <link href="assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
     <link href="assets/plugins/chartist-js/dist/chartist-init.css" rel="stylesheet">
@@ -82,7 +91,7 @@
 					<div class="fixed-table-container" style="">
 						
 						<div class="fixed-table-header" style="margin-right: 0px;">
-							<table class="table table table-hover" style="width:992px;">	
+							<table class="table-striped table table-hover" style="width:992px;">	
 								<thead>
 									<tr>
 										<th style="" data-field="0">
@@ -103,25 +112,40 @@
 						</div>
 					
 						<div class="fixed-table-body">
-							<table class="table-striped table table-hover" style="margin-top: 0px;" data-toggle="table" data-mobile-responsive="true" data-height="250">
-					<%  IReportDao reportDao = (IReportDao) new InitialContext().lookup("java:app/Libra/ReportJpa");
-             		List<Report> listRep = reportDao.findAll(Report.class);
-             		for(Report rep: listRep){
+						<table class="table-striped table table-hover" style ="" data-toggle="table" data-mobile-responsive="true" data-sort-name="stargazers_count" data-sort-order="desc">
+					<%
+
+					String ruolo = (String) request.getSession().getAttribute("utenteRuolo");
+					if(ruolo.equals("Studente")){
+					String emailStudente = (String) request.getSession.getAttribute("utenteEmail");
+					IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
+					IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+					Studente studente = studenteDao.findById(Studente.class, emailStudente);
+					ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+             		List<Report> listRep = progettoFormativo.getReports();
+             		   Iterator<?> it = listRep.iterator();
+                            while (it.hasNext()) {
+                              Report rep = (Report) it.next();
+							  
 					%>
+
+					
 				
-									<tr>
-										<th style="">
+									<tr class="tr-class-1">
+										<td class="td-class-1">
 											<div class="th-inner"> 
 											<% 
+													int anno= rep.getId().data.getYear() + 1900;
+													int mese = rep.getId().data.getMonth()+1;
+													String x = ""+anno+ " / " + mese + " / " + rep.getId().data.getDay();
 													
-													String x = ""+rep.getId().data.getYear()+ " / " + rep.getId().data.getMonth()+ " / " + rep.getId().data.getDay();
 											%>
 											<%= x %>
 											 </div>
 											<div class="fht-cell" style="width:173.46px;"></div>
-										</th>
+										</td>
 										
-										<th style="">
+										<td class="td-class-1">
 											<div class="th-inner"> 
 											<%
 											String y = ""+rep.getId().data.getHours()+ " : " + rep.getId().data.getMinutes();
@@ -129,15 +153,19 @@
 											<%=	y %>
 											</div>
 											<div class="fht-cell" style="width:173.46px;"></div>
-										</th>		
+										</td>		
 																
-										<th style="">
+										<td class="td-class-1">
 											<div class="th-inner">
 												 <%=rep.getTesto() %>
  											</div>
 											<div class="fht-cell" style="width:173.46px;"></div>
-										</th>		
+										</td>		
 									</tr>
+									
+									<% } %>
+					<%}else {%>
+					<h4> non c'è niente </h4>
 					<%}%>
 					</table>
 					</div>
@@ -155,7 +183,7 @@
 						<textarea id="testoNuovoReport" class="form-control form-control-line" rows="5"></textarea>
 					</div>
 				</div>
-				<button type="submit">Conferma</button>
+				<button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Conferma</button>
 						<div class="alert alert-success"
 						 id="success" style="display: none">
 						 REPORT AGGIUNTO CON SUCCESSO. </div>
@@ -201,7 +229,7 @@
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
-    <!-- chartist chart -->
+    <!-- chartist chart -->    
     <script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
     <script src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
     <!-- Chart JS -->

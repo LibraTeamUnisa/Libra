@@ -161,7 +161,7 @@
                         <!-- Column -->
                         <div class="card">
                             <div class="card-block">
-                                <h4 class="card-title">Editable with Datatable</h4>
+                                <h4 class="card-title"></h4>
                                 <div id="basicgrid"></div>
                             </div>
                         </div>
@@ -174,9 +174,7 @@
 			<!-- ============================================================== -->
 			<!-- footer -->
 			<!-- ============================================================== -->
-			<footer class="footer">
-      			© 2017 Monster Admin by wrappixel.com
-			</footer>
+			<%@ include file="footer.jsp"%>
 			<!-- ============================================================== -->
 			<!-- End footer -->
 			<!-- ============================================================== -->
@@ -229,7 +227,7 @@
 	
 	<script src="assets/plugins/jsgrid/db.js"></script>
     <script type="text/javascript" src="assets/plugins/jsgrid/dist/jsgrid.min.js"></script>
-    <script src="js/jsgrid-init.js"></script>
+    <script src="js/stats-jsgrid-init.js"></script>
 	<!-- ============================================================== -->
 	<!-- Style switcher -->
 	<!-- ============================================================== -->

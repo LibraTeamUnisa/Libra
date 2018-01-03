@@ -1,29 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+    
+<%@ page import="it.unisa.libra.bean.Azienda" %>
 <%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
 <%@ page import="it.unisa.libra.bean.Studente" %>
-<%@ page import="it.unisa.libra.bean.Azienda" %>
 <%@ page import="it.unisa.libra.bean.TutorInterno" %>
-<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
-<%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
 <%@ page import="it.unisa.libra.model.dao.IAziendaDao" %>
-<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
+<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
+
 <%@ page import="javax.naming.Context" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Calendar" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Map.Entry" %>
-<%@ page import="java.util.Calendar" %>
+
 <%
 	
-	
+	/*Recupero le interfacce per interagire con il Database*/
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	int numeroStudenti = studenteDao.contaOccorrenze();
 	
+	/*Raccolgo alcuni dati statistici*/
+	int numeroStudenti = studenteDao.contaOccorrenze();
 	int numeroAziende = aziendaDao.contaOccorrenze();
 	
 	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.getInOrdineCronologico();
@@ -33,6 +36,7 @@
 	
 	boolean pass = false;
 	
+	/*Filtro la lista dei progetti formativi eliminando quelli terminati o non ancora iniziati*/
 	if(progettiInCorso!=null){
 		for(int i=0;i<progettiInCorso.size();i++){
 			if(i==9){
@@ -160,7 +164,8 @@
                                         </thead>
                                         
                                         <%
-                                        int numeroProgetti = 1;
+                                        /* Metto in tabella gli ultimi 10 progetti formativi*/
+                                        int numeroProgetti = 0;
                                         if(progettiInCorso!=null && progettiInCorso.size()>0){
                                         	for(ProgettoFormativo p:progettiInCorso){
                                         	if(numeroProgetti==10){
@@ -274,6 +279,8 @@
                         
                         
                         <%
+                        /*Creo e popolo un hashmap dove per ogni mese c'è il numero dei progetti iniziati
+                        in quello stesso mese*/
                  int annoCorrente = new Date().getYear()+1900;
                  List<ProgettoFormativo> progetti = progettoFormativoDao.getInOrdineCronologico();
                  Map<Integer,String> progettiPerMese = new HashMap<Integer,String>();
@@ -281,31 +288,39 @@
                  int contaPerMese = 1;
                  if(progetti!=null&&progetti.size()>1){
                  	for(int j=1;j<progetti.size();j++){
-                 			p = progetti.get(j);
-                 			if(p.getDataInizio().getYear()+1900==annoCorrente){
+                 		p = progetti.get(j);
+                 		/*Applico l'algoritmo solo se i progetti fanno parte dell'anno corrente*/
+                 		if(p.getDataInizio().getYear()+1900==annoCorrente){
+                 			/*Se il mese del j-esimo progetto coincide con quello del j-1esimo allora possiamo incrementare
+                 			la variabile contaPerMese
+                 			Se ci troviamo nell'ultimo elemento della lista salviamo l'elemento ed il valore attuale di contaPerMese
+                 			nel HashMap
+                 			*/
                  			if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
                  				contaPerMese++;
                  				if(j==progetti.size()-1){
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,contaPerMese+"");
                  				}
-                 			}
-                 			else{
+                 				/*Nel caso i due mesi non coincidano si mette nel hasmap il numero del j-1esimo mese
+                 				ed il valore attuale di contaPerMese, dopodichè si azzera contaPerMese.
+                 				Nel caso si trattasse dell'ultimo elemento della lista salviamo nel hasmap entrambi i mesi(j-1,j)*/
+                 			}else {
                  				if(j==progetti.size()-1){
                  					progettiPerMese.put(progetti.get(j-1).getDataInizio().getMonth()+1,contaPerMese+"");
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,1+"");
-                 				}
-                 				else{
+                 				}else {
                  					progettiPerMese.put(progetti.get(j-1).getDataInizio().getMonth()+1,contaPerMese+"");
                  					contaPerMese = 1;
                  				}
                  			}
-                 			}
-                 			
+                 		}
+                 		
                  }
                  }
                  %>
                 <form>
                 	<%
+                	/*Creo una form fittizia dala quale javascript potrà prendere i dati java*/
                 	for(int x=0;x<12;x++){
                 		if(progettiPerMese.get(x+1)!=null){
                 	%>

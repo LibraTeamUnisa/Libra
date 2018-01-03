@@ -125,6 +125,12 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
   }
 
+@Override
+public List<ProgettoFormativo> getInOrdineCronologico() {
+	TypedQuery<ProgettoFormativo> query = entityManager.createNamedQuery("ProgettoFormativo.findInOrdineCronologico", ProgettoFormativo.class);
+	return query.getResultList();
+}
+
 
 
 }

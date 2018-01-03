@@ -9,6 +9,8 @@ import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.bean.Utente;
+import java.util.Date;
+import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,9 +22,6 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   private static TutorInternoJpa jpaT;
   private static AziendaJpa jpaA;
 
-  /**
-   * Il metodo inizializza gli oggetti necessari per il test.
-   */
   @BeforeClass
   public static void setUp() {
     jpaA = new AziendaJpa();
@@ -117,6 +116,18 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     return toPersist;
   }
 
+  private ProgettoFormativo createPFconData(Date date) {
+    Azienda a = new Azienda();
+    a.setUtenteEmail("prova@gmail.com");
+    a.setNome("prova");
+    jpaA.persist(a);
+
+    ProgettoFormativo toPersist = new ProgettoFormativo();
+    toPersist.setDataInizio(date);
+    toPersist.setAzienda(a);
+    return toPersist;
+  }
+
   private ProgettoFormativo createProgettoFormativoObject() {
     ProgettoFormativo toPersist = new ProgettoFormativo();
     return toPersist;
@@ -139,4 +150,20 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     tutor.setUtente(utente);
     return tutor;
   }
+
+  @Test
+  public void getInOrdineCronologicoTest() {
+    Date data = new Date();
+    data.setDate(3);
+    ProgettoFormativo test = createPFconData(data);
+    Date data2 = new Date();
+    data2.setDate(4);
+    ProgettoFormativo test2 = createPFconData(data);
+    jpaP.persist(test);
+    jpaP.persist(test2);
+    List<ProgettoFormativo> lista = jpaP.getInOrdineCronologico();
+    assertNotNull(lista);
+    // assertTrue(lista.get(0).getDataInizio().after(lista.get(1).getDataInizio()));
+  }
+
 }

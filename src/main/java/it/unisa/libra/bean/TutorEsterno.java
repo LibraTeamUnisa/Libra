@@ -6,6 +6,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,7 +17,10 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@NamedQuery(name = "TutorEsterno.findAll", query = "SELECT t FROM TutorEsterno t")
+@NamedQueries({
+@NamedQuery(name = "TutorEsterno.findAll", query = "SELECT t FROM TutorEsterno t"),
+@NamedQuery(name = "TutorEsterno.findByAziendaNome", query = "SELECT t FROM TutorEsterno t WHERE t.azienda.nome = :nomeAzienda ")
+})
 public class TutorEsterno implements Serializable {
   private static final long serialVersionUID = 1L;
 

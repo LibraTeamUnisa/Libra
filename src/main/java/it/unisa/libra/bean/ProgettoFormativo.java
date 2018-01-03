@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,7 +22,10 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p")
+@NamedQueries({
+@NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p"),
+@NamedQuery(name = "ProgettoFormativo.findByAziendaNome", query = "SELECT p FROM ProgettoFormativo p WHERE p.azienda.nome = :nomeAzienda ")
+})
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
 

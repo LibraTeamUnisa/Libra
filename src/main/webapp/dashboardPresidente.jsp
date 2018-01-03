@@ -294,6 +294,9 @@
                  			progetti.remove(j);
                  			size--;
                  			j--;
+                 			if(contaPerMese>1){
+                 				contaPerMese--;
+                 			}
                  			p = progetti.get(j);
                  		}
                  		if(size==1){
@@ -308,14 +311,14 @@
                  			*/
                  		}else if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
                  				contaPerMese++;
-                 				if(j==progetti.size()-1){
+                 				if(j==size-1){
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,contaPerMese+"");
                  				}
                  				/*Nel caso i due mesi non coincidano si mette nel hasmap il numero del j-1esimo mese
                  				ed il valore attuale di contaPerMese, dopodichè si azzera contaPerMese.
                  				Nel caso si trattasse dell'ultimo elemento della lista salviamo nel hasmap entrambi i mesi(j-1,j)*/
                  			}else {
-                 				if(j==progetti.size()-1){
+                 				if(j==size-1){
                  					progettiPerMese.put(progetti.get(j-1).getDataInizio().getMonth()+1,contaPerMese+"");
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,1+"");
                  				}else {

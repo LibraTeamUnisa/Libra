@@ -3,21 +3,16 @@ package it.unisa.libra.model.jpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IStudenteDao;
-import it.unisa.libra.model.dao.IUtenteDao;
 
 public class StudenteJpaTest extends GenericJpaTest  {
 	
@@ -111,9 +106,8 @@ public class StudenteJpaTest extends GenericJpaTest  {
 		 
 		int confronto = uno.getCognome().compareTo(due.getCognome());
 	
-		//assertTrue(confronto>1);
+		//assertTrue(confronto>0);
 	    
-	    System.out.println(lista.size()+"");
 	  }
 	  
 	  @Test

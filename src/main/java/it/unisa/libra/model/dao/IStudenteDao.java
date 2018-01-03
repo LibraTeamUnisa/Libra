@@ -6,4 +6,6 @@ import it.unisa.libra.bean.Studente;
 
 public interface IStudenteDao extends IGenericDao<Studente, String> {
 	public List<Studente> listaOrdinataPerCognome();
+	
+	int contaOccorrenze();
 }

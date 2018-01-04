@@ -1,6 +1,7 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ import it.unisa.libra.util.CheckUtils;
 import it.unisa.libra.util.JsonUtils;
 
 /** Servlet implementation class AutenticazioneServlet */
-@WebServlet(name = "GestionePfServlet", urlPatterns= {"/gestionePfServlet"})
+@WebServlet(name = "GestionePfServlet", urlPatterns = {"/gestionePfServlet"})
 public class GestionePfServlet extends HttpServlet {
 
   @Inject
@@ -38,6 +39,12 @@ public class GestionePfServlet extends HttpServlet {
         Map<String, String> mapTop =
             progettoFormativoDao.getTopAziendeFromNumStudenti(pastDays, limit, status);
         response.getWriter().write(JsonUtils.parseMapToJson(mapTop));
+      }
+      if (request.getParameter(Actions.ACTION).equals(Actions.PF_NUM_TIROCINI_COMPLETATI)) {
+        Long numTirocini = progettoFormativoDao.getNumTirociniCompletati();
+        if (numTirocini != null) {
+          response.getWriter().write(numTirocini.toString());
+        }
       }
     }
   }

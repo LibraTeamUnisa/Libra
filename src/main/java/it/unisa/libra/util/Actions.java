@@ -9,7 +9,8 @@ public class Actions {
   public static final String MODIFICA_TUTOR_ESTERNO = "modificaTutorEsterno";
   public static final String RIMUOVI_TUTOR_ESTERNO = "rimuoviTutorEsterno";
   public static final String PF_TOP_AZIENDE = "topAziende";
-
-
+  public static final String PF_NUM_TIROCINI = "getNumTirocini";
+  public static final String RS_NUM_REPORTS = "getNumReports";
+  public static final String PF_NUM_TIROCINI_COMPLETATI = "getNumTirociniCompletati";
 
 }

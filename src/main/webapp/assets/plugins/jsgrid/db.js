@@ -4,8 +4,8 @@
 
         loadData: function(filter) {
             return $.grep(this.clients, function(client) {
-                return (!filter.Azienda || client.Azienda.indexOf(filter.Azienda) > -1)
-                    && (!filter.Studenti || client.Studenti === filter.Studenti)
+                return (!filter.Studenti || client.Studenti.indexOf(filter.Studenti) > -1)
+                    && (!filter.Azienda || client.Azienda === filter.Azienda)
                     && (!filter.Ambito || client.Ambito.indexOf(filter.Ambito) > -1)
             });
         },
@@ -16,20 +16,20 @@
 
 
     db.aziende = [
-        { Azienda: "", Id: 0 },
-        { Azienda: "Microsoft", Id: 1 },
-        { Azienda: "Hp", Id: 2 },
+        { Name: "", Id: 0 },
+        { Name: "Microsoft", Id: 1 },
+        { Name: "Hp", Id: 2 },
     ];
 
     db.clients = [
         {
-            "Azienda": "Microsoft",
+            "Azienda": 1,
             "Studenti": 61,
             "Ambito": ["Uno","Due","Tre"],
             "Feedback": 4,
         },
         {
-            "Azienda": "Hp",
+            "Azienda": 2,
             "Studenti": 140,
             "Ambito": ["Uno","Due","Tre"],
             "Feedback": 6,

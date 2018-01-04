@@ -80,10 +80,6 @@
             _createTextBox: function() {
                 return $("<input>").attr("type", "textarea").attr("class", "form-control")
             }
-        }), jsGrid.setDefaults("textarea", {
-            _createTextBox: function() {
-                return $("<input>").attr("type", "textarea").attr("class", "form-control")
-            }
         }), jsGrid.setDefaults("control", {
             _createGridButton: function(cls, tooltip, clickHandler) {
                 var grid = this._grid;

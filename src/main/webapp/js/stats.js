@@ -20,6 +20,14 @@ $.get("gestionePfServlet?action=topAziende&pastDays=30&limit=3", function(data, 
         });
 });
 
+$.get("gestionePfServlet?action=getNumTirociniCompletati", function(data, status){
+    document.getElementById("currentDateCompletatiValue").innerHTML = data;
+});
+
+$.get("reportStudenteServlet?action=getNumReports", function(data, status){
+    document.getElementById("currentDateReportsValue").innerHTML = data;
+});
+
 // ============================================================== 
 // Tirocini completati
 // ============================================================== 

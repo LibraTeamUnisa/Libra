@@ -79,15 +79,18 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
   }
 
   @Override
-  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status) {
+  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,
+      String status) {
     pastDays = CheckUtils.checkEmptiness(pastDays) ? pastDays : "30";
-    
+
     Calendar minDate = Calendar.getInstance();
     minDate.add(Calendar.DATE, -Integer.parseInt(pastDays));
-    return getTopAziendeFromNumStudenti(minDate.getTime(),new Date(),limit,status);
+    return getTopAziendeFromNumStudenti(minDate.getTime(), new Date(), limit, status);
   }
-  
-  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit, String status) {
+
+  @Override
+  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit,
+      String status) {
     Map<String, String> results = new HashMap<>();
 
     Calendar minDate = Calendar.getInstance();
@@ -98,24 +101,26 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     limit = CheckUtils.checkEmptiness(limit) ? limit : "3";
     status = CheckUtils.checkEmptiness(status) ? status : "4";
 
-    CriteriaBuilder cB = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Object[]> cQ = cB.createQuery(Object[].class);
-    Root<ProgettoFormativo> pF = cQ.from(ProgettoFormativo.class);
-    Join<ProgettoFormativo, Azienda> join = pF.join("azienda");
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+    Root<ProgettoFormativo> pf = cq.from(ProgettoFormativo.class);
+    Join<ProgettoFormativo, Azienda> join = pf.join("azienda");
 
-    Expression<Long> numTirocini = cB.count(join.get("utenteEmail"));
+    Expression<Long> numTirocini = cb.count(join.get("utenteEmail"));
 
-    cQ.multiselect(numTirocini, join.get("nome"));
+    cq.multiselect(numTirocini, join.get("nome"));
 
-    cQ.where(cB.equal(pF.<Integer>get("stato"), status));
+    cq.where(cb.equal(pf.<Integer>get("stato"), status));
 
-    cQ.where(cB.and(cB.greaterThanOrEqualTo(pF.<Date>get("dataInizio"), minDate.getTime())),
-        cB.lessThanOrEqualTo(pF.<Date>get("dataInizio"), new Date()));
+    cq.where(cb.and(cb.greaterThanOrEqualTo(pf.<Date>get("dataInizio"), minDate.getTime())),
+        cb.lessThanOrEqualTo(pf.<Date>get("dataInizio"), new Date()));
 
-    cQ.groupBy(join.get("nome"));
-    cQ.orderBy(cB.desc(numTirocini));
+    cq.groupBy(join.get("nome"));
+    cq.orderBy(cb.desc(numTirocini));
 
-    List<Object[]> resultList = entityManager.createQuery(cQ).setMaxResults(Integer.parseInt(limit)).getResultList();
+    List<Object[]> resultList =
+        entityManager.createQuery(cq).setMaxResults(Integer.parseInt(limit)).getResultList();
+
     // Place results in map
     for (Object[] borderTypes : resultList) {
       results.put((String) borderTypes[1], ((Long) borderTypes[0]).toString());
@@ -125,6 +130,13 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
   }
 
+  @Override
+  public Long getNumTirociniCompletati() {
+    TypedQuery<Long> query =
+        entityManager.createNamedQuery("ProgettoFormativo.countAllCompletati", Long.class);
+    return query.getSingleResult();
+
+  }
 
 
 }

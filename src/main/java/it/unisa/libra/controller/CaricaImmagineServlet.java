@@ -3,8 +3,13 @@ package it.unisa.libra.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -44,11 +49,10 @@ public class CaricaImmagineServlet extends HttpServlet {
     Utente user = utenteDao.findById(Utente.class, email);
     Part filePart = request.getPart("proPic");
     if (!filePart.getSubmittedFileName().equals("")) {
-      File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/"
-          + filePart.getSubmittedFileName());
+      File file = new File(PATH + filePart.getSubmittedFileName());
       InputStream filestream = filePart.getInputStream();
       Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      user.setImgProfilo("assets/images/users/" + filePart.getSubmittedFileName());
+      user.setImgProfilo(IMAGE_LOCATION_DB + filePart.getSubmittedFileName());
       utenteDao.persist(user);
     } else {
     }
@@ -62,4 +66,8 @@ public class CaricaImmagineServlet extends HttpServlet {
       throws ServletException, IOException {
     doGet(request, response);
   }
+
+  private static String PATH = "C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/";
+  private static String IMAGE_LOCATION_DB = "assets/images/users/";
+  private static String DATE_FORMAT = "dd-mm-yyyy_hh:mm:ss";
 }

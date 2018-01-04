@@ -8,7 +8,7 @@
 <%@page import="it.unisa.libra.bean.TutorEsterno"%>
 <%@page import="it.unisa.libra.model.jpa.AziendaJpa"%>
 <%@page import="java.util.*,it.unisa.*"%>
-
+<%@page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -216,7 +216,7 @@ function funzioneApriModal(amb) {
 													<td><%=bean.getIndirizzo()%></td>
 													<td><%=bean.getTelefono()%></td>
 													<td class="text-nowrap"><a
-														href="gestioneTutorEsterno.jsp?action=<%=Actions.MODIFICA_TUTOR_ESTERNO%>&ambito=<%=ambito%>"
+														href="gestioneTutorEsterno.jsp?action=<%=Actions.MODIFICA_TUTOR_ESTERNO%>&ambito=<%= URLEncoder.encode(ambito,"UTF-8") %>"
 														data-toggle="tooltip" data-original-title="Edit"> <i
 															class="fa fa-pencil text-inverse m-r-10"></i>
 													</a> <a href="#" onclick="funzioneApriModal('<%=ambito%>')"

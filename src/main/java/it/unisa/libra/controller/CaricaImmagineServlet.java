@@ -1,15 +1,13 @@
 package it.unisa.libra.controller;
 
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
+
 
 /**
  * Servlet implementation class CaricaImmagineServlet
@@ -54,7 +51,6 @@ public class CaricaImmagineServlet extends HttpServlet {
       Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
       user.setImgProfilo(IMAGE_LOCATION_DB + filePart.getSubmittedFileName());
       utenteDao.persist(user);
-    } else {
     }
     response.sendRedirect("profilo.jsp");
   }

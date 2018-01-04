@@ -1,12 +1,12 @@
 package it.unisa.libra.controller;
 
-
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.TutorEsterno;
 import it.unisa.libra.bean.TutorEsternoPK;
 import it.unisa.libra.model.dao.IAziendaDao;
 import it.unisa.libra.model.dao.ITutorEsternoDao;
 import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.CheckUtils;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,37 +17,31 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.TutorEsterno;
-import it.unisa.libra.bean.TutorEsternoPK;
-import it.unisa.libra.model.dao.IAziendaDao;
-import it.unisa.libra.model.dao.ITutorEsternoDao;
-import it.unisa.libra.util.Actions;
-import it.unisa.libra.util.CheckUtils;
 
 /**
  * Servlet implementation class GestioneTutorEsternoServlet. Controller class che gestisce le
  * operazioni di aggiunta, modifica e rimozione di un tutor esterno associato ad un'azienda.
  * 
- * @author Giulia Sellitto
+ * @author Giulia Sellitto, Mauro Vitale
  * @version 1.0
  */
 @WebServlet(name = "GestioneTutorEsternoServlet", urlPatterns = "/gestioneTutorEsternoServlet")
 public class GestioneTutorEsternoServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  /** gestore della persistenza per l'entità Azienda. **/
+  /** gestore della persistenza per l'entita' Azienda. **/
   @EJB
   private IAziendaDao aziendaDao;
 
-  /** gestore della persistenza per l'entità TutorEsterno. **/
+  /** gestore della persistenza per l'entita' TutorEsterno. **/
   @EJB
   private ITutorEsternoDao tutorDao;
 
   /** Default constructor. */
   public GestioneTutorEsternoServlet() {}
 
-  /** Questa servlet non fornisce servizi tramite il metodo doGet.
+  /**
+   * Questa servlet non fornisce servizi tramite il metodo doGet.
    * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
@@ -74,7 +68,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       aggiungi(request, response);
       return;
     } else if (action.equals(Actions.MODIFICA_TUTOR_ESTERNO)) {
-      aggiorna(request,response);
+      aggiorna(request, response);
+      return;
     } else if (action.equals(Actions.RIMUOVI_TUTOR_ESTERNO)) {
       rimuovi(request, response);
       return;
@@ -108,6 +103,11 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       return;
     }
     String ambito = request.getParameter("ambito");
+    if (ambito == null) {
+      // bad request
+      response.getWriter().write(BADREQUEST_MESS + " Compila tutti i campi!");
+      return;
+    }
     TutorEsternoPK idTutor = new TutorEsternoPK();
     idTutor.setAziendaEmail(emailAzienda);
     idTutor.setAmbito(ambito);
@@ -117,12 +117,23 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           + "Esiste gia' un tutor responsabile dell'ambito " + ambito);
       return;
     }
-    // creo il tutor da aggiungere
-    // i parametri sono corretti (lo assicura il check nella view)
-    TutorEsterno tutor = new TutorEsterno();
-    tutor.setId(idTutor);
-    tutor.setNome(request.getParameter("nome"));
-    tutor.setCognome(request.getParameter("cognome"));
+    // recupero i parametri dalla request e controllo che siano validi
+    String nome = request.getParameter("nome");
+    String cognome = request.getParameter("cognome");
+    String indirizzo = request.getParameter("indirizzo");
+    String telefono = request.getParameter("telefono");
+    if (nome == null || cognome == null || indirizzo == null || telefono == null) {
+      // bad request
+      response.getWriter().write(BADREQUEST_MESS + " Compila tutti i campi!");
+      return;
+    }
+    if (!ambito.matches(REGEX_AMBITO) || !nome.matches(REGEX_NOME)
+        || !cognome.matches(REGEX_COGNOME) || !indirizzo.matches(REGEX_INDIRIZZO)
+        || !telefono.matches(REGEX_TELEFONO)) {
+      // bad request
+      response.getWriter().write(BADREQUEST_MESS + " Rispetta il formato richiesto!");
+      return;
+    }
     SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
     Date dataDiNascita;
     try {
@@ -130,97 +141,102 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     } catch (ParseException e) {
       dataDiNascita = new Date();
     }
+    // creo il tutor da aggiungere
+    TutorEsterno tutor = new TutorEsterno();
+    tutor.setId(idTutor);
+    tutor.setNome(nome);
+    tutor.setCognome(cognome);
     tutor.setDataDiNascita(dataDiNascita);
-    tutor.setIndirizzo(request.getParameter("indirizzo"));
-    tutor.setTelefono(request.getParameter("telefono"));
+    tutor.setIndirizzo(indirizzo);
+    tutor.setTelefono(telefono);
     // aggiungo il tutor all'azienda
     tutorDao.persist(tutor);
     // end
     response.getWriter().write(SUCCESS_MESS);
     return;
   }
-  
+
   /**
-   * Consente di gestire la richiesta di modifica delle informazioni di un tutor associato
-   * ad un'azienda e restituisce il codice 200 nel caso in cui l'operazione sia andata a buon
-   * fine o, in caso contrario, il codice 400, a fronte dalle specifica di parametri non validi.
-   * @param request Indica l'oggetto HttpServletRequest generato dal container contenente la richiesta
-   *                inviata dal client
-   * @param response Indica l'oggetto HttpServletResponse generato dal container contenente la risposta
-   *                 inviata al client
-   * @throws IOException Lanciata nel caso in cui non è possibile ottenere il writer associato all'oggetto 
-   *                     HttpServletResponse
+   * Consente di gestire la richiesta di modifica delle informazioni di un tutor associato ad
+   * un'azienda e restituisce il codice 200 nel caso in cui l'operazione sia andata a buon fine o,
+   * in caso contrario, il codice 400, a fronte dalle specifica di parametri non validi.
+   * 
+   * @param request Indica l'oggetto HttpServletRequest generato dal container contenente la
+   *        richiesta inviata dal client
+   * @param response Indica l'oggetto HttpServletResponse generato dal container contenente la
+   *        risposta inviata al client
+   * @throws IOException Lanciata nel caso in cui non è possibile ottenere il writer associato
+   *         all'oggetto HttpServletResponse
    */
-  private void aggiorna(HttpServletRequest request,HttpServletResponse response) 
-          throws IOException
-  {
-    String idTutor=request.getParameter("idTutor");
-    String idAzienda=request.getParameter("idAzienda");
-    
-    if(CheckUtils.checkEmptiness(idTutor)&&CheckUtils.checkEmail(idAzienda)) {
-      
-      TutorEsternoPK tutorKey=new TutorEsternoPK();
+  private void aggiorna(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    String idTutor = request.getParameter("idTutor");
+    String idAzienda = request.getParameter("idAzienda");
+
+    if (CheckUtils.checkEmptiness(idTutor) && CheckUtils.checkEmail(idAzienda)) {
+
+      TutorEsternoPK tutorKey = new TutorEsternoPK();
       tutorKey.setAmbito(idTutor);
       tutorKey.setAziendaEmail(idAzienda);
-      
-      TutorEsterno tutor=tutorDao.findById(TutorEsterno.class, tutorKey);
-      if(tutor!=null) {
-        
-        String nome=request.getParameter("nome");
-        String cognome=request.getParameter("cognome");
-        String telefono=request.getParameter("telefono");
-        String data=request.getParameter("dataDiNascita");
-        String indirizzo=request.getParameter("indirizzo");
-        String ambito=request.getParameter("ambito");
-        Integer count=0;
-        
-        if(CheckUtils.checkEmptiness(ambito)) {
-            tutorKey.setAmbito(ambito);
-            boolean notSet=tutorDao.findById(TutorEsterno.class, tutorKey)==null;
-            try {
-              if(notSet) {
-                tutor.setId(tutorKey);
-                count++;
-              } else
-                throw new IllegalArgumentException();
-            } catch(IllegalArgumentException ex) {
-              response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-              response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
-              response.getWriter().flush();
-              return;
-            }
+
+      TutorEsterno tutor = tutorDao.findById(TutorEsterno.class, tutorKey);
+      if (tutor != null) {
+
+        String nome = request.getParameter("nome");
+        String cognome = request.getParameter("cognome");
+        String telefono = request.getParameter("telefono");
+        String data = request.getParameter("dataDiNascita");
+        String indirizzo = request.getParameter("indirizzo");
+        String ambito = request.getParameter("ambito");
+        Integer count = 0;
+
+        if (CheckUtils.checkEmptiness(ambito)) {
+          tutorKey.setAmbito(ambito);
+          boolean notSet = tutorDao.findById(TutorEsterno.class, tutorKey) == null;
+          try {
+            if (notSet) {
+              tutor.setId(tutorKey);
+              count++;
+            } else
+              throw new IllegalArgumentException();
+          } catch (IllegalArgumentException ex) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
+            response.getWriter().flush();
+            return;
+          }
         }
-        if(CheckUtils.checkEmptiness(nome)) {
+        if (CheckUtils.checkEmptiness(nome)) {
           tutor.setNome(nome);
           count++;
         }
-        if(CheckUtils.checkEmptiness(cognome)) {
+        if (CheckUtils.checkEmptiness(cognome)) {
           tutor.setCognome(cognome);
           count++;
         }
-        if(CheckUtils.checkTelephone(telefono)) {
+        if (CheckUtils.checkTelephone(telefono)) {
           tutor.setTelefono(telefono);
           count++;
         }
-        if(CheckUtils.checkDate(data)!=null) {
-          tutor.setDataDiNascita(CheckUtils.checkDate(data));
+        if (CheckUtils.parseDate(data) != null) {
+          tutor.setDataDiNascita(CheckUtils.parseDate(data));
           count++;
         }
-        if(CheckUtils.checkEmptiness(indirizzo)) {
+        if (CheckUtils.checkEmptiness(indirizzo)) {
           tutor.setIndirizzo(indirizzo);
           count++;
         }
-        
-        if(count==0) {
+
+        if (count == 0) {
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("Le informazioni specificate non sono corrette");
         } else {
           response.setStatus(HttpServletResponse.SC_OK);
-          response.getWriter().write("Operazione terminata. Aggionati "+count+" campi");
+          response.getWriter().write("Operazione terminata. Aggionati " + count + " campi");
         }
-        
+
         response.getWriter().flush();
-        
+
       } else {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("Il tutor specificato non è registrato a Libra");
@@ -295,6 +311,13 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   private static final String BADREQUEST_MESS = "L'operazione richiesta non e' valida.";
 
   /** messaggio restituito in caso di successo dell'operazione. **/
-  private static final String SUCCESS_MESS = "ok";
+  private static final String SUCCESS_MESS = "L'operazione e' avvenuta correttamente.";
+
+  private static final String REGEX_AMBITO = "[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+";
+  private static final String REGEX_NOME = "[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+";
+  private static final String REGEX_COGNOME = "[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+";
+  private static final String REGEX_INDIRIZZO = "[a-zA-Z]+[a-zA-Z, 0-9]*[a-zA-Z]+";
+  private static final String REGEX_TELEFONO = "[0-9]{8,11}";
+
 
 }

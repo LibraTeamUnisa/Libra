@@ -40,4 +40,9 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
   public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status);
   
   public List<ProgettoFormativo> getInOrdineCronologico();
+  
+  public List<ProgettoFormativo> findUltime10();
+
+  int contaOccorrenze();
+  
 }

@@ -69,8 +69,8 @@ public class GestioneUtenteServlet extends HttpServlet {
   private void dettaglioStudente(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     String mailStudente = request.getParameter("email-studente");
-    if (mailStudente != null && studenteDao.findById(Studente.class, mailStudente) != null) {
-      Studente s = studenteDao.findById(Studente.class, mailStudente);
+    Studente s = studenteDao.findById(Studente.class, mailStudente);
+    if (mailStudente != null && s != null) {
       ProgettoFormativo pf = pfDao.getLastProgettoFormativoByStudente(s);
       request.setAttribute("studente", s);
       request.setAttribute("progettoFormativo", pf);

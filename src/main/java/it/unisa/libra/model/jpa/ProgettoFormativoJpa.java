@@ -5,12 +5,16 @@ import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.CheckUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -128,7 +132,32 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 @Override
 public List<ProgettoFormativo> getInOrdineCronologico() {
 	TypedQuery<ProgettoFormativo> query = entityManager.createNamedQuery("ProgettoFormativo.findInOrdineCronologico", ProgettoFormativo.class);
+	Date dataInizio = new Date();
+	int anno = dataInizio.getYear()+1900;
+	Date dataFine = new Date();
+	try {
+		dataInizio = new SimpleDateFormat("yyyy-MM-dd").parse(anno+"-01-01");
+		dataFine = new SimpleDateFormat("yyyy-MM-dd").parse(anno+"-12-31");
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	query.setParameter("anno", dataInizio);
+	query.setParameter("anno2", dataFine);
 	return query.getResultList();
+}
+
+@Override
+public List<ProgettoFormativo> findUltime10() {
+	TypedQuery<ProgettoFormativo> q = entityManager.createNamedQuery("ProgettoFormativo.findUltimeDieci", ProgettoFormativo.class);
+	q.setParameter("today",new Date());
+	return q.getResultList();
+}
+
+@Override
+public int contaOccorrenze() {
+	 int count = ((Number)entityManager.createNamedQuery("ProgettoFormativo.count").getSingleResult()).intValue();
+	 return count;
 }
 
 

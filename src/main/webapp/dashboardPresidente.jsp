@@ -24,40 +24,13 @@
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	
+	int numeroProgetti = progettoFormativoDao.contaOccorrenze();
 	/*Raccolgo alcuni dati statistici*/
 	int numeroStudenti = studenteDao.contaOccorrenze();
 	int numeroAziende = aziendaDao.contaOccorrenze();
 	
-	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.getInOrdineCronologico();
-	int numeroProgettiFormativi = progettiInCorso.size();
-	
-	ProgettoFormativo progetto = null;
-	
-	boolean pass = false;
-	
-	/*Filtro la lista dei progetti formativi eliminando quelli terminati o non ancora iniziati*/
-	if(progettiInCorso!=null){
-		for(int i=0;i<progettiInCorso.size();i++){
-			if(i==9){
-				break;
-			}
-			progetto = progettiInCorso.get(i);
-			if(progetto.getDataInizio()!=null&&progetto.getDataInizio().before(new Date())){
-				if(progetto.getDataFine()==null||progetto.getDataFine().after(new Date())){
-					pass = true;
-				}
-			}
-			if(pass==false){
-				progettiInCorso.remove(i);
-				i--;
-			}
-			else{
-				pass=false;
-			}
-			
-	}
-	}
+	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.findUltime10();
+
 %>
 
 
@@ -141,18 +114,15 @@
                 <div class="row">
                     <!-- Column -->
                     <div class="col-lg-6">
-
                         <div class="card" >
-                        
                             <div class="card">
+                    
                             <h4 class="card-title" align="center"></h4>
-                                <h4 class="card-title" align="center">PROGETTI FORMATIVI IN CORSO</h4>
-                                <h6 class="card-title" align="center">Ultimi 10
+                                <h4 class="card-title" align="center">Ultimi 10 PROGETTI FORMATIVI in corso</h4>
+                                <h6 class="card-title" align="center">
                                 </h6>
                                 <div class="table-responsive m-t-40">
-                                
                                     <table class="table stylish-table">
-                                    
                                         <thead>
                                             <tr>
                                                 <th colspan="2">Azienda</th>
@@ -165,38 +135,47 @@
                                         
                                         <%
                                         /* Metto in tabella gli ultimi 10 progetti formativi*/
-                                        int numeroProgetti = 0;
+                                        
                                         if(progettiInCorso!=null && progettiInCorso.size()>0){
                                         	for(ProgettoFormativo p:progettiInCorso){
-                                        	if(numeroProgetti==10){
-                                        		break;
-                                        	}
-                                        		
                                         %>
                                         <tbody><tr>
-                                        		
+                                        		<%if(p.getAzienda()!=null&&p.getAzienda().getNome()!=null) {
+                                        		%>
+                                               <td style="width:50px;"><span class="round"><%=p.getAzienda().getNome().charAt(0) %></span></td>
+                                                <td><h6><%=p.getAzienda().getNome() %></h6></td>
+                                               <% } else{%>
                                                <td style="width:50px;"><span class="round">NA</span></td>
                                                 <td><h6>Non disponibile</h6></td>
-                                                
-                                               	 <td> <h6> Non disponibile</h6></td>
-                                               	
-                                                <td> <h6> Non disponibile</h6></td>
-                                                 
-                                                <td><span class="label label-light-success"><%=p.getAmbito() %></span></td>
-                                                
-                                                <td> <h6> Non disponibile</h6></td>
-                                               	<%
-                                        		Date inizio ;
-                                                if((inizio=p.getDataInizio())!=null){
+                                                <%} 
+                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getCognome()!=null){
                                                 %>
-                                                <td><%=(inizio.getDate()+"/"+(inizio.getMonth()+1)+"/"+(inizio.getYear()+1900)) %></td>
+                                               	 <td> <h6> <%=(p.getStudente().getNome()+" "+p.getStudente().getCognome()) %></h6></td>
+                                               	 <%} else{ %>
+                                               	 <td> <h6> Non disponibile</h6></td>
+                                               	 <%}
+                                                if(p.getTutorInterno()!=null&&p.getTutorInterno().getNome()!=null&&p.getTutorInterno().getCognome()!=null){
+                                                %>
+                                                <td> <h6> <%=(p.getTutorInterno().getNome()+" "+p.getTutorInterno().getCognome()) %></h6></td>
+                                                <%} else{ %>
+                                                <td> <h6> Non disponibile</h6></td>
+                                                 <%}
+                                                if(p.getAmbito()!=null){
+                                                %>
+                                                <td><span class="label label-light-success"><%=p.getAmbito() %></span></td>
+                                                <%} else{ %>
+                                                <td> <h6> Non disponibile</h6></td>
+                                               	<%}
+                                                if(p.getDataInizio()!=null){
+                                                %>
+                                                <td><%=(p.getDataInizio().getDate()+"/"+(p.getDataInizio().getMonth()+1)+"/"+(p.getDataInizio().getYear()+1900)) %></td>
                                                 <%}else{
                                                 	%>
                                                 	<td> <h6> Non disponibile</h6></td>
                                                <% }%> 
                                             </tr>
                                           <% 
-                                          numeroProgetti++;
+                                         
                                             	}
                                         	}
                                         
@@ -234,7 +213,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light"><%=numeroProgettiFormativi %></h1>
+                                            <h1 class="font-light"><%=numeroProgetti %></h1>
                                             <h6 class="text-muted">Progetti formativi </h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
@@ -269,45 +248,23 @@
                         /*Creo e popolo un hashmap dove per ogni mese c'è il numero dei progetti iniziati
                         in quello stesso mese*/
                  int annoCorrente = new Date().getYear()+1900;
-                 List<ProgettoFormativo> progetti = null;// progettoFormativoDao.getInOrdineCronologico();
+                 List<ProgettoFormativo> progetti = progettoFormativoDao.getInOrdineCronologico();
                  Map<Integer,String> progettiPerMese = new HashMap<Integer,String>();
                  ProgettoFormativo p = null;
                  int contaPerMese = 1;
-                 int size = 0;// progetti.size();
+                 int size = progetti.size();
                  if(progetti!=null&&size>=1){
                 	 if(size==1){
-                       	 if(progetti.get(0).getDataInizio().getYear()+1900==annoCorrente){
                        	 	progettiPerMese.put(progetti.get(0).getDataInizio().getMonth()+1,1+"");
-                       	 	
-                       	 }
                 	 }
                  	for(int j=1;j<size;j++){
                  		p = progetti.get(j);
-                 		/*Questo if serve ad escludere i progetti con anno di inizio diverso dall'anno corrente
-                 		è da sostituire con una namedquery che prende solo i progetti dell'anno corrente che al momento non riesco a fare
-                 		*/
-                 		if(p.getDataInizio().getYear()+1900!=annoCorrente&&size>1){
-                 			progetti.remove(j);
-                 			size--;
-                 			j--;
-                 			if(contaPerMese>1){
-                 				contaPerMese--;
-                 			}
-                 			p = progetti.get(j);
-                 			if(size==1){
-                              	 if(progetti.get(j).getDataInizio().getYear()+1900==annoCorrente){
-                              	 	progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,1+"");
-                              	 	
-                              	 }
-                 			}
-                 		}
-                 		
-                 			/*Se il mese del j-esimo progetto coincide con quello del j-1esimo allora possiamo incrementare
-                 			la variabile contaPerMese
-                 			Se ci troviamo nell'ultimo elemento della lista salviamo l'elemento ed il valore attuale di contaPerMese
-                 			nel HashMap
+                 		/*Se il mese del j-esimo progetto coincide con quello del j-1esimo allora possiamo incrementare
+                 		la variabile contaPerMese
+                 		Se ci troviamo nell'ultimo elemento della lista salviamo l'elemento ed il valore attuale di contaPerMese
+                 		nel HashMap
                  			*/
-                 		else if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
+                 		if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
                  				contaPerMese++;
                  				if(j==size-1){
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,contaPerMese+"");
@@ -315,7 +272,7 @@
                  				/*Nel caso i due mesi non coincidano si mette nel hasmap il numero del j-1esimo mese
                  				ed il valore attuale di contaPerMese, dopodichè si azzera contaPerMese.
                  				Nel caso si trattasse dell'ultimo elemento della lista salviamo nel hasmap entrambi i mesi(j-1,j)*/
-                 			}else {
+                 		}else {
                  				if(j==size-1){
                  					progettiPerMese.put(progetti.get(j-1).getDataInizio().getMonth()+1,contaPerMese+"");
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,1+"");
@@ -326,7 +283,7 @@
                  			}
                  		
                  		
-                 }
+                	 }
                  }
                  %>
                 <form>

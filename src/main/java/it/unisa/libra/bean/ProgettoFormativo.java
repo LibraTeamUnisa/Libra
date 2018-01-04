@@ -34,7 +34,9 @@ import javax.persistence.TemporalType;
         query = "SELECT p FROM ProgettoFormativo p WHERE p.azienda.nome=:nomeAzienda"),
     @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda", query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda"),
     @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
-    query = "SELECT p FROM ProgettoFormativo p ORDER BY p.dataInizio DESC")
+    query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.count", query = "SELECT COUNT(p) FROM ProgettoFormativo p")
 })
 
 public class ProgettoFormativo implements Serializable {

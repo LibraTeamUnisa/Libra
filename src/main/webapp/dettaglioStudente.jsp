@@ -189,8 +189,8 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 	                				<% } else { %>
 	                				<div class="row card-block">
 		                				<div class="col-md-4">
-		                					<button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button>
-		                					<button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button>
+		                					<a href="caricaPpf.jsp?id=<%= pf.getId()%>"><button <% if (pf.getStato() == 6) { %> disabled <% } %> type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button></a>
+		                					<a href="rifiutaPpf.jsp?id=<%= pf.getId()%>"><button <% if (pf.getStato() == 6) { %> disabled <% } %> type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button></a>
 		                				</div>
 		                				<div class="col-md-8">
 		                				</div>

@@ -3,18 +3,17 @@ package it.unisa.libra.model.jpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
-import java.util.List;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.bean.Utente;
+import java.util.Date;
+import java.util.List;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 
 public class ProgettoFormativoJpaTest extends GenericJpaTest {
 
@@ -99,14 +98,14 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
 
   @Test
   public void findByAziendaNomeTest() {
-    ProgettoFormativo pf = createPF();
+    ProgettoFormativo pf = createPf();
     jpaP.persist(pf);
     ProgettoFormativo toCheck =
         (ProgettoFormativo) jpaP.getProgettiFormativiByAzienda("prova").get(0);
     // assertEquals(pf, toCheck);
   }
 
-  private ProgettoFormativo createPF() {
+  private ProgettoFormativo createPf() {
     Azienda a = new Azienda();
     a.setUtenteEmail("prova@gmail.com");
     a.setNome("prova");
@@ -116,18 +115,18 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     toPersist.setAzienda(a);
     return toPersist;
   }
-  
-  private ProgettoFormativo createPFconData(Date date) {
-	    Azienda a = new Azienda();
-	    a.setUtenteEmail("prova@gmail.com");
-	    a.setNome("prova");
-	    jpaA.persist(a);
 
-	    ProgettoFormativo toPersist = new ProgettoFormativo();
-	    toPersist.setDataInizio(date);
-	    toPersist.setAzienda(a);
-	    return toPersist;
-	  }
+  private ProgettoFormativo createPFconData(Date date) {
+    Azienda a = new Azienda();
+    a.setUtenteEmail("prova@gmail.com");
+    a.setNome("prova");
+    jpaA.persist(a);
+
+    ProgettoFormativo toPersist = new ProgettoFormativo();
+    toPersist.setDataInizio(date);
+    toPersist.setAzienda(a);
+    return toPersist;
+  }
 
   private ProgettoFormativo createProgettoFormativoObject() {
     ProgettoFormativo toPersist = new ProgettoFormativo();
@@ -151,20 +150,20 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     tutor.setUtente(utente);
     return tutor;
   }
-  
+
   @Test
   public void getInOrdineCronologicoTest() {
-	  Date data = new Date();
-	  data.setDate(3);
-	  ProgettoFormativo test = createPFconData(data);
-	  Date data2 = new Date();
-	  data2.setDate(4);
-	  ProgettoFormativo test2 = createPFconData(data);
-	  jpaP.persist(test);
-	  jpaP.persist(test2);
-	  List<ProgettoFormativo> lista = jpaP.getInOrdineCronologico();
-	  assertNotNull(lista);
-	  //assertTrue(lista.get(0).getDataInizio().after(lista.get(1).getDataInizio()));
+    Date data = new Date();
+    data.setDate(3);
+    ProgettoFormativo test = createPFconData(data);
+    Date data2 = new Date();
+    data2.setDate(4);
+    ProgettoFormativo test2 = createPFconData(data);
+    jpaP.persist(test);
+    jpaP.persist(test2);
+    List<ProgettoFormativo> lista = jpaP.getInOrdineCronologico();
+    assertNotNull(lista);
+    // assertTrue(lista.get(0).getDataInizio().after(lista.get(1).getDataInizio()));
   }
-  
+
 }

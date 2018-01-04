@@ -113,8 +113,8 @@
 	  		</div>	
 	  		<br><br>
           	<div class="row">
- 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password" pattern="[A-Za-z0-9]{8-20}" required></div>
-          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword" pattern="[A-Za-z0-9]{8-20}" required></div>
+ 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password"  required></div>
+          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword" required></div>
 	  		</div>	
 	  		<br><br>
           	<div class="row" align="center">
@@ -127,7 +127,7 @@
     
      <div id="formTutorInterno" class="form-horizontal form-material" style="display: none;">
     	<form action="GestioneUtente" method="post" class="form-horizontal form-material">
-    		<input type="hidden" name="ruolo" value="Presidente">
+    		<input type="hidden" name="ruolo" value="TutorEsterno">
     		<div class="row">
   				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
 	  			<div class="col">Nome:<input placeholder="" type="text" class="form-control" id="nome" name="nome" pattern="[A-Za-z]{1,20}" value="" required></div>
@@ -148,8 +148,8 @@
 	  		</div>	
 	  		<br><br>
           	<div class="row">
- 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password" pattern="[A-Za-z0-9]{8-20}" required></div>
-          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword" pattern="[A-Za-z0-9]{8-20}" required></div>
+ 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password"  required></div>
+          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword"  required></div>
 	  		</div>	
 	  		<br><br>
           	<div class="row" align="center">
@@ -161,7 +161,7 @@
     
     <div id="formAzienda" class="form-horizontal form-material" style="display: none;">
     	<form action="GestioneUtente" method="post" class="form-horizontal form-material">
-    		<input type="hidden" name="ruolo" value="Presidente">
+    		<input type="hidden" name="ruolo" value="Azienda">
     		<div class="row">
   				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
 	  			<div class="col">Nome:<input placeholder="" type="text" class="form-control" id="nome" name="nome" pattern="[A-Za-z]{1,20}" value="" required></div>
@@ -169,7 +169,7 @@
 	  		<br><br>
 	  		<div class="row">	  	
 	  			<div class="col">Partita IVA:<input placeholder="" type="text" class="form-control" id="partitaIva2" name="partitaIva" value="" pattern="[0-9]{11}" required></div>
-	  			<div class="col">Telefono:<input placeholder="" type="text" class="form-control" id="telefono" name="telefono" value="" pattern="[0-9]{8-15}"  required></div>
+	  			<div class="col">Telefono:<input placeholder="" type="text" class="form-control" id="telefono" name="telefono" value=""   required></div>
 	  		</div>	
 	  		<br><br>
           	<div class="row">
@@ -178,8 +178,8 @@
 	  		</div>
 	  		<br><br>	
           	<div class="row">
- 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password" pattern="[A-Za-z0-9]{8-20}" required></div>
-          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword" pattern="[A-Za-z0-9]{8-20}" required></div>
+ 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password"  required></div>
+          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword"  required></div>
 	  		</div>	
 	  		<br><br>
           	<div class="row" align="center">

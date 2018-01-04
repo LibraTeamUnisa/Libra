@@ -44,7 +44,7 @@
 
 		Boolean flag = false;
 		IUtenteDao utenteDAO= (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
-		Azienda azienda = aziendaDAO.findById(Azienda.class,(String)session.getAttribute("utenteEmail")); 
+		Azienda azienda = aziendaDAO.findById(Azienda.class,(String)sessione.getAttribute("utenteEmail")); 
 			/* lista contenente tutte le proposte di progetto formativo */
 		List<ProgettoFormativo> listaProposte = progettoFormativoDAO.findAll(ProgettoFormativo.class);
 		List<ProgettoFormativo> listaProposteStudente = new ArrayList<ProgettoFormativo>();
@@ -312,6 +312,8 @@
 					%>
 	
 				</div>
+				
+				
 				
 				<div class="card wizard-card" style="padding: 1%">
 							<h4 class="card-title">Valutazioni</h4>

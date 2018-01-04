@@ -287,10 +287,19 @@
                  ProgettoFormativo p = null;
                  int contaPerMese = 1;
                  int size = progetti.size();
-                 if(progetti!=null&&size>1){
+                 if(progetti!=null&&size>=1){
+                	 if(size==1){
+                       	 if(progetti.get(0).getDataInizio().getYear()+1900==annoCorrente){
+                       	 	progettiPerMese.put(progetti.get(0).getDataInizio().getMonth()+1,1+"");
+                       	 	
+                       	 }
+                	 }
                  	for(int j=1;j<size;j++){
                  		p = progetti.get(j);
-                 		if(p.getDataInizio().getYear()+1900!=annoCorrente){
+                 		/*Questo if serve ad escludere i progetti con anno di inizio diverso dall'anno corrente
+                 		è da sostituire con una namedquery che prende solo i progetti dell'anno corrente che al momento non riesco a fare
+                 		*/
+                 		if(p.getDataInizio().getYear()+1900!=annoCorrente&&size>1){
                  			progetti.remove(j);
                  			size--;
                  			j--;
@@ -298,18 +307,20 @@
                  				contaPerMese--;
                  			}
                  			p = progetti.get(j);
+                 			if(size==1){
+                              	 if(progetti.get(j).getDataInizio().getYear()+1900==annoCorrente){
+                              	 	progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,1+"");
+                              	 	
+                              	 }
+                 			}
                  		}
-                 		if(size==1){
-                       	 if(progetti.get(0).getDataInizio().getYear()+1900==annoCorrente){
-                       	 	progettiPerMese.put(progetti.get(0).getDataInizio().getMonth()+1,1+"");
-                       	 	
-                       	 }
+                 		
                  			/*Se il mese del j-esimo progetto coincide con quello del j-1esimo allora possiamo incrementare
                  			la variabile contaPerMese
                  			Se ci troviamo nell'ultimo elemento della lista salviamo l'elemento ed il valore attuale di contaPerMese
                  			nel HashMap
                  			*/
-                 		}else if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
+                 		else if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
                  				contaPerMese++;
                  				if(j==size-1){
                  					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,contaPerMese+"");
@@ -333,7 +344,7 @@
                  %>
                 <form>
                 	<%
-                	/*Creo una form fittizia dala quale javascript potrà prendere i dati java*/
+                	/*Creo una form fittizia dala quale javascript potrà prendere i dati java per il grafico*/
                 	for(int x=0;x<12;x++){
                 		if(progettiPerMese.get(x+1)!=null){
                 	%>

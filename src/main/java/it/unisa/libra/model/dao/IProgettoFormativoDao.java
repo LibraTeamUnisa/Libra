@@ -9,6 +9,7 @@ import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 
 public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, Integer> {
+
 	
 	/**
 	   * Questo metodo permette di ottenere l'ultimo progetto formativo di uno studente, in ordine
@@ -40,4 +41,13 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
 	  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate,Date toDate, String limit, String status);
 
 	public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status);
+
+  /**
+   * Questo metodo permette di ottenere l'ultimo progetto formativo di uno studente, in ordine
+   * cronologico, in base all'id del progetto formativo.
+   * 
+   * @param studente Studente di cui si vuole ottenere l'ultimo progetto formativo.
+   * @return ultimo progetto formativo dello studente oppure null se lo studente non ha nessun
+   *         progetto formativo.
+   */
 }

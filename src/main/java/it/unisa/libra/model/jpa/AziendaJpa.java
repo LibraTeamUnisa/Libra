@@ -11,7 +11,8 @@ public class AziendaJpa extends GenericJpa<Azienda, String> implements IAziendaD
 
   @Override
   public Azienda findByName(String nome) {
-    TypedQuery <Azienda> query = entityManager.createNamedQuery("Azienda.findByName", Azienda.class);
+
+    TypedQuery <Azienda> query = entityManager.createNamedQuery("Azienda.findName", Azienda.class);
     query.setParameter("nomeAzienda", nome);
     
     if (query.getResultList().isEmpty()){
@@ -22,6 +23,13 @@ public class AziendaJpa extends GenericJpa<Azienda, String> implements IAziendaD
     }
   }
 
+@Override
+public int contaOccorrenze() {
+	 int count = ((Number)entityManager.createNamedQuery("Azienda.count").getSingleResult()).intValue();
+	 return count;
+}
+
 
   
 }
+

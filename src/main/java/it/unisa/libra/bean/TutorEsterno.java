@@ -17,10 +17,12 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+
 @NamedQueries({
 @NamedQuery(name = "TutorEsterno.findAll", query = "SELECT t FROM TutorEsterno t"),
 @NamedQuery(name = "TutorEsterno.findByAziendaNome", query = "SELECT t FROM TutorEsterno t WHERE t.azienda.nome = :nomeAzienda ")
 })
+
 public class TutorEsterno implements Serializable {
   private static final long serialVersionUID = 1L;
 

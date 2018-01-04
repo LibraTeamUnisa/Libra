@@ -5,6 +5,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 
@@ -13,7 +14,10 @@ import javax.persistence.NamedQuery;
  * 
  */
 @Entity
-@NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f")
+@NamedQueries({
+	@NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f"),
+	@NamedQuery(name="Feedback.findByType", query="SELECT f FROM Feedback f WHERE f.progettoFormativo.id = :idProgettoFormativo AND f.domanda.tipo= :tipoDomanda ORDER BY f.domanda.id")
+})
 public class Feedback implements Serializable {
   private static final long serialVersionUID = 1L;
 

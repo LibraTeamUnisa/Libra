@@ -6446,8 +6446,12 @@ a.mytooltip {
     .chat-list li .chat-content {
         width: calc(100% - 80px)
     }
+<<<<<<< HEAD
     }
 
 	.customalignment{
 		margin: 0 auto;
 	}
+=======
+}
+>>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git

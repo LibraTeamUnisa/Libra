@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 5.7.16, for Win64 (x86_64)
 --
 -- Host: localhost    Database: libra
@@ -30,7 +31,7 @@ CREATE TABLE `azienda` (
   `utenteEmail` varchar(50) NOT NULL,
   `nome` varchar(30) NOT NULL,
   `partitaIVA` varchar(15) NOT NULL,
-  `sede` varchar(100)  NOT NULL,
+  `sede` varchar(100) NOT NULL,
   `linkSito` varchar(500) NOT NULL,
   PRIMARY KEY (`utenteEmail`),
   CONSTRAINT `emailAzienda` FOREIGN KEY (`utenteEmail`) REFERENCES `utente` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -488,3 +489,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-12-18 14:17:48
+

@@ -12,5 +12,5 @@ INSERT INTO `libra`.`Presidente` (`utenteEmail`, `cognome`, `nome`, `dataDiNasci
 INSERT INTO `libra`.`Presidente` (`utenteEmail`, `cognome`, `nome`, `dataDiNascita`, `giorniDiRicevimento`, `ufficio`, `linkSito`) VALUES ('alfredo@unisa.it', 'De Santis', 'Alfredo', '1992-08-15 00:00:00', '{\"MER\":\"11.00-13.00 15.00-18.00\",\"GIO\":\"8.30-10.30\"}', 'L37', 'https://www.facebook.com/adesantis');
 	
 INSERT INTO libra.Utente (email, imgProfilo, indirizzo, password, telefono, ruolo) VALUES ('azienda@prova.it', 'xxx', 'Via delle Aziende', '123123', '0892221113', 'Azienda');
-INSERT INTO libra.Azienda (utenteEmail, nome, partitaIVA, sede, linkSito) VALUES ('azienda@prova.it', 'Azienda', 'PartIva', 'Trivio', 'www.vendoporno.it');
+INSERT INTO libra.Azienda (utenteEmail, nome, partitaIVA, sede, linkSito) VALUES ('azienda@prova.it', 'Azienda', 'PartIva', 'Trivio','www.vendopeni.it');
 INSERT INTO libra.Tutoresterno (ambito, aziendaEmail, cognome, nome, telefono, indirizzo, dataDiNascita) VALUES ('ambito', 'azienda@prova.it', 'Brazorf', 'Ajeje', '1112223331', 'via Roma, 1', '1992-08-15 00:00:00');	

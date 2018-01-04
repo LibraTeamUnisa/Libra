@@ -1,4 +1,13 @@
-# libra
+<p align="center">
+	<a href="https://travis-ci.org/LibraTeamUnisa/Libra" id="status-image-popup" title="Build on develop" name="status-images" class="open-popup" 	data-ember-action="" data-ember-action-1068="1068">
+		<img src="https://travis-ci.org/LibraTeamUnisa/Libra.svg?branch=develop">
+	</a>
+	<a href="https://codecov.io/gh/LibraTeamUnisa/Libra" class="open-popup">
+		<img src="https://codecov.io/gh/LibraTeamUnisa/Libra/branch/develop/graph/badge.svg"/>
+	</a>
+</p>
+ 
+<h1>Libra</h1>									
 
 ## Installation
 

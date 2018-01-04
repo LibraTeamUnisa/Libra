@@ -77,13 +77,19 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             <div class="row page-titles">
+            
+             	<div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Contatti Dipartimento</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                        <%
+                        if(session != null && session.getAttribute("utenteRuolo") != null){ 
+                        	String dashboard = request.getContextPath()
+                                + "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+                        %>
+                            <li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
                             <li class="breadcrumb-item active">Contatti</li>
+                        <%} %>
                         </ol>
                     </div>
                     

@@ -4,11 +4,9 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
 	<display-name>Libra</display-name>
-	
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>home.jsp</welcome-file>
 	</welcome-file-list>
-
 	<filter>
 		<display-name>FiltroUtente</display-name>
 		<filter-name>FiltroUtente</filter-name>
@@ -16,7 +14,157 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>FiltroUtente</filter-name>
-		<url-pattern>/FiltroUtente</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>ModificaPasswordServlet</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<display-name>NegaAzienda</display-name>
+		<filter-name>NegaAzienda</filter-name>
+		<filter-class>it.unisa.libra.filter.NegaAzienda</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NegaAzienda</filter-name>
+		<url-pattern>/aggiungiUtente.jsp</url-pattern>
+		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
+		<url-pattern>/catalogoAziende.jsp</url-pattern>
+		<url-pattern>/compilaReport.jsp</url-pattern>
+		<url-pattern>/dashboardPresidente.jsp</url-pattern>
+		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
+		<url-pattern>/dashboardStudente.jsp</url-pattern>
+		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/gestionePermessi.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/listaStudenti.jsp</url-pattern>
+		<url-pattern>/profiloAziendale.jsp</url-pattern>
+		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
+		<url-pattern>/registrazione.jsp</url-pattern>
+		<url-pattern>/rifiutaPpf.jsp</url-pattern>
+		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+		<display-name>NegaPresidente</display-name>
+		<filter-name>NegaPresidente</filter-name>
+		<filter-class>it.unisa.libra.filter.NegaPresidente</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NegaPresidente</filter-name>
+		<url-pattern>/aggiungiUtente.jsp</url-pattern>
+		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
+		<url-pattern>/catalogoAziende.jsp</url-pattern>
+		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
+		<url-pattern>/compilaReport.jsp</url-pattern>
+		<url-pattern>/creaPpf.jsp</url-pattern>
+		<url-pattern>/dashboardAzienda.jsp</url-pattern>
+		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
+		<url-pattern>/dashboardStudente.jsp</url-pattern>
+		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/gestionePermessi.jsp</url-pattern>
+		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/pfInviati.jsp</url-pattern>
+		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
+		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/registrazione.jsp</url-pattern>
+		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<url-pattern>/valutaStudenti.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+		<display-name>NegaSegreteria</display-name>
+		<filter-name>NegaSegreteria</filter-name>
+		<filter-class>it.unisa.libra.filter.NegaSegreteria</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NegaSegreteria</filter-name>
+		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
+		<url-pattern>/caricaPpf.jsp</url-pattern>
+		<url-pattern>/catalogoAziende.jsp</url-pattern>
+		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
+		<url-pattern>/compilaReport.jsp</url-pattern>
+		<url-pattern>/creaPpf.jsp</url-pattern>
+		<url-pattern>/dashboardAzienda.jsp</url-pattern>
+		<url-pattern>/dashboardPresidente.jsp</url-pattern>
+		<url-pattern>/dashboardStudente.jsp</url-pattern>
+		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/pfInviati.jsp</url-pattern>
+		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
+		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/registrazione.jsp</url-pattern>
+		<url-pattern>/valutaStudenti.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+		<display-name>NegaStudente</display-name>
+		<filter-name>NegaStudente</filter-name>
+		<filter-class>it.unisa.libra.filter.NegaStudente</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NegaStudente</filter-name>
+		<url-pattern>/aggiungiUtente.jsp</url-pattern>
+		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
+		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
+		<url-pattern>/creaPpf.jsp</url-pattern>
+		<url-pattern>/dashboardAzienda.jsp</url-pattern>
+		<url-pattern>/dashboardPresidente.jsp</url-pattern>
+		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
+		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/gestionePermessi.jsp</url-pattern>
+		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/listaStudenti.jsp</url-pattern>
+		<url-pattern>/pfInviati.jsp</url-pattern>
+		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/rifiutaPpf.jsp</url-pattern>
+		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<url-pattern>/valutaStudenti.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>GestioneUtenteServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+		<display-name>NegaTutorInterno</display-name>
+		<filter-name>NegaTutorInterno</filter-name>
+		<filter-class>it.unisa.libra.filter.NegaTutorInterno</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NegaTutorInterno</filter-name>
+		<url-pattern>/aggiungiUtente.jsp</url-pattern>
+		<url-pattern>/catalogoAziende.jsp</url-pattern>
+		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
+		<url-pattern>/compilaReport.jsp</url-pattern>
+		<url-pattern>/creaPpf.jsp</url-pattern>
+		<url-pattern>/dashboardAzienda.jsp</url-pattern>
+		<url-pattern>/dashboardPresidente.jsp</url-pattern>
+		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
+		<url-pattern>/dashboardStudente.jsp</url-pattern>
+		<url-pattern>/gestionePermessi.jsp</url-pattern>
+		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
+		<url-pattern>/home.jsp</url-pattern>
+		<url-pattern>/pfInviati.jsp</url-pattern>
+		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
+		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/registrazione.jsp</url-pattern>
+		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<url-pattern>/valutaStudenti.jsp</url-pattern>
+		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
+		<servlet-name>RecuperoPasswordServlet</servlet-name>
+		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
 
 </web-app>

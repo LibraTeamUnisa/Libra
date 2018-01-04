@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@page import="java.util.HashMap"%>
 	<%@page import="javax.naming.InitialContext"%>
 	<%@page import="javax.naming.Context"%>
@@ -12,12 +13,14 @@
 	<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
 	<%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
 	<%@page import="it.unisa.libra.model.dao.IFeedbackDao"%>
+	<%@page import="it.unisa.libra.model.dao.IGruppoDao"%>
 	<%@page import="it.unisa.libra.model.dao.IUtenteDao"%>
 	<%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
 	<%@page import="it.unisa.libra.bean.Studente"%>
 	<%@page import="it.unisa.libra.bean.Feedback"%>
 	<%@page import="it.unisa.libra.bean.Azienda"%>
 	<%@page import="it.unisa.libra.bean.Permesso"%>
+	<%@page import="it.unisa.libra.bean.Gruppo"%>
 	<%@page import="java.util.List"%>
 	<%@page import="java.util.ArrayList"%>
 	
@@ -32,6 +35,7 @@
 		String utenteEmail = (String) sessione.getAttribute("utenteEmail");
 		String utenteRuolo = (String) sessione.getAttribute("utenteRuolo");
 		
+		IGruppoDao gruppoDAO = (IGruppoDao) new InitialContext().lookup("java:app/Libra/GruppoJpa");
 		IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
 		IStudenteDao studenteDAO = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 		IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
@@ -273,7 +277,25 @@
 		             </div>
 	            </div>
 	            
+	            <%
 	            
+	            boolean control = false;
+	            String ruolo = (String)session.getAttribute("utenteRuolo");
+	            Gruppo gruppo = gruppoDAO.findById(Gruppo.class, ruolo);
+	            if(gruppo != null){
+	            	
+	            	List<Permesso> listaPermessi = gruppo.getPermessi();
+	            	for(Permesso p : listaPermessi){
+	            		
+	            		if(p.getTipo().contains("ricevuti")) {
+	            			
+	            			control = true;
+	            		}
+	            		
+	            	}
+	            }
+	            
+	            %>
 		
 			<div class="card wizard-card" style="padding: 1%">
 							<h4 class="card-title">Valutazioni</h4>
@@ -290,11 +312,11 @@
 										<td>
 											
 											<% 
-												if(!feedbackRicevuti.isEmpty()) {
+												if(!feedbackRicevuti.isEmpty() && (control)) {
 											   		flag=true;
 											%>
 													<p align="center">
-														<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf.getId()%>">
+														<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf1.getId()%>">
 															<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
 														</a>
 													</p>

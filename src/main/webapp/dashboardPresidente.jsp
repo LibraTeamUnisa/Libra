@@ -289,8 +289,12 @@
                  int size = progetti.size();
                  if(progetti!=null&&size>1){
                  	for(int j=1;j<size;j++){
+                 		
                  		p = progetti.get(j);
-                 		if(p.getDataInizio().getYear()+1900!=annoCorrente){
+                 		/*Questo if serve ad escludere i progetti con anno di inizio diverso dall'anno corrente
+                 		è da sostituire con una namedquery che prende solo i progetti dell'anno corrente che al momento non riesco a fare
+                 		*/
+                 		if(p.getDataInizio().getYear()+1900!=annoCorrente&&size>1){
                  			progetti.remove(j);
                  			size--;
                  			j--;
@@ -299,7 +303,7 @@
                  			}
                  			p = progetti.get(j);
                  		}
-                 		if(size==1){
+                 		else if(size==1){
                        	 if(progetti.get(0).getDataInizio().getYear()+1900==annoCorrente){
                        	 	progettiPerMese.put(progetti.get(0).getDataInizio().getMonth()+1,1+"");
                        	 	
@@ -333,7 +337,7 @@
                  %>
                 <form>
                 	<%
-                	/*Creo una form fittizia dala quale javascript potrà prendere i dati java*/
+                	/*Creo una form fittizia dala quale javascript potrà prendere i dati java per il grafico*/
                 	for(int x=0;x<12;x++){
                 		if(progettiPerMese.get(x+1)!=null){
                 	%>

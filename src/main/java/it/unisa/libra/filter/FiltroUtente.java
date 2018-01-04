@@ -1,6 +1,5 @@
 package it.unisa.libra.filter;
 
-import com.mysql.jdbc.StringUtils;
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -11,10 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.mysql.jdbc.StringUtils;
 
 /**
  * Servlet Filter implementation class FiltroUtente. Garantisce l'accesso alla risorsa richiesta
- * solo se l'utente è loggato.
+ * solo se l'utente e' loggato.
  * 
  * @see javax.servlet.Filter
  */
@@ -31,46 +31,42 @@ public class FiltroUtente implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Garantisce l'accesso alla risorsa richiesta solo se l'utente è loggato. In caso
+   * Override. Garantisce l'accesso alla risorsa richiesta solo se l'utente e' loggato. In caso
    * contrario, rimanda a una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */
-  
+
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-	  
     // evita il bug: dopo il logout, tornando indietro nel browser posso vedere ancora le pagine
     ((HttpServletResponse) response).setHeader("Cache-Control",
         "no-cache,no-store,must-revalidate");
     ((HttpServletResponse) response).setHeader("Pragma", "no-cache");
     ((HttpServletResponse) response).setDateHeader("Expires", 0);
-
+    
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
     if (!(StringUtils.isNullOrEmpty(utenteEmail))) {
-      // l'utente è loggato e può proseguire nella navigazione
+      // l'utente e' loggato e puo' proseguire nella navigazione
       chain.doFilter(request, response);
       return;
     } else {
       // ad alcune pagine possono accedere tutti, anche gli utenti non loggati
       // quindi questo filtro non deve essere applicato a queste pagine
       String path = ((HttpServletRequest) request).getRequestURI();
-      
       if (path.endsWith(JspPagesIndex.ACCESSO_NEGATO) || path.endsWith(JspPagesIndex.HOME)
           || path.endsWith(JspPagesIndex.REGISTRAZIONE) || path.equals("/Libra/")) {
         chain.doFilter(request, response);
         return;
       } else {
-
-        // l'utente non è loggato ma desidera accedere a una pagina protetta
+        // l'utente non e' loggato ma desidera accedere a una pagina protetta
         ((HttpServletResponse) response).sendRedirect(
             ((HttpServletRequest) request).getContextPath() + JspPagesIndex.ACCESSO_NEGATO);
         return;
-        
       }
     }
-    
+
 
   }
 

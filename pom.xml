@@ -4,7 +4,7 @@
 	<groupId>it.unisa</groupId>
 	<artifactId>libra</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Libra</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
@@ -43,9 +43,9 @@
 			<version>5.1.6</version>
 		</dependency>
 		<dependency>
-			<groupId>com.codesnippets4all</groupId>
-			<artifactId>quick-json</artifactId>
-			<version>1.0.4</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
 		</dependency>
 		<!-- SENDING MAIL -->
 		<dependency>

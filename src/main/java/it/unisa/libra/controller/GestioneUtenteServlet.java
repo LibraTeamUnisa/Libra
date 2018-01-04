@@ -9,15 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.hibernate.Hibernate;
 
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.IStudenteDao;
-import it.unisa.libra.model.jpa.StudenteJpa;
 import it.unisa.libra.util.Actions;
 
 /** Servlet implementation class AutenticazioneServlet */

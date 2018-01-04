@@ -1,13 +1,10 @@
 package it.unisa.libra.controller;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -24,9 +21,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.util.Actions;
 
 public class GestionePfServletTest {

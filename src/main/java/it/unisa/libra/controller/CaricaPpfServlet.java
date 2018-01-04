@@ -58,11 +58,11 @@ public class CaricaPpfServlet extends HttpServlet {
      * possiede il ruolo di Azienda */
     if (ruolo.contains("Azienda")) {
       String nomeFile = "PF" + (String)request.getParameter("studente") + ".pdf";
-      File file = new File("C:/Users/Umberto/Desktop/wildfly-11.0.0.Final/wildfly-11.0.0.Final/ProposteFormative/" + nomeFile); 
+      /* File file = new File("C:/Users/Umberto/Desktop/wildfly-11.0.0.Final/wildfly-11.0.0.Final/ProposteFormative/" + nomeFile); */ 
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      /* InputStream filestream = filePart.getInputStream();
+         Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING); */
 
       String note = (String)request.getParameter("note");
       String ambito = (String)request.getParameter("ambito");
@@ -81,7 +81,7 @@ public class CaricaPpfServlet extends HttpServlet {
 
       proposta.setAmbito(ambito);
       proposta.setNote(note);
-      proposta.setDocumento(file.getPath());
+      proposta.setDocumento("none");
       proposta.setStato(1);
 
       Date today = new Date();
@@ -117,11 +117,11 @@ public class CaricaPpfServlet extends HttpServlet {
         return;
       }
 
-      File file = new File(filePath); 
+      /* File file = new File(filePath); */
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      /* InputStream filestream = filePart.getInputStream();
+         Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING); */
 
       String note = (String)request.getParameter("note");
       String tutorInternoMail = request.getParameter("tutorInterno");
@@ -157,11 +157,11 @@ public class CaricaPpfServlet extends HttpServlet {
         return;
       }
 
-      File file = new File(filePath); 
+      /* File file = new File(filePath); */ 
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      /* InputStream filestream = filePart.getInputStream();
+         Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING); */
       proposta.setStato(3); 
 
       propostaDao.persist(proposta);
@@ -191,11 +191,11 @@ public class CaricaPpfServlet extends HttpServlet {
         return;
       }
 
-      File file = new File(filePath); 
+      /* File file = new File(filePath); */
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      /* InputStream filestream = filePart.getInputStream();
+         Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING); */
       proposta.setStato(4);
 
       /* memorizzo la proposta nel database */

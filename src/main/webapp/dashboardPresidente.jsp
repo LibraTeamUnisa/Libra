@@ -174,35 +174,22 @@
                                         		
                                         %>
                                         <tbody><tr>
-                                        		<%if(p.getAzienda()!=null&&p.getAzienda().getNome()!=null) {
-                                        		%>
-                                               <td style="width:50px;"><span class="round"><%=p.getAzienda().getNome().charAt(0) %></span></td>
-                                                <td><h6><%=p.getAzienda().getNome() %></h6></td>
-                                               <% } else{%>
+                                        		
                                                <td style="width:50px;"><span class="round">NA</span></td>
                                                 <td><h6>Non disponibile</h6></td>
-                                                <%} 
-                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getCognome()!=null){
-                                                %>
-                                               	 <td> <h6> <%=(p.getStudente().getNome()+" "+p.getStudente().getCognome()) %></h6></td>
-                                               	 <%} else{ %>
+                                                
                                                	 <td> <h6> Non disponibile</h6></td>
-                                               	 <%}
-                                                if(p.getTutorInterno()!=null&&p.getTutorInterno().getNome()!=null&&p.getTutorInterno().getCognome()!=null){
-                                                %>
-                                                <td> <h6> <%=(p.getTutorInterno().getNome()+" "+p.getTutorInterno().getCognome()) %></h6></td>
-                                                <%} else{ %>
+                                               	
                                                 <td> <h6> Non disponibile</h6></td>
-                                                 <%}
-                                                if(p.getAmbito()!=null){
-                                                %>
+                                                 
                                                 <td><span class="label label-light-success"><%=p.getAmbito() %></span></td>
-                                                <%} else{ %>
+                                                
                                                 <td> <h6> Non disponibile</h6></td>
-                                               	<%}
-                                                if(p.getDataInizio()!=null){
+                                               	<%
+                                        		Date inizio ;
+                                                if((inizio=p.getDataInizio())!=null){
                                                 %>
-                                                <td><%=(p.getDataInizio().getDate()+"/"+(p.getDataInizio().getMonth()+1)+"/"+(p.getDataInizio().getYear()+1900)) %></td>
+                                                <td><%=(inizio.getDate()+"/"+(inizio.getMonth()+1)+"/"+(inizio.getYear()+1900)) %></td>
                                                 <%}else{
                                                 	%>
                                                 	<td> <h6> Non disponibile</h6></td>
@@ -282,11 +269,11 @@
                         /*Creo e popolo un hashmap dove per ogni mese c'è il numero dei progetti iniziati
                         in quello stesso mese*/
                  int annoCorrente = new Date().getYear()+1900;
-                 List<ProgettoFormativo> progetti = progettoFormativoDao.getInOrdineCronologico();
+                 List<ProgettoFormativo> progetti = null;// progettoFormativoDao.getInOrdineCronologico();
                  Map<Integer,String> progettiPerMese = new HashMap<Integer,String>();
                  ProgettoFormativo p = null;
                  int contaPerMese = 1;
-                 int size = progetti.size();
+                 int size = 0;// progetti.size();
                  if(progetti!=null&&size>=1){
                 	 if(size==1){
                        	 if(progetti.get(0).getDataInizio().getYear()+1900==annoCorrente){

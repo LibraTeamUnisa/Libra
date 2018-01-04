@@ -1,5 +1,10 @@
 package it.unisa.libra.model.jpa;
 
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.CheckUtils;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,11 +17,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.CheckUtils;
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>

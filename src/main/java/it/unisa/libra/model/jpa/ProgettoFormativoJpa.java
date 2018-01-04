@@ -1,11 +1,13 @@
 package it.unisa.libra.model.jpa;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -125,9 +127,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     for (Object[] borderTypes : resultList) {
       results.put((String) borderTypes[1], ((Long) borderTypes[0]).toString());
     }
-
     return results;
-
   }
 
   @Override
@@ -135,8 +135,58 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     TypedQuery<Long> query =
         entityManager.createNamedQuery("ProgettoFormativo.countAllCompletati", Long.class);
     return query.getSingleResult();
-
   }
 
+  public List<Map<String, String>> countByAziendaAndDate(Date fromDate, Date toDate, String limit,
+      String status) {
+    List<Map<String, String>> resultList = new ArrayList<>();
+
+    Calendar minDate = Calendar.getInstance();
+    minDate.add(Calendar.DATE, -30);
+
+    fromDate = fromDate == null ? minDate.getTime() : fromDate;
+    toDate = toDate == null ? new Date() : toDate;
+    limit = CheckUtils.checkEmptiness(limit) ? limit : null;
+    status = CheckUtils.checkEmptiness(status) ? status : null;
+
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+    Root<ProgettoFormativo> pf = cq.from(ProgettoFormativo.class);
+    Join<ProgettoFormativo, Azienda> join = pf.join("azienda");
+
+    Expression<String> month =
+        cb.concat(cb.function("MONTH", String.class, pf.get("dataInizio")), " ");
+    month = cb.concat(month, cb.function("YEAR", String.class, pf.get("dataInizio")));
+
+    Expression<Long> numTirocini = cb.count(pf.get("id"));
+
+    cq.multiselect(join.get("nome"), month, numTirocini);
+
+    if (status != null) {
+      cq.where(cb.equal(pf.<Integer>get("stato"), status));
+    }
+
+    cq.groupBy(pf.get("azienda"), month);
+    cq.orderBy(cb.asc(join.get("nome")), cb.asc(pf.get("dataInizio")));
+
+    Query query = entityManager.createQuery(cq);
+
+    if (limit != null) {
+      query.setMaxResults(Integer.parseInt(limit));
+    }
+
+    List<Object[]> result = query.getResultList();
+
+    // Place results in map
+    for (Object[] borderTypes : result) {
+      Map<String, String> map = new HashMap<>();
+      map.put("ragioneSociale", (String) borderTypes[0]);
+      map.put("meseInizio", (String) borderTypes[1]);
+      map.put("numStudenti", ((Long) borderTypes[2]).toString());
+      resultList.add(map);
+    }
+
+    return resultList;
+  }
 
 }

@@ -1,8 +1,7 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -44,6 +43,19 @@ public class GestionePfServlet extends HttpServlet {
         Long numTirocini = progettoFormativoDao.getNumTirociniCompletati();
         if (numTirocini != null) {
           response.getWriter().write(numTirocini.toString());
+        }
+      }
+      if (request.getParameter(Actions.ACTION).equals(Actions.PF_COUNT_BY_AZIENDA)) {
+        String fromDate = request.getParameter("fromDate");
+        String toDate = request.getParameter("toDate");
+        String limit = request.getParameter("limit");
+        String status = request.getParameter("status");
+
+        List<Map<String, String>> list = progettoFormativoDao.countByAziendaAndDate(
+            CheckUtils.parseDateWithPattern(fromDate, "dd/MM/yyyy"),
+            CheckUtils.parseDateWithPattern(toDate, "dd/MM/yyyy"), limit, status);
+        if (list != null) {
+          response.getWriter().write(JsonUtils.parseListToJson(list));
         }
       }
     }

@@ -1,4 +1,14 @@
 //DonutBar dei nuovi tirocinanti
+function compareMonth(a,b) {
+	a = parseInt(a);
+	b = parseInt(b);
+  if (a < b)
+    return -1;
+  if (a > b)
+    return 1;
+  return 0;
+}
+
 $.get("gestionePfServlet?action=topAziende&pastDays=30&limit=3", function(data, status){
 		var result = [];
 		var colors = ['text-warning','text-danger','text-info']
@@ -26,6 +36,179 @@ $.get("gestionePfServlet?action=getNumTirociniCompletati", function(data, status
 
 $.get("reportStudenteServlet?action=getNumReports", function(data, status){
     document.getElementById("currentDateReportsValue").innerHTML = data;
+});
+
+$.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDate='01/01/2020'", function(data, status){
+	data = JSON.parse(data);
+	
+	if(!data)
+		return;
+	
+	var labelSets = new Set();
+	var series = new Array();
+	series.push(new Array());
+	var lastRagSoc = data[0].ragioneSociale;
+	var minValue = parseInt(data[0].numStudenti);
+	var maxValue = parseInt(data[0].numStudenti);
+	
+	for(var i = 0;i<data.length;i++){
+		var numStudenti = parseInt(data[i].numStudenti);
+		var meseInizio = data[i].meseInizio;
+		var ragSoc = data[i].ragioneSociale;
+		
+		labelSets.add(meseInizio);
+		
+		if(lastRagSoc != ragSoc){
+			lastRagSoc = ragSoc;
+			series.push(new Array());
+		}
+		
+		if(minValue > numStudenti)
+			minValue = numStudenti;
+		if(maxValue < numStudenti)
+			maxValue = numStudenti;
+
+		series[series.length -1].push(numStudenti);
+	}
+	var labels = Array.from(labelSets).sort(compareMonth);
+	console.log(labels);
+	console.log(series);
+	
+	// ct-animation-chart
+
+	var chart = new Chartist.Line('.ct-animation-chart', {
+	  labels: labels,
+	  series: series
+	}, {
+	  low: minValue - 2
+	});
+
+	// Let's put a sequence number aside so we can use it in the event callbacks
+	var seq = 0,
+	  delays = 80,
+	  durations = 500;
+
+	// Once the chart is fully created we reset the sequence
+	chart.on('created', function() {
+	  seq = 0;
+	});
+
+	// On each drawn element by Chartist we use the Chartist.Svg API to trigger SMIL animations
+	chart.on('draw', function(data) {
+	  seq++;
+
+	  if(data.type === 'line') {
+	    // If the drawn element is a line we do a simple opacity fade in. This could also be achieved using CSS3 animations.
+	    data.element.animate({
+	      opacity: {
+	        // The delay when we like to start the animation
+	        begin: seq * delays + 1000,
+	        // Duration of the animation
+	        dur: durations,
+	        // The value where the animation should start
+	        from: 0,
+	        // The value where it should end
+	        to: 1
+	      }
+	    });
+	  } else if(data.type === 'label' && data.axis === 'x') {
+	    data.element.animate({
+	      y: {
+	        begin: seq * delays,
+	        dur: durations,
+	        from: data.y + 100,
+	        to: data.y,
+	        // We can specify an easing function from Chartist.Svg.Easing
+	        easing: 'easeOutQuart'
+	      }
+	    });
+	  } else if(data.type === 'label' && data.axis === 'y') {
+	    data.element.animate({
+	      x: {
+	        begin: seq * delays,
+	        dur: durations,
+	        from: data.x - 100,
+	        to: data.x,
+	        easing: 'easeOutQuart'
+	      }
+	    });
+	  } else if(data.type === 'point') {
+	    data.element.animate({
+	      x1: {
+	        begin: seq * delays,
+	        dur: durations,
+	        from: data.x - 10,
+	        to: data.x,
+	        easing: 'easeOutQuart'
+	      },
+	      x2: {
+	        begin: seq * delays,
+	        dur: durations,
+	        from: data.x - 10,
+	        to: data.x,
+	        easing: 'easeOutQuart'
+	      },
+	      opacity: {
+	        begin: seq * delays,
+	        dur: durations,
+	        from: 0,
+	        to: 1,
+	        easing: 'easeOutQuart'
+	      }
+	    });
+	  } else if(data.type === 'grid') {
+	    // Using data.axis we get x or y which we can use to construct our animation definition objects
+	    var pos1Animation = {
+	      begin: seq * delays,
+	      dur: durations,
+	      from: data[data.axis.units.pos + '1'] - 30,
+	      to: data[data.axis.units.pos + '1'],
+	      easing: 'easeOutQuart'
+	    };
+
+	    var pos2Animation = {
+	      begin: seq * delays,
+	      dur: durations,
+	      from: data[data.axis.units.pos + '2'] - 100,
+	      to: data[data.axis.units.pos + '2'],
+	      easing: 'easeOutQuart'
+	    };
+
+	    var animations = {};
+	    animations[data.axis.units.pos + '1'] = pos1Animation;
+	    animations[data.axis.units.pos + '2'] = pos2Animation;
+	    animations['opacity'] = {
+	      begin: seq * delays,
+	      dur: durations,
+	      from: 0,
+	      to: 1,
+	      easing: 'easeOutQuart'
+	    };
+
+	    data.element.animate(animations);
+	  }
+	});
+	
+	new Chartist.Line('.total-revenue4', {
+        labels: labels
+        , series: series
+    }, {
+        high: maxValue + 3
+        , low: minValue - 3
+        , showArea: true
+        , fullWidth: true
+        , scaleMinSpace: 20
+        , plugins: [
+        Chartist.plugins.tooltip()
+      ], // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
+        axisY: {
+            onlyInteger: true
+            , offset: 20
+            , labelInterpolationFnc: function (value) {
+                return (value / 1);
+            }
+        }
+    });	
 });
 
 // ============================================================== 

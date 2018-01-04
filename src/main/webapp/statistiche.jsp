@@ -47,6 +47,18 @@
 #topLast30Days svg {
 	height: 345px;
 }
+
+@media ( min-width : 768px) {
+	.marginmd {
+		margin-top: 5px;
+	}
+}
+
+@media ( max-width : 767px) {
+	.marginmd {
+		margin-top: 5px;
+	}
+}
 </style>
 </head>
 
@@ -157,7 +169,7 @@
 										</h1>
 									</div>
 									<div>
-										<h3 class="card-title">Report generati</h3>
+										<h3 class="card-title">Report creati</h3>
 										<h6 id="currentDateReports" class="card-subtitle"></h6>
 									</div>
 								</div>
@@ -175,13 +187,13 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-12 col-md-12">
+					<div class="col-lg-12 col-md-12 col-xs-12">
 						<div class="card">
 							<div class="card-block">
 								<h4 class="card-title text-center">Valutazioni generali
 									degli studenti</h4>
 								<div class="row">
-									<div class="col-lg-3 col-sm-6">
+									<div class="col-lg-3 col-md-6 col-xs-12 marginmd">
 										<div class="row">
 											<label for="name" class="align-self-center col-3">Azienda</label>
 											<div class="col-9">
@@ -189,7 +201,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-3 col-sm-offset-1 col-sm-6">
+									<div class="col-lg-3 col-md-6 col-xs-12 marginmd">
 										<div class="row">
 											<div class="btn-group" data-toggle="buttons"
 												style="margin: auto;">
@@ -206,7 +218,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-3 col-sm-6">
+									<div class="col-lg-3 col-md-6 col-xs-12 marginmd">
 										<div class="row">
 											<label for="name" class="align-self-center col-2">Dal</label>
 											<div class="col-10">
@@ -214,7 +226,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-3 col-sm-6">
+									<div class="col-lg-3 col-md-6 col-xs-12 marginmd">
 										<div class="row">
 											<label for="name" class="align-self-center col-2">Al</label>
 											<div class="col-10">
@@ -222,6 +234,8 @@
 											</div>
 										</div>
 									</div>
+								</div>
+								<div class="row">
 									<div class="col-12" style="margin-top: 10px;">
 										<ul class="list-inline pull-right">
 											<li>
@@ -238,9 +252,14 @@
 										<h3>Revenue Statistics</h3>
 										<h6 class="card-subtitle">January 2017</h6>
 									</div>
+								</div>
+								<div class="row">
 									<div class="col-12">
-										<div class="total-revenue4" style="height: 350px;"></div>
+										<!-- <div class="total-revenue4" style="height: 350px;"></div> -->
+										<div class="ct-animation-chart" style="height: 400px;"></div>
 									</div>
+								</div>
+								<div class="row">
 									<div class="col-12">
 										<!-- Column -->
 										<h4 class="card-title"></h4>
@@ -296,12 +315,12 @@
 		src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
 	<!-- Chart JS -->
 	<script src="assets/plugins/echarts/echarts-all.js"></script>
-	<script src="js/dashboard5.js"></script>
 	<!--Morris JavaScript -->
 	<script src="assets/plugins/raphael/raphael-min.js"></script>
 	<script src="assets/plugins/morrisjs/morris.js"></script>
 	<script src="assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-	<script src="js/stats.js"></script>
+	<script type="text/javascript"
+		src="assets/plugins/jsgrid/dist/jsgrid.min.js"></script>
 	<script src="js/jQuery.date.js"></script>
 	<script>
 		var date = $.date('F Y');
@@ -309,12 +328,9 @@
 		document.getElementById("currentDateReports").innerHTML = date;
 	</script>
 
+	<script src="js/stats.js"></script>
 	<script src="assets/plugins/jsgrid/db.js"></script>
-	<script type="text/javascript"
-		src="assets/plugins/jsgrid/dist/jsgrid.min.js"></script>
 	<script src="js/stats-jsgrid-init.js"></script>
-
-	<script src="js/widget-charts.js"></script>
 
 	<!-- ============================================================== -->
 	<!-- Style switcher -->

@@ -40,5 +40,8 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
   public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status);
   
   public Long getNumTirociniCompletati();
+  
+  public List<Map<String, String>> countByAziendaAndDate(Date fromDate, Date toDate, String limit,
+      String status);
 
 }

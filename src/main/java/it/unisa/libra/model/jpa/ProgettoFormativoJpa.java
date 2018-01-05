@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
@@ -142,7 +143,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     List<Map<String, String>> resultList = new ArrayList<>();
 
     Calendar minDate = Calendar.getInstance();
-    minDate.add(Calendar.DATE, -30);
+    minDate.add(Calendar.YEAR, -1);
 
     fromDate = fromDate == null ? minDate.getTime() : fromDate;
     toDate = toDate == null ? new Date() : toDate;
@@ -153,6 +154,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
     Root<ProgettoFormativo> pf = cq.from(ProgettoFormativo.class);
     Join<ProgettoFormativo, Azienda> join = pf.join("azienda");
+    List<Predicate> listPred = new ArrayList<>();
 
     Expression<String> month =
         cb.concat(cb.function("MONTH", String.class, pf.get("dataInizio")), " ");
@@ -162,12 +164,29 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
     cq.multiselect(join.get("nome"), month, numTirocini);
 
-    if (status != null) {
-      cq.where(cb.equal(pf.<Integer>get("stato"), status));
+    Boolean tirIniziati = stringToBoolean(status);
+    if (tirIniziati != null) {
+      if (tirIniziati) {
+        listPred.add(cb.isNull(pf.<Integer>get("dataFine")));
+      } else {
+        listPred.add(cb.isNotNull(pf.<Integer>get("dataFine")));
+      }
     }
-    if (CheckUtils.checkEmptiness(ragSoc)) {
-      cq.where(cb.like(join.<String>get("nome"), ragSoc + "%"));
+
+    String[] listRagSoc = getAziendeFromString(ragSoc);
+    if (listRagSoc != null && listRagSoc.length > 0) {
+      Predicate[] listPreds = new Predicate[listRagSoc.length];
+      for (int i = 0; i < listRagSoc.length; i++) {
+        listPreds[i] = (cb.like(join.<String>get("nome"), listRagSoc[i] + "%"));
+      }
+      listPred.add(cb.or(listPreds));
     }
+
+    listPred.add(cb.greaterThanOrEqualTo(pf.<Date>get("dataInizio"), fromDate));
+    listPred.add(cb.lessThanOrEqualTo(pf.<Date>get("dataInizio"), toDate));
+
+    Predicate[] preds = new Predicate[listPred.size() - 1];
+    cq.where(cb.and(listPred.toArray(preds)));
 
     cq.groupBy(pf.get("azienda"), month);
     cq.orderBy(cb.asc(join.get("nome")), cb.asc(pf.get("dataInizio")));
@@ -192,4 +211,18 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     return resultList;
   }
 
+  private String[] getAziendeFromString(String aziende) {
+    if (!CheckUtils.checkEmptiness(aziende)) {
+      return null;
+    }
+
+    return aziende.split(" ");
+  }
+
+  private Boolean stringToBoolean(String str) {
+    if (!CheckUtils.checkEmptiness(str)) {
+      return null;
+    }
+    return Boolean.parseBoolean(str);
+  }
 }

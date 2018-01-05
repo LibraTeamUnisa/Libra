@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +66,7 @@ public class CheckUtils {
    * @return Restituisce un <code>Date</code> rappresentante la data convertita dalla stringa.
    */
   public static Date parseDateWithPattern(String date, String pattern) {
-    DateFormat format = new SimpleDateFormat(pattern);
+    DateFormat format = new SimpleDateFormat(pattern,Locale.ITALY);
     try {
       return format.parse(date);
     } catch (Exception ex) {

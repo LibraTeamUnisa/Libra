@@ -138,7 +138,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
   }
 
   public List<Map<String, String>> countByAziendaAndDate(Date fromDate, Date toDate, String limit,
-      String status) {
+      String status, String ragSoc) {
     List<Map<String, String>> resultList = new ArrayList<>();
 
     Calendar minDate = Calendar.getInstance();
@@ -164,6 +164,9 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
     if (status != null) {
       cq.where(cb.equal(pf.<Integer>get("stato"), status));
+    }
+    if (CheckUtils.checkEmptiness(ragSoc)) {
+      cq.where(cb.like(join.<String>get("nome"), ragSoc + "%"));
     }
 
     cq.groupBy(pf.get("azienda"), month);

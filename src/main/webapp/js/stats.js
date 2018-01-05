@@ -1,4 +1,6 @@
 //DonutBar dei nuovi tirocinanti
+var tId;
+
 function compareMonth(a,b) {
 	a = parseInt(a);
 	b = parseInt(b);
@@ -8,7 +10,6 @@ function compareMonth(a,b) {
     return 1;
   return 0;
 }
-
 $.get("gestionePfServlet?action=topAziende&pastDays=30&limit=3", function(data, status){
 		var result = [];
 		var colors = ['text-warning','text-danger','text-info']
@@ -41,16 +42,82 @@ $.get("reportStudenteServlet?action=getNumReports", function(data, status){
 $.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDate='01/01/2020'", function(data, status){
 	data = JSON.parse(data);
 	
-	if(!data)
+	if(!data || data.length == 0){
+		$('#errorFilt').show()
 		return;
+	}
 	
+	updateAnimatedChart(data);
+});
+
+// ============================================================== 
+// Tirocini completati
+// ============================================================== 
+$(function () {
+new Chartist.Line('.usage', {
+    labels: ['0', '4', '8', '12', '16', '20', '24', '30']
+    , series: [
+    [5, 0, 12, 1, 8, 3, 12, 15]
+
+  ]
+}, {
+    high: 13
+    , low: 0
+    , showArea: true
+    , fullWidth: true
+    , plugins: [
+    Chartist.plugins.tooltip()
+  ], // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
+    axisY: {
+        onlyInteger: true
+        , offset: 20
+        , showLabel: false
+        , showGrid: false
+        , labelInterpolationFnc: function (value) {
+            return (value / 1) + 'k';
+        }
+    }
+    , axisX: {
+        showLabel: false
+        , divisor: 2
+        , showGrid: false
+        , offset: 0
+    }
+});
+//============================================================== 
+// Report generati
+// ============================================================== 
+var sparklineLogin = function () {
+    $('.spark-count').sparkline([4, 5, 0, 10, 9, 12, 4, 9, 4, 5, 3, 10, 9, 12, 10, 9, 12, 4, 9], {
+        type: 'bar'
+        , width: '100%'
+        , height: '100'
+        , barWidth: '8'
+        , resize: true
+        , barSpacing: '5'
+        , barColor: 'rgba(255, 255, 255, 0.3)'
+    });
+}
+var sparkResize;
+$(window).resize(function (e) {
+    clearTimeout(sparkResize);
+    sparkResize = setTimeout(sparklineLogin, 500);
+});
+sparklineLogin();
+});
+
+var updateAnimatedChart = (data) =>{
+	$('#errorFilt').hide();
+	
+	var colors = ['text-info','text-danger','text-success','text-warning'];
 	var labelSets = new Set();
 	var series = new Array();
 	series.push(new Array());
-	var lastRagSoc = data[0].ragioneSociale;
+	var listRagSoc = new Array();
+	listRagSoc.push(data[0].ragioneSociale);
 	var minValue = parseInt(data[0].numStudenti);
 	var maxValue = parseInt(data[0].numStudenti);
-	
+		
 	for(var i = 0;i<data.length;i++){
 		var numStudenti = parseInt(data[i].numStudenti);
 		var meseInizio = data[i].meseInizio;
@@ -58,8 +125,10 @@ $.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDa
 		
 		labelSets.add(meseInizio);
 		
-		if(lastRagSoc != ragSoc){
-			lastRagSoc = ragSoc;
+		if(listRagSoc[listRagSoc.length -1] != ragSoc){
+			if(series.length > 3)
+				break;
+			listRagSoc.push(ragSoc);
 			series.push(new Array());
 		}
 		
@@ -71,8 +140,11 @@ $.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDa
 		series[series.length -1].push(numStudenti);
 	}
 	var labels = Array.from(labelSets).sort(compareMonth);
-	console.log(labels);
-	console.log(series);
+	$('#listAziendeAnim').html("");
+	for(var ragSoc in listRagSoc){
+		var list = '<li><h6 class="text-muted"><i class="fa fa-circle m-r-5 '+colors[ragSoc]+'"></i>'+listRagSoc[ragSoc]+'</h6></li>';
+		$('#listAziendeAnim').append(list);
+	}
 	
 	// ct-animation-chart
 
@@ -188,83 +260,32 @@ $.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDa
 	    data.element.animate(animations);
 	  }
 	});
+};
+
+var onFilterChanged = function(){
+	clearTimeout(tId);
 	
-	new Chartist.Line('.total-revenue4', {
-        labels: labels
-        , series: series
-    }, {
-        high: maxValue + 3
-        , low: minValue - 3
-        , showArea: true
-        , fullWidth: true
-        , scaleMinSpace: 20
-        , plugins: [
-        Chartist.plugins.tooltip()
-      ], // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
-        axisY: {
-            onlyInteger: true
-            , offset: 20
-            , labelInterpolationFnc: function (value) {
-                return (value / 1);
-            }
-        }
-    });	
-});
+	var stato = $('input[name=options]:checked', '#statusRad').val();
+	if(!stato)
+		stato = ''
+			
+	var ragSoc = $('#ragSocFilt').val();
+	var dal = $('#dalFilt').val();
+	var al = $('#alFilt').val();
+	
+	tId=setTimeout(function () {$.get("gestionePfServlet?action=countByAziendaAndDate" +
+			"&fromDate="+dal+"&toDate="+al+"&ragSoc="+ragSoc+"&status="+stato,function(data,status){
+		data = JSON.parse(data);
+		
+		if(!data || data.length == 0){
+			$('#errorFilt').show();
+			return;
+		}
+		
+		updateAnimatedChart(data);
+	})},1000);
+};
 
-// ============================================================== 
-// Tirocini completati
-// ============================================================== 
-$(function () {
-new Chartist.Line('.usage', {
-    labels: ['0', '4', '8', '12', '16', '20', '24', '30']
-    , series: [
-    [5, 0, 12, 1, 8, 3, 12, 15]
+$('#ragSocFilt').bind('input propertychange', () => onFilterChanged());
 
-  ]
-}, {
-    high: 13
-    , low: 0
-    , showArea: true
-    , fullWidth: true
-    , plugins: [
-    Chartist.plugins.tooltip()
-  ], // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
-    axisY: {
-        onlyInteger: true
-        , offset: 20
-        , showLabel: false
-        , showGrid: false
-        , labelInterpolationFnc: function (value) {
-            return (value / 1) + 'k';
-        }
-    }
-    , axisX: {
-        showLabel: false
-        , divisor: 2
-        , showGrid: false
-        , offset: 0
-    }
-});
-//============================================================== 
-// Report generati
-// ============================================================== 
-var sparklineLogin = function () {
-    $('.spark-count').sparkline([4, 5, 0, 10, 9, 12, 4, 9, 4, 5, 3, 10, 9, 12, 10, 9, 12, 4, 9], {
-        type: 'bar'
-        , width: '100%'
-        , height: '100'
-        , barWidth: '8'
-        , resize: true
-        , barSpacing: '5'
-        , barColor: 'rgba(255, 255, 255, 0.3)'
-    });
-}
-var sparkResize;
-$(window).resize(function (e) {
-    clearTimeout(sparkResize);
-    sparkResize = setTimeout(sparklineLogin, 500);
-});
-sparklineLogin();
-
-
-});
+$('input[name=options]', '#statusRad').change(() => onFilterChanged());

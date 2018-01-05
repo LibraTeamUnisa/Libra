@@ -204,15 +204,15 @@
 									<div class="col-lg-3 col-md-6 col-xs-12 marginmd">
 										<div class="row">
 											<div class="btn-group" data-toggle="buttons"
-												style="margin: auto;">
+												style="margin: auto;" id="statusRad">
 												<label class="btn btn-warning" aria-pressed="true">
-													<input type="radio" name="options" id="option1"
+													<input type="radio" name="options" id="option1" value=true
 													autocomplete="off">In Corso
 												</label> <label class="btn btn-warning" aria-pressed="true">
-													<input type="radio" name="options" id="option2"
+													<input type="radio" name="options" id="option2" value=false
 													autocomplete="off">Terminati
 												</label> <label class="btn btn-warning active" aria-pressed="true">
-													<input type="radio" name="options" id="option3"
+													<input type="radio" name="options" id="option3" value = ''
 													autocomplete="off">Tutti
 												</label>
 											</div>
@@ -236,21 +236,16 @@
 									</div>
 								</div>
 								<div class="row">
+									<div id="errorFilt" class="col-12 marginmd alert alert-warning alert-rounded">  Il filtro non ha prodotto alcun risultato!
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                                        </div>
+                                </div>
+								<div class="row">
 									<div class="col-12" style="margin-top: 10px;">
-										<ul class="list-inline pull-right">
-											<li>
-												<h6 class="text-muted">
-													<i class="fa fa-circle m-r-5 text-success"></i>Product A
-												</h6>
-											</li>
-											<li>
-												<h6 class="text-muted">
-													<i class="fa fa-circle m-r-5 text-info"></i>Product B
-												</h6>
-											</li>
+										<ul id="listAziendeAnim" class="list-inline pull-right">
 										</ul>
-										<h3>Revenue Statistics</h3>
-										<h6 class="card-subtitle">January 2017</h6>
+										<h3>Numero di tirocinanti</h3>
+										<h6 class="card-subtitle">Gennaio 2018</h6>
 									</div>
 								</div>
 								<div class="row">
@@ -326,6 +321,9 @@
 		var date = $.date('F Y');
 		document.getElementById("currentDateCompletati").innerHTML = date;
 		document.getElementById("currentDateReports").innerHTML = date;
+		
+		document.getElementById("alFilt").valueAsDate = new Date();
+		document.getElementById("dalFilt").value =  document.getElementById("alFilt").value.replace('2018','2016');
 	</script>
 
 	<script src="js/stats.js"></script>

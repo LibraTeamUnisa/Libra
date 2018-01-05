@@ -50,10 +50,11 @@ public class GestionePfServlet extends HttpServlet {
         String toDate = request.getParameter("toDate");
         String limit = request.getParameter("limit");
         String status = request.getParameter("status");
+        String ragSoc = request.getParameter("ragSoc");
 
         List<Map<String, String>> list = progettoFormativoDao.countByAziendaAndDate(
             CheckUtils.parseDateWithPattern(fromDate, "dd/MM/yyyy"),
-            CheckUtils.parseDateWithPattern(toDate, "dd/MM/yyyy"), limit, status);
+            CheckUtils.parseDateWithPattern(toDate, "dd/MM/yyyy"), limit, status, ragSoc);
         if (list != null) {
           response.getWriter().write(JsonUtils.parseListToJson(list));
         }

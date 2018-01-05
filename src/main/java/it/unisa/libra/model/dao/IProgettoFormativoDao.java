@@ -42,6 +42,6 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
   public Long getNumTirociniCompletati();
   
   public List<Map<String, String>> countByAziendaAndDate(Date fromDate, Date toDate, String limit,
-      String status);
+      String status, String ragSoc);
 
 }

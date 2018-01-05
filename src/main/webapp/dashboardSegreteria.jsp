@@ -22,10 +22,9 @@
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	int numeroStudenti = studenteDao.findAll(Studente.class).size();
+	int numeroStudenti = studenteDao.contaOccorrenze();
 	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
-	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
-	int numeroStudentiAttivi = 0;
+	int numeroAziende = aziendaDao.contaOccorrenze();
 	List<Studente> listaStudenti = studenteDao.listaOrdinataPerCognome();
 %>
 
@@ -114,7 +113,6 @@
                                                 <th>Nome</th>
                                                 <th>E-mail</th>
                                                 <th>Matricola</th>
-                                                <th>Anno di nascita</th>
                                             </tr>
                                         </thead>
                                         
@@ -124,9 +122,8 @@
                                         <tbody><tr>
                                         		<%if(iscritto!=null&&iscritto.getCognome()!=null) {
                                         		%>
-                                        		
+                                        		<td style="width:50px;"><span class="round"><%=iscritto.getUtente().getImgProfilo()%></span></td>
                                                 <td><h6><%=iscritto.getCognome() %></h6></td>
-                                                <td ><span ></span></td>
                                                <% } else{%>
                                                 <td><h6>Non disponibile</h6></td>
                                                 <td ><span ><</span></td>
@@ -149,13 +146,8 @@
                                                 <%} else{ %>
                                                 <td> <h6> Non disponibile</h6></td>
                                                	<%}
-                                                if(iscritto.getDataDiNascita()!=null){
                                                 %>
-                                                <td><%=(iscritto.getDataDiNascita().getDate()+"/"+(iscritto.getDataDiNascita().getMonth()+1)+"/"+(iscritto.getDataDiNascita().getYear()+1900)) %></td>
-                                                <%}else{
-                                                	%>
-                                                	<td> <h6> Non disponibile</h6></td>
-                                               <% }%> 
+   
                                             </tr>
                                           <% 
                                             	}
@@ -226,6 +218,7 @@
                             <!-- Column -->
                             
                             </div>
+                            
                         </div>
                     </div>
                     

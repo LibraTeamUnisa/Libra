@@ -43,13 +43,17 @@ public class CaricaImmagineServlet extends HttpServlet {
     String email = (String) session.getAttribute("utenteEmail");
     Utente user = utenteDao.findById(Utente.class, email);
     Part filePart = request.getPart("proPic");
-    /*
-     * if (!filePart.getSubmittedFileName().equals("")) { File file = new File(PATH +
-     * filePart.getSubmittedFileName()); InputStream filestream = filePart.getInputStream();
-     * Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-     * user.setImgProfilo(IMAGE_LOCATION_DB + filePart.getSubmittedFileName());
-     * utenteDao.persist(user); } response.sendRedirect("profilo.jsp");
-     */ }
+    if (!filePart.getSubmittedFileName().equals("")) {
+      /*
+       * File dir = new File(System.getProperty("jboss.server.data.dir") + "/proPic"); File file =
+       * new File(dir, filePart.getSubmittedFileName()); InputStream filestream =
+       * filePart.getInputStream(); Files.copy(filestream, file.toPath(),
+       * StandardCopyOption.REPLACE_EXISTING); user.setImgProfilo(filePart.getSubmittedFileName());
+       * utenteDao.persist(user);
+       */
+    }
+    response.sendRedirect("profilo.jsp");
+  }
 
   /*
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -58,8 +62,6 @@ public class CaricaImmagineServlet extends HttpServlet {
       throws ServletException, IOException {
     doGet(request, response);
   }
-  /*
-   * private static String PATH =
-   * "C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/"; private static String
-   * IMAGE_LOCATION_DB = "assets/images/users/";
-   */}
+
+  private static String DIRECTORY = "assets/images/users/";
+}

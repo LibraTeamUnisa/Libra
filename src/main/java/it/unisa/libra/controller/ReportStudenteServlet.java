@@ -2,6 +2,7 @@ package it.unisa.libra.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -52,7 +53,7 @@ public class ReportStudenteServlet extends HttpServlet {
 
 	@EJB
 	private IUtenteDao utenteDao;
-	
+
 	/** Default constructor. */
 	public ReportStudenteServlet() {
 	}
@@ -73,84 +74,109 @@ public class ReportStudenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getParameter("action");
-
-		/*
-		 * String action = request.getParameter(Actions.ACTION); if (action == null) {
-		 * response.getWriter().write(BADREQUEST_MESS); return; } if
-		 * (action.equals(Actions.MODIFICA_REPORT)) { modificaReport(request, response);
-		 * return; }
-		 */
-	//	if (action.equals("aggiungiReport")) {
-		if(action.equals(Actions.AGGIUNGI_REPORT)) {
-		aggiungiReport(request, response);
+		String action = request.getParameter(Actions.ACTION);
+		if (action == null) {
+			response.getWriter().write(BADREQUEST_MESS);
 			return;
+		}
+		if (action.equals(Actions.MODIFICA_REPORT)) {
+			modificaReport(request, response);
+			return;
+
+		}
+		if (action.equals(Actions.AGGIUNGI_REPORT)) {
+			aggiungiReport(request, response);
+			// return;
 		} else {
-			response.getWriter().write("nulla");
+			response.getWriter().write("no");
+			return;
 		}
 	}
 
-	
-	  private void modificaReport(HttpServletRequest request, HttpServletResponse
-	  response) throws IOException, ServletException { String emailStudente =
-	  (String) request.getSession().getAttribute("utenteEmail"); String
-	  idProgettoFormativo = (String) request.getParameter("idPF");
-	  
-	  int id; try { id = Integer.parseInt(idProgettoFormativo); } catch
-	  (NumberFormatException e) {
-	  response.getWriter().write("Si e' verificato un errore"); return; }
-	  
-	  Studente studente = studenteDao.findById(Studente.class, emailStudente);
-	  ProgettoFormativo progettoFormativo =
-	  progettoFormativoDao.findById(ProgettoFormativo.class, id);
-	  
-	  if ((studente == null) || (progettoFormativo == null)) {
-	  
-	  response.getWriter().write("Si e' verificato un errore"); return; } String
-	  indiceReport = (String) request.getParameter("indiceReport");
-	  
-	  if (indiceReport == null) { response.getWriter().write(BADREQUEST_MESS);
-	  return; }
-	  
-	  int indice; try { indice = Integer.parseInt(indiceReport); } catch
-	  (NumberFormatException e) {
-	  response.getWriter().write("Si e' verificato un errore"); return; }
-	  
-	  String testoReport = (String) request.getParameter("testoReport"); if
-	  (testoReport == null) { response.getWriter().write(BADREQUEST_MESS); return;
-	  }
-	  
-	  List<Report> listReport = progettoFormativo.getReports();
-	  listReport.get(indice).setTesto(testoReport);
-	  progettoFormativoDao.persist(progettoFormativo);
-	  response.getWriter().write(SUCCESS_MESS); return; }
-	 
-	private void aggiungiReport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void modificaReport(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+
+		String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
+		Studente studente = studenteDao.findById(Studente.class, emailStudente);
+		if (studente == null) {
+			response.getWriter().write("Si e' verificato un errore");
+			return;
+		}
+
+		ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+		if (progettoFormativo == null) {
+			response.getWriter().write("Si e' verificato un errore");
+			return;
+		}
+
+		String dataReport = (String) request.getParameter("data");
+		if (dataReport == null) {
+			response.getWriter().write(BADREQUEST_MESS);
+			return;
+		}
+
+		Long dateReportM = null;
+		dateReportM = Long.parseLong(dataReport);
+
+		String testoReport = (String) request.getParameter("testoReportModificato");
+		if (testoReport == null) {
+			response.getWriter().write(BADREQUEST_MESS);
+			return;
+		}
+
+		List<Report> reports = reportDao.findAll(Report.class);
+		Iterator<Report> listReport = reports.iterator();
+
+		while (listReport.hasNext()) {
+			Report rep1 = (Report) listReport.next();
+			Long l = rep1.getId().getData().getTime();
+			if (Long.valueOf(l).compareTo(Long.valueOf(dateReportM)) == 0) {
+				rep1.setTesto(testoReport);
+				reportDao.persist(rep1);
+
+				response.getWriter().write(SUCCESS_MESS);
+				break;
+			}
+		}
+
+	}
+
+	protected void aggiungiReport(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 		Studente studente = studenteDao.findById(Studente.class, emailStudente);
 		ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-		if (studente == null) {
+		if (studente == null || progettoFormativo == null) {
 			response.getWriter().write("errore");
-		} else if (progettoFormativo == null) {
-			response.getWriter().write("errorePf");
 		} else {
 			String testoNuovoReport = (String) request.getParameter("testoNuovoReport");
 			Report report = new Report();
 			ReportPK rep = new ReportPK(); // chiave primaria per il report
-			try {
-				Date data = new Date();
-				rep.setData(data);
-				rep.setProgettoFormativoID(progettoFormativo.getId());
-				report.setTesto(testoNuovoReport);
-				report.setId(rep);
-				report.setProgettoFormativo(progettoFormativo);
-				reportDao.persist(report);
-				response.getWriter().write("finito");
-			} catch (Exception ex) {
-				response.getWriter().write("errore2");
-				ex.printStackTrace();
-			}
-		}		
+			Date data = new Date();
+			rep.setData(data);
+			rep.setProgettoFormativoID(progettoFormativo.getId());
+			report.setTesto(testoNuovoReport);
+			report.setId(rep);
+			report.setProgettoFormativo(progettoFormativo);
+			reportDao.persist(report);
+			response.getWriter().write("finito");
+		}
+
+	}
+
+	public void setUtenteDao(IUtenteDao utenteDao) {
+		this.utenteDao = utenteDao;
+	}
+
+	public void setStudenteDao(IStudenteDao studenteDao) {
+		this.studenteDao = studenteDao;
+	}
+
+	public void setProgettoFormativoDao(IProgettoFormativoDao progettoFormativoDao) {
+		this.progettoFormativoDao = progettoFormativoDao;
+	}
+
+	public void setReportDao(IReportDao ReportDao) {
+		this.reportDao = ReportDao;
 	}
 
 	/** messaggio di errore inviato in caso di bad request. **/

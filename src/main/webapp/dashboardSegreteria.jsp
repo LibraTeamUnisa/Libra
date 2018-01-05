@@ -6,6 +6,7 @@
 <%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.Context" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.Map" %>
@@ -22,10 +23,24 @@
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+	
+	
 	int numeroStudenti = studenteDao.contaOccorrenze();
-	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
+	int numeroProgettiFormativi = progettoFormativoDao.contaOccorrenze();
 	int numeroAziende = aziendaDao.contaOccorrenze();
-	List<Studente> listaStudenti = studenteDao.listaOrdinataPerCognome();
+	
+	List<Studente> listaStudenti = new ArrayList<Studente>();
+	
+	if(request.getSession().getAttribute("utenteRuolo")!=null && 
+			request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
+		if(request.getSession().getAttribute("listaStudentiPerSegreteria")==null){
+			listaStudenti = studenteDao.listaOrdinataPerCognome();
+			request.getSession().setAttribute("listaStudentiPerSegreteria", listaStudenti);
+		}else{
+			listaStudenti = (ArrayList<Studente>)request.getSession().getAttribute("listaStudentiPerSegreteria");
+		}
+	}
+	
 %>
 
 <!DOCTYPE html>

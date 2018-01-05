@@ -194,12 +194,11 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           TutorEsternoPK newKey=new TutorEsternoPK();
           newKey.setAziendaEmail(tutorKey.getAziendaEmail());
           newKey.setAmbito(ambito);
-          
           boolean notSet = tutorDao.findById(TutorEsterno.class, newKey) == null;
           
           if (notSet) {
               tutorDao.remove(TutorEsterno.class, tutorKey);
-              tutorKey.setAmbito(ambito);
+              tutor.setId(newKey);
               count++;
           } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

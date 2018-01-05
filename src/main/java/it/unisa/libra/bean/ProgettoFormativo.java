@@ -25,6 +25,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
+
     @NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p"),
     @NamedQuery(name = "ProgettoFormativo.findByStudente",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.studente=:studente ORDER BY p.id DESC"),
@@ -38,6 +39,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
     @NamedQuery(name = "ProgettoFormativo.count", query = "SELECT COUNT(p) FROM ProgettoFormativo p")
 })
+
 
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;

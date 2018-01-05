@@ -1,3 +1,4 @@
+
 package it.unisa.libra.model.jpa;
 
 import javax.ejb.Stateless;
@@ -10,6 +11,7 @@ public class AziendaJpa extends GenericJpa<Azienda, String> implements IAziendaD
 
   @Override
   public Azienda findByName(String nome) {
+
     TypedQuery <Azienda> query = entityManager.createNamedQuery("Azienda.findName", Azienda.class);
     query.setParameter("nomeAzienda", nome);
     
@@ -30,3 +32,4 @@ public int contaOccorrenze() {
 
   
 }
+

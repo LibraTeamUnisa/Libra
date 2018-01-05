@@ -35,6 +35,8 @@ public class Utente implements Serializable {
   private String password;
 
   private String telefono;
+  
+
 
   // bi-directional one-to-one association to Azienda
   @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
@@ -110,10 +112,12 @@ public class Utente implements Serializable {
   public Azienda getAzienda() {
     return this.azienda;
   }
+  
 
   public void setAzienda(Azienda azienda) {
     this.azienda = azienda;
   }
+
 
   public List<Notifica> getNotifiche() {
     return this.notifiche;

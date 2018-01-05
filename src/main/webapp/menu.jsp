@@ -117,6 +117,11 @@
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
                             <%} %>            
                         </li>
+                        <% if(request.getSession().getAttribute("utenteRuolo") == "Segreteria") { %>
+                        <li>
+                            <a href="aggiungiUtente.jsp" aria-expanded="false"><span class="hide-menu">Aggiungi Utente</span></a>                           
+                        </li>
+                        <% } %>
                         <li>
                         	<%if(segreteria==true){ %>
                         	<a href="gestionePermessi.jsp" aria-expanded="false"><span class="hide-menu">Permessi feedback</span></a>   

@@ -1,11 +1,8 @@
+
 package it.unisa.libra.controller;
 
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.Actions;
-import it.unisa.libra.util.CheckUtils;
-import it.unisa.libra.util.JsonUtils;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -13,11 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.CheckUtils;
+import it.unisa.libra.util.JsonUtils;
+import it.unisa.libra.bean.ProgettoFormativo;
 
-
-/** Servlet implementation class GestionePfServlet. */
-@WebServlet(name = "GestionePfServlet", urlPatterns = {"/gestionePfServlet"})
-
+/** Servlet implementation class AutenticazioneServlet */
+@WebServlet(name = "GestionePfServlet", urlPatterns= {"/gestionePfServlet"})
 public class GestionePfServlet extends HttpServlet {
 
   @Inject
@@ -28,10 +28,7 @@ public class GestionePfServlet extends HttpServlet {
   /** Default constructor. */
   public GestionePfServlet() {}
 
-  /** 
-   * doGet.
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
-   */
+  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     if (CheckUtils.validAction(request)) {
@@ -47,13 +44,10 @@ public class GestionePfServlet extends HttpServlet {
     }
   }
 
-  /** 
-   * doPost.
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-   */
+  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    if (request.getParameter(Actions.ACTION).equals(Actions.MODIFICA_STATO_TIROCINIO)) {
+     if (request.getParameter(Actions.ACTION).equals(Actions.MODIFICA_STATO_TIROCINIO)) {
       ProgettoFormativo pf = progettoFormativoDao.findById(ProgettoFormativo.class,
           Integer.parseInt(request.getParameter("id")));
       pf.setStato(Integer.parseInt(request.getParameter("stato")));
@@ -65,4 +59,6 @@ public class GestionePfServlet extends HttpServlet {
       response.getWriter().flush();
     }
   }
+
 }
+

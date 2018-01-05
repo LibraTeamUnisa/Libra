@@ -35,6 +35,10 @@
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+
+
+
+
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -68,6 +72,396 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+            
+    <section id="wrapper">
+    
+       <center>
+    		<div>
+    			<select id="ruolo" name="ruolo" onchange="cambiaForm()">
+         			<option value="Presidente" name="Presidente" selected="selected" >Presidente</option>
+         			<option value="TutorInterno" name="TutorInterno">Tutor Interno</option>
+         			<option value="Azienda" name="Azienda">Azienda</option>
+    			</select>
+    		</div>
+    	</center>
+    
+    <div id="formPresidente" style="display: block; " >
+    	<form action="GestioneUtenteServlet" method="post" class="form-horizontal form-material">
+    		<input type="hidden" name="ruolo" value="Presidente">
+    		<div class="row">
+  				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
+	  			<div class="col">Nome:<input placeholder="" type="text" class="form-control" id="nome" name="nome" pattern="[A-Za-z]{1,20}" value="" required></div>
+	  		</div>
+	  		<br><br>
+	  		<div class="row">	  	
+	  			<div class="col">Cognome:<input placeholder="" type="text" class="form-control" id="cognome" name="cognome" pattern="[A-Za-z]{1,20}" value="" required></div>
+	  			<div class="col">Telefono:<input placeholder="" type="text" class="form-control" id="telefono" name="telefono" value="" pattern="[0-9]{8-15}"  required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row">
+          		<div class="col">Indirizzo:<input placeholder="" type="text" class="form-control" id="indirizzo" name="indirizzo"  value=""  required></div>
+ 				<div class="col">Ufficio: <input placeholder="" type="text" class="form-control" id="ufficio" name="ufficio" value=""  required></div>
+	  		</div>
+	  		<br><br>	
+          	<div class="row">
+          		<div class="col">Giorni di ricevimento:<input placeholder="" type="text" class="form-control" id="giornoDiRicevimento" name="giornoDiRicevimento" value="" required></div>
+ 				<div class="col">WebSite:<input placeholder="" type="text" class="form-control" id="webSite" name="webSite"value="" required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row">
+          		<div class="col">Data Di Nascita:<input placeholder="" type="date" class="form-control" id="bday" name="bday" value="" required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row">
+ 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password"  required></div>
+          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword" required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row" align="center">
+          		<div class="col"><input class="button" type="submit" value="Invia"></div>
+			</div>
+			<br><br>
+    	</form>
+    </div>
+    
+    
+     <div id="formTutorInterno" class="form-horizontal form-material" style="display: none;">
+    	<form action="GestioneUtenteServlet" method="post" class="form-horizontal form-material">
+    		<input type="hidden" name="ruolo" value="TutorEsterno">
+    		<div class="row">
+  				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
+	  			<div class="col">Nome:<input placeholder="" type="text" class="form-control" id="nome" name="nome" pattern="[A-Za-z]{1,20}" value="" required></div>
+	  		</div>
+	  		<br><br>
+	  		<div class="row">	  	
+	  			<div class="col">Cognome:<input placeholder="" type="text" class="form-control" id="cognome" name="cognome" pattern="[A-Za-z]{1,20}" value="" required></div>
+	  			<div class="col">Telefono:<input placeholder="" type="text" class="form-control" id="telefono" name="telefono" value="" pattern="[0-9]{8-15}"  required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row">
+          		<div class="col">Indirizzo:<input placeholder="" type="text" class="form-control" id="indirizzo" name="indirizzo"  value=""  required></div>
+ 				<div class="col">WebSite:<input placeholder="" type="text" class="form-control" id="webSite" name="webSite"value="" required></div>
+	  		</div>
+	  		<br><br>	
+          	<div class="row">
+          		<div class="col">Data Di Nascita:<input placeholder="" type="date" class="form-control" id="bday" name="bday" value="" required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row">
+ 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password"  required></div>
+          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword"  required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row" align="center">
+          		<div class="col"><input class="button" type="submit" value="Invia"></div>
+			</div>
+			<br><br>
+    	</form>
+    </div>
+    
+    <div id="formAzienda" class="form-horizontal form-material" style="display: none;">
+    	<form action="GestioneUtenteServlet" method="post" class="form-horizontal form-material">
+    		<input type="hidden" name="ruolo" value="Azienda">
+    		<div class="row">
+  				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
+	  			<div class="col">Nome:<input placeholder="" type="text" class="form-control" id="nome" name="nome" pattern="[A-Za-z]{1,20}" value="" required></div>
+	  		</div>
+	  		<br><br>
+	  		<div class="row">	  	
+	  			<div class="col">Partita IVA:<input placeholder="" type="text" class="form-control" id="partitaIva2" name="partitaIva" value="" pattern="[0-9]{11}" required></div>
+	  			<div class="col">Telefono:<input placeholder="" type="text" class="form-control" id="telefono" name="telefono" value=""   required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row">
+          		<div class="col">Indirizzo:<input placeholder="" type="text" class="form-control" id="indirizzo" name="indirizzo"  value=""  required></div>
+ 				<div class="col">WebSite:<input placeholder="" type="text" class="form-control" id="webSite" name="webSite"value="" required></div>
+	  		</div>
+	  		<br><br>	
+          	<div class="row">
+ 				<div class="col">Password:<input placeholder="" type="password" class="form-control" id="password" name="password"  required></div>
+          		<div class="col">Conferma Password:<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword"  required></div>
+	  		</div>	
+	  		<br><br>
+          	<div class="row" align="center">
+          		<div class="col"><input class="button" type="submit" value="Invia"></div>
+			</div>
+			<br><br>
+    	</form>
+    </div>
+    
+   <!--   
+   	
+   <div id="formPresidente" style="display: block; " >
+    <table class="customalignment">
+      <tr align="center">
+        <td align="center">
+         <form action="GestioneUtente" method="post" class="form-horizontal form-material">
+          <br><br><br><br>
+          
+           <input type="hidden" name="ruolo" value="Presidente">
+ 
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Email Istituzionale:	
+          		<input placeholder="" class="form-control" id="email" name="email" type="email" required>
+          		<br><br>
+          	</div>	
+          </div>	
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Nome:
+          		<input placeholder="" type="text" class="form-control" id="nome" name="nome" pattern="[A-Za-z]{1,20}" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Cognome:
+          		<input placeholder="" type="text" class="form-control" id="cognome" name="cognome" pattern="[A-Za-z]{1,20}" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Data Di Nascita:
+          		<input placeholder="" type="date" class="form-control" id="bday" name="bday" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Indirizzo:
+          		<input placeholder="" type="text" class="form-control" id="indirizzo" name="indirizzo"  value=""  required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Ufficio:
+          		<input placeholder="" type="text" class="form-control" id="ufficio" name="ufficio" value=""  required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Giorni di ricevimento:
+          		<input placeholder="" type="text" class="form-control" id="giornoDiRicevimento" name="giornoDiRicevimento" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		WebSite:
+          		<input placeholder="" type="text" class="form-control" id="webSite" name="webSite"value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Telefono:
+          		<input placeholder="" type="text" class="form-control" id="telefono" name="telefono" value="" pattern="[0-9]{8-15}"  required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Password:
+          		<input placeholder="" type="password" class="form-control" id="password" name="password" pattern="[A-Za-z0-9]{8-20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          	Password:
+          		<input placeholder="" type="password" class="form-control" id="password" name="password" pattern="[A-Za-z0-9]{8-20}" required>
+          		Conferma Password:
+          		<input placeholder="" type="password" class="form-control" id="confirmPassword" name="confirmPassword" pattern="[A-Za-z0-9]{8-20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		<input class="button" type="submit" value="Invia">
+          	</div>
+          </div>
+          </form>
+        </td>
+      </tr>
+    </table>
+    </div>
+    
+    
+        
+    <div id="formTutorInterno" class="form-horizontal form-material" style="display: none;">
+     <table class="customalignment">
+      <tr align="center">
+        <td align="center">
+        <form action="GestioneUtente" method="post" class="form-horizontal form-material">
+          <br><br><br><br>
+          
+          <input type="hidden" name="ruolo" value="TutorInterno">
+          
+     
+          
+          <br><br>
+       
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Email Istituzionale:	
+          		<input placeholder="" class="form-control" id="email1"name="email" type="email" required>
+          		<br><br>
+          	</div>	
+          </div>
+          
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Nome:
+          		<input placeholder="" type="text" class="form-control" id="nome1" name="nome" value="" pattern="[A-Za-z]{1,20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Cognome:
+          		<input placeholder="" type="text" class="form-control" id="cognome1" name="cognome" value="" pattern="[A-Za-z]{1,20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Data Di Nascita:
+          		<input placeholder="" type="date" class="form-control" id="bday1" name="bday" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Indirizzo:
+          		<input placeholder="" type="text" class="form-control" id="indirizzo1" name="indirizzo" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		WebSite:
+          		<input placeholder="" type="text" class="form-control" id="webSite1" name="webSite" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Telefono:
+          		<input placeholder="" type="text" class="form-control" id="telefono1" name="telefono" value="" pattern="[0-9]{8-15}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Password:
+          		<input placeholder="" type="password" class="form-control" id="password1" name="password" pattern="[A-Za-z0-9]{8-20}"  required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Conferma Password:
+          		<input placeholder="" type="password" class="form-control" id="confirmPassword1" name="confirmPassword" pattern="[A-Za-z0-9]{8-20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		<input class="button" type="submit" value="Invia">
+          	</div>
+          </div>
+          </form>
+        </td>
+      </tr>
+    </table>
+    </div>
+   
+    <div id="formAzienda" class="form-horizontal form-material" style="display: none;">
+    <table class="customalignment">
+      <tr align="center">
+       
+        <td align="center">
+          <form action="GestioneUtente" method="post" class="form-horizontal form-material">
+          <br><br><br><br>
+          
+           <input type="hidden" name="ruolo" value="Azienda">
+           
+          
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Email Istituzionale:	
+          		<input placeholder="" class="form-control" id="email2" name="email" type="email" required>
+          		<br><br>
+          	</div>	
+          </div>	
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Nome:
+          		<input placeholder="" type="text" class="form-control" id="nome2" name="nome" value="" pattern="[A-Za-z]{1,20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Indirizzo:
+          		<input placeholder="" type="text" class="form-control" id="indirizzo2" name="indirizzo" value=""  required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Partita IVA:<input placeholder="" type="text" class="form-control" id="partitaIva2" name="partitaIva" value="" pattern="[0-9]{11}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		WebSite:
+          		<input placeholder="" type="text" class="form-control" id="webSite2" name="webSite" value="" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Telefono:
+          		<input placeholder="" type="text" class="form-control" id="telefono2" name="telefono" value="" pattern="[0-9]{8-15}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Password:
+          		<input placeholder="" type="password" class="form-control" id="password2" name="password" pattern="[A-Za-z0-9]{8-20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		Conferma Password:
+          		<input placeholder="" type="password" class="form-control" id="confirmPassword2" name="confirmPassword" pattern="[A-Za-z0-9]{8-20}" required>
+          		<br><br>
+          	</div>
+          </div>
+          <div class="form-group ">
+          	<div class="col-xs-12">
+          		<input class="button" type="submit" value="Invia">
+          	</div>
+          </div>
+          </form>
+          
+        </td>
+      </tr>
+    </table>
+    </div>
+    
+    
+    -->
+    
+  </section>        
              
              
             </div>
@@ -92,6 +486,30 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    
+    <script >
+    	
+    function cambiaForm() { var ruolo = $( "#ruolo option:selected" ).val(); hideAllForms(); showForm(ruolo); } 
+    function hideAllForms() { $("#formPresidente").css({"display" : "none"}); $("#formTutorInterno").css({"display" : "none"}); $("#formAzienda").css({"display" : "none"}); } 
+    function showForm(r) { $("#form" + r).css({"display" : "block"}); }
+    
+	</script>
+	
+	<script type="text/javascript">
+		var password = document.getElementById("password"), confirmPassword = document.getElementById("confirmPassword");
+		function validatePassword(){
+			if(password.value != confirmPassword.value) {
+				confirmPassword.setCustomValidity("Passwords Don't Match");
+			} else {
+				confirmPassword.setCustomValidity('');
+			}	
+		}
+
+		password.onchange = validatePassword;
+		confirmPassword.onkeyup = validatePassword;
+	</script>
+    
+    
     <script src="assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="assets/plugins/bootstrap/js/tether.min.js"></script>

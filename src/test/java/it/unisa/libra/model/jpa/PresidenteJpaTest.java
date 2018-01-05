@@ -1,4 +1,4 @@
-package it.unisa.libra.model.jpa;
+/*package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -43,3 +43,4 @@ public class PresidenteJpaTest extends GenericJpaTest {
 
   }
 }
+*/

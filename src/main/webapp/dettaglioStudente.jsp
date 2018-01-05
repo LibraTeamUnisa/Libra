@@ -1,7 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="it.unisa.libra.bean.Studente, it.unisa.libra.bean.ProgettoFormativo" %> 
+	<%@ page import="it.unisa.libra.bean.Studente, it.unisa.libra.bean.ProgettoFormativo" %>
+
+	<%@page import="java.util.HashMap"%>
+	<%@page import="javax.naming.InitialContext"%>
+	<%@page import="javax.naming.Context"%>
+	<%@page import="java.text.SimpleDateFormat"%>
+
+	<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
+	<%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
+	<%@page import="it.unisa.libra.model.dao.IFeedbackDao"%>
+	<%@page import="it.unisa.libra.model.dao.IGruppoDao"%>
+	<%@page import="it.unisa.libra.model.dao.IUtenteDao"%>
+	<%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
+	<%@page import="it.unisa.libra.bean.Studente"%>
+	<%@page import="it.unisa.libra.bean.Feedback"%>
+	<%@page import="it.unisa.libra.bean.Azienda"%>
+	<%@page import="it.unisa.libra.bean.Permesso"%>
+	<%@page import="it.unisa.libra.bean.Gruppo"%>
+	<%@page import="java.util.List"%>
+	<%@page import="java.util.ArrayList"%> 
+
+<%
+		String var; /* stringa utilizzata per il controllo dello stato della proposta di progetto formativo */
+		int statos = -1;
+		int i = 0;
+		Boolean flag = false;
+		
+		HttpSession sessione = request.getSession();
+		String utenteEmail = (String) sessione.getAttribute("utenteEmail");
+		String utenteRuolo = (String) sessione.getAttribute("utenteRuolo");
+		
+		IGruppoDao gruppoDAO = (IGruppoDao) new InitialContext().lookup("java:app/Libra/GruppoJpa");
+		IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
+		IStudenteDao studenteDAO = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
+		IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+		IUtenteDao utenteDAO= (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+		
+		Studente studente = studenteDAO.findById(Studente.class,(String)sessione.getAttribute("utenteEmail")); 
+		
+		/* carico dal database l'ultima proposta caricata dallo studente */
+		ProgettoFormativo lastProgettoFormativo = progettoFormativoDAO.getLastProgettoFormativoByStudente(studente);
+		
+		/* stato dell'ultima proposta caricata dallo studente */
+		if(lastProgettoFormativo != null) statos = lastProgettoFormativo.getStato();	
+		
+		/* lista contenente tutte le proposte di progetto formativo */
+		List<ProgettoFormativo> listaProposte = progettoFormativoDAO.findAll(ProgettoFormativo.class);
+		List<ProgettoFormativo> listaProposteStudente = new ArrayList<ProgettoFormativo>();
+		List<Feedback> listaFeedback = feedbackDAO.findAll(Feedback.class);
+		
+		/*contollo tutti i pf relativi allo studente*/
+		for(ProgettoFormativo pf1: listaProposte) {
+			String mail = pf1.getStudente().getUtenteEmail();
+			if(mail != null) {
+				if(mail.contains(studente.getUtenteEmail()))
+				{
+					listaProposteStudente.add(pf1);
+					
+				}
+			}
+		}
+	%>
+
 
 <% 
 Studente s = (Studente) request.getAttribute("studente");
@@ -207,8 +269,78 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 	                		</div>
 	                	</div>
 	                </div>
+	                
+	                <% 
+	                
+	                boolean control = false;
+	                String ruolo = (String)session.getAttribute("utenteRuolo");
+	                Gruppo gruppo = gruppoDAO.findById(Gruppo.class, ruolo);
+	                if(gruppo != null) {
+	                	
+	                	List<Permesso> listaPermessi = gruppo.getPermessi();
+	                	for(Permesso p : listaPermessi){
+	                		if(p.getTipo().contains("ricevuti")){
+	                			control = true;
+	                		}	                		
+	                			                	}
+	                	
+	                } 
+	                
+	                
+	                %>
+	                	                
+	                <div class="row">
+	                <div class="card wizard-card" style="padding: 1%">
+							<h4 class="card-title">Valutazioni</h4>
+							<table class="table table-responsive">
+								<tbody>
+									<tr>
+										<% 
+	                    		for(ProgettoFormativo pf1: listaProposteStudente) {
+	                    			List<Feedback> feedbackRicevuti= feedbackDAO.findByType(pf1.getId(), "Azienda");
+	                    			
+	                   		%>
+									</tr>
+									<tr>
+										<td>
+											
+											<% 
+												if(!feedbackRicevuti.isEmpty() && (control)) {
+											   		flag=true;
+											%>
+													<p align="center">
+														<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf1.getId()%>">
+															<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
+														</a>
+													</p>
+													<p>Valutazione da:<%= pf1.getAzienda().getNome() %></p> 
+													 
+													
+											
+										</td>
+							<%
+									i++;
+	                       		} 
+	                    	
+	                        	if(!flag) {
+	                        %>
+									
+									<tr>
+										<td>Nessuna valutazione ricevuta</td>
+									</tr>
+							<%
+	                        	}
+	                        	flag = false;
+	                        
+	                    		}	
+	                        %>
+								</tbody>
+							</table>
+						</div>
+						
+	                </div>
 	             </div>
-            </div>
+            
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

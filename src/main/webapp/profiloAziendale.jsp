@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.*" import="it.unisa.libra.bean.Azienda"
 	import="it.unisa.libra.bean.Utente"
@@ -27,10 +25,43 @@
 	IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext()
 			.lookup("java:app/Libra/ProgettoFormativoJpa");
 	IStudenteDao studenteDAO = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
-	//IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
+	IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
 	Azienda a = aziendaDAO.findByName(nome);
 	List<TutorEsterno> tutorEsterni = tutorDAO.findByAziendaNome(nome);
 	List<ProgettoFormativo> progettiFormativi = progettoFormativoDAO.getProgettiFormativiByAzienda(nome);
+	IUtenteDao utenteDAO= (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+	
+	int statos = -1;
+	int io = 0;
+	Boolean flag = false;
+	
+	
+	
+	Studente studente = studenteDAO.findById(Studente.class,(String)sessione.getAttribute("utenteEmail")); 
+	
+	/* carico dal database l'ultima proposta caricata dallo studente */
+	ProgettoFormativo lastProgettoFormativo = progettoFormativoDAO.getLastProgettoFormativoByStudente(studente);
+	
+	/* stato dell'ultima proposta caricata dallo studente */
+	if(lastProgettoFormativo != null) statos = lastProgettoFormativo.getStato();	
+	
+	/* lista contenente tutte le proposte di progetto formativo */
+	List<ProgettoFormativo> listaProposte = progettoFormativoDAO.findAll(ProgettoFormativo.class);
+	List<ProgettoFormativo> listaProposteStudente = new ArrayList<ProgettoFormativo>();
+	List<Feedback> listaFeedback = feedbackDAO.findAll(Feedback.class);
+	
+	/*contollo tutti i pf relativi allo studente*/
+	for(ProgettoFormativo pf1: listaProposte) {
+		String mail = pf1.getStudente().getUtenteEmail();
+		if(mail != null) {
+			if(mail.contains(studente.getUtenteEmail()))
+			{
+				listaProposteStudente.add(pf1);
+				
+			}
+		}
+	}
+	
 %>
 
 <!DOCTYPE html>
@@ -278,6 +309,55 @@
 				%>
 
 			</div>
+			
+			
+			<div class="card wizard-card" style="padding: 1%">
+							<h4 class="card-title">Valutazioni</h4>
+							<table class="table table-responsive">
+								<tbody>
+									<tr>
+										<% 
+	                    		for(ProgettoFormativo pf1: listaProposteStudente) {
+	                    			List<Feedback> feedbackRicevuti= feedbackDAO.findByType(pf1.getId(), "Azienda");
+	                    			
+	                   		%>
+									</tr>
+									<tr>
+										<td>
+											
+											<% 
+												if(!feedbackRicevuti.isEmpty()) {
+											   		flag=true;
+											%>
+													<p align="center">
+														<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf1.getId()%>">
+															<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
+														</a>
+													</p>
+													<p>Valutazione da:<%=pf1.getStudente().getNome() %></p> 
+													 
+													
+											
+										</td>
+							<%
+									io++;
+	                       		} 
+	                    	
+	                        	if(!flag) {
+	                        %>
+									
+									<tr>
+										<td>Nessuna valutazione ricevuta</td>
+									</tr>
+							<%
+	                        	}
+	                        	flag = false;
+	                        
+	                    		}	
+	                        %>
+								</tbody>
+							</table>
+						</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->
@@ -351,3 +431,4 @@
 	</script>
 </body>
 </html>
+

@@ -1,5 +1,6 @@
 package it.unisa.libra.model.jpa;
 
+
 import java.util.List;
 import javax.ejb.Stateless;
 import it.unisa.libra.bean.Feedback;
@@ -17,3 +18,4 @@ public class FeedbackJpa extends GenericJpa<Feedback, FeedbackPK> implements IFe
 	}
 
 }
+

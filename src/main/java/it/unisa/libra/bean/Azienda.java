@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -39,6 +40,8 @@ public class Azienda implements Serializable {
   private String partitaIVA;
 
   private String sede;
+  
+  private String linkSito;
 
   // bi-directional one-to-one association to Utente
   @OneToOne(cascade = {CascadeType.ALL})
@@ -54,7 +57,7 @@ public class Azienda implements Serializable {
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional many-to-one association to TutorEsterno
-  @OneToMany(mappedBy = "azienda", cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "azienda")
   private List<TutorEsterno> tutorEsterni;
 
   public Azienda() {}
@@ -90,6 +93,14 @@ public class Azienda implements Serializable {
   public void setSede(String sede) {
     this.sede = sede;
   }
+  
+  public String getLinkSito() {
+	    return this.linkSito;
+	  }
+
+	  public void setLinkSito(String linkSito) {
+	    this.linkSito = linkSito;
+	  }
 
   public Utente getUtente() {
     return this.utente;
@@ -137,18 +148,18 @@ public class Azienda implements Serializable {
     this.tutorEsterni = tutorEsterni;
   }
 
-  public TutorEsterno addTutorEsterno(TutorEsterno tutorEsterno) {
-    getTutorEsterni().add(tutorEsterno);
-    // tutorEsterno.setAzienda(this);
+  public TutorEsterno addTutorEsterni(TutorEsterno tutorEsterni) {
+    getTutorEsterni().add(tutorEsterni);
+    tutorEsterni.setAzienda(this);
 
-    return tutorEsterno;
+    return tutorEsterni;
   }
 
-  public TutorEsterno removeTutorEsterno(TutorEsterno tutorEsterno) {
-    getTutorEsterni().remove(tutorEsterno);
-    // tutorEsterno.setAzienda(null);
+  public TutorEsterno removeTutorEsterni(TutorEsterno tutorEsterni) {
+    getTutorEsterni().remove(tutorEsterni);
+    tutorEsterni.setAzienda(null);
 
-    return tutorEsterno;
+    return tutorEsterni;
   }
 
 }

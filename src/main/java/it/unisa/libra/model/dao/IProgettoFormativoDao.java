@@ -1,6 +1,9 @@
 package it.unisa.libra.model.dao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 
@@ -27,5 +30,19 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
    */
   public ProgettoFormativo getLastProgettoFormativoByStudenteAssociato(Studente studente,
       String tutorInterno);
+
   public List<ProgettoFormativo> getProgettiFormativiByAzienda(String nome);
+
+  public List<Studente> getStudentiByAzienda(Azienda azienda);
+  
+  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate,Date toDate, String limit, String status);
+
+  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status);
+  
+  public List<ProgettoFormativo> getInOrdineCronologico();
+  
+  public List<ProgettoFormativo> findUltime10();
+
+  int contaOccorrenze();
+  
 }

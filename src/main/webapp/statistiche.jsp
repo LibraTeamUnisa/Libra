@@ -1,23 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
-<%@page import="it.unisa.libra.model.dao.IUtenteDao"%>
-<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
-<%@page import="it.unisa.libra.bean.Studente"%>
-<%@page import="it.unisa.libra.bean.Utente"%>
-<%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="it.unisa.libra.model.dao.ITutorInternoDao"%>
-<%@ page import="javax.naming.InitialContext"%>
-<%@ page import="javax.naming.Context"%>
-<%@page import="it.unisa.libra.bean.TutorInterno"%>
-<%@page import="java.util.*,it.unisa.*"%>
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,6 +28,9 @@
 	href="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
 	rel="stylesheet">
 <link href="assets/plugins/css-chart/css-chart.css" rel="stylesheet">
+<!-- Editable CSS -->
+    <link type="text/css" rel="stylesheet" href="assets/plugins/jsgrid/dist/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="assets/plugins/jsgrid/dist/jsgrid-theme.min.css" />
 <!-- Custom CSS -->
 <link href="css/style.css" rel="stylesheet">
 <!-- You can change the theme colors from here -->
@@ -55,6 +41,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+#topLast30Days svg { height: 345px; }
+</style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -92,111 +81,93 @@
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
 			<div class="container-fluid">
-
-				<div class="card">
-					<div class="card-block">
-						<h4 class="card-title">Lista Studenti</h4>
-						<% String emailTutor = (String) request.getSession().getAttribute("giando26@gmail.com");
-					
-						ITutorInternoDao tutorInternoDao = (ITutorInternoDao) new InitialContext().lookup("java:app/Libra/TutorInternoJpa");
-						TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, "giando26@gmail.com");
 			
-						
-						if(emailTutor.length()==0 || tutorInterno==null ){
-							
-							
-							%>
-						<h6 class="card-subtitle">Nessuno Studente Presente</h6>
-						<% 
-							
-						}else{
-	
+			  <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Statistiche Studenti</h3>
+                        <ol class="breadcrumb">
+                        <%
+                        if(session != null && session.getAttribute("utenteRuolo") != null){ 
+                        	String dashboard = request.getContextPath()
+                                + "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+                        %>
+                            <li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+                            <li class="breadcrumb-item active">Statistiche</li>
+                        <%} %>
+                        </ol>
+                    </div>
+                </div>
 			
-	List<ProgettoFormativo> listaPF = tutorInterno.getProgettiFormativi();
-	if (listaPF.isEmpty()){
-		%>
-		<h6 class="card-subtitle">Nessuno Studente Presente</h6>
-		<% 
-	}else{
-%>
-
-						<h6 class="card-subtitle"></h6>
-						<div class="table-responsive">
-							<table id="demo-foo-addrow"
-								class="table m-t-30 table-hover contact-list footable-loaded footable"
-								data-page-size="10">
-								<thead>
-									<tr>
-										<th class="footable-sortable footable-sorted">#<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Matricola<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Nome<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Cognome<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Azienda<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Ambito<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Stato Tirocinio<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Data Inizio<span
-											class="footable-sort-indicator"></span></th>
-										<th class="footable-sortable">Data Fine<span
-											class="footable-sort-indicator"></span></th>
-									</tr>
-								</thead>
-								<tbody>
-									<% Iterator<?> it = listaPF.iterator(); 
-									int i = 1;
-									while (it.hasNext()) {
-										ProgettoFormativo progettoFormativo = (ProgettoFormativo) it.next();
-										
-                                	   %>
-									<tr class="footable-even" style="">
-										<td><span class="footable-toggle"></span><%=i %></td>
-										<td><%=progettoFormativo.getStudente().getMatricola() %></td>
-										<td><%=progettoFormativo.getStudente().getNome() %></td>
-										<td><%=progettoFormativo.getStudente().getCognome() %></td>
-										<td><%=progettoFormativo.getAzienda()%></td>
-										<td><%=progettoFormativo.getAmbito()%></td>
-										<%
-										if((progettoFormativo.getStato() >=0) && (progettoFormativo.getStato()<4)){%>
-										<td><span class="label label-warning">In Attesa</span></td>
-										
-										<%}else if(progettoFormativo.getStato()==4){ %>
-
-										<span class="label label-primary">Verificato</span>
-										</td>
-										<%}else if(progettoFormativo.getStato()==5){%>
-										<td>
-										
-										<span class="label label-success">Approvato</span>
-										</td>
-										<%}else if(progettoFormativo.getStato()==6){%>
-										<td>
-										
-										<span class="label label-danger">Rifiutato</span>
-										</td>
-										<%} %>
-
-										<td><%=progettoFormativo.getDataInizio()%></td>
-										<td><%=progettoFormativo.getDataFine() %></td>
-
-									</tr>
-									<% i++;		}
-									%>
-
-								</tbody>
-							</table>
-							
-						</div>
-						<%}}%>
-						
+				<div class="row">
+                    <!-- column -->
+                     <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title text-center">Nuovi tirocinanti negli ultimi 30 giorni</h4>
+                                <div id="topLast30Days"></div>
+                                <ul id = "topLast30DaysList" class="list-inline text-center"></ul>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-12">
+                     	 <!-- Column -->
+                        <div class="card card-inverse card-warning" style="margin-bottom:15px">
+                            <div class="card-block">
+                                <div class="d-flex">
+                                    <div class="m-r-20 align-self-center">
+                                        <h1 class="text-white"><i class="ti-stats-up"></i></h1></div>
+                                    <div>
+                                        <h3 class="card-title">Tirocini completati</h3>
+                                        <h6 id="currentDateCompletati" class="card-subtitle"></h6></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 align-self-center text-center">
+                                        <font class="display-3 text-white">256</font>
+                                    </div>
+                                    <div class="col-8 align-self-center">
+                                        <div class="usage chartist-chart" style="height:120px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                        <div class="card card-inverse card-danger">
+                            <div class="card-block">
+                                <div class="d-flex">
+                                    <div class="m-r-20 align-self-center">
+                                        <h1 class="text-white"><i class="ti-agenda"></i></h1></div>
+                                    <div>
+                                        <h3 class="card-title">Report generati</h3>
+                                        <h6 id="currentDateReports" class="card-subtitle"></h6> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 align-self-center text-center">
+                                        <font class="display-3 text-white">35487</font>
+                                    </div>
+                                    <div class="col-8  text-right">
+                                        <div class="spark-count" style="height:120px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+                        <!-- Column -->
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title"></h4>
+                                <div id="basicgrid"></div>
+                            </div>
+                        </div>
 					</div>
 				</div>
-</div>
+			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->
@@ -242,10 +213,26 @@
 	<!-- Chart JS -->
 	<script src="assets/plugins/echarts/echarts-all.js"></script>
 	<script src="js/dashboard5.js"></script>
+	 <!--Morris JavaScript -->
+    <script src="assets/plugins/raphael/raphael-min.js"></script>
+    <script src="assets/plugins/morrisjs/morris.js"></script>
+    <script src="assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/jQuery.date.js"></script>
+	<script>
+		var date = $.date('F Y');
+		document.getElementById("currentDateCompletati").innerHTML = date;
+		document.getElementById("currentDateReports").innerHTML = date;
+	</script>
+	
+	<script src="assets/plugins/jsgrid/db.js"></script>
+    <script type="text/javascript" src="assets/plugins/jsgrid/dist/jsgrid.min.js"></script>
+    <script src="js/stats-jsgrid-init.js"></script>
 	<!-- ============================================================== -->
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    
 </body>
 
 </html>

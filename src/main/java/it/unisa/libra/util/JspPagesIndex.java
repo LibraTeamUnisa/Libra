@@ -6,5 +6,7 @@ public class JspPagesIndex {
   public static final String DASHBOARD_AZIENDA = "/dashboardAzienda.jsp";
   public static final String ACCESSO_NEGATO = "/accessoNegato.jsp";
   public static final String REGISTRAZIONE = "/registrazione.jsp";
+  public static final String RECUPERA_PASSWORD = "/recuperaPassword.jsp";
+  public static final String CATALOGO_TUTOR_ESTERNI = "/catalogoTutorEsterni.jsp";
   
 }

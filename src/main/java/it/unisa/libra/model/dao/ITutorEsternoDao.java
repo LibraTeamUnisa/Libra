@@ -1,8 +1,8 @@
 package it.unisa.libra.model.dao;
 
-import java.util.List;
 import it.unisa.libra.bean.TutorEsterno;
 import it.unisa.libra.bean.TutorEsternoPK;
+import java.util.List;
 
 public interface ITutorEsternoDao extends IGenericDao<TutorEsterno, TutorEsternoPK> {
 
@@ -11,3 +11,4 @@ public interface ITutorEsternoDao extends IGenericDao<TutorEsterno, TutorEsterno
   List<TutorEsterno> findByAziendaNome(String nome);
 
 }
+

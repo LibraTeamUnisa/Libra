@@ -1,6 +1,7 @@
 package it.unisa.libra.controller;
 
 import java.io.IOException;
+
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,15 +42,15 @@ import it.unisa.libra.util.Actions;
 public class ReportStudenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/** gestore della persistenza per l'entità Report. **/
+	/** gestore della persistenza per l'entitï¿½ Report. **/
 	@EJB
 	private IReportDao reportDao;
 
-	/** gestore della persistenza per l'entità Progetto Formativo. **/
+	/** gestore della persistenza per l'entitï¿½ Progetto Formativo. **/
 	@EJB
 	private IProgettoFormativoDao progettoFormativoDao;
 
-	/** gestore della persistenza per l'entità Studente. **/
+	/** gestore della persistenza per l'entitï¿½ Studente. **/
 	@EJB
 	private IStudenteDao studenteDao;
 

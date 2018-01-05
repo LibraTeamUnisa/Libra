@@ -1,6 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
+<%@ page import="it.unisa.libra.model.dao.IAziendaDao" %>
+<%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
+<%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Map.Entry" %>
+<%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
+<%@ page import="it.unisa.libra.bean.Studente" %>
+<%@ page import="it.unisa.libra.bean.Azienda" %>
+<%@ page import="it.unisa.libra.bean.TutorInterno" %>
+<%@ page import="it.unisa.libra.bean.Presidente" %>
+<%@ page import="it.unisa.libra.bean.Utente" %>
+<%
+	
+	
+	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
+	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+	
+	
+	int numeroStudenti = studenteDao.contaOccorrenze();
+	int numeroProgettiFormativi = progettoFormativoDao.contaOccorrenze();
+	int numeroAziende = aziendaDao.contaOccorrenze();
+	
+	List<Studente> listaStudenti = new ArrayList<Studente>();
+	
+	if(request.getSession().getAttribute("utenteRuolo")!=null && 
+			request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
+		if(request.getSession().getAttribute("listaStudentiPerSegreteria")==null){
+			listaStudenti = studenteDao.listaOrdinataPerCognome();
+			request.getSession().setAttribute("listaStudentiPerSegreteria", listaStudenti);
+		}else{
+			listaStudenti = (ArrayList<Studente>)request.getSession().getAttribute("listaStudentiPerSegreteria");
+		}
+	}
+	
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,11 +93,11 @@
        	<%@ include file="header.jsp" %>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
+        <%@ include file="menu.jsp" %>
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <%@ include file="menu.jsp" %>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -68,13 +109,196 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-             
-             
+              <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-6">
+
+                        <div class="card" >
+                            <div class="card">
+                            <h4 class="card-title" align="center">
+</h4>
+                                <h4 class="card-title" align="center">LISTA STUDENTI ISCRITTI</h4>
+                                <div class="table-responsive m-t-40">
+                                
+                                    <table class="table stylish-table">
+                                    
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Cognome</th>
+                                                <th>Nome</th>
+                                                <th>E-mail</th>
+                                                <th>Matricola</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <%if(listaStudenti!=null && listaStudenti.size()>0){
+                                        	for(Studente iscritto:listaStudenti){
+                                        %>
+                                        <tbody><tr>
+                                        		<%if(iscritto!=null&&iscritto.getCognome()!=null) {
+                                        		%>
+                                        		<td style="width:50px;"><span class="round"><%=iscritto.getUtente().getImgProfilo()%></span></td>
+                                                <td><h6><%=iscritto.getCognome() %></h6></td>
+                                               <% } else{%>
+                                                <td><h6>Non disponibile</h6></td>
+                                                <td ><span ><</span></td>
+                                                <%} 
+                                                if(iscritto!=null&&iscritto.getNome()!=null){
+                                                %>
+                                               	 <td> <h6> <%=(iscritto.getNome()) %></h6></td>
+                                               	 <%} else{ %>
+                                               	 <td> <h6> Non disponibileee</h6></td>
+                                               	 <%}
+                                                if(iscritto.getUtenteEmail()!=null){
+                                                %>
+                                                <td> <h6> <%=(iscritto.getUtenteEmail()) %></h6></td>
+                                                <%} else{ %>
+                                                <td> <h6> Non disponibile</h6></td>
+                                                 <%}
+                                                if(iscritto.getMatricola()!=null){
+                                                %>
+                                                <td><span class="label label-light-success"><%=iscritto.getMatricola()%></span></td>
+                                                <%} else{ %>
+                                                <td> <h6> Non disponibile</h6></td>
+                                               	<%}
+                                                %>
+   
+                                            </tr>
+                                          <% 
+                                            	}
+     
+                                        	
+                                        	}
+                                        	
+                                        
+                                        %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <!-- Row -->
+                        <div class="row">
+                            <!-- Column -->
+                            <div class="col-sm-6">
+                                <div class="card card-block">
+                                    <!-- Row -->
+                                    <div class="row p-t-10 p-b-10">
+                                        <!-- Column -->
+                                        <div class="col p-r-0">
+                                            <h1 class="font-light"><%=numeroStudenti %></h1>
+                                            <h6 class="text-muted">Studenti iscritti alla piattaforma</h6></div>
+                                        <!-- Column -->
+                                        <div class="col text-right align-self-center">
+                                            <div data-label="20%" class="css-bar m-b-0 css-bar-primary css-bar-20"><i class="mdi mdi-receipt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <div class="col-sm-6">
+                                <div class="card card-block">
+                                    <!-- Row -->
+                                    <div class="row p-t-10 p-b-10">
+                                        <!-- Column -->
+                                        <div class="col p-r-0">
+                                            <h1 class="font-light"><%=numeroProgettiFormativi %></h1>
+                                            <h6 class="text-muted">Progetti formativi </h6></div>
+                                        <!-- Column -->
+                                        <div class="col text-right align-self-center">
+                                            <div data-label="30%" class="css-bar m-b-0 css-bar-danger css-bar-20"><i class="mdi mdi-receipt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <div class="col-sm-6">
+                                <div class="card card-block">
+                                    <!-- Row -->
+                                    <div class="row p-t-10 p-b-10">
+                                        <!-- Column -->
+                                        <div class="col p-r-0">
+                                            <h1 class="font-light"><%=numeroAziende %></h1>
+                                            <h6 class="text-muted">Aziende convenzionate</h6></div>
+                                        <!-- Column -->
+                                        <div class="col text-right align-self-center">
+                                            <div data-label="40%" class="css-bar m-b-0 css-bar-warning css-bar-40"><i class="mdi mdi-receipt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+                 
+                <!-- Row -->
+                
+                
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul id="themecolors" class="m-t-20">
+                                <li><b>With Light sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
+                                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme working">4</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
+                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
+                                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
+                            </ul>
+                            <ul class="m-t-20 chatonline">
+                                <li><b>Chat option</b></li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
+            
             <!-- footer -->
             <!-- ============================================================== -->
             <%@ include file="footer.jsp" %>

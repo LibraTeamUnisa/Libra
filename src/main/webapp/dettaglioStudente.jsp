@@ -26,6 +26,8 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
     <!-- Bootstrap Core CSS -->
     <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <!--alerts CSS -->
+    <link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
         
     <!-- chartist CSS -->
     <link href="assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
@@ -150,7 +152,7 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 		                				</div>
 		                				<div class="col-md-9">
 		                					<p class="card-text">
-		                						<span class="text-muted">Inviata il </span><br>
+		                						<span class="text-muted">Inviata il <%= pf.getDataInvio() %></span><br>
 		                						<strong>Azienda:</strong><span class="text-muted"> <%= pf.getAzienda().getNome() %> </span><br>
 		                						<strong>Note:</strong><span class="text-muted"> <%= pf.getNote() %> </span><br>
 		                					</p>
@@ -158,31 +160,37 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 		                			</div>
 		                			<% if (request.getSession().getAttribute("utenteRuolo").equals("Segreteria")) { %>
 	                				<div class="row card-block">
-		                				<div class="col-md-4">
+		                				<div class="col-md-3">
 		                					<button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Approva</button>
 		                				</div>
-		                				<div class="col-md-8">
+		                				<div class="col-md-7">
 		                					<div class="form-group row">
-		                						<label class="text-muted text-right align-self-center control-label col-md-3">Cambia stato: </label>
+		                						<label class="text-muted text-right align-self-center control-label col-md-3">Stato corrente: </label>
 		                						<div class="col-md-5">
-			                						 <select class="selectpicker" data-style="form-control btn-secondary">
-			                                            <option>Richiesto</option>
-			                                            <option>In attesa</option>
-			                                            <option>Verificato</option>
-			                                            <option>Rifiutato</option>
-			                                            <option>Approvato</option>
+			                						 <select class="selectpicker" data-style="form-control btn-secondary" id="select-stato">
+			                                            <option name="select-stato" <% if (pf == null) { %> selected <% } %> value="-1">Disponibile</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 0) { %> selected <% } %> value="0">Richiesto</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 1) { %> selected <% } %> value="1">Inviato allo studente</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 2) { %> selected <% } %> value="2">In verifica al Tutor Interno</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 3) { %> selected <% } %> value="3">In verifica al Presidente</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 4) { %> selected <% } %> value="4">Verificato</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 5) { %> selected <% } %> value="5">Approvato</option>
+			                                            <option name="select-stato" <% if (pf.getStato() == 6) { %> selected <% } %> value="6">Rifiutato</option>
 		                                       		 </select>
-		                           					 <button type="button" class="btn btn-outline-primary"> Conferma</button>
-		                                       		 
+		                                       		 <input type="hidden" id="stato" value="<%= pf.getStato() %>">
+		                                       		 <input type="hidden" name="pfId" id="pfId" value="<%= pf.getId() %>">		                                       		 
 	                                       		 </div>
 		                					</div>
 		                				</div>
+		                				<div class="col-md-2">
+		                           			<button type="button" class="btn btn-outline-primary" id="sa-warning-tirocinio"> Conferma</button>		                				
+		                				</div>
 	                				</div>
-	                				<% } else { %>
+	                				<% } else if ((request.getSession().getAttribute("utenteRuolo").equals("TutorInterno") && pf.getStato() == 2) || (request.getSession().getAttribute("utenteRuolo").equals("Presidente") && pf.getStato() == 3)) { %>
 	                				<div class="row card-block">
 		                				<div class="col-md-4">
-		                					<button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button>
-		                					<button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button>
+		                					<a href="caricaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button></a>
+		                					<a href="rifiutaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button></a>
 		                				</div>
 		                				<div class="col-md-8">
 		                				</div>
@@ -238,9 +246,12 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
     <script src="js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
-    <script src="assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
-    
+    <script src="assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>  
     <!-- ============================================================== -->
+    <!-- Sweet-Alert  -->
+    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <!-- ============================================================== -->    
     <!-- chartist chart -->
     <script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
     <script src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>

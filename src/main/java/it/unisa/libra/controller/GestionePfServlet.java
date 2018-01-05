@@ -14,6 +14,7 @@ import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.Actions;
 import it.unisa.libra.util.CheckUtils;
 import it.unisa.libra.util.JsonUtils;
+import it.unisa.libra.bean.ProgettoFormativo;
 
 /** Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "GestionePfServlet", urlPatterns= {"/gestionePfServlet"})
@@ -46,7 +47,17 @@ public class GestionePfServlet extends HttpServlet {
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    doGet(request, response);
+     if (request.getParameter(Actions.ACTION).equals(Actions.MODIFICA_STATO_TIROCINIO)) {
+      ProgettoFormativo pf = progettoFormativoDao.findById(ProgettoFormativo.class,
+          Integer.parseInt(request.getParameter("id")));
+      pf.setStato(Integer.parseInt(request.getParameter("stato")));
+      progettoFormativoDao.persist(pf);
+      response.getWriter().write("true");
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Azione non valida!");
+      response.getWriter().flush();
+    }
   }
 
 }

@@ -150,7 +150,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     tutor.setUtente(utente);
     return tutor;
   }
-/*
+
   @Test
   public void getInOrdineCronologicoTest() {
     Date data = new Date();
@@ -165,5 +165,28 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     assertNotNull(lista);
     // assertTrue(lista.get(0).getDataInizio().after(lista.get(1).getDataInizio()));
   }
-*/
+  
+  @Test
+  public void contaOccorrenzeTest() {
+	  ProgettoFormativo test = createProgettoFormativoObject();
+	  jpaP.persist(test);
+	  int occorrenze = jpaP.contaOccorrenze();
+	  assertEquals(occorrenze, 1);
+	  assertNotNull(occorrenze);
+  }
+  
+  @Test
+  public void getUltimi10() {
+	  Date data = new Date();
+	    data.setDate(3);
+	    ProgettoFormativo test = createPFconData(data);
+	    Date data2 = new Date();
+	    data2.setDate(4);
+	    ProgettoFormativo test2 = createPFconData(data);
+	    jpaP.persist(test);
+	    jpaP.persist(test2);
+	    List<ProgettoFormativo> lista = jpaP.findUltime10();
+	    assertNotNull(lista);
+  }
+
 }

@@ -86,7 +86,7 @@
     	</center>
     
     <div id="formPresidente" style="display: block; " >
-    	<form action="GestioneUtente" method="post" class="form-horizontal form-material">
+    	<form action="GestioneUtenteServlet" method="post" class="form-horizontal form-material">
     		<input type="hidden" name="ruolo" value="Presidente">
     		<div class="row">
   				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
@@ -126,7 +126,7 @@
     
     
      <div id="formTutorInterno" class="form-horizontal form-material" style="display: none;">
-    	<form action="GestioneUtente" method="post" class="form-horizontal form-material">
+    	<form action="GestioneUtenteServlet" method="post" class="form-horizontal form-material">
     		<input type="hidden" name="ruolo" value="TutorEsterno">
     		<div class="row">
   				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>
@@ -160,7 +160,7 @@
     </div>
     
     <div id="formAzienda" class="form-horizontal form-material" style="display: none;">
-    	<form action="GestioneUtente" method="post" class="form-horizontal form-material">
+    	<form action="GestioneUtenteServlet" method="post" class="form-horizontal form-material">
     		<input type="hidden" name="ruolo" value="Azienda">
     		<div class="row">
   				<div class="col">Email Istituzionale:<input placeholder="" class="form-control" id="email" name="email" type="email" required></div>

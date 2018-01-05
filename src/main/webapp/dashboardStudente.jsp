@@ -10,10 +10,13 @@
 <%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
 <%@page import="it.unisa.libra.model.dao.IFeedbackDao"%>
 <%@page import="it.unisa.libra.model.dao.IUtenteDao"%>
+<%@page import="it.unisa.libra.model.dao.IGruppoDao"%>
 <%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
 <%@page import="it.unisa.libra.bean.Studente"%>
 <%@page import="it.unisa.libra.bean.Feedback"%>
 <%@page import="it.unisa.libra.bean.Azienda"%>
+<%@page import="it.unisa.libra.bean.Gruppo"%>
+<%@page import="it.unisa.libra.bean.Permesso"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 
@@ -25,6 +28,7 @@
 	
 	SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
 	
+	IGruppoDao gruppoDAO = (IGruppoDao) new InitialContext().lookup("java:app/Libra/GruppoJpa");
 	IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
 	IStudenteDao studenteDAO = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
@@ -158,7 +162,18 @@
                			<tr>
                       		<td>
 							<% 
-							if(!feedbackRicevuti.isEmpty()) {
+							boolean control = false;
+							String ruolo = (String)session.getAttribute("utenteRuolo");
+							Gruppo gruppo = gruppoDAO.findById(Gruppo.class, ruolo);
+							if(gruppo!=null) {
+								List<Permesso> listaPermessi = gruppo.getPermessi();
+								for(Permesso p : listaPermessi) {
+									if(p.getTipo().contains("ricevuti")) {
+										control = true;
+									}
+								}
+							}
+							if(!feedbackRicevuti.isEmpty() && (control)) {
 								flag=true;
 							%>
 							<p align="center">

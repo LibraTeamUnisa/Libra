@@ -1,9 +1,9 @@
+
 package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;

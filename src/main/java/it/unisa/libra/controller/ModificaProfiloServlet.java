@@ -1,14 +1,5 @@
 package it.unisa.libra.controller;
 
-import java.io.IOException;
-import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Segreteria;
@@ -20,36 +11,45 @@ import it.unisa.libra.model.dao.IPresidenteDao;
 import it.unisa.libra.model.dao.ISegreteriaDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.dao.ITutorInternoDao;
+import java.io.IOException;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/** Servlet implementation class AutenticazioneServlet */
+
+/* Servlet implementation class AutenticazioneServlet */
 @WebServlet(name = "ModificaProfiloServlet", urlPatterns = "/modificaProfilo")
 public class ModificaProfiloServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  /** Gestore della persistenza dello studente */
+  /* Gestore della persistenza dello studente */
   @EJB
   private IStudenteDao studenteDao;
 
-  /** Gestore della persistenza del tutor interno */
+  /* Gestore della persistenza del tutor interno */
   @EJB
   private ITutorInternoDao tutorinternodao;
 
-  /** Gestore della persistenza del presidente */
+  /* Gestore della persistenza del presidente */
   @EJB
   private IPresidenteDao presidentedao;
 
-  /** Gestore della persistenza dell'azienda */
+  /* Gestore della persistenza dell'azienda */
   @EJB
   private IAziendaDao aziendadao;
 
-  /** Gestore della persistenza della segreteria */
+  /* Gestore della persistenza della segreteria */
   @EJB
   private ISegreteriaDao segreteriadao;
 
   /* Variabili di istanza */
   private String email /* = "stefano@unisa.it" */;
   private String ruolo /* = "Segreteria" */;
-  private boolean filtro = true;
   private String indirizzo;
   private String telefono;
   private String sito;
@@ -59,9 +59,11 @@ public class ModificaProfiloServlet extends HttpServlet {
   /** Default constructor. */
   public ModificaProfiloServlet() {}
 
-  /**
+  /*
    * @throws IOException
+   * 
    * @throws ServletException
+   * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -103,8 +105,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     } else {
       indirizzo = azienda.getSede();
     }
-    controllaParametri(request, response);
-    if (filtro == true) {
+    if (controllaParametri(request, response) == true) {
       aziendadao.persist(azienda);
     }
   }
@@ -132,8 +133,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     } else {
       ricevimento = segreteria.getGiorniDiRicevimento();
     }
-    controllaParametri(request, response);
-    if (filtro == true) {
+    if (controllaParametri(request, response) == true) {
       segreteriadao.persist(segreteria);
     }
   }
@@ -173,8 +173,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     } else {
       ricevimento = presidente.getGiorniDiRicevimento();
     }
-    controllaParametri(request, response);
-    if (filtro == true) {
+    if (controllaParametri(request, response) == true) {
       presidentedao.persist(presidente);
     }
   }
@@ -202,8 +201,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     } else {
       sito = tutor.getLinkSito();
     }
-    controllaParametri(request, response);
-    if (filtro == true) {
+    if (controllaParametri(request, response) == true) {
       tutorinternodao.persist(tutor);
     }
   }
@@ -225,30 +223,34 @@ public class ModificaProfiloServlet extends HttpServlet {
     } else {
       indirizzo = utente.getIndirizzo();
     }
-    controllaParametri(request, response);
-    if (filtro == true) {
+    if (controllaParametri(request, response) == true) {
       studenteDao.persist(studente);
     }
   }
 
   /* Controlla i parametri in base al test plan */
-  private void controllaParametri(HttpServletRequest request, HttpServletResponse response)
+  private boolean controllaParametri(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     if (indirizzo.length() < 2 || indirizzo.length() > 100) {
-      filtro = false;
       request.setAttribute("erroreLunghezzaIndirizzo", "Lunghezza indirizzo non consentita");
-      RequestDispatcher lenght = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+      RequestDispatcher lenght =
+          request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
       lenght.forward(request, response);
-    } else if (telefono.length() != 10) {
-      filtro = false;
+      return false;
+    } else if (telefono.length() < 9 || telefono.length() > 10) {
       request.setAttribute("erroreLunghezzaTelefono", "Lunghezza telefono non consentita");
-      RequestDispatcher lenght = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+      RequestDispatcher lenght =
+          request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
       lenght.forward(request, response);
-    }else if (!isNumeric(telefono)) {
-      filtro = false;
+      return false;
+    } else if (!isNumeric(telefono)) {
       request.setAttribute("erroreFormatoTelefono", "Puoi inserire solo numeri");
-      RequestDispatcher format = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+      RequestDispatcher format =
+          request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
       format.forward(request, response);
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -263,7 +265,7 @@ public class ModificaProfiloServlet extends HttpServlet {
     return true;
   }
 
-  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
+  /* @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     doGet(request, response);

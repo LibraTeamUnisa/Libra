@@ -272,12 +272,22 @@
 									</h3>
 									<br>
 									<%
-									String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
-									if (erroreLunghezzaIndirizzo != null) {
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
 									%>
-									<p style="color:red;"><%=erroreLunghezzaIndirizzo %></p>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
 									<%
-									}
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
 									%>
 									<div class="col-sm-10"></div>
 									<div class="row">
@@ -392,6 +402,24 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -513,6 +541,24 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -642,6 +688,24 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -710,6 +774,24 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Sede:</label>

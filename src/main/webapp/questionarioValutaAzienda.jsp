@@ -127,7 +127,7 @@
 							ProgettoFormativo pf= pfDao.getLastProgettoFormativoByStudente(studente);
 							String note=null;
 							Boolean persisted= false;
-							if(pf.getStato() == 4){
+							if(pf.getStato() == 5){
 							
 								for(Domanda d: domande){ 
 									FeedbackPK pk= new FeedbackPK();

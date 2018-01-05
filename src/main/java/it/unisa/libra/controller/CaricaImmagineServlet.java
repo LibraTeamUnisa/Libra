@@ -1,10 +1,6 @@
 package it.unisa.libra.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,10 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.FileUtils;
 
 /**
  * Servlet implementation class CaricaImmagineServlet
@@ -25,7 +19,6 @@ import it.unisa.libra.model.dao.IUtenteDao;
 public class CaricaImmagineServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private String email;
   @EJB
   private IUtenteDao utenteDao;
 
@@ -39,19 +32,14 @@ public class CaricaImmagineServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    HttpSession session = request.getSession();
-    String email = (String) session.getAttribute("utenteEmail");
-    Utente user = utenteDao.findById(Utente.class, email);
-    Part filePart = request.getPart("proPic");
-    if (!filePart.getSubmittedFileName().equals("")) {
-//      File file = new File("C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/" + filePart.getSubmittedFileName());
-//      InputStream filestream = filePart.getInputStream();
-//      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//      user.setImgProfilo("assets/images/users/" + filePart.getSubmittedFileName());
-//      utenteDao.persist(user);
+    if (request.getParameter("action") != null && request.getParameter("action").equals("carica")) {
+      response.getWriter()
+          .write(FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO + "prova", "prova.png"));
     } else {
+      String file = request.getParameter("file");
+      if (FileUtils.saveBase64ToFile(FileUtils.PATH_IMG_PROFILO + "prova", "prova.png", file))
+        response.getWriter().write("Salvataggio riuscito con successo");
     }
-    response.sendRedirect("profilo.jsp");
   }
 
   /**

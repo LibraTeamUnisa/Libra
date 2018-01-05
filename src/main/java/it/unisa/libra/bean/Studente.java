@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -56,7 +57,7 @@ public class Studente implements Serializable {
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

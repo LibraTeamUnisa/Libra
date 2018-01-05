@@ -271,6 +271,14 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+									String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+									if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<p style="color:red;"><%=erroreLunghezzaIndirizzo %></p>
+									<%
+									}
+									%>
 									<div class="col-sm-10"></div>
 									<div class="row">
 										<div class="col-sm-4">

@@ -88,7 +88,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 
   /* Modifica Azienda */
   private void modificaAzienda(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, ServletException {
     Azienda azienda = aziendadao.findById(Azienda.class, email);
     Utente utente = azienda.getUtente();
     indirizzo = request.getParameter(SEDE);
@@ -111,7 +111,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 
   /* Modifica Segreteria */
   private void modificaSegreteria(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, ServletException {
     Segreteria segreteria = segreteriadao.findById(Segreteria.class, email);
     Utente utente = segreteria.getUtente();
     indirizzo = request.getParameter(INDIRIZZO);
@@ -140,7 +140,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 
   /* Modifica Presidente */
   private void modificaPresidente(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, ServletException {
     Presidente presidente = (Presidente) presidentedao.findById(Presidente.class, email);
     Utente utente = presidente.getUtente();
     indirizzo = request.getParameter(INDIRIZZO);
@@ -181,7 +181,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 
   /* Modifica Tutor Interno */
   private void modificaTutorInterno(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, ServletException {
     TutorInterno tutor = tutorinternodao.findById(TutorInterno.class, email);
     Utente utente = tutor.getUtente();
     indirizzo = request.getParameter(INDIRIZZO);
@@ -210,7 +210,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 
   /* Modifica Studente */
   private void modificaStudente(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, ServletException {
     Studente studente = studenteDao.findById(Studente.class, email);
     Utente utente = studente.getUtente();
     indirizzo = request.getParameter(INDIRIZZO);
@@ -233,15 +233,22 @@ public class ModificaProfiloServlet extends HttpServlet {
 
   /* Controlla i parametri in base al test plan */
   private void controllaParametri(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-    if (indirizzo.length() < 2 || indirizzo.length() > 100 || telefono.length() != 10) {
+      throws IOException, ServletException {
+    if (indirizzo.length() < 2 || indirizzo.length() > 100) {
       filtro = false;
-      response.getWriter().write("Lunghezza non consentita");
-      response.getWriter().flush();
-    } else if (!isNumeric(telefono)) {
+      request.setAttribute("erroreLunghezzaIndirizzo", "Lunghezza indirizzo non consentita");
+      RequestDispatcher lenght = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+      lenght.forward(request, response);
+    } else if (telefono.length() != 10) {
       filtro = false;
-      response.getWriter().write("Input non valido");
-      response.getWriter().flush();
+      request.setAttribute("erroreLunghezzaTelefono", "Lunghezza telefono non consentita");
+      RequestDispatcher lenght = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+      lenght.forward(request, response);
+    }else if (!isNumeric(telefono)) {
+      filtro = false;
+      request.setAttribute("erroreFormatoTelefono", "Puoi inserire solo numeri");
+      RequestDispatcher format = request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+      format.forward(request, response);
     }
   }
 

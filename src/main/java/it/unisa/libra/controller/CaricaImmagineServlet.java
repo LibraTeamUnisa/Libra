@@ -45,7 +45,7 @@ public class CaricaImmagineServlet extends HttpServlet {
     String email = (String) session.getAttribute("utenteEmail");
     Utente user = utenteDao.findById(Utente.class, email);
     Part filePart = request.getPart("proPic");
-    if (!filePart.getSubmittedFileName().equals("")) {
+/*    if (!filePart.getSubmittedFileName().equals("")) {
       File file = new File(PATH + filePart.getSubmittedFileName());
       InputStream filestream = filePart.getInputStream();
       Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -53,7 +53,7 @@ public class CaricaImmagineServlet extends HttpServlet {
       utenteDao.persist(user);
     }
     response.sendRedirect("profilo.jsp");
-  }
+*/  }
 
   /**
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -62,8 +62,8 @@ public class CaricaImmagineServlet extends HttpServlet {
       throws ServletException, IOException {
     doGet(request, response);
   }
-
+/*
   private static String PATH = "C:/Users/Michele/Desktop/Libra/target/Libra/assets/images/users/";
   private static String IMAGE_LOCATION_DB = "assets/images/users/";
   private static String DATE_FORMAT = "dd-mm-yyyy_hh:mm:ss";
-}
+*/}

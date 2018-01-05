@@ -51,29 +51,22 @@ public class CaricaImmagineServletTest {
   private CaricaImmagineServlet servlet;
 
   private String email = "example@test.it";
-/*
-  @Before
-  public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
-    servlet.init(config);
-    when(response.getWriter()).thenReturn(responseWriter);
-  }
-
-  @After
-  public void terDown() throws Exception {}
-
-  @Test
-  public void cambioImmagineOk() throws Exception {
-	  
-    when(request.getSession()).thenReturn(session);
-    when(session.getAttribute("utenteEmail")).thenReturn(email);
-    when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
-    when(request.getPart("proPic")).thenReturn(part);
-    when(part.getSubmittedFileName()).thenReturn("name");
-    when(part.getInputStream()).thenReturn(is);
-    servlet.doPost(request, response);
-    verify(response).sendRedirect("profilo.jsp");
-    
-  }
-  */
+  /*
+   * @Before public void setUp() throws Exception { MockitoAnnotations.initMocks(this);
+   * servlet.init(config); when(response.getWriter()).thenReturn(responseWriter); }
+   * 
+   * @After public void terDown() throws Exception {}
+   * 
+   * @Test public void cambioImmagineOk() throws Exception {
+   * 
+   * when(request.getSession()).thenReturn(session);
+   * when(session.getAttribute("utenteEmail")).thenReturn(email);
+   * when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
+   * when(request.getPart("proPic")).thenReturn(part);
+   * when(part.getSubmittedFileName()).thenReturn("name");
+   * when(part.getInputStream()).thenReturn(is); servlet.doPost(request, response);
+   * verify(response).sendRedirect("profilo.jsp");
+   * 
+   * }
+   */
 }

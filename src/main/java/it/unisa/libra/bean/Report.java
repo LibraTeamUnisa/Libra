@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
  * 
  */
 @Entity
-@NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r")
+@NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r ORDER BY r.id.data DESC")
 public class Report implements Serializable {
   private static final long serialVersionUID = 1L;
 

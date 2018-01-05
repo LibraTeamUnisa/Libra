@@ -47,7 +47,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.getWriter().write(BADREQUEST_MESS);
+    //response.getWriter().write(BADREQUEST_MESS);
+    doPost(request,response);
     return;
   }
 
@@ -172,7 +173,6 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
       throws IOException {
     String idTutor = request.getParameter("idTutor");
     String idAzienda = request.getParameter("idAzienda");
-
     if (CheckUtils.checkEmptiness(idTutor) && CheckUtils.checkEmail(idAzienda)) {
 
       TutorEsternoPK tutorKey = new TutorEsternoPK();
@@ -191,15 +191,16 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
         Integer count = 0;
 
         if (CheckUtils.checkEmptiness(ambito)) {
-          tutorKey.setAmbito(ambito);
-          boolean notSet = tutorDao.findById(TutorEsterno.class, tutorKey) == null;
-          try {
-            if (notSet) {
-              tutor.setId(tutorKey);
+          TutorEsternoPK newKey=new TutorEsternoPK();
+          newKey.setAziendaEmail(tutorKey.getAziendaEmail());
+          newKey.setAmbito(ambito);
+          boolean notSet = tutorDao.findById(TutorEsterno.class, newKey) == null;
+          
+          if (notSet) {
+              tutorDao.remove(TutorEsterno.class, tutorKey);
+              tutor.setId(newKey);
               count++;
-            } else
-              throw new IllegalArgumentException();
-          } catch (IllegalArgumentException ex) {
+          } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
             response.getWriter().flush();
@@ -218,8 +219,11 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           tutor.setTelefono(telefono);
           count++;
         }
-        if (CheckUtils.parseDate(data) != null) {
-          tutor.setDataDiNascita(CheckUtils.parseDate(data));
+
+        boolean isParsable=CheckUtils.parseDate(data) != null||CheckUtils.parseDateWithPattern(data,"yyyy-MM-dd") != null;
+        if (isParsable) {
+          Date newDate=CheckUtils.parseDateWithPattern(data,"yyyy-MM-dd") != null?CheckUtils.parseDateWithPattern(data,"yyyy-MM-dd"):CheckUtils.parseDate(data);
+          tutor.setDataDiNascita(newDate);
           count++;
         }
         if (CheckUtils.checkEmptiness(indirizzo)) {
@@ -231,6 +235,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("Le informazioni specificate non sono corrette");
         } else {
+          tutorDao.persist(tutor);
           response.setStatus(HttpServletResponse.SC_OK);
           response.getWriter().write("Operazione terminata. Aggionati " + count + " campi");
         }

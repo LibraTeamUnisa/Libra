@@ -297,6 +297,7 @@
 	            
 	            %>
 		
+		
 			<div class="card wizard-card" style="padding: 1%">
 							<h4 class="card-title">Valutazioni</h4>
 							<table class="table table-responsive">

@@ -22,10 +22,9 @@
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	int numeroStudenti = studenteDao.findAll(Studente.class).size();
+	int numeroStudenti = studenteDao.contaOccorrenze();
 	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
-	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
-	int numeroStudentiAttivi = 0;
+	int numeroAziende = aziendaDao.contaOccorrenze();
 	List<Studente> listaStudenti = studenteDao.listaOrdinataPerCognome();
 %>
 
@@ -219,6 +218,7 @@
                             <!-- Column -->
                             
                             </div>
+                            
                         </div>
                     </div>
                     

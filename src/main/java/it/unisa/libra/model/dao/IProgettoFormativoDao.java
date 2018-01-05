@@ -27,7 +27,7 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
    * @param tutorInterno tutor di cui si vogliono conoscere i progetti formativi degli studenti
    *        associati.
    * @return ultimo progetto formativo del tutor interno e dello studente a lui associato oppure
-   *         null se lo studente non è associato al tutor interno.
+   *         null se lo studente non Ã¨ associato al tutor interno.
    */
   public ProgettoFormativo getLastProgettoFormativoByStudenteAssociato(Studente studente,
       String tutorInterno);
@@ -35,12 +35,6 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
   public List<ProgettoFormativo> getProgettiFormativiByAzienda(String nome);
 
   public List<Studente> getStudentiByAzienda(Azienda azienda);
-
-  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit,
-      String status);
-
-  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,
-      String status);
 
   /**
    * Restituisce il numero di progetti formativi offerti dall'azienda data e che si trovano in uno
@@ -68,5 +62,13 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
    * @return il numero di valutazioni espresse
    */
   public long countValutatiByAzienda(Azienda azienda);
+
+  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status);
+  
+  public List<ProgettoFormativo> getInOrdineCronologico();
+  
+  public List<ProgettoFormativo> findUltime10();
+
+  int contaOccorrenze();
   
 }

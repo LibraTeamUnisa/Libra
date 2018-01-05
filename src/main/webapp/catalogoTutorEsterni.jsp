@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page import="it.unisa.libra.bean.TutorEsternoPK"%>
-<%@page import="it.unisa.libra.bean.Azienda"%>
-<%@page import="it.unisa.libra.model.dao.ITutorEsternoDao"%>
+<%@ page import="it.unisa.libra.bean.TutorEsternoPK"%>
+<%@ page import="it.unisa.libra.bean.Azienda"%>
+<%@ page import="it.unisa.libra.model.dao.ITutorEsternoDao"%>
 <%@ page import="javax.naming.InitialContext"%>
 <%@ page import="javax.naming.Context"%>
-<%@page import="it.unisa.libra.bean.TutorEsterno"%>
-<%@page import="it.unisa.libra.model.jpa.AziendaJpa"%>
-<%@page import="java.util.*,it.unisa.*"%>
-<%@page import="java.net.URLEncoder" %>
+<%@ page import="it.unisa.libra.bean.TutorEsterno"%>
+<%@ page import="it.unisa.libra.model.jpa.AziendaJpa"%>
+<%@ page import="java.util.*,it.unisa.*"%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,8 +45,38 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+  i.fa 
+  {
+  display: inline-block;
+  border-radius: 60px;
+  box-shadow: 0px 3px 10px #888;
+  padding: 0.5em 0.6em;
+  }
+  
+  i.fa-pencil
+  {
+    color:white!important;
+    background-color:#FF8F00;
+  }
+  
+  i.fa-close
+  {
+    color:white!important;
+    background-color:#f62d51;
+  }
+</style>
 </head>
+<%!
+private String parseDate(Date date)
+{
 
+	   SimpleDateFormat dFormat=new SimpleDateFormat("dd/MM/yyyy");
+
+	   return dFormat.format(date);
+
+}
+%>
 <body class="fix-header fix-sidebar card-no-border">
 
 	<!-- ============================================================== -->
@@ -212,12 +243,12 @@ function funzioneApriModal(amb) {
 													<td><%=bean.getNome()%></td>
 													<!-- Ambito	 -->
 													<td><%=ambito%></td>
-													<td><%=bean.getDataDiNascita()%></td>
+													<td><%=parseDate(bean.getDataDiNascita())%></td>
 													<td><%=bean.getIndirizzo()%></td>
 													<td><%=bean.getTelefono()%></td>
 													<td class="text-nowrap"><a
 														href="gestioneTutorEsterno.jsp?action=<%=Actions.MODIFICA_TUTOR_ESTERNO%>&ambito=<%= URLEncoder.encode(ambito,"UTF-8") %>"
-														data-toggle="tooltip" data-original-title="Edit"> <i
+														data-toggle="tooltip" data-original-title="Modifica"> <i
 															class="fa fa-pencil text-inverse m-r-10"></i>
 													</a> <a href="#" onclick="funzioneApriModal('<%=ambito%>')"
 														data-original-title="Close" data-toggle="modal"

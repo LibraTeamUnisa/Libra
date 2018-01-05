@@ -71,6 +71,21 @@
    color:white!important;
 }
 
+#button1:hover > a
+{
+  color:white!important;
+}
+
+#button1:active > a
+{
+  color:white!important;
+}
+
+#button1:focus > a
+{
+  color:white!important;
+}
+
 </style>
 </head>
 

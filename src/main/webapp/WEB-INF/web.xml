@@ -56,7 +56,6 @@
 		<filter-name>NegaPresidente</filter-name>
 		<url-pattern>/aggiungiUtente.jsp</url-pattern>
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
-		<url-pattern>/catalogoAziende.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
 		<url-pattern>/creaPpf.jsp</url-pattern>
@@ -87,7 +86,6 @@
 		<filter-name>NegaSegreteria</filter-name>
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
 		<url-pattern>/caricaPpf.jsp</url-pattern>
-		<url-pattern>/catalogoAziende.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
 		<url-pattern>/creaPpf.jsp</url-pattern>
@@ -144,7 +142,6 @@
 	<filter-mapping>
 		<filter-name>NegaTutorInterno</filter-name>
 		<url-pattern>/aggiungiUtente.jsp</url-pattern>
-		<url-pattern>/catalogoAziende.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
 		<url-pattern>/creaPpf.jsp</url-pattern>

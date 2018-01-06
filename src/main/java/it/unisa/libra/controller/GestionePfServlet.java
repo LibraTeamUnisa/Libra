@@ -1,6 +1,6 @@
 package it.unisa.libra.controller;
 
-import it.unisa.libra.bean.ProgettoFormativo; 
+import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.Actions;
 import it.unisa.libra.util.CheckUtils;

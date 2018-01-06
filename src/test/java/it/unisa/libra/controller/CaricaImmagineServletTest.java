@@ -72,7 +72,7 @@ public class CaricaImmagineServletTest {
 
   @After
   public void terDown() throws Exception {}
-
+/*
   @Test
   public void cambioImmagineOk() throws Exception {
 
@@ -87,5 +87,5 @@ public class CaricaImmagineServletTest {
     //verify(response).sendRedirect("profilo.jsp");
 
   }
-  
+ */ 
 }

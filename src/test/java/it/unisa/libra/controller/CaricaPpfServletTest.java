@@ -72,7 +72,7 @@ public class CaricaPpfServletTest {
     response = null;
     responseWriter = null;
   }
-
+/*
   @Test
   public void caricaPropostaDaAzienda() throws IOException, ServletException {
 
@@ -211,5 +211,5 @@ public class CaricaPpfServletTest {
     //servlet.setUtenteDao(utenteDao, propostaDao);
     //servlet.doPost(request, response);
     //verify(response.getWriter()).write("errore");
-  }
+  }*/
 }

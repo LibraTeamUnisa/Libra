@@ -25,7 +25,9 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s"),
 	@NamedQuery(name = "Studente.findAllSurnameOrdered",
-    query = "SELECT s FROM Studente s ORDER BY s.cognome ASC")
+    query = "SELECT s FROM Studente s ORDER BY s.cognome ASC"),
+	@NamedQuery(name = "Studente.count",
+    query = "SELECT COUNT(s) FROM Studente s")
 })
 
 public class Studente implements Serializable {

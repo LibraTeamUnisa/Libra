@@ -1,22 +1,20 @@
+
 package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import java.util.List;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
 import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Domanda;
-import it.unisa.libra.bean.Feedback;
-import it.unisa.libra.bean.FeedbackPK;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.bean.Utente;
-import it.unisa.libra.util.StatoPf;
+import java.util.Date;
+import java.util.List;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 
 public class ProgettoFormativoJpaTest extends GenericJpaTest {
 
@@ -24,23 +22,17 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   private static StudenteJpa jpaS;
   private static TutorInternoJpa jpaT;
   private static AziendaJpa jpaA;
-  private static DomandaJpa jpaD;
-  private static FeedbackJpa jpaF;
-  
-  @Before
-  public void setUp() {
+
+  @BeforeClass
+  public static void setUp() {
     jpaA = new AziendaJpa();
     jpaP = new ProgettoFormativoJpa();
     jpaS = new StudenteJpa();
     jpaT = new TutorInternoJpa();
-    jpaD = new DomandaJpa();
-    jpaF = new FeedbackJpa();
     jpaA.entityManager = em;
     jpaP.entityManager = em;
     jpaS.entityManager = em;
     jpaT.entityManager = em;
-    jpaD.entityManager = em;
-    jpaF.entityManager = em;
   }
 
 
@@ -107,93 +99,32 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
 
   @Test
   public void findByAziendaNomeTest() {
-    ProgettoFormativo pf = createPF();
+    ProgettoFormativo pf = createPf();
     jpaP.persist(pf);
     ProgettoFormativo toCheck =
         (ProgettoFormativo) jpaP.getProgettiFormativiByAzienda("prova").get(0);
     // assertEquals(pf, toCheck);
   }
 
-  @Test
-  public void countByAziendaAndStatoTest() {
-    ProgettoFormativo progettoFormativo = createPF();
-    progettoFormativo.setStato(StatoPf.APPROVATO);
-    jpaP.persist(progettoFormativo);
-    long result = jpaP.countByAziendaAndStato(progettoFormativo.getAzienda(), null);
-    assertEquals(0, result);
-    result = jpaP.countByAziendaAndStato(progettoFormativo.getAzienda(), new int[] {});
-    assertEquals(0, result);
-    result = jpaP.countByAziendaAndStato(progettoFormativo.getAzienda(), StatoPf.APPROVATO);
-    assertEquals(1, result);
-    result =
-        jpaP.countByAziendaAndStato(progettoFormativo.getAzienda(), new int[] {StatoPf.RIFIUTATO});
-    assertEquals(0, result);
-    ProgettoFormativo progettoFormativo2 = createPF();
-    progettoFormativo2.setStato(StatoPf.APPROVATO);
-    jpaP.persist(progettoFormativo2);
-    result =
-        jpaP.countByAziendaAndStato(progettoFormativo.getAzienda(), new int[] {StatoPf.APPROVATO});
-    assertEquals(2, result);
-    ProgettoFormativo progettoFormativo3 = createPF();
-    progettoFormativo3.setStato(StatoPf.VERIFICATO);
-    jpaP.persist(progettoFormativo3);
-    result = jpaP.countByAziendaAndStato(progettoFormativo.getAzienda(),
-        new int[] {StatoPf.APPROVATO, StatoPf.RIFIUTATO});
-    assertEquals(2, result);
-  }
-  
-  @Test
-  public void findByAziendaAndStatoTest() {
-    ProgettoFormativo progettoFormativo = createPF();
-    progettoFormativo.setStato(StatoPf.INVIATO);
-    jpaP.persist(progettoFormativo);
-    List<ProgettoFormativo> result = jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(), null);
-    assertTrue(result.isEmpty());
-    result = jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(), new int[] {});
-    assertTrue(result.isEmpty());
-    result = jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(), StatoPf.INVIATO);
-    assertEquals(1, result.size());
-    result =
-        jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(), new int[] {StatoPf.VERIFICA_PRESIDENTE});
-    assertTrue(result.isEmpty());
-    ProgettoFormativo progettoFormativo2 = createPF();
-    progettoFormativo2.setStato(StatoPf.INVIATO);
-    jpaP.persist(progettoFormativo2);
-    result =
-        jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(), new int[] {StatoPf.INVIATO});
-    assertEquals(2, result.size());
-    ProgettoFormativo progettoFormativo3 = createPF();
-    progettoFormativo3.setStato(StatoPf.VERIFICATO);
-    jpaP.persist(progettoFormativo3);
-    result = jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(),
-        new int[] {StatoPf.INVIATO, StatoPf.VERIFICA_PRESIDENTE});
-    assertEquals(2, result.size());
-  }
-
-  @Test
-  public void countValutatiByAziendaTest() {
-    Feedback f = new Feedback();
-    FeedbackPK feedId = new FeedbackPK();
-    feedId.setProgettoFormativoID(2);
-    feedId.setDomandaID(1);
-    f.setId(feedId);
-    Domanda domanda = new Domanda();
-    domanda.setTipo("Azienda");
-    jpaD.persist(domanda);
-    ProgettoFormativo pf = createPF();
-    pf.setId(2);
-    jpaP.persist(pf);
-    jpaF.persist(f);
-    assertEquals(1, jpaP.countValutatiByAzienda(pf.getAzienda()));
-  }
-  
-  private ProgettoFormativo createPF() {
+  private ProgettoFormativo createPf() {
     Azienda a = new Azienda();
     a.setUtenteEmail("prova@gmail.com");
     a.setNome("prova");
     jpaA.persist(a);
 
     ProgettoFormativo toPersist = new ProgettoFormativo();
+    toPersist.setAzienda(a);
+    return toPersist;
+  }
+
+  private ProgettoFormativo createPFconData(Date date) {
+    Azienda a = new Azienda();
+    a.setUtenteEmail("prova@gmail.com");
+    a.setNome("prova");
+    jpaA.persist(a);
+
+    ProgettoFormativo toPersist = new ProgettoFormativo();
+    toPersist.setDataInizio(date);
     toPersist.setAzienda(a);
     return toPersist;
   }
@@ -220,4 +151,43 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     tutor.setUtente(utente);
     return tutor;
   }
+
+  @Test
+  public void getInOrdineCronologicoTest() {
+    Date data = new Date();
+    data.setDate(3);
+    ProgettoFormativo test = createPFconData(data);
+    Date data2 = new Date();
+    data2.setDate(4);
+    ProgettoFormativo test2 = createPFconData(data);
+    jpaP.persist(test);
+    jpaP.persist(test2);
+    List<ProgettoFormativo> lista = jpaP.getInOrdineCronologico();
+    assertNotNull(lista);
+    // assertTrue(lista.get(0).getDataInizio().after(lista.get(1).getDataInizio()));
+  }
+  
+  @Test
+  public void contaOccorrenzeTest() {
+	  ProgettoFormativo test = createProgettoFormativoObject();
+	  jpaP.persist(test);
+	  int occorrenze = jpaP.contaOccorrenze();
+	  assertEquals(occorrenze, 1);
+	  assertNotNull(occorrenze);
+  }
+  
+  @Test
+  public void getUltimi10() {
+	  Date data = new Date();
+	    data.setDate(3);
+	    ProgettoFormativo test = createPFconData(data);
+	    Date data2 = new Date();
+	    data2.setDate(4);
+	    ProgettoFormativo test2 = createPFconData(data);
+	    jpaP.persist(test);
+	    jpaP.persist(test2);
+	    List<ProgettoFormativo> lista = jpaP.findUltime10();
+	    assertNotNull(lista);
+  }
+
 }

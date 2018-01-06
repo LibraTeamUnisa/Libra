@@ -1,3 +1,3 @@
 <footer class="footer">
-      © 2017 Monster Admin by wrappixel.com
+      © Libra (Since 2018)
 </footer>

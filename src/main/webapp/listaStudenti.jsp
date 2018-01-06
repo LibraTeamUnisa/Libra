@@ -139,7 +139,7 @@
 									}
 								%>
 									<tr>
-										<td><a href="${pageContext.request.contextPath}/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></a></td>
+										<td><a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=studente.getUtenteEmail()%>"><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></a></td>
 										<td><%=studente.getCognome() %> <%=studente.getNome() %></td>
 										<td>
 										<%if(progettoFormativo==null) {%>

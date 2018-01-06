@@ -95,7 +95,7 @@
             long numCompletati = pfDao.countByAziendaAndStato(azienda, StatoPf.APPROVATO);
             
             // totale valutazioni espresse tramite il rilascio di feedback
-            long numValutazioni = pfDao.countValutatiByAzienda(azienda); //count distinct progetto formativo id where azienda = this and where exist feedback.domanda.tipo = azienda
+            long numValutazioni = pfDao.countValutatiByAzienda(azienda);
             
            	// tutor esterni dell'azienda
             long numTutor = tutorDao.countByEmailAzienda(aziendaEmail);
@@ -224,7 +224,7 @@
 		                            <div class="row list-group-item">
 		                                <!-- immagine, nome, cognome, matricola -->
 		                                <div class="col-md-4 col-sm-4">
-		                                <img src="assets/images/users/1.jpg" alt="user" class="img-circle img-responsive">
+		                                <img src="<%=s.getUtente().getImgProfilo()%>" alt="user" class="img-circle img-responsive">
 		                                </div>
 		                                <div class="col-md-8 col-sm-8">
 		                                <h5><%=s.getNome()%> <%=s.getCognome()%></h5>
@@ -269,7 +269,7 @@
 				                            <div class="row list-group-item">
 				                                <!-- immagine, nome, cognome, matricola, ambito e stato progetto -->
 				                                <div class="col-md-4 col-sm-4">
-				                                <img src="assets/images/users/1.jpg" alt="user" class="img-circle img-responsive">
+				                                <img src="<%=s.getUtente().getImgProfilo()%>" alt="user" class="img-circle img-responsive">
 				                                </div>
 				                                <div class="col-md-8 col-sm-8">
 				                                <!-- icona diversa a seconda dello stato del progetto -->

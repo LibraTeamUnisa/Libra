@@ -2,6 +2,7 @@
 {
     width: 90px;
     height: 90px;
+    background-image:url('assets/images/users/default.png');
 }
 
 html,body,#main-wrapper,.page-wrapper,.container-fluid,.container,.card

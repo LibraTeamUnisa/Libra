@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -166,7 +168,7 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     tutor.setUtenteEmail(utenti.get(1).getEmail());
     tutor.setCognome("Vitolo");
     tutor.setNome("Anna");
-    tutor.setDataDiNascita(CheckUtils.checkDate("01/02/1980"));
+    tutor.setDataDiNascita(CheckUtils.parseDate("01/02/1980"));
     tutor.setLinkSito("www.tutor.it");
   }
   
@@ -178,15 +180,15 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     studente.setMatricola("0512103728");
     studente.setCognome("Rosato");
     studente.setNome("Marco");
-    studente.setDataDiNascita(CheckUtils.checkDate("12/04/1996"));
+    studente.setDataDiNascita(CheckUtils.parseDate("12/04/1996"));
   }
   
   private void initProgettoFormativo()
   {
     pf=new ProgettoFormativo();
     pf.setStato(5);
-    pf.setDataInizio(CheckUtils.checkDate("01/02/2018"));
-    pf.setDataFine(CheckUtils.checkDate("01/04/2018"));
+    pf.setDataInizio(CheckUtils.parseDate("01/02/2018"));
+    pf.setDataFine(CheckUtils.parseDate("01/04/2018"));
     pf.setAmbito("Cloud Computing");
     pf.setDocumento("doc.pdf");
     pf.setPeriodoReport(10);
@@ -274,6 +276,36 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     @Override
     public List<ProgettoFormativo> getProgettiFormativiByAzienda(String nome) {
       return null;
+    }
+
+    @Override
+    public List<Studente> getStudentiByAzienda(Azienda azienda) {
+      return null;
+    }
+
+    @Override
+    public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate,String limit, String status) {
+      return null;
+    }
+
+    @Override
+    public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,String status) {
+      return null;
+    }
+
+    @Override
+    public List<ProgettoFormativo> getInOrdineCronologico() {
+      return null;
+    }
+
+    @Override
+    public List<ProgettoFormativo> findUltime10() {
+      return null;
+    }
+
+    @Override
+    public int contaOccorrenze() {
+      return 0;
     } 
   }
   

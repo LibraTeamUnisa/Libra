@@ -136,7 +136,7 @@
                                           <div class="row">
                                               <!-- PROFILE IMAGE -->
                                               <div class="col-4">
-                                                  <img class="rounded-circle profile" src="assets/images/gallery/landscape15.jpg"/>
+                                                  <img class="rounded-circle profile" src="<%= studente.getUtente().getImgProfilo() %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
                                               </div>
                                               <!-- STUDENT DATA -->
                                               <div class="col-8">
@@ -169,7 +169,7 @@
                                           <div class="row">
                                               <!-- PROFILE IMAGE -->
                                               <div class="col-4">
-                                                  <img class="rounded-circle profile" src="assets/images/gallery/studio15.jpg"/>
+                                                  <img class="rounded-circle profile" src="<%= azienda.getUtente().getImgProfilo() %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
                                               </div>
                                               <!-- COMPANY DATA -->
                                               <div class="col-8">

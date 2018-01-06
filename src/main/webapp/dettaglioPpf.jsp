@@ -73,7 +73,7 @@
 		IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 		Utente u = utenteDao.findById(Utente.class, email);
 		IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
-		Studente s = studenteDao.findById(Studente.class, email);
+		Studente studente = studenteDao.findById(Studente.class, email);
 	%>
 	<!-- ============================================================== -->
 	<!-- Main wrapper - style you can find in pages.scss -->

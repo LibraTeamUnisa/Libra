@@ -21,9 +21,10 @@
 <%@ page import="it.unisa.libra.util.Actions" %>
 
 <%
+	
+
 	/* ci sono tutti i suffissi menu per evitare conflitti con altre variabili:
-		il menu è incluso in tutte le altre jsp */
-		
+		il menu è incluso in tutte le altre jsp */	
 	boolean isStudenteMENU = false;
 	boolean isAziendaMENU = false;
 	boolean isTutorInternoMENU = false;
@@ -45,6 +46,7 @@
 			nomeUtenteMENU = st.getNome() + " " + st.getCognome();
 			isStudenteMENU = true;
 			break;
+
 		}
 		case "Azienda": {
 			IAziendaDao dao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
@@ -108,6 +110,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+
                     
                     	<% if (isStudenteMENU) { %>
                     		<!-- menu Studente -->
@@ -147,6 +150,7 @@
                     
                     	<!-- menu comune a tutti gli attori -->
                         <li><a href="<%=JspPagesIndex.CONTATTI_DIPARTIMENTO.substring(1)%>" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a></li>
+
                         <li class="nav-devider"></li>
                         
                     </ul>

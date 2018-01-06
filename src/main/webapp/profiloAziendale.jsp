@@ -28,7 +28,7 @@
 			.lookup("java:app/Libra/ProgettoFormativoJpa");
 	IStudenteDao studenteDAO = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	//IFeedbackDao feedbackDAO = (IFeedbackDao) new InitialContext().lookup("java:app/Libra/FeedbackJpa");
-	Azienda a = aziendaDAO.findByName(nome);
+	Azienda az = aziendaDAO.findByName(nome);
 	List<TutorEsterno> tutorEsterni = tutorDAO.findByAziendaNome(nome);
 	List<ProgettoFormativo> progettiFormativi = progettoFormativoDAO.getProgettiFormativiByAzienda(nome);
 %>
@@ -123,7 +123,7 @@
 				%>
 				<!-- CONTROLLO SUL NOME DELL'AZIENDA -->
 				<%
-					if (a == null) {
+					if (az == null) {
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
@@ -152,7 +152,7 @@
 							</div>
 							<div class="card-block">
 								<p>
-									<strong>Nome</strong> <span class="text-muted"> <%=a.getNome()%></span>
+									<strong>Nome</strong> <span class="text-muted"> <%=az.getNome()%></span>
 								</p>
 								<p>
 									<strong>Aree di interesse</strong>
@@ -200,7 +200,7 @@
 									%>
 								</p>
 								<p>
-									<strong>Partita IVA <span class="text-muted"><%=a.getPartitaIVA()%></span>
+									<strong>Partita IVA <span class="text-muted"><%=az.getPartitaIVA()%></span>
 									</strong>
 								</p>
 							</div>
@@ -213,14 +213,14 @@
 							</div>
 							<div class="card-block">
 								<p>
-									<strong>e-mail</strong> <span class="text-muted"><%=a.getUtenteEmail()%></span>
+									<strong>e-mail</strong> <span class="text-muted"><%=az.getUtenteEmail()%></span>
 								</p>
 								<p>
-									<strong>Numero di telefono</strong> <span class="text-muted"><%=a.getUtente().getTelefono()%></span>
+									<strong>Numero di telefono</strong> <span class="text-muted"><%=az.getUtente().getTelefono()%></span>
 								</p>
 								<p>
-									<strong>Sede</strong> <span class="text-muted"><%=a.getUtente().getIndirizzo()%>,
-										<%=a.getSede()%></span>
+									<strong>Sede</strong> <span class="text-muted"><%=az.getUtente().getIndirizzo()%>,
+										<%=az.getSede()%></span>
 									<%
 										
 									%>

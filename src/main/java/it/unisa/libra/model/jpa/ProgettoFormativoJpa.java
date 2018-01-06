@@ -1,11 +1,13 @@
 package it.unisa.libra.model.jpa;
 
 import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Domanda;
+import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.CheckUtils;
-
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +22,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
@@ -83,15 +90,17 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
   }
 
   @Override
-  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status) {
+  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,
+      String status) {
     pastDays = CheckUtils.checkEmptiness(pastDays) ? pastDays : "30";
-    
+
     Calendar minDate = Calendar.getInstance();
     minDate.add(Calendar.DATE, -Integer.parseInt(pastDays));
-    return getTopAziendeFromNumStudenti(minDate.getTime(),new Date(),limit,status);
+    return getTopAziendeFromNumStudenti(minDate.getTime(), new Date(), limit, status);
   }
-  
-  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit, String status) {
+
+  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit,
+      String status) {
     Map<String, String> results = new HashMap<>();
 
     Calendar minDate = Calendar.getInstance();
@@ -119,7 +128,8 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     cQ.groupBy(join.get("nome"));
     cQ.orderBy(cB.desc(numTirocini));
 
-    List<Object[]> resultList = entityManager.createQuery(cQ).setMaxResults(Integer.parseInt(limit)).getResultList();
+    List<Object[]> resultList =
+        entityManager.createQuery(cQ).setMaxResults(Integer.parseInt(limit)).getResultList();
     // Place results in map
     for (Object[] borderTypes : resultList) {
       results.put((String) borderTypes[1], ((Long) borderTypes[0]).toString());
@@ -161,5 +171,101 @@ public int contaOccorrenze() {
 }
 
 
+  @Override
+  public Long countByAziendaAndStato(Azienda azienda, int... stati) {
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+    Metamodel metaModel = super.entityManager.getMetamodel();
+    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
+    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
+    criteriaQuery.select(
+        criteriaBuilder.countDistinct(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+    if (stati == null) {
+      return 0l;
+    }
+    if (stati.length == 0) {
+      return 0l;
+    }
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    for (int s : stati) {
+      Predicate p =
+          criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("stato")), s);
+      predicates.add(p);
+    }
+    Predicate predicateStato = criteriaBuilder.or(predicates.toArray(new Predicate[] {}));
+    criteriaQuery
+        .where(
+            criteriaBuilder
+                .and(
+                    (criteriaBuilder.equal(
+                        pf.get(ProgettoFormativo_.getSingularAttribute("azienda")), aziendaParam)),
+                    predicateStato));
+    TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(aziendaParam, azienda);
+    return q.getSingleResult();
+  }
+
+  @Override
+  public List<ProgettoFormativo> findByAziendaAndStato(Azienda azienda, int... stati) {
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<ProgettoFormativo> criteriaQuery =
+        criteriaBuilder.createQuery(ProgettoFormativo.class);
+    Metamodel metaModel = super.entityManager.getMetamodel();
+    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
+    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
+    criteriaQuery.select(pf);
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+    if (stati == null) {
+      return new ArrayList<ProgettoFormativo>();
+    }
+    if (stati.length == 0) {
+      return new ArrayList<ProgettoFormativo>();
+    }
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    for (int s : stati) {
+      Predicate p =
+          criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("stato")), s);
+      predicates.add(p);
+    }
+    Predicate predicateStato = criteriaBuilder.or(predicates.toArray(new Predicate[] {}));
+    criteriaQuery
+        .where(
+            criteriaBuilder
+                .and(
+                    (criteriaBuilder.equal(
+                        pf.get(ProgettoFormativo_.getSingularAttribute("azienda")), aziendaParam)),
+                    predicateStato));
+    criteriaQuery
+        .orderBy(criteriaBuilder.desc(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
+    TypedQuery<ProgettoFormativo> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(aziendaParam, azienda);
+    return q.getResultList();
+  }
+
+  @Override
+  public long countValutatiByAzienda(Azienda azienda) {
+    // count distinct progettoformativo from feedback where progettoformativo.azienda = az and
+    // domanda.tipo = azienda)
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+    Metamodel metaModel = super.entityManager.getMetamodel();
+    EntityType<Feedback> Feedback_ = metaModel.entity(Feedback.class);
+    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
+    EntityType<Domanda> Domanda_ = metaModel.entity(Domanda.class);
+    Root<Feedback> feed = criteriaQuery.from(Feedback.class);
+    Path<ProgettoFormativo> pf = feed.get("progettoFormativo");
+    Path<Domanda> domanda = feed.get("domanda");
+    criteriaQuery.select(criteriaBuilder
+        .countDistinct(feed.get(Feedback_.getSingularAttribute("progettoFormativo"))));
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+    criteriaQuery.where(criteriaBuilder.and(
+        (criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("azienda")),
+            aziendaParam)),
+        criteriaBuilder.equal(domanda.get(Domanda_.getSingularAttribute("tipo")), "Azienda")));
+    TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(aziendaParam, azienda);
+    return q.getSingleResult();
+  }
 
 }

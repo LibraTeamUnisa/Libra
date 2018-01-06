@@ -13,23 +13,16 @@
     };
 
     window.db = db;
-
-
-    db.aziende = [
-        { Name: "", Id: 0 },
-        { Name: "Microsoft", Id: 1 },
-        { Name: "Hp", Id: 2 },
-    ];
-
+    
     db.clients = [
         {
-            "Azienda": 1,
+            "Azienda": "Microsoft",
             "Studenti": 61,
             "Ambito": ["Uno","Due","Tre"],
             "Feedback": 4,
         },
         {
-            "Azienda": 2,
+            "Azienda": "Hp",
             "Studenti": 140,
             "Ambito": ["Uno","Due","Tre"],
             "Feedback": 6,

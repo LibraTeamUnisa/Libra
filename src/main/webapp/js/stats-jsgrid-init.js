@@ -1,4 +1,4 @@
-! function(document, window, $) {
+var initTable = () => {
 	
 	var MyProgressField = function(config) {
 	    jsGrid.Field.call(this, config);
@@ -19,7 +19,8 @@
             else if(valueField >= 6){$text.attr("class","text-megna text-center"); $innerProgress.attr("class","progress-bar bg-megna")}
             else if(valueField >= 4){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
             else if(valueField >= 2){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
-            else {$text.attr("class","text-error text-center"); $innerProgress.attr("class","progress-bar bg-danger")}
+            else if(valueField >= 0){$text.attr("class","text-error text-center"); $innerProgress.attr("class","progress-bar bg-danger")}
+            else return "<span class='label label-light-danger col-12 text-center'>Nessun feedback rilasciato</span>";
 	    	$text.text(valueField+"/10")
 	    	
 	    	$innerProgress.attr("style","width: "+valueField * 10 + "%" + "; height: 6px;")
@@ -48,13 +49,14 @@
 	    },
 	 
 	    insertValue: function(valueField) {
-	    	var $result = $("<span>")
+	    	var $result = $("<div>")
 	    	
 	    	if(valueField >= 8){$result.attr("class","text-info")}
             else if(valueField >= 6){$result.attr("class","text-megna")}
             else if(valueField >= 4){$result.attr("class","text-warning")}
             else if(valueField >= 2){$result.attr("class","text-warning")}
-            else {$result.attr("class","text-error")}
+            else if(valueField >= 0) {$result.attr("class","text-error")}
+            else {}
 	    	
 	        return this._insertProgress = $result.text(valueField+"/10");
 	    }
@@ -62,6 +64,47 @@
 	});
 	 
 	jsGrid.fields.progress = MyProgressField;
+	
+	// START AMBITO FIELD
+	
+	var MyAmbitoField = function(config) {
+	    jsGrid.Field.call(this, config);
+	};
+	 
+	MyAmbitoField.prototype = new jsGrid.Field({
+	 	 	 
+	    sorter: function(value1, value2) {
+	        return value1.localeCompare(value2);
+	    },
+	 
+	    itemTemplate: function(valueField) {
+	    	var $result = $("<span>");
+	    	$result.attr("class","label label-light-info");
+	    	$result.text(valueField);
+	    	return $result;
+	    },
+	 
+	    insertTemplate: function(valueField) {
+	    	var $result = $("<span>");
+	    	$result.attr("class","label label-light-info");
+	    	$result.text(valueField);
+	        return this._insertAmbito = $result;
+	    },
+	 
+	    insertValue: function(valueField) {
+	        return this._insertAmbito.val();
+	    },
+	    
+	    filterTemplate: function(value) { 
+	    	return this._filterAmbito = $("<input>").attr("type", "text").attr("class", "form-control input-sm").val(value); 
+	    }, 
+	    
+	    filterValue : function() { 
+	    	return this._filterAmbito.val(); 
+	    },
+	});
+	 
+	jsGrid.fields.ambito = MyAmbitoField;
 	
     var Site = window.Site;
     $(document).ready(function($) {
@@ -117,10 +160,7 @@
                 controller: db,
                 fields: [{
                     name: "Azienda",
-                    type: "select",
-                    items: db.aziende,
-                    valueField: "Id",
-                    textField: "Name"
+                    type: "text"
                 }, {
                     name: "Studenti",
                     type: "number",
@@ -136,4 +176,4 @@
                 }]
             })
         }()
-}(document, window, jQuery);
+};

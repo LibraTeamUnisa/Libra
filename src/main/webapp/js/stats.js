@@ -39,7 +39,7 @@ $.get("reportStudenteServlet?action=getNumReports", function(data, status){
     document.getElementById("currentDateReportsValue").innerHTML = data;
 });
 
-$.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDate='01/01/2020'", function(data, status){
+$.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='2016-01-01'&toDate='2018-12-01'", function(data, status){
 	data = JSON.parse(data);
 	
 	if(!data || data.length == 0){
@@ -50,9 +50,21 @@ $.get("gestionePfServlet?action=countByAziendaAndDate&fromDate='01/01/2000'&toDa
 	updateAnimatedChart(data);
 });
 
-// ============================================================== 
+$.get("gestionePfServlet?action=getTabellaValutazioni" +
+		"&fromDate='2016-01-01'&toDate='2018-12-01'",function(data,status){
+	data = JSON.parse(data);
+	
+	if(!data || data.length == 0){
+		$('#errorFilt').show();
+		return;
+	}
+
+	updateTable(data);
+});
+
+// ==============================================================
 // Tirocini completati
-// ============================================================== 
+// ==============================================================
 $(function () {
 new Chartist.Line('.usage', {
     labels: ['0', '4', '8', '12', '16', '20', '24', '30']
@@ -67,7 +79,8 @@ new Chartist.Line('.usage', {
     , fullWidth: true
     , plugins: [
     Chartist.plugins.tooltip()
-  ], // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
+  ], // As this is axis specific we need to tell Chartist to use whole
+		// numbers only on the concerned axis
     axisY: {
         onlyInteger: true
         , offset: 20
@@ -84,9 +97,9 @@ new Chartist.Line('.usage', {
         , offset: 0
     }
 });
-//============================================================== 
+// ==============================================================
 // Report generati
-// ============================================================== 
+// ==============================================================
 var sparklineLogin = function () {
     $('.spark-count').sparkline([4, 5, 0, 10, 9, 12, 4, 9, 4, 5, 3, 10, 9, 12, 10, 9, 12, 4, 9], {
         type: 'bar'
@@ -165,12 +178,14 @@ var updateAnimatedChart = (data) =>{
 	  seq = 0;
 	});
 
-	// On each drawn element by Chartist we use the Chartist.Svg API to trigger SMIL animations
+	// On each drawn element by Chartist we use the Chartist.Svg API to trigger
+	// SMIL animations
 	chart.on('draw', function(data) {
 	  seq++;
 
 	  if(data.type === 'line') {
-	    // If the drawn element is a line we do a simple opacity fade in. This could also be achieved using CSS3 animations.
+	    // If the drawn element is a line we do a simple opacity fade in. This
+		// could also be achieved using CSS3 animations.
 	    data.element.animate({
 	      opacity: {
 	        // The delay when we like to start the animation
@@ -229,7 +244,8 @@ var updateAnimatedChart = (data) =>{
 	      }
 	    });
 	  } else if(data.type === 'grid') {
-	    // Using data.axis we get x or y which we can use to construct our animation definition objects
+	    // Using data.axis we get x or y which we can use to construct our
+		// animation definition objects
 	    var pos1Animation = {
 	      begin: seq * delays,
 	      dur: durations,
@@ -262,6 +278,11 @@ var updateAnimatedChart = (data) =>{
 	});
 };
 
+var updateTable = (data) => {
+	window.db.clients = data;
+	initTable();
+	$("#basicgrid").jsGrid("refresh");};
+
 var onFilterChanged = function(){
 	clearTimeout(tId);
 	
@@ -273,7 +294,8 @@ var onFilterChanged = function(){
 	var dal = $('#dalFilt').val();
 	var al = $('#alFilt').val();
 	
-	tId=setTimeout(function () {$.get("gestionePfServlet?action=countByAziendaAndDate" +
+	tId=setTimeout(function () {
+		$.get("gestionePfServlet?action=countByAziendaAndDate" +
 			"&fromDate="+dal+"&toDate="+al+"&ragSoc="+ragSoc+"&status="+stato,function(data,status){
 		data = JSON.parse(data);
 		
@@ -281,11 +303,25 @@ var onFilterChanged = function(){
 			$('#errorFilt').show();
 			return;
 		}
-		
+
 		updateAnimatedChart(data);
-	})},1000);
+		});
+		$.get("gestionePfServlet?action=getTabellaValutazioni" +
+				"&fromDate="+dal+"&toDate="+al+"&ragSoc="+ragSoc+"&status="+stato,function(data,status){
+			data = JSON.parse(data);
+			
+			if(!data || data.length == 0){
+				$('#errorFilt').show();
+				return;
+			}
+
+			updateTable(data);
+		});
+
+		},1000);
 };
 
 $('#ragSocFilt').bind('input propertychange', () => onFilterChanged());
-
+$('#alFilt').bind('input propertychange', () => onFilterChanged());
+$('#dalFilt').bind('input propertychange', () => onFilterChanged());
 $('input[name=options]', '#statusRad').change(() => onFilterChanged());

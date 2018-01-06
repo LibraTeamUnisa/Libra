@@ -38,14 +38,12 @@ public class GestionePfServlet extends HttpServlet {
         Map<String, String> mapTop =
             progettoFormativoDao.getTopAziendeFromNumStudenti(pastDays, limit, status);
         response.getWriter().write(JsonUtils.parseMapToJson(mapTop));
-      }
-      if (request.getParameter(Actions.ACTION).equals(Actions.PF_NUM_TIROCINI_COMPLETATI)) {
+      } else if (request.getParameter(Actions.ACTION).equals(Actions.PF_NUM_TIROCINI_COMPLETATI)) {
         Long numTirocini = progettoFormativoDao.getNumTirociniCompletati();
         if (numTirocini != null) {
           response.getWriter().write(numTirocini.toString());
         }
-      }
-      if (request.getParameter(Actions.ACTION).equals(Actions.PF_COUNT_BY_AZIENDA)) {
+      } else if (request.getParameter(Actions.ACTION).equals(Actions.PF_COUNT_BY_AZIENDA)) {
         String fromDate = request.getParameter("fromDate");
         String toDate = request.getParameter("toDate");
         String limit = request.getParameter("limit");
@@ -58,7 +56,23 @@ public class GestionePfServlet extends HttpServlet {
         if (list != null) {
           response.getWriter().write(JsonUtils.parseListToJson(list));
         }
+      } else if (request.getParameter(Actions.ACTION).equals(Actions.PF_TABELLA_VALUTAZIONI)) {
+        String fromDate = request.getParameter("fromDate");
+        String toDate = request.getParameter("toDate");
+        String status = request.getParameter("status");
+        String ragSoc = request.getParameter("ragSoc");
+
+        List<Map<String, String>> list = progettoFormativoDao.getTabellaValutazioni(
+            CheckUtils.parseDateWithPattern(fromDate, "yyyy-MM-dd"),
+            CheckUtils.parseDateWithPattern(toDate, "yyyy-MM-dd"), status, ragSoc);
+        if (list != null) {
+          response.getWriter().write(JsonUtils.parseListToJson(list));
+        }
       }
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Azione non valida!");
+      response.getWriter().flush();
     }
   }
 

@@ -69,6 +69,10 @@ public class GestionePfServlet extends HttpServlet {
         if (list != null) {
           response.getWriter().write(JsonUtils.parseListToJson(list));
         }
+      } else {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.getWriter().write("Azione non valida!");
+        response.getWriter().flush();
       }
     } else {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

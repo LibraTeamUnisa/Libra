@@ -1,15 +1,5 @@
 package it.unisa.libra.controller;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Report;
 import it.unisa.libra.bean.ReportPK;
@@ -20,6 +10,16 @@ import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.dao.IUtenteDao;
 import it.unisa.libra.util.Actions;
 import it.unisa.libra.util.CheckUtils;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class AutenticazioneServlet. Controller Class che gestisce l'aggiunta e la
@@ -94,7 +94,7 @@ public class ReportStudenteServlet extends HttpServlet {
     }
   }
 
-  protected void modificaReport(HttpServletRequest request, HttpServletResponse response)
+  private void modificaReport(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
     String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
@@ -143,7 +143,7 @@ public class ReportStudenteServlet extends HttpServlet {
 
   }
 
-  protected void aggiungiReport(HttpServletRequest request, HttpServletResponse response)
+  private void aggiungiReport(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
     Studente studente = studenteDao.findById(Studente.class, emailStudente);
@@ -165,22 +165,6 @@ public class ReportStudenteServlet extends HttpServlet {
       response.getWriter().write("finito");
     }
 
-  }
-
-  public void setUtenteDao(IUtenteDao utenteDao) {
-    this.utenteDao = utenteDao;
-  }
-
-  public void setStudenteDao(IStudenteDao studenteDao) {
-    this.studenteDao = studenteDao;
-  }
-
-  public void setProgettoFormativoDao(IProgettoFormativoDao progettoFormativoDao) {
-    this.progettoFormativoDao = progettoFormativoDao;
-  }
-
-  public void setReportDao(IReportDao ReportDao) {
-    this.reportDao = ReportDao;
   }
 
   /** messaggio di errore inviato in caso di bad request. **/

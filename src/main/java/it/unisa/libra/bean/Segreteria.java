@@ -24,7 +24,7 @@ public class Segreteria implements Serializable {
 
   private String giorniDiRicevimento;
 
-  
+
   // bi-directional one-to-one association to Utente
   @OneToOne(cascade = {CascadeType.ALL})
   @JoinColumn(name = "utenteEmail")

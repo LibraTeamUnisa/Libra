@@ -319,6 +319,33 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     public long countValutatiByAzienda(Azienda azienda) {
       // TODO Auto-generated method stub
       return 0;
+    }
+
+    @Override
+    public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate,
+        String limit, String status) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public Long getNumTirociniCompletati() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public List<Map<String, String>> countByAziendaAndDate(Date fromDate, Date toDate, String limit,
+        String status, String ragSoc) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public List<Map<String, String>> getTabellaValutazioni(Date fromDate, Date toDate,
+        String status, String ragSoc) {
+      // TODO Auto-generated method stub
+      return null;
     } 
   }
   
@@ -348,5 +375,5 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
       return null;
     }
     
-  }
+  } 
 }

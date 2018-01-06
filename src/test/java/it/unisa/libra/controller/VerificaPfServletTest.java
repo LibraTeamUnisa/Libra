@@ -4,7 +4,6 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import java.io.PrintWriter;
@@ -24,7 +23,8 @@ public class VerificaPfServletTest {
 
   /**
    * Il metodo inizializza gli oggetti necessari per il test.
-   * @throws Exception Eccezione di IO nell'invocazione di getWriter() 
+   * 
+   * @throws Exception Eccezione di IO nell'invocazione di getWriter()
    */
   @Before
   public void setUp() throws Exception {

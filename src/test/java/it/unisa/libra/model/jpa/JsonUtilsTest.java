@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 import org.junit.Test;
-import com.codesnippets4all.json.exceptions.JSONParsingException;
+import com.google.gson.JsonSyntaxException;
 import it.unisa.libra.util.JsonUtils;
 
 public class JsonUtilsTest {
@@ -19,7 +19,7 @@ public class JsonUtilsTest {
     assertEquals(map.get("MER"), "9.30-11.30 14.30-18.30");
   }
 
-  @Test(expected = JSONParsingException.class)
+  @Test(expected = JsonSyntaxException.class)
   public void invalidJsonTest() {
     String toParse = "{]]|[[}";
     JsonUtils.parseOrariApertura(toParse);

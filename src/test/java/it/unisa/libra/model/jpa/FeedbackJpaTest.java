@@ -1,6 +1,7 @@
+
 package it.unisa.libra.model.jpa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*; 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.BeforeClass;
@@ -25,8 +26,8 @@ public class FeedbackJpaTest extends GenericJpaTest {
     jpaD.entityManager = em;
     jpaP.entityManager = em;
   }
-  
-  /*@Test
+  /*
+  @Test
   public void findByIdPFtest() {
     Feedback f = createFeedback();
     jpaF.persist(createFeedback());
@@ -38,7 +39,7 @@ public class FeedbackJpaTest extends GenericJpaTest {
   }
   
   
-  private Feedback createFeedback(){
+  private Feedback createFeedback() {
     ProgettoFormativo pf = new ProgettoFormativo();
     pf.setId(3);
     
@@ -57,5 +58,6 @@ public class FeedbackJpaTest extends GenericJpaTest {
     
 
     return f;
-  }*/
+  }
+  */
 }

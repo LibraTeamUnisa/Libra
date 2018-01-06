@@ -1,9 +1,10 @@
 package it.unisa.libra.model.dao;
 
+import it.unisa.libra.bean.Studente;
 import java.util.List;
 
-import it.unisa.libra.bean.Studente;
-
 public interface IStudenteDao extends IGenericDao<Studente, String> {
-	public List<Studente> listaOrdinataPerCognome();
+  public List<Studente> listaOrdinataPerCognome();
+
+  int contaOccorrenze();
 }

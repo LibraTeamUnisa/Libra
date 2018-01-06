@@ -1,26 +1,20 @@
 package it.unisa.libra.controller;
 
+import it.unisa.libra.bean.Gruppo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IGruppoDao;
+import it.unisa.libra.model.dao.IUtenteDao;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.inject.Inject;
-import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Gruppo;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IGruppoDao;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.model.dao.IUtenteDao;
-
 
 
 /**
@@ -54,7 +48,6 @@ public class RegistrazioneServlet extends HttpServlet {
 	  /**
 	   * Parametri necessari alla registrazione presi dall'oggetto request.
 	   */
-	 
 	  String nome = request.getParameter("nome");
 	  String cognome = request.getParameter("cognome");
 	  String matricola = request.getParameter("matricola");
@@ -84,18 +77,11 @@ public class RegistrazioneServlet extends HttpServlet {
 	   */
 	  Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
 	  
-	 
-	  /**
-	   * Realizzazione dell'oggetto gruppo di tipo "Studente"
-	   */
-	  
-	  if((gruppo = gruppoDao.findById(Gruppo.class,"Studente"))!=null) {
-	  		utente.setGruppo(gruppo);
-	  }
-	
+	  gruppo = gruppoDao.findById(Gruppo.class,"Studente");
 	  		
 	  if(gruppo!=null) {
 		  if(utenteDao.findById(Utente.class, email)==null) {
+			  utente.setGruppo(gruppo);
 			  utenteDao.persist(utente);
 			  response.setContentType("text/plain");
 			  response.getWriter().write("Registrazione avvenuta con successo");

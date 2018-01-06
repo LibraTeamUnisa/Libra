@@ -122,12 +122,12 @@
                     <ul class="navbar-nav my-lg-0">
                         
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<%=pathImmagineProfiloHEADER%>" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<%=pathImmagineProfiloHEADER%>" onerror="this.src='assets/images/logo-icon.png';" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">
-                                            <div class="u-img"><img src="<%=pathImmagineProfiloHEADER%>" alt="user"></div>
+                                            <div class="u-img"><img src="<%=pathImmagineProfiloHEADER%>" onerror="this.src='assets/images/logo-icon.png';" alt="user"></div>
                                             <div class="u-text">
                                                 <h4><%=nomeUtenteHEADER%></h4>
                                                 <p class="text-muted"><%=utenteHEADER.getEmail()%></p><a href="profilo.jsp" class="btn btn-rounded btn-danger btn-sm">Profilo</a></div>

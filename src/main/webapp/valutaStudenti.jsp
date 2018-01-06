@@ -160,7 +160,7 @@
 								%>
 								<tr>
 									<td><a
-										href="${pageContext.request.contextPath}/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img
+										href="<%=request.getContextPath()%>/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img
 											src="<%=utente.getImgProfilo()%>" alt="user" width="40"
 											class="img-circle"></a></td>
 									<td><%=studente.getCognome()%> <%=studente.getNome()%></td>
@@ -182,7 +182,7 @@
 
 
 									<td><a
-										href="${pageContext.request.contextPath}/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
+										href="<%=request.getContextPath()%>/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
 
 											<button type="button" class="btn btn-success"
 												<%if (progettoFormativo.getStato() != 4) {%> disabled

@@ -4,7 +4,6 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-
 
 
 
@@ -46,6 +43,7 @@ public class RichiediPfServletTest {
 
   /**
    * Il metodo inizializza gli oggetti necessari al test.
+   * 
    * @throws Exception Eccezione lanciata in caso di errore di I/O
    */
   @Before

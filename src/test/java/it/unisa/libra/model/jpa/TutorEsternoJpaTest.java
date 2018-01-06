@@ -44,6 +44,14 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     assertEquals(t.getNome(), found.getNome());
   }
 
+  @Test
+  public void countByEmailAziendaTest() {
+    TutorEsterno t1 = createTutor3();
+    jpa.persist(t1);
+    long result = jpa.countByEmailAzienda(EMAIL_AZIENDA3);
+    assertEquals(1, result);
+  }
+
   private TutorEsterno createTutor() {
     persistAzienda();
     TutorEsterno t = new TutorEsterno();
@@ -88,5 +96,30 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     aziendaJpa.persist(a);
   }
 
+  private TutorEsterno createTutor3() {
+    persistAzienda3();
+    TutorEsterno t = new TutorEsterno();
+    TutorEsternoPK id = new TutorEsternoPK();
+    id.setAziendaEmail(EMAIL_AZIENDA3);
+    id.setAmbito("ambito");
+    t.setId(id);
+    return t;
+  }
+
+  private void persistAzienda3() {
+    Utente u = new Utente();
+    u.setEmail(EMAIL_AZIENDA3);
+    UtenteJpa utenteJpa = new UtenteJpa();
+    utenteJpa.entityManager = em;
+    utenteJpa.persist(u);
+    Azienda a = new Azienda();
+    a.setUtenteEmail(u.getEmail());
+    AziendaJpa aziendaJpa = new AziendaJpa();
+    aziendaJpa.entityManager = em;
+    aziendaJpa.persist(a);
+  }
+
   private static final String EMAIL_AZIENDA = "email@prova.it";
+  private static final String EMAIL_AZIENDA3 = "emailAzienda12345@prova.it";
+
 }

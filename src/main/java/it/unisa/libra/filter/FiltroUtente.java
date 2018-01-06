@@ -44,7 +44,7 @@ public class FiltroUtente implements Filter {
         "no-cache,no-store,must-revalidate");
     ((HttpServletResponse) response).setHeader("Pragma", "no-cache");
     ((HttpServletResponse) response).setDateHeader("Expires", 0);
-    
+
     String utenteEmail =
         (String) ((HttpServletRequest) request).getSession().getAttribute("utenteEmail");
     if (!(StringUtils.isNullOrEmpty(utenteEmail))) {

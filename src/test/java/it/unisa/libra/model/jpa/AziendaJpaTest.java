@@ -62,16 +62,16 @@ public class AziendaJpaTest extends GenericJpaTest {
     toPersist.setNome("test2");
     toPersist.setUtenteEmail("test2@email.it");
     toPersist.setUtente(utente);
-    
+
     return toPersist;
   }
-  
+
   @Test
   public void contaOccorrenzeTest() {
-	  Azienda a = createObject();
-	  jpa.persist(a);
-	  int occorrenze = jpa.contaOccorrenze();
-	  assertEquals(occorrenze, 1);
-	  assertNotNull(occorrenze);
+    Azienda a = createObject();
+    jpa.persist(a);
+    int occorrenze = jpa.contaOccorrenze();
+    assertEquals(occorrenze, 1);
+    assertNotNull(occorrenze);
   }
 }

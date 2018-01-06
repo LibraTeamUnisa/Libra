@@ -7,9 +7,7 @@ import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.model.dao.IDomandaDao;
 import it.unisa.libra.model.dao.IFeedbackDao;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
-
-import java.io.IOException; 
-
+import java.io.IOException;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;

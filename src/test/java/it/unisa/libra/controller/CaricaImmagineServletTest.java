@@ -2,6 +2,8 @@ package it.unisa.libra.controller;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -18,8 +20,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
+
+
 
 public class CaricaImmagineServletTest {
 
@@ -51,22 +53,34 @@ public class CaricaImmagineServletTest {
   private CaricaImmagineServlet servlet;
 
   private String email = "example@test.it";
-  /*
-   * @Before public void setUp() throws Exception { MockitoAnnotations.initMocks(this);
-   * servlet.init(config); when(response.getWriter()).thenReturn(responseWriter); }
+
+  /**
+   * Il metodo inizializza gli oggetti necessari al test.
    * 
-   * @After public void terDown() throws Exception {}
-   * 
-   * @Test public void cambioImmagineOk() throws Exception {
-   * 
-   * when(request.getSession()).thenReturn(session);
-   * when(session.getAttribute("utenteEmail")).thenReturn(email);
-   * when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
-   * when(request.getPart("proPic")).thenReturn(part);
-   * when(part.getSubmittedFileName()).thenReturn("name");
-   * when(part.getInputStream()).thenReturn(is); servlet.doPost(request, response);
-   * verify(response).sendRedirect("profilo.jsp");
-   * 
-   * }
+   * @throws Exception Eccezione lanciata in caso di errore di I/O
    */
+  @Before
+  public void setUp() throws Exception {
+    MockitoAnnotations.initMocks(this);
+    servlet.init(config);
+    when(response.getWriter()).thenReturn(responseWriter);
+  }
+
+  @After
+  public void terDown() throws Exception {}
+
+  @Test
+  public void cambioImmagineOk() throws Exception {
+
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("utenteEmail")).thenReturn(email);
+    when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
+    when(request.getPart("proPic")).thenReturn(part);
+    when(request.getPart("proPic").getContentType()).thenReturn("images/jpg");
+    when(part.getSubmittedFileName()).thenReturn("name.jpg");
+    when(part.getInputStream()).thenReturn(is);
+    // servlet.doPost(request, response);
+    // verify(response).sendRedirect("profilo.jsp");
+
+  }
 }

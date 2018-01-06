@@ -30,6 +30,7 @@ public class AutenticazioneServlet extends HttpServlet {
 
   /**
    * doGet.
+   * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

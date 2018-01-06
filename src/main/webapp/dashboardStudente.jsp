@@ -3,8 +3,7 @@
 <%@page import="javax.naming.Context"%>
 <%@page import="java.text.SimpleDateFormat"%> 
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
     
 <%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
 <%@page import="it.unisa.libra.model.dao.IStudenteDao"%>
@@ -47,7 +46,7 @@
 	List<ProgettoFormativo> listaProposteStudente = new ArrayList<ProgettoFormativo>();
 	List<Feedback> listaFeedback = feedbackDAO.findAll(Feedback.class);
 	
-	/*contollo tutti i pf relativi allo studente*/
+	/*controllo tutti i pf relativi allo studente*/
 	for(ProgettoFormativo pf: listaProposte) {
 		String mail = pf.getStudente().getUtenteEmail();
 		if(mail != null) {
@@ -158,24 +157,26 @@
                     	for(ProgettoFormativo pf: listaProposteStudente) {
                 			List<Feedback> feedbackRicevuti= feedbackDAO.findByType(pf.getId(), "Azienda");
                 			List<Feedback> feedbackInviati= feedbackDAO.findByType(pf.getId(), "Studente");
-               			%>
-               			<tr>
-                      		<td>
-							<% 
 							boolean control = false;
 							String ruolo = (String)session.getAttribute("utenteRuolo");
-							Gruppo gruppo = gruppoDAO.findById(Gruppo.class, ruolo);
-							if(gruppo!=null) {
-								List<Permesso> listaPermessi = gruppo.getPermessi();
-								for(Permesso p : listaPermessi) {
-									if(p.getTipo().contains("ricevuti")) {
-										control = true;
+							List<Gruppo> listaGruppi = gruppoDAO.findAll(Gruppo.class);
+							if(listaGruppi != null) {
+								for(Gruppo g : listaGruppi) {		
+									List<Permesso> listaPermessi = g.getPermessi();
+									if((!listaPermessi.isEmpty()) && (g.getRuolo().contains(ruolo))) {
+										for(Permesso p : listaPermessi) {
+											if(p.getTipo().contains("ricevuti")) {
+												control = true;
+											}
+										}
 									}
 								}
 							}
 							if(!feedbackRicevuti.isEmpty() && (control)) {
 								flag=true;
 							%>
+							<tr>
+							<td>
 							<p align="center">
 							<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf.getId()%>">
 								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
@@ -197,8 +198,7 @@
 							}
 							%>
 							</td>
-                    		<%
-                    		i++;
+      						<%
                     	} 
                         if(!flag) {
                         	%> <tr><td>Nessuna valutazione ricevuta o inviata</td></tr> <%
@@ -209,7 +209,7 @@
                     	</table>
                     	</div>
                         
-                        <div class="card wizard-card" style="padding: 1%">
+					<div class="card wizard-card" style="padding: 1%">
                     	<h4 class="card-title">Richieste Formative</h4>
                     	<table class="table table-responsive">
                     	<tbody>
@@ -223,30 +223,25 @@
                     				{
                     					dates = formatter.format(p.getDataInvio());
                     				}
-                    				if(i==3) { 
-                    					i=0; 
-                    				%> </tr><tr> <%
-                    				}
-                        %>
+                        			%>
                     				<td>
                     					<form id="myForm" method="post">
                     						<p align="center"><a href="dettaglioPpf.jsp?id=<%=p.getId()%>">
                     						<i class="fa fa-file-pdf-o" style="font-size:48px;"></i></a></p>
-                    						<p><%= azienda.getNome() %></p>
+                    						<p align="center"><%= azienda.getNome() %></p>
                     						<p align="center"><%= dates %></p>
                     					</form>
                     				</td>	
                     		<%
-                    				i++;
-                    				}
                     		}
-                        	else {
-                    			%> <tr><td>Al momento non hai ricevuto proposte di progetto formativo</td></tr> <%
-                    		}
-                    			%>
-                    		</tbody>
-                    		</table>
-                    	</div>
+                    	}
+                        else {
+                    		%> <tr><td>Al momento non hai ricevuto proposte di progetto formativo</td></tr> <%
+                    	}
+                    		%>
+                    	</tbody>
+                    	</table>
+                    </div>
                     	
                     	<div class="card wizard-card" style="padding: 1%">
                    		<h4 class="card-title" >Domande Caricate</h4> 
@@ -257,39 +252,34 @@
                         if(!listaProposteStudente.isEmpty()) { 
                         	String dates = " ";
                     		for(ProgettoFormativo p : listaProposteStudente) {
-                    				if(p.getTutorInterno() != null) 
-                    				{
-            							flag = true;
-                    					Azienda azienda = p.getAzienda();
-                    					if(p.getDataInvio()!=null) {
-                        					dates = formatter.format(p.getDataInvio());
-                    					}
-                        				if(i==3) { 
-                        					i=0; 
-                        				%> </tr><tr> <%
-                        				}
-                            %>
-                        				<td>
-                        				<form id="myForm2" method="post">
-                        					<p align="center"><a href="dettaglioPpf.jsp?id=<%=p.getId()%>">
-                        					<i class="fa fa-file-pdf-o" style="font-size:48px;"></i></a></p>
-                        					<p><%= azienda.getNome() %></p>
-                        					<p align="center"><%= dates %></p>
-                        				</form>
-                        				</td>	
-                        	<%
-                        				i++;
-                        				}
+                    			if(p.getStato() >= 2) 
+                    			{
+            						flag = true;
+                    				Azienda azienda = p.getAzienda();
+                    				if(p.getDataInvio()!=null) {
+                        				dates = formatter.format(p.getDataInvio());
                     				}
-                    			} 
-                    		if(!flag) {
-                        		%> <tr><td>Al momento non hai caricato proposte di progetto formativo</td></tr> <%
-                        	}
-                        	%>
-                    		</tbody>
-                    		</table>  
-                    		<a href="caricaPpf.jsp"><button class="btn btn-primary">Carica</button></a>
-                    	</div>  
+                            	%>
+                        			<td>
+                        			<form id="myForm2" method="post">
+                        				<p align="center"><a href="dettaglioPpf.jsp?id=<%=p.getId()%>">
+                        				<i class="fa fa-file-pdf-o" style="font-size:48px;"></i></a></p>
+                        				<p align="center"><%= azienda.getNome() %></p>
+                        				<p align="center"><%= dates %></p>
+                        			</form>
+                        			</td>	
+                        		<%
+                        		}
+                    		}
+                    	} 
+                    	if(!flag) {
+                        	%> <tr><td>Al momento non hai caricato proposte di progetto formativo</td></tr> <%
+                        }
+                        %>
+                    	</tbody>
+                    	</table>  
+                    	<a href="caricaPpf.jsp"><button class="btn btn-primary">Carica</button></a>
+                    </div>  
             	</div>
             </div>
             <%@ include file="footer.jsp" %>

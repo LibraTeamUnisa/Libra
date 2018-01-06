@@ -12,4 +12,10 @@ public class Actions {
   public static final String AGGIUNGI_REPORT = "aggiungiReport";
   public static final String MODIFICA_STATO_TIROCINIO = "modificaStato";
   public static final String PF_TOP_AZIENDE = "topAziende";
+  public static final String PF_NUM_TIROCINI = "getNumTirocini";
+  public static final String RS_NUM_REPORTS = "getNumReports";
+  public static final String PF_NUM_TIROCINI_COMPLETATI = "getNumTirociniCompletati";
+  public static final String PF_COUNT_BY_AZIENDA = "countByAziendaAndDate";
+  public static final String PF_TABELLA_VALUTAZIONI = "getTabellaValutazioni";
+
 }

@@ -106,10 +106,11 @@
 
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Visualizza Profilo</h3>
+						<h3 class="text-themecolor m-b-0 m-t-0">Modifica Profilo</h3>
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-							<li class="breadcrumb-item active">Profilo</li>
+							<li class="breadcrumb-item"><a href="profilo.jsp">Profilo</a></li>
+							<li class="breadcrumb-item active">Modifica Profilo</li>
 						</ol>
 					</div>
 				</div>
@@ -189,7 +190,7 @@
 									enctype="multipart/form-data">
 									<input type="file" placeholder="<%=u.getImgProfilo()%>"
 										class="form-control form-control-line" name="proPic"
-										accept="images/*"> <br> <br>
+										accept="images/*" required> <br> <br>
 									<div class="row">
 										<div class="col-sm-4"></div>
 										<button type="submit" class="btn btn-success">Modifica

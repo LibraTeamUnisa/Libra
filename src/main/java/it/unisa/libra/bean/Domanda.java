@@ -16,10 +16,9 @@ import javax.persistence.OneToMany;
  * 
  */
 @Entity
-@NamedQueries({
-	@NamedQuery(name = "Domanda.findAll", query = "SELECT d FROM Domanda d"),
-	@NamedQuery(name = "Domanda.findByType", query="SELECT d FROM Domanda d WHERE d.tipo=:tipoDomanda ORDER BY d.id")	
-})
+@NamedQueries({@NamedQuery(name = "Domanda.findAll", query = "SELECT d FROM Domanda d"),
+    @NamedQuery(name = "Domanda.findByType",
+        query = "SELECT d FROM Domanda d WHERE d.tipo=:tipoDomanda ORDER BY d.id")})
 
 public class Domanda implements Serializable {
   private static final long serialVersionUID = 1L;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
@@ -38,7 +39,7 @@ public class TutorInterno implements Serializable {
   private String nome;
 
   // bi-directional many-to-one association to ProgettoFormativo
-  @OneToMany(mappedBy = "tutorInterno")
+  @OneToMany(mappedBy = "tutorInterno",fetch=FetchType.EAGER)
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente

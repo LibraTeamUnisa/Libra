@@ -1,15 +1,12 @@
 package it.unisa.libra.controller;
 
-import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.ProgettoFormativo; 
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.Actions;
 import it.unisa.libra.util.CheckUtils;
 import it.unisa.libra.util.JsonUtils;
 import java.io.IOException;
-<<<<<<< HEAD
-=======
 import java.util.List;
->>>>>>> b66a2805af39389949fb11a0e7fc63938a724474
 import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.ServletException;

@@ -35,7 +35,7 @@ $.get("gestionePfServlet?action=getNumTirociniCompletati", function(data, status
     document.getElementById("currentDateCompletatiValue").innerHTML = data;
 });
 
-$.get("reportStudenteServlet?action=getNumReports", function(data, status){
+$.get("ReportStudenteServlet?action=getNumReports", function(data, status){
     document.getElementById("currentDateReportsValue").innerHTML = data;
 });
 

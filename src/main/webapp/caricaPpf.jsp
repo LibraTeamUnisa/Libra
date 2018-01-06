@@ -1,8 +1,7 @@
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="javax.naming.Context"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@page import="it.unisa.libra.model.dao.ITutorInternoDao"%>
 <%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
@@ -75,24 +74,28 @@
                     		</ol>
                     </div>
                 </div>
-                
-                <!-- corpo della pagina -->
-                <div class="card wizard-card" style="padding:1%">
+                				
             	<form id="myForm" action="carica" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            	<div class="card wizard-card" style="padding:1%">
             		<div class="form-group">
     					<input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="file" required>
   						<small id="fileHelp" class="form-text text-muted">Carica la proposta che intendi inviare</small>
-  					
   						<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
-  						<p id="errorMessage" hidden="hidden"><i>Parametri inseriti non validi</i></p>
-  						<p> Note: </p>
-						<textarea class="form-control" name="note" rows="6"></textarea>
-  					<% } %>
+  							<p id="errorMessage" hidden="hidden"><i>Parametri inseriti non validi</i></p>
+  						<% } %>
   					</div>
+  				</div>
+  				
+  				<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
+  				<div class="card wizard-card" style="padding:1%">
+					<h4 class="card-title">Note:</h4>
+						<textarea class="form-control" name="note" rows="6"></textarea>
+				</div>
+  				<% } %>
   					
-  					<div class="form-group">
-  					<% if(ruolo.contains("Studente")) { %>
-  						<p> Scegli un tutor interno: </p>
+  				<% if(ruolo.contains("Studente")) { %>
+  				<div class="card wizard-card" style="padding:1%">
+  					<h4 class="card-title">Scegli un tutor interno:</h4>
     					<select class="form-control" name="tutorInterno">
       						<%
       							for(TutorInterno t : listaTutor) {
@@ -104,54 +107,64 @@
       							}
       						%>
     					</select>
-  					<% } %>
-  					</div>
-  					
-  					<div class="form-group">
-  					<% if(ruolo.contains("Azienda")) { %>
-  						<p> Ambito: </p>
+  				</div>
+  				<% } %>
+  				
+  				<% if(ruolo.contains("Azienda")) { %>
+  				<div class="card wizard-card" style="padding:1%">
+  					<h4 class="card-title">Ambito:</h4>
   						<input type="text" name="ambito" required>
-  						
-  						<p> Scegli uno studente: </p>
+  				</div>
+  				<% } %>
+  				
+  				<% if(ruolo.contains("Azienda")) { %>
+  				<div class="card wizard-card" style="padding:1%">
+  					<h4 class="card-title">Scegli uno studente:</h4>
     					<select class="form-control" name="studente" required>
-      						<%
-      							Azienda azienda = aziendaDAO.findById(Azienda.class,mail);
-      							List<ProgettoFormativo> listaProposte = progettoFormativoDAO.getProgettiFormativiByAzienda(azienda.getNome());
-      							if(listaProposte != null) {
-      								for(ProgettoFormativo p : listaProposte)
-      								{
-      									if(p.getStato() == 0) {
-      									String nome = p.getStudente().getNome();
-      									String cognome = p.getStudente().getCognome();
-      									%>
-    									<option value="<%= p.getId() %>">
-    									<%= nome %> <%= cognome %> </option>
-    									<%
-      									}
+      					<%
+      						Azienda azienda = aziendaDAO.findById(Azienda.class,mail);
+      						List<ProgettoFormativo> listaProposte = progettoFormativoDAO.getProgettiFormativiByAzienda(azienda.getNome());
+      						if(listaProposte != null) {
+      							for(ProgettoFormativo p : listaProposte)
+      							{
+      								if(p.getStato() == 0) {
+      								String nome = p.getStudente().getNome();
+      								String cognome = p.getStudente().getCognome();
+      								%>
+    								<option value="<%= p.getId() %>">
+    								<%= nome %> <%= cognome %> </option>
+    								<%
       								}
       							}
-      							else {
-      								%> <p> Nessuna richiesta ricevuta </p> <% 
-      							}
-      						%>
+      						}
+      						else {
+      							%> <p> Nessuna richiesta ricevuta </p> <% 
+      						}
+      					%>
     					</select>
-    					
-  						<p> Scegli un tutor esterno: </p>
+    			</div>
+    			<% } %>
+    			
+    			<% if(ruolo.contains("Azienda")) { %>
+    			<div class="card wizard-card" style="padding:1%">
+    				<h4 class="card-title">Scegli un tutor esterno:</h4>
     					<select class="form-control" name="tutorEsterno" required>
-      						<%
-      							listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
-      							for(TutorEsterno ts : listaTutorEsterni) {
-										String nome = ts.getNome();
-										String cognome = ts.getCognome();							
-							%>
-										<option value="<%= ts.getId().getAmbito() %>">
-										<%= nome %> <%= cognome %> </option>
-									<%
-      							}
-      						%>
+      					<%
+      						listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
+      						for(TutorEsterno ts : listaTutorEsterni) {
+								String nome = ts.getNome();
+								String cognome = ts.getCognome();							
+						%>
+								<option value="<%= ts.getId().getAmbito() %>">
+								<%= nome %> <%= cognome %> </option>
+						<%
+      						}
+      					%>
     					</select>
-  					<% } %>
-  					</div>
+  				</div>
+  				<% } %>
+  				
+  					<input type="hidden" name="id" value= <%= request.getParameter("id") %>>
   					<button type="submit" class="btn btn-primary">Invia</button>
   					<button type="reset" class="btn btn-primary">Annulla</button>
   				</form>
@@ -177,7 +190,7 @@
             </div>
             <%@ include file="footer.jsp" %>
     </div>
-    </div>
+    
     <script src="assets/plugins/jquery/jquery.min.js"></script>
     <script src="assets/plugins/bootstrap/js/tether.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>

@@ -12,6 +12,7 @@ public class UtenteJpa extends GenericJpa<Utente, String> implements IUtenteDao 
 
   /**
    * Permette di recuperare dal database l'utente registrato al sistema con mail e password.
+   * 
    * @inheritDoc
    */
   @Override

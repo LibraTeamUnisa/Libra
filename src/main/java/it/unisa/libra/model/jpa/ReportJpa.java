@@ -14,5 +14,5 @@ public class ReportJpa extends GenericJpa<Report, ReportPK> implements IReportDa
     TypedQuery<Long> query = entityManager.createNamedQuery("Report.countAll", Long.class);
     return query.getSingleResult();
   }
-  
+
 }

@@ -30,7 +30,7 @@ public class NegaTutorInterno implements Filter {
   public void destroy() {}
 
   /**
-   * Override. Se l'utente loggato  e' un tutor interno, reindirizza ad una pagina di errore.
+   * Override. Se l'utente loggato e' un tutor interno, reindirizza ad una pagina di errore.
    * 
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
    */

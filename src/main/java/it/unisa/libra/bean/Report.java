@@ -15,8 +15,8 @@ import javax.persistence.NamedQuery;
  */
 @Entity
 @NamedQueries({
-  @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r ORDER BY r.id.data DESC"),
-  @NamedQuery(name = "Report.countAll", query = "SELECT count(r) FROM Report r")})
+    @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r ORDER BY r.id.data DESC"),
+    @NamedQuery(name = "Report.countAll", query = "SELECT count(r) FROM Report r")})
 public class Report implements Serializable {
   private static final long serialVersionUID = 1L;
 

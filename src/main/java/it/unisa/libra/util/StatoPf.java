@@ -10,5 +10,5 @@ public class StatoPf {
   public static final int VERIFICATO = 4;
   public static final int APPROVATO = 5;
   public static final int RIFIUTATO = 6;
-  
+
 }

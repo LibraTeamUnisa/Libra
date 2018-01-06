@@ -14,10 +14,11 @@
 	import="it.unisa.libra.model.dao.IStudenteDao" import="java.util.List"
 	import="javax.naming.InitialContext"%>
 <%
+/*
 	HttpSession sessione = request.getSession();
 	String utenteEmail = (String) sessione.getAttribute("utenteEmail");
 	String utenteRuolo = (String) sessione.getAttribute("utenteRuolo");
-
+*/
 	String nome = (String) request.getParameter("nome");
 	//List<Feedback> feedback = new ArrayList<Feedback>();
 	IAziendaDao aziendaDAO = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");

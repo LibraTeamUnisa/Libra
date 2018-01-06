@@ -341,6 +341,15 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       // TODO Auto-generated method stub
       return null;
     }
+<<<<<<< HEAD
+=======
+    
+    @Override
+    public long countByEmailAzienda(String emailAzienda) {
+      // TODO Auto-generated method stub
+      return 0;
+    }
+>>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git
   }
 
 }

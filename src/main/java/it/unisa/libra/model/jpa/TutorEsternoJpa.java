@@ -6,6 +6,10 @@ import it.unisa.libra.model.dao.ITutorEsternoDao;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 
 @Stateless
 public class TutorEsternoJpa extends GenericJpa<TutorEsterno, TutorEsternoPK>
@@ -30,6 +34,20 @@ public class TutorEsternoJpa extends GenericJpa<TutorEsterno, TutorEsternoPK>
     } else {
       return query.getResultList();
     }
+  }
+
+  @Override
+  public long countByEmailAzienda(String emailAzienda) {
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+    Root<TutorEsterno> tutor = criteriaQuery.from(TutorEsterno.class);
+    criteriaQuery.select(criteriaBuilder.countDistinct(tutor.get("id").get("ambito")));
+    ParameterExpression<String> emailAziendaParam = criteriaBuilder.parameter(String.class);
+    criteriaQuery
+        .where(criteriaBuilder.equal(tutor.get("id").get("aziendaEmail"), emailAziendaParam));
+    TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(emailAziendaParam, emailAzienda);
+    return q.getSingleResult();
   }
 
 }

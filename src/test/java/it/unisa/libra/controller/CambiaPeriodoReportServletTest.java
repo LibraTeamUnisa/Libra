@@ -284,11 +284,6 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     }
 
     @Override
-    public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate,String limit, String status) {
-      return null;
-    }
-
-    @Override
     public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,String status) {
       return null;
     }
@@ -305,6 +300,24 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
 
     @Override
     public int contaOccorrenze() {
+      return 0;
+    }
+
+    @Override
+    public Long countByAziendaAndStato(Azienda azienda, int... stati) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public List<ProgettoFormativo> findByAziendaAndStato(Azienda azienda, int... stati) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public long countValutatiByAzienda(Azienda azienda) {
+      // TODO Auto-generated method stub
       return 0;
     } 
   }

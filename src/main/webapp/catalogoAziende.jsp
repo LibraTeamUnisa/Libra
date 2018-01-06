@@ -15,9 +15,6 @@
 	IAziendaDao aziendaDAO= (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
 	IUtenteDao utenteDAO= (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 	List<Azienda> aziende = aziendaDAO.findAll(Azienda.class);
-	HttpSession sessione = request.getSession();
-	String email = (String) sessione.getAttribute("utenteEmail");
-	
 %>
 
 
@@ -123,24 +120,16 @@
 								</tr>
 							</thead>
 							<tbody>
-							<%
-								if (email == null ) {
-									response.sendRedirect("/Libra/errore.jsp");
-								}
-								else{
-									for(Azienda a: aziende){
+								<%for(Azienda a: aziende){
 										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
-							%>
+									%>
 								<tr>
 									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
-											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" width="40" class="img-circle"/></a></td>
+											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png" class="img-circle img-responsive"/></a></td>
 									<td><%=a.getNome() %></td>
 									<td><%=a.getSede() %></td>
 								</tr>
-							<%
-									}
-								}
-							%>
+								<%} %>
 							</tbody>
 						</table>
 					</div>
@@ -208,19 +197,6 @@
 					{ "searchable": false, "targets": 0 },
 					{ "searchable": false, "targets": 2 },
 				  ],
-				"language": {
-		            "lengthMenu": "Mostra _MENU_ risultati per pagina",
-		            "zeroRecords": "Nessun risultato trovato",
-		            "info": "Pagina _PAGE_ di _PAGES_",
-		            "infoEmpty": "Nessun risultato presente",
-		            "infoFiltered": "(Cercati su _MAX_ risultati totali)",
-		            "paginate": {
-		                "first":      "Prima",
-		                "last":       "Ultima",
-		                "next":       "Successiva",
-		                "previous":   "Precedente"
-		            }
-			    },
 				"initComplete" : function() {
 					$(".dataTables_filter").empty();
 					$(".dataTables_filter").html(

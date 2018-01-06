@@ -68,13 +68,14 @@ $(document).ready(function() {
 			
 		if(verificaStringa(nome)){
 			if(verificaStringa(cognome)){
-				if(dataNascita!=""){
 					if(verificaEmail(email)){
 							if(matricola!=""&&matricola.length==10){
 								if(verificaFormatoMatricola(matricola)){
 									if(verificaFormatoPassword(password)){
 											if(password==password1){
+												if(dataNascita!=""){
 														semaforo = true;
+														}
 											}
 											else{
 												alert("Le due password inserite non coincidono");
@@ -94,7 +95,6 @@ $(document).ready(function() {
 						alert("Formato e-mail non corretto");
 						}
 				}
-			}
   }
 
 		
@@ -125,7 +125,10 @@ if(semaforo==true){
     	  $('#dataNascita').val("");
     	  $('#indirizzo').val("");
     	  $('#telefono').val("");
-      }
+      },
+      error: function(responseText){
+    	  alert(responseText);
+          },
       
     });
 }
@@ -163,43 +166,44 @@ function verificaFormatoPassword(password){
       <form class="form-horizontal form-material" id="registrazione" >
         <a href="javascript:void(0)" class="text-left db"><img src="assets/images/logo-icon.png" alt="" width="15%" height="20%" class="dark-logo"  /></a> 
         <h3 class="box-title m-t-40 m-b-0">REGISTRATI</h3><small>Benvenuto su Libra</small> 
-        <div class="row">
-          <div class="col">
-          <br>
+        <div class="form-group m-t-20">
+          <div class="col-xs-12">
             <input class="form-control" type="text" required=""  placeholder="Nome" id="nome" name="nome" maxlength="20" minlength="2">
           </div>
-          <div class="col">
-          <br>
+        </div>
+        <div class="form-group ">
+          <div class="col-xs-12">
             <input class="form-control" type="text" required="" placeholder="Cognome" id="cognome" name="cognome"   maxlength="20" minlength="2">
           </div>
         </div>
-        <br>
         <div class="form-group ">
           <div class="col-xs-12">
-            <input class="form-control" type="date" required="" placeholder="Data nascita" id="dataNascita" name="dataNascita">
-          </div>
-        </div>
-        <div class="form-group ">
-          <div class="col-xs-12">
+          
             <input class="form-control" type="email" required="" placeholder="E-mail" id="email" name="email" maxlength="50" minlength="19">
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group ">
           <div class="col-xs-12">
             <input class="form-control" type="number" required="" placeholder="Matricola" id="matricola" name="matricola">
           </div>
         </div>
         
-        <div class="row ">
-          <div class="col">
+        <div class="form-group ">
+          <div class="col-xs-12">
             <input class="form-control" type="password" required="" placeholder="Password" id="password" name="password" maxlength="20" minlength="8" pattern="[A-Za-z0-9]{8,20}$">
           </div>
-          <div class="col">
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
             <input class="form-control" type="password" required="" placeholder="Confirm Password" id="password1" name="password1"  pattern="[A-Za-z0-9]{8,20}$">
           </div>
         </div>
-        <br>
         
+        <div class="form-group ">
+          <div class="col-xs-12">
+            <input class="form-control" type="date" required="" placeholder="Data nascita" id="dataNascita" name="dataNascita">
+          </div>
+        </div>
          <div class="form-group ">
           <div class="col-xs-12">
             <input class="form-control" type="text"  placeholder="Indirizzo" id="indirizzo" name="indirizzo">

@@ -1,10 +1,5 @@
 package it.unisa.libra.controller;
 
-import com.mysql.jdbc.StringUtils;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
-import it.unisa.libra.util.Actions;
-import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,7 +7,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.mysql.jdbc.StringUtils;
+import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.JspPagesIndex;
 import javax.servlet.http.HttpSession;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+
+
 
 /**
  * Consente di effettuare le operazioni di login e logout per un utente registrato.
@@ -28,10 +30,7 @@ public class AutenticazioneServlet extends HttpServlet {
   /** Default constructor. */
   public AutenticazioneServlet() {}
 
-  /**
-   * doGet.
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-   */
+  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     if (validAction(request, response)) {

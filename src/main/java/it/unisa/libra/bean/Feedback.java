@@ -14,10 +14,7 @@ import javax.persistence.NamedQuery;
  * 
  */
 @Entity
-@NamedQueries({
-	@NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f"),
-	@NamedQuery(name="Feedback.findByType", query="SELECT f FROM Feedback f WHERE f.progettoFormativo.id = :idProgettoFormativo AND f.domanda.tipo= :tipoDomanda ORDER BY f.domanda.id")
-})
+@NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f")
 public class Feedback implements Serializable {
   private static final long serialVersionUID = 1L;
 

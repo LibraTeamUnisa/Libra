@@ -1,4 +1,4 @@
-<%@page import="it.unisa.libra.bean.Studente"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
@@ -21,7 +21,6 @@
 	boolean segreteria = false;
 	boolean presidente = false;
 	boolean tutorInterno = false;
-	boolean isStudente= false;
 	String immagineProfilo = "";
 	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 	if(request.getSession().getAttribute("utenteRuolo")!=null && request.getSession().getAttribute("utenteEmail")!=null){
@@ -31,7 +30,6 @@
 		Utente utenteVar = null;
 		Presidente accountPresidente = null;
 		TutorInterno accountTutor = null;
-		Studente accountStudente= null;
 		
 		if(ruoloUtente.equals("Segreteria")){
 			utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
@@ -47,21 +45,14 @@
 			nomeUtente = accountPresidente.getNome();
 			cognomeUtente = accountPresidente.getCognome();
 			presidente = true;	
-		
-		}else if(ruoloUtente.equals("TutorInterno")){
+		}
+		else if(ruoloUtente.equals("TutorInterno")){
 			utenteVar = utenteDBAccess.findById(Utente.class, emailUtente);
 			accountTutor = utenteVar.getTutorInterno();
 			immagineProfilo = utenteVar.getImgProfilo();
 			nomeUtente = accountTutor.getNome();
 			cognomeUtente = accountTutor.getCognome();
 			tutorInterno = true;	
-		}else if(ruoloUtente.equals("Studente")){
-			utenteVar= utenteDBAccess.findById(Utente.class, emailUtente);
-			accountStudente= utenteVar.getStudente();
-			immagineProfilo= utenteVar.getImgProfilo();
-			nomeUtente= accountStudente.getNome();
-			cognomeUtente= accountStudente.getCognome();
-			isStudente= true;
 		}
 	}
 %>
@@ -93,7 +84,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li>
-                        	<%if(segreteria == true || presidente == true || tutorInterno == true || isStudente== true){ %>
+                        	<%if(segreteria == true || presidente == true || tutorInterno == true){ %>
                         	<a href="catalogoAziende.jsp" aria-expanded="false"><span class="hide-menu">Catalogo aziende</span></a>       
                             <%}else {%>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
@@ -102,18 +93,16 @@
                         <li>
                         	<%if(segreteria==true || presidente ==true || tutorInterno == true){ %>
                         	<a href="listaStudenti.jsp" aria-expanded="false"><span class="hide-menu">Studenti</span></a> 
-                            <%}else if(isStudente==true){%>
-                            <a href="questionarioValutaAzienda.jsp" aria-expanded="false"><span class="hide-menu">Valuta Azienda</span></a>
-                            <%}else{ %>
+                            <%}else {%>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
                             <%} %>
                         </li>
                         <li>
                         	<%if(segreteria==true){ %>
                         	<a href="statistiche.jsp" aria-expanded="false"><span class="hide-menu">Statistiche</span></a>  
-                        	<%}else if(presidente==true || tutorInterno == true || isStudente==true){%>
+                        	<%}else if(presidente==true || tutorInterno == true){%>
                             <a href="reportStudente.jsp" aria-expanded="false"><span class="hide-menu">Report</span></a>              
-                            <%}else{%>
+                            <%}else {%>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
                             <%} %>            
                         </li>
@@ -134,7 +123,9 @@
                         <li>
                         	<%if(segreteria==true || presidente==true || tutorInterno == true){ %>
                         	<a href="contattiDipartimento.jsp" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a>    
-                            <%}%>                            
+                            <%}else {%>
+                            <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
+                            <%} %>                               
                         </li>
                         <li class="nav-devider"></li>
                    
@@ -147,7 +138,7 @@
             <div class="sidebar-footer">
                 
                 <!-- item -->
-                <a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"="+ Actions.LOGOUT %>" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
+                <a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"= "+ Actions.LOGOUT %>" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
           
             </div>
             <!-- End Bottom points-->

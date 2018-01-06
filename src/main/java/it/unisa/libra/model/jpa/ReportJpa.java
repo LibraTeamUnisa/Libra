@@ -6,6 +6,7 @@ import it.unisa.libra.model.dao.IReportDao;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+
 @Stateless
 public class ReportJpa extends GenericJpa<Report, ReportPK> implements IReportDao {
 
@@ -14,5 +15,5 @@ public class ReportJpa extends GenericJpa<Report, ReportPK> implements IReportDa
     TypedQuery<Long> query = entityManager.createNamedQuery("Report.countAll", Long.class);
     return query.getSingleResult();
   }
-  
+
 }

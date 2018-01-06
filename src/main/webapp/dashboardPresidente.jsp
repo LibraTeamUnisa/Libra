@@ -1,50 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
-<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
-<%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
-<%@ page import="it.unisa.libra.model.dao.IAziendaDao" %>
-<%@ page import="javax.naming.InitialContext" %>
-<%@ page import="javax.naming.Context" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Map.Entry" %>
+    
+<%@ page import="it.unisa.libra.bean.Azienda" %>
 <%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
 <%@ page import="it.unisa.libra.bean.Studente" %>
-<%@ page import="it.unisa.libra.bean.Azienda" %>
 <%@ page import="it.unisa.libra.bean.TutorInterno" %>
+<%@ page import="it.unisa.libra.model.dao.IAziendaDao" %>
+<%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
+<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
+
+<%@ page import="javax.naming.Context" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Map.Entry" %>
+
 <%
 	
-	
+	/*Recupero le interfacce per interagire con il Database*/
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	int numeroStudenti = studenteDao.findAll(Studente.class).size();
-	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
-	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
-	int numeroStudentiAttivi = 0;
-	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.findAll(ProgettoFormativo.class);
-	ProgettoFormativo progetto = null;
-	boolean pass = false;
-	if(progettiInCorso!=null){
-		for(int i=0;i<progettiInCorso.size();i++){
-			progetto = progettiInCorso.get(i);
-			if(progetto.getDataInizio()!=null&&progetto.getDataInizio().before(new Date())){
-				if(progetto.getDataFine()==null||progetto.getDataFine().after(new Date())){
-					numeroStudentiAttivi++;
-					pass = true;
-				}
-			}
-			if(pass==false){
-				progettiInCorso.remove(i);
-				i--;
-			}
-			else{
-				pass=false;
-			}
-	}
-	}
+	int numeroProgetti = progettoFormativoDao.contaOccorrenze();
+	/*Raccolgo alcuni dati statistici*/
+	int numeroStudenti = studenteDao.contaOccorrenze();
+	int numeroAziende = aziendaDao.contaOccorrenze();
+	
+	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.findUltime10();
+
 %>
 
 
@@ -88,10 +74,7 @@
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-    </div>
+    
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -131,16 +114,15 @@
                 <div class="row">
                     <!-- Column -->
                     <div class="col-lg-6">
-
                         <div class="card" >
-                        
                             <div class="card">
+                    
                             <h4 class="card-title" align="center"></h4>
-                                <h4 class="card-title" align="center">PROGETTI FORMATIVI IN CORSO</h4>
+                                <h4 class="card-title" align="center">Ultimi 10 PROGETTI FORMATIVI in corso</h4>
+                                <h6 class="card-title" align="center">
+                                </h6>
                                 <div class="table-responsive m-t-40">
-                                
                                     <table class="table stylish-table">
-                                    
                                         <thead>
                                             <tr>
                                                 <th colspan="2">Azienda</th>
@@ -151,7 +133,10 @@
                                             </tr>
                                         </thead>
                                         
-                                        <%if(progettiInCorso!=null && progettiInCorso.size()>0){
+                                        <%
+                                        /* Metto in tabella gli ultimi 10 progetti formativi*/
+                                        
+                                        if(progettiInCorso!=null && progettiInCorso.size()>0){
                                         	for(ProgettoFormativo p:progettiInCorso){
                                         %>
                                         <tbody><tr>
@@ -190,6 +175,7 @@
                                                <% }%> 
                                             </tr>
                                           <% 
+                                         
                                             	}
                                         	}
                                         
@@ -227,7 +213,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light"><%=numeroProgettiFormativi %></h1>
+                                            <h1 class="font-light"><%=numeroProgetti %></h1>
                                             <h6 class="text-muted">Progetti formativi </h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
@@ -253,31 +239,92 @@
                                 </div>
                             </div>
                             <!-- Column -->
-                            <div class="col-sm-6">
-                                <div class="card card-block">
-                                    <!-- Row -->
-                                    <div class="row p-t-10 p-b-10">
-                                        <!-- Column -->
-                                        <div class="col p-r-0">
-                                            <h1 class="font-light"><%=numeroStudentiAttivi%></h1>
-                                            <h6 class="text-muted">Numero studenti attivi</h6></div>
-                                        <!-- Column -->
-                                        <div class="col text-right align-self-center">
-                                            <div data-label="60%" class="css-bar m-b-0 css-bar-info css-bar-60"><i class="mdi mdi-receipt"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
+                            
+                        </div>
+                        
+                        
+                        
+                        <%
+                        /*Creo e popolo un hashmap dove per ogni mese c'è il numero dei progetti iniziati
+                        in quello stesso mese*/
+                 int annoCorrente = new Date().getYear()+1900;
+                 List<ProgettoFormativo> progetti = progettoFormativoDao.getInOrdineCronologico();
+                 Map<Integer,String> progettiPerMese = new HashMap<Integer,String>();
+                 ProgettoFormativo p = null;
+                 int contaPerMese = 1;
+                 int size = progetti.size();
+                 if(progetti!=null&&size>=1){
+                	 if(size==1){
+                       	 	progettiPerMese.put(progetti.get(0).getDataInizio().getMonth()+1,1+"");
+                	 }
+                 	for(int j=1;j<size;j++){
+                 		p = progetti.get(j);
+                 		/*Se il mese del j-esimo progetto coincide con quello del j-1esimo allora possiamo incrementare
+                 		la variabile contaPerMese
+                 		Se ci troviamo nell'ultimo elemento della lista salviamo l'elemento ed il valore attuale di contaPerMese
+                 		nel HashMap
+                 			*/
+                 		if(p.getDataInizio().getMonth()==progetti.get(j-1).getDataInizio().getMonth()){
+                 				contaPerMese++;
+                 				if(j==size-1){
+                 					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,contaPerMese+"");
+                 				}
+                 				/*Nel caso i due mesi non coincidano si mette nel hasmap il numero del j-1esimo mese
+                 				ed il valore attuale di contaPerMese, dopodichè si azzera contaPerMese.
+                 				Nel caso si trattasse dell'ultimo elemento della lista salviamo nel hasmap entrambi i mesi(j-1,j)*/
+                 		}else {
+                 				if(j==size-1){
+                 					progettiPerMese.put(progetti.get(j-1).getDataInizio().getMonth()+1,contaPerMese+"");
+                 					progettiPerMese.put(progetti.get(j).getDataInizio().getMonth()+1,1+"");
+                 				}else {
+                 					progettiPerMese.put(progetti.get(j-1).getDataInizio().getMonth()+1,contaPerMese+"");
+                 					contaPerMese = 1;
+                 				}
+                 			}
+                 		
+                 		
+                	 }
+                 }
+                 %>
+                <form>
+                	<%
+                	/*Creo una form fittizia dala quale javascript potrà prendere i dati java per il grafico*/
+                	for(int x=0;x<12;x++){
+                		if(progettiPerMese.get(x+1)!=null){
+                	%>
+                		<input type="hidden" id="<%="mese"+x%>" value="<%=progettiPerMese.get(x+1)%>">
+                		<%  }else{ %>
+                		<input type="hidden" id="<%="mese"+x%>" value="<%=0%>">
+                		<%}
+                		}
+                 
+                	%>
+                </form>
+                
+                
+                
+                
+                        <div class="row">
+                        <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">
+                             <ul class="list-inline pull-right">
+                                    <li>
+                                        <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-info"></i><%=annoCorrente %></h6>
+                                    </li>
+                                </ul>
+                                <h4 class="card-title">Progetti formativi per mese</h4>
+                                <div class="clear"></div>
+                                <div class="total-revenue" style="height: 240px;"></div>
                             </div>
                         </div>
-                        <div class="row">
-                        
+                    </div>
                     </div>
                         </div>
                         <!--          -->
                      
                 </div>
                  
-                
                 
                 
                 <div class="right-sidebar">
@@ -420,7 +467,54 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-    
+    <script>
+    	var numero = 1;
+    	var mese1,mese2,mese3,mese4,mese5,mese6,mese7,mese8,mese9,mese10,mese11,mese12;
+    	mese1 = $('#mese0').val();
+    	mese2 = $('#mese1').val();
+    	mese3 = $('#mese2').val();
+    	mese4 = $('#mese3').val();
+    	mese5 = $('#mese4').val();
+    	mese6 = $('#mese5').val();
+    	mese7 = $('#mese6').val();
+    	mese8 = $('#mese7').val();
+    	mese9 = $('#mese8').val();
+    	mese10 = $('#mese9').val();
+    	mese11 = $('#mese10').val();
+    	mese12 = $('#mese11').val();
+    	
+		var grafico;
+		$(document).ready(function() {
+			$(function () {
+			    "use strict";
+			    // ============================================================== 
+			    // Total revenue chart
+			    // ============================================================== 
+			    grafico = new Chartist.Line('.total-revenue', {
+			        labels: ['gen', 'feb', 'mar', 'apr', 'mag', 'giu','lug','ago','set','ott','nov','dic']
+			        , series: [
+			        [mese1, mese2, mese3, mese4, mese5, mese6, mese7, mese8, mese9,mese10,mese11,mese12]
+			      ]
+			    }, {
+			        high: 20
+			        , low: 0
+			        , fullWidth: true
+			        , plugins: [
+			        Chartist.plugins.tooltip()
+			      ]
+			        , // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
+			        axisY: {
+			            onlyInteger: true
+			            , offset: 30
+			            , labelInterpolationFnc: function (numero) {
+			                return (numero);
+			            }
+			        }
+			    });
+			    }); 
+			
+			});
+		</script>
 </body>
 
 </html>

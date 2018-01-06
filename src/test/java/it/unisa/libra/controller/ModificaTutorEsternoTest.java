@@ -62,9 +62,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
     azienda.setPartitaIVA("12345678");
     azienda.setSede("Roma");
     
-    key=new TutorEsternoPK();
-    key.setAmbito("Intelligenza Artificiale");
-    key.setAziendaEmail(azienda.getUtenteEmail());
+    key=getKey(azienda.getUtenteEmail(),"Intelligenza Artificiale");
     tutor=new TutorEsterno();
     tutor.setId(key);
     tutor.setNome("Giovanni");
@@ -98,7 +96,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       
       super.doPost(request, response);
       verify(response).setStatus(HttpServletResponse.SC_OK);
-      TutorEsterno result=em.find(TutorEsterno.class,key);
+      TutorEsterno result=em.find(TutorEsterno.class,getKey(azienda.getUtenteEmail(),NEW_SCOPE));
       
       assertEquals(result.getId().getAmbito(),NEW_SCOPE);
       assertEquals(result.getNome(),NEW_NAME);
@@ -176,7 +174,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       initTest(tutor.getId().getAmbito(), tutor.getId().getAziendaEmail(), null, null, null, NEW_TELEPHONE, NEW_ADDRESS, NEW_SCOPE);
       super.doPost(request, response);
       verify(response).setStatus(HttpServletResponse.SC_OK);
-      TutorEsterno result=em.find(TutorEsterno.class,key);
+      TutorEsterno result=em.find(TutorEsterno.class,getKey(azienda.getUtenteEmail(),NEW_SCOPE));
       assertEquals(tutor.getNome(),result.getNome());
       assertEquals(tutor.getCognome(),result.getCognome());
       assertEquals(NEW_ADDRESS,result.getIndirizzo());
@@ -195,7 +193,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       initTest(tutor.getId().getAmbito(), tutor.getId().getAziendaEmail(), null, null, NEW_DATE, NEW_TELEPHONE, NEW_ADDRESS, NEW_SCOPE);
       super.doPost(request, response);
       verify(response).setStatus(HttpServletResponse.SC_OK);
-      TutorEsterno result=em.find(TutorEsterno.class,key);
+      TutorEsterno result=em.find(TutorEsterno.class,getKey(azienda.getUtenteEmail(),NEW_SCOPE));
       assertEquals(tutor.getNome(),result.getNome());
       assertEquals(CheckUtils.parseDate(NEW_DATE),result.getDataDiNascita());
       assertEquals(NEW_ADDRESS,result.getIndirizzo());
@@ -214,7 +212,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       initTest(tutor.getId().getAmbito(), tutor.getId().getAziendaEmail(), null, NEW_SURNAME, NEW_DATE, NEW_TELEPHONE, NEW_ADDRESS, NEW_SCOPE);
       super.doPost(request, response);
       verify(response).setStatus(HttpServletResponse.SC_OK);
-      TutorEsterno result=em.find(TutorEsterno.class,key);
+      TutorEsterno result=em.find(TutorEsterno.class,getKey(azienda.getUtenteEmail(),NEW_SCOPE));
       assertEquals(tutor.getNome(),result.getNome());
       assertEquals(NEW_SURNAME,result.getCognome());
       assertEquals(CheckUtils.parseDate(NEW_DATE),result.getDataDiNascita());
@@ -288,6 +286,14 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
     when(response.getWriter()).thenReturn(new PrintWriter(new StringWriter()));
   }
   
+  private TutorEsternoPK getKey(String azienda,String ambito)
+  {
+    TutorEsternoPK key=new TutorEsternoPK();
+    key.setAmbito(ambito);
+    key.setAziendaEmail(azienda);
+    return key;
+  }
+  
   private class ITutorEsternoDaoTest implements ITutorEsternoDao
   {
     private EntityManager em;
@@ -298,14 +304,19 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
 
     @Override
     public void persist(TutorEsterno entity) {
-      // TODO Auto-generated method stub
-      
+      EntityTransaction et=em.getTransaction();
+      et.begin();
+      em.persist(entity);
+      em.flush();
+      et.commit();
     }
 
     @Override
     public void remove(Class<TutorEsterno> entityClass, TutorEsternoPK id) {
-      // TODO Auto-generated method stub
-      
+      EntityTransaction et=em.getTransaction();
+      et.begin();
+      em.remove(em.merge(em.find(entityClass, id)));
+      et.commit();
     }
 
     @Override

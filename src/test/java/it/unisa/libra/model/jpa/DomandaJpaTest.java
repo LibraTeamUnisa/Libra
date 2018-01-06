@@ -20,7 +20,6 @@ public class DomandaJpaTest extends GenericJpaTest {
 	    jpaD.entityManager = em;
 	 }
 	 
-	 
 	 @Test
 	 public void persistTest() {
 		 Domanda d= createObject();
@@ -30,20 +29,13 @@ public class DomandaJpaTest extends GenericJpaTest {
 		 assertEquals(d.getId(), toCheck.getId());
 	 }
 	 
-	 
-	 
-	 
 	 @Test
 	 public void findByTypeOnSuccessTest() {
 		 Domanda obj= createObject();
 		 Domanda toCheck= jpaD.findByType("Studente").get(0);
 		 assertNotNull(toCheck);
-		 assertEquals(obj.getId(), toCheck.getId());
-		 
-		 
-		 
+		 assertEquals(obj.getId(), toCheck.getId()); 
 	 }
-	 
 	 
 	 private Domanda createObject() {
 		 Domanda d= new Domanda();
@@ -51,7 +43,5 @@ public class DomandaJpaTest extends GenericJpaTest {
 		 d.setTesto("testo prima domanda da provare");
 		 d.setTipo("Studente");
 		 return d;
-	 }
-	 
-	 
+	 } 
 }

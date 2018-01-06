@@ -17,7 +17,7 @@ public class FeedbackJpaTest extends GenericJpaTest {
   private static ProgettoFormativoJpa jpaP;
   
   @BeforeClass
-  public static void setUp(){
+  public static void setUp() {
     jpaD = new DomandaJpa();
     jpaP = new ProgettoFormativoJpa();
     jpaF = new FeedbackJpa();
@@ -25,37 +25,39 @@ public class FeedbackJpaTest extends GenericJpaTest {
     jpaD.entityManager = em;
     jpaP.entityManager = em;
   }
-  
-  /*@Test
-  public void findByIdPFtest() {
+
+  @Test
+  public void findByTypeOnSuccessTest() {
     Feedback f = createFeedback();
-    jpaF.persist(createFeedback());
-    Feedback toCheck = jpaF.getFeedbackByIdPF(3).get(0);
-    
+    Feedback toCheck = jpaF.findByType(1,"Azienda").get(0);
     assertNotNull(toCheck);
-    assertEquals(f.getId().getProgettoFormativoID(), toCheck.getId().getProgettoFormativoID());
-    
+    assertEquals(f.getId(), toCheck.getId());
   }
   
-  
-  private Feedback createFeedback(){
+  private Feedback createFeedback() {
     ProgettoFormativo pf = new ProgettoFormativo();
-    pf.setId(3);
+    pf.setId(1);
+    
+    jpaP.persist(pf);
     
     Domanda d = new Domanda();
-    d.setId(3);
+    d.setId(2);
     d.setTesto("Note");
     d.setTipo("Azienda");
     
+    jpaD.persist(d);
+    
     FeedbackPK fpk = new FeedbackPK();
     fpk.setProgettoFormativoID(pf.getId());
+    fpk.setDomandaID(d.getId());
     
     Feedback f = new Feedback();
     f.setId(fpk);
-    f.setProgettoFormativo(pf);
-    f.setDomanda(d);
+    //f.setProgettoFormativo(pf);
+    //f.setDomanda(d);
     
-
+    jpaF.persist(f);
+    
     return f;
-  }*/
+  }
 }

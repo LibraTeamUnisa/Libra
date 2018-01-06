@@ -1,5 +1,10 @@
 package it.unisa.libra.model.jpa;
 
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.CheckUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,11 +20,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.CheckUtils;
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
@@ -215,7 +215,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     if (!CheckUtils.checkEmptiness(aziende)) {
       return null;
     }
-
     return aziende.split(" ");
   }
 

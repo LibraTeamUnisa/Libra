@@ -186,11 +186,11 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 		                           			<button type="button" class="btn btn-outline-primary" id="sa-warning-tirocinio"> Conferma</button>		                				
 		                				</div>
 	                				</div>
-	                				<% } else if ((request.getSession().getAttribute("utenteRuolo").equals("TutorInterno") && pf.getStato() == 2) || (request.getSession().getAttribute("utenteRuolo").equals("Presidente") && pf.getStato() == 3)) { %>
+	                				<% } else { %>
 	                				<div class="row card-block">
 		                				<div class="col-md-4">
-		                					<a href="caricaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button></a>
-		                					<a href="rifiutaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button></a>
+		                					<button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button>
+		                					<button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button>
 		                				</div>
 		                				<div class="col-md-8">
 		                				</div>

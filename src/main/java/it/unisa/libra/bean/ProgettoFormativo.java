@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,6 @@ import javax.persistence.TemporalType;
  * The persistent class for the progettoformativo database table.
  * 
  */
-
 @Entity
 @NamedQueries({
     @NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p"),
@@ -32,12 +30,7 @@ import javax.persistence.TemporalType;
         query = "SELECT p FROM ProgettoFormativo p WHERE p.studente=:studente AND p.tutorInterno.utenteEmail=:tutorinterno ORDER BY p.id DESC"),
     @NamedQuery(name = "ProgettoFormativo.findByAziendaNome",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.azienda.nome=:nomeAzienda"),
-    @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda", query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda"),
-    @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
-    query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
-    @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
-    @NamedQuery(name = "ProgettoFormativo.count", query = "SELECT COUNT(p) FROM ProgettoFormativo p")
-})
+    @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda", query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda")})
 
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -68,30 +61,30 @@ public class ProgettoFormativo implements Serializable {
   private int stato;
 
   // bi-directional many-to-one association to Feedback
-  @OneToMany(fetch=FetchType.LAZY, mappedBy = "progettoFormativo")
+  @OneToMany(mappedBy = "progettoFormativo")
   private List<Feedback> feedbacks;
 
   // bi-directional one-to-one association to Notifica
-  @OneToOne(fetch=FetchType.LAZY,mappedBy = "progettoFormativo")
+  @OneToOne(mappedBy = "progettoFormativo")
   private Notifica notifica;
 
   // bi-directional many-to-one association to Azienda
-  @ManyToOne(fetch=FetchType.EAGER) 
+  @ManyToOne
   @JoinColumn(name = "aziendaEmail")
   private Azienda azienda;
 
   // bi-directional many-to-one association to Studente
-  @ManyToOne(fetch=FetchType.EAGER) 
+  @ManyToOne
   @JoinColumn(name = "studenteEmail")
   private Studente studente;
 
   // bi-directional many-to-one association to TutorInterno
-  @ManyToOne(fetch=FetchType.EAGER) 
+  @ManyToOne
   @JoinColumn(name = "tutorInternoEmail")
   private TutorInterno tutorInterno;
 
   // bi-directional many-to-one association to Report
-  @OneToMany(fetch=FetchType.LAZY,mappedBy = "progettoFormativo")
+  @OneToMany(mappedBy = "progettoFormativo")
   private List<Report> reports;
 
   public ProgettoFormativo() {}

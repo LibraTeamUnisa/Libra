@@ -41,9 +41,9 @@ public class CheckUtilsTest
   @Test
   public void testDateChecking()
   {
-    assertNotEquals(CheckUtils.parseDate(RIGHT_DATE),null);
-    assertEquals(CheckUtils.parseDate(WRONG_DATE),null);
-    assertEquals(CheckUtils.parseDate(null),null);
+    assertNotEquals(CheckUtils.checkDate(RIGHT_DATE),null);
+    assertEquals(CheckUtils.checkDate(WRONG_DATE),null);
+    assertEquals(CheckUtils.checkDate(null),null);
   }
   
   @Test

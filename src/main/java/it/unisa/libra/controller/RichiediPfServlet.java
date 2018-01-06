@@ -1,13 +1,5 @@
 package it.unisa.libra.controller;
 
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IAziendaDao;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.model.dao.IStudenteDao;
-import it.unisa.libra.model.dao.IUtenteDao;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -16,12 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.model.dao.IAziendaDao;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.model.dao.IStudenteDao;
 
 
 
 /**
  * Consente di effettuare una richiesta di progetto formativo ad un utente registrato con ruolo
- * studente.
+ * studente
  */
 @WebServlet(name = "richiediPfServlet", urlPatterns = "/richiediPfServlet")
 public class RichiediPfServlet extends HttpServlet {
@@ -50,7 +50,7 @@ public class RichiediPfServlet extends HttpServlet {
   }
 
   /**
-   * Gestisce le richieste di progetto formativo degli studenti.
+   * Gestisce le richieste di progetto formativo degli studenti
    * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
@@ -85,10 +85,8 @@ public class RichiediPfServlet extends HttpServlet {
 
           pfDao.persist(pf);
           response.getWriter().write(ISCRIZIONE_SUCCESS_MSG);
-          /*
-           * response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome=" +
-           * azienda.getNome() + "&stato=success");
-           */
+          /*response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome="
+              + azienda.getNome() + "&stato=success");*/
         } else if (studente == null) {
           response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
         } else {
@@ -142,13 +140,13 @@ public class RichiediPfServlet extends HttpServlet {
 
   /**
    * Messaggio restituito nel caso in cui il parametro relativo all'email dello studente non viene
-   * riconosciuto.
+   * riconosciuto
    */
   private static final String SESSION_ERROR_MSG =
       "Impossibile recuperare i parametri dalla sessione!";
   /**
    * Messaggio restituito nel caso in cui il parametro relativo all'email dello studente non viene
-   * riconosciuto.
+   * riconosciuto
    */
   private static final String USER_ERROR_MSG = "Utente non trovato!";
   /**
@@ -156,11 +154,11 @@ public class RichiediPfServlet extends HttpServlet {
    */
   private static final String ISCRIZIONE_SUCCESS_MSG = "Iscrizione effettuata!";
   /**
-   * Messaggio restituito nel caso in cui la ricerca dello studente non ottiene risultato.
+   * Messaggio restituito nel caso in cui la ricerca dello studente non ottiene risultato
    */
   private static final String STUDENTE_NOT_FOUND_MSG = "Studente non trovato!";
   /**
-   * Messaggio restituito nel caso in cui la ricerca dell'azienda non ottiene risultato.
+   * Messaggio restituito nel caso in cui la ricerca dell'azienda non ottiene risultato
    */
   private static final String AZIENDA_NOT_FOUND_MSG = "Azienda non trovata!";
 }

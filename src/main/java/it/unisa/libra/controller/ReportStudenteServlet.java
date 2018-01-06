@@ -27,13 +27,13 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Giandomenico Solimando
  * @author Lucio Giordano
+ * @author Emanuele Rinaldi
  * 
  * @version 1.0
  * 
  * 
  */
 @WebServlet(name = "ReportStudenteServlet", urlPatterns = "/ReportStudenteServlet")
-
 public class ReportStudenteServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -54,6 +54,7 @@ public class ReportStudenteServlet extends HttpServlet {
 
   /** Default constructor. */
   public ReportStudenteServlet() {}
+
 
   /*
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -88,7 +89,7 @@ public class ReportStudenteServlet extends HttpServlet {
     }
   }
 
-  protected void modificaReport(HttpServletRequest request, HttpServletResponse response)
+  private void modificaReport(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
     String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
@@ -137,7 +138,7 @@ public class ReportStudenteServlet extends HttpServlet {
 
   }
 
-  protected void aggiungiReport(HttpServletRequest request, HttpServletResponse response)
+  private void aggiungiReport(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
     Studente studente = studenteDao.findById(Studente.class, emailStudente);
@@ -160,26 +161,6 @@ public class ReportStudenteServlet extends HttpServlet {
     }
 
   }
-
-
-  public void setUtenteDao(IUtenteDao utenteDao) {
-    this.utenteDao = utenteDao;
-  }
-
-
-  public void setStudenteDao(IStudenteDao studenteDao) {
-    this.studenteDao = studenteDao;
-  }
-
-
-  public void setProgettoFormativoDao(IProgettoFormativoDao progettoFormativoDao) {
-    this.progettoFormativoDao = progettoFormativoDao;
-  }
-
-  public void setReportDao(IReportDao ReportDao) {
-    this.reportDao = ReportDao;
-  }
-
 
   /** messaggio di errore inviato in caso di bad request. **/
   private static final String BADREQUEST_MESS = "L'operazione richiesta non e' valida.";

@@ -56,20 +56,34 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
    */
   public List<ProgettoFormativo> findByAziendaAndStato(Azienda azienda, int... stati);
 
-  /** Resituisce il numero di progetti formativi per cui l'azienda ha rilasciato un feedback.
+  /**
+   * Resituisce il numero di progetti formativi per cui l'azienda ha rilasciato un feedback.
    * 
    * @param azienda l'azienda
    * @return il numero di valutazioni espresse
    */
   public long countValutatiByAzienda(Azienda azienda);
 
-  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit, String status);
-  
+
+  public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,
+      String status);
+
+  public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit,
+      String status);
+
 
   public Long getNumTirociniCompletati();
-  
+
   public List<Map<String, String>> countByAziendaAndDate(Date fromDate, Date toDate, String limit,
       String status, String ragSoc);
 
+  public List<Map<String, String>> getTabellaValutazioni(Date fromDate, Date toDate, String status,
+      String ragSoc);
+
+  public List<ProgettoFormativo> getInOrdineCronologico();
+
+  public List<ProgettoFormativo> findUltime10();
+
+  int contaOccorrenze();
 
 }

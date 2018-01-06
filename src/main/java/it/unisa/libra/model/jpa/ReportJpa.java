@@ -6,7 +6,6 @@ import it.unisa.libra.model.dao.IReportDao;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-
 @Stateless
 public class ReportJpa extends GenericJpa<Report, ReportPK> implements IReportDao {
 

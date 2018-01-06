@@ -85,10 +85,7 @@ public class RichiediPfServlet extends HttpServlet {
 
           pfDao.persist(pf);
           response.getWriter().write(ISCRIZIONE_SUCCESS_MSG);
-          /*
-           * response.sendRedirect(request.getContextPath() + "/profiloAziendale.jsp?nome=" +
-           * azienda.getNome() + "&stato=success");
-           */
+          
         } else if (studente == null) {
           response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
         } else {

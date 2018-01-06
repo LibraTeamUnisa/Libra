@@ -14,7 +14,7 @@ public class JsonUtils {
   public static String parseMapToJson(Map<String, String> map) {
     return new Gson().toJson(map);
   }
-  
+
   public static String parseListToJson(List list) {
     return new Gson().toJson(list);
   }

@@ -1,12 +1,7 @@
 package it.unisa.libra.model.jpa;
 
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Domanda;
-import it.unisa.libra.bean.Feedback;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.CheckUtils;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,12 +15,20 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Domanda;
+import it.unisa.libra.bean.Feedback;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.CheckUtils;
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
@@ -36,7 +39,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     TypedQuery<ProgettoFormativo> query =
         entityManager.createNamedQuery("ProgettoFormativo.findByStudente", ProgettoFormativo.class);
     query.setParameter("studente", studente);
-
     if (query.getResultList().isEmpty()) {
       return null;
     } else {
@@ -97,6 +99,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     return getTopAziendeFromNumStudenti(minDate.getTime(), new Date(), limit, status);
   }
 
+  @Override
   public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit,
       String status) {
     Map<String, String> results = new HashMap<>();
@@ -128,7 +131,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
     List<Object[]> resultList =
         entityManager.createQuery(cq).setMaxResults(Integer.parseInt(limit)).getResultList();
-
     // Place results in map
     for (Object[] borderTypes : resultList) {
       results.put((String) borderTypes[1], ((Long) borderTypes[0]).toString());
@@ -214,6 +216,113 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
     return resultList;
   }
+
+  public List<Map<String, String>> getTabellaValutazioni(Date fromDate, Date toDate, String status,
+      String ragSoc) {
+    List<Map<String, String>> resultList = new ArrayList<>();
+
+    Calendar minDate = Calendar.getInstance();
+    minDate.add(Calendar.YEAR, -1);
+
+    fromDate = fromDate == null ? minDate.getTime() : fromDate;
+    toDate = toDate == null ? new Date() : toDate;
+    status = CheckUtils.checkEmptiness(status) ? status : null;
+
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+    Root<ProgettoFormativo> pf = cq.from(ProgettoFormativo.class);
+    Join<ProgettoFormativo, Azienda> join = pf.join("azienda");
+    Join<ProgettoFormativo, Feedback> feedbackJoin = pf.join("feedbacks", JoinType.LEFT);
+    List<Predicate> listPred = new ArrayList<>();
+
+    Expression<Long> numTirocini = cb.count(pf.get("id"));
+    Expression<Double> valutazioneMedia = cb.avg(feedbackJoin.<Double>get("valutazione"));
+
+    cq.multiselect(join.get("nome"), numTirocini, valutazioneMedia, pf.get("ambito"));
+
+    Boolean tirIniziati = stringToBoolean(status);
+    if (tirIniziati != null) {
+      if (tirIniziati) {
+        listPred.add(cb.isNull(pf.<Integer>get("dataFine")));
+      } else {
+        listPred.add(cb.isNotNull(pf.<Integer>get("dataFine")));
+      }
+    }
+
+    String[] listRagSoc = getAziendeFromString(ragSoc);
+    if (listRagSoc != null && listRagSoc.length > 0) {
+      Predicate[] listPreds = new Predicate[listRagSoc.length];
+      for (int i = 0; i < listRagSoc.length; i++) {
+        listPreds[i] = (cb.like(join.<String>get("nome"), listRagSoc[i] + "%"));
+      }
+      listPred.add(cb.or(listPreds));
+    }
+
+    listPred.add(cb.greaterThanOrEqualTo(pf.<Date>get("dataInizio"), fromDate));
+    listPred.add(cb.lessThanOrEqualTo(pf.<Date>get("dataInizio"), toDate));
+
+    Predicate[] preds = new Predicate[listPred.size() - 1];
+    cq.where(cb.and(listPred.toArray(preds)));
+
+    cq.groupBy(pf.get("azienda"), pf.get("ambito"));
+    cq.orderBy(cb.desc(numTirocini));
+
+    Query query = entityManager.createQuery(cq);
+
+    List<Object[]> result = query.getResultList();
+
+    // Place results in map
+    for (Object[] borderTypes : result) {
+      Map<String, String> map = new HashMap<>();
+      map.put("Azienda", (String) borderTypes[0]);
+      map.put("Studenti", ((Long) borderTypes[1]).toString());
+      if (borderTypes[2] != null) {
+        map.put("Feedback", ((Double) borderTypes[2]).toString());
+      } else {
+        map.put("Feedback", "-1");
+      }
+      map.put("Ambito", (String) borderTypes[3]);
+      resultList.add(map);
+    }
+
+    return resultList;
+  }
+
+  @Override
+  public List<ProgettoFormativo> getInOrdineCronologico() {
+    TypedQuery<ProgettoFormativo> query = entityManager
+        .createNamedQuery("ProgettoFormativo.findInOrdineCronologico", ProgettoFormativo.class);
+    Date dataInizio = new Date();
+    int anno = dataInizio.getYear() + 1900;
+    Date dataFine = new Date();
+    try {
+      dataInizio = new SimpleDateFormat("yyyy-MM-dd").parse(anno + "-01-01");
+      dataFine = new SimpleDateFormat("yyyy-MM-dd").parse(anno + "-12-31");
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    query.setParameter("anno", dataInizio);
+    query.setParameter("anno2", dataFine);
+    return query.getResultList();
+  }
+
+  @Override
+  public List<ProgettoFormativo> findUltime10() {
+    TypedQuery<ProgettoFormativo> q = entityManager
+        .createNamedQuery("ProgettoFormativo.findUltimeDieci", ProgettoFormativo.class);
+    q.setParameter("today", new Date());
+    return q.getResultList();
+  }
+
+  @Override
+  public int contaOccorrenze() {
+    int count =
+        ((Number) entityManager.createNamedQuery("ProgettoFormativo.count").getSingleResult())
+            .intValue();
+    return count;
+  }
+
 
   @Override
   public Long countByAziendaAndStato(Azienda azienda, int... stati) {
@@ -311,7 +420,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     q.setParameter(aziendaParam, azienda);
     return q.getSingleResult();
   }
- 
 
   private String[] getAziendeFromString(String aziende) {
     if (!CheckUtils.checkEmptiness(aziende)) {

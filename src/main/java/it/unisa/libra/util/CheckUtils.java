@@ -66,7 +66,7 @@ public class CheckUtils {
    * @return Restituisce un <code>Date</code> rappresentante la data convertita dalla stringa.
    */
   public static Date parseDateWithPattern(String date, String pattern) {
-    DateFormat format = new SimpleDateFormat(pattern,Locale.ITALY);
+    DateFormat format = new SimpleDateFormat(pattern, Locale.ITALY);
     try {
       return format.parse(date);
     } catch (Exception ex) {
@@ -96,21 +96,22 @@ public class CheckUtils {
   public static boolean isNullOrEmpty(Collection collection) {
     return collection == null || collection.isEmpty();
   }
-  
+
   /**
    * Verifica che la mappa specificata non sia null o vuota.
    * 
    * @param map Indica la mappa da controllare
-   * @return Restituisce false nel caso in cui la mappa sia non vuota, true nel caso in cui la
-   *         mappa è vuota o non è stata specificata
+   * @return Restituisce false nel caso in cui la mappa sia non vuota, true nel caso in cui la mappa
+   *         è vuota o non è stata specificata
    */
   @SuppressWarnings("rawtypes")
   public static boolean isNullOrEmpty(Map map) {
     return map == null || map.isEmpty();
   }
-  
+
   /**
-   * Verifica che la richiesta inviata alla servlet non sia null e il parametro <code>action</code> sia non vuoto.
+   * Verifica che la richiesta inviata alla servlet non sia null e il parametro <code>action</code>
+   * sia non vuoto.
    * 
    * @param request Indica la request da controllare
    * @return Restituisce true nel caso in cui la request sia non vuota, false nel caso in cui la

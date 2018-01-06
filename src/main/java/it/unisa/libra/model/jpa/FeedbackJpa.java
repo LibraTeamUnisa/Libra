@@ -9,11 +9,11 @@ import it.unisa.libra.model.dao.IFeedbackDao;
 @Stateless
 public class FeedbackJpa extends GenericJpa<Feedback, FeedbackPK> implements IFeedbackDao {
 
-	@Override
-	public List<Feedback> findByType(int idPF, String type) {
-		return entityManager.createNamedQuery("Feedback.findByType", Feedback.class)
-				.setParameter("idProgettoFormativo", idPF)
-				.setParameter("tipoDomanda", type).getResultList();
-	}
+  @Override
+  public List<Feedback> findByType(int idPF, String type) {
+    return entityManager.createNamedQuery("Feedback.findByType", Feedback.class)
+        .setParameter("idProgettoFormativo", idPF).setParameter("tipoDomanda", type)
+        .getResultList();
+  }
 
 }

@@ -35,10 +35,14 @@ import javax.persistence.TemporalType;
 
     @NamedQuery(name = "ProgettoFormativo.countAllCompletati",
         query = "SELECT count(p) FROM ProgettoFormativo p WHERE p.dataFine IS NOT NULL"),
-
     @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda",
-        query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda")})
-
+        query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda"),
+    @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",
+        query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.count",
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p")})
 
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;

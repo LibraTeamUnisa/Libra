@@ -47,8 +47,8 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    //response.getWriter().write(BADREQUEST_MESS);
-    doPost(request,response);
+    // response.getWriter().write(BADREQUEST_MESS);
+    doPost(request, response);
     return;
   }
 
@@ -191,15 +191,15 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
         Integer count = 0;
 
         if (CheckUtils.checkEmptiness(ambito)) {
-          TutorEsternoPK newKey=new TutorEsternoPK();
+          TutorEsternoPK newKey = new TutorEsternoPK();
           newKey.setAziendaEmail(tutorKey.getAziendaEmail());
           newKey.setAmbito(ambito);
           boolean notSet = tutorDao.findById(TutorEsterno.class, newKey) == null;
-          
+
           if (notSet) {
-              tutorDao.remove(TutorEsterno.class, tutorKey);
-              tutor.setId(newKey);
-              count++;
+            tutorDao.remove(TutorEsterno.class, tutorKey);
+            tutor.setId(newKey);
+            count++;
           } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
@@ -220,9 +220,12 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           count++;
         }
 
-        boolean isParsable=CheckUtils.parseDate(data) != null||CheckUtils.parseDateWithPattern(data,"yyyy-MM-dd") != null;
+        boolean isParsable = CheckUtils.parseDate(data) != null
+            || CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null;
         if (isParsable) {
-          Date newDate=CheckUtils.parseDateWithPattern(data,"yyyy-MM-dd") != null?CheckUtils.parseDateWithPattern(data,"yyyy-MM-dd"):CheckUtils.parseDate(data);
+          Date newDate = CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null
+              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd")
+              : CheckUtils.parseDate(data);
           tutor.setDataDiNascita(newDate);
           count++;
         }

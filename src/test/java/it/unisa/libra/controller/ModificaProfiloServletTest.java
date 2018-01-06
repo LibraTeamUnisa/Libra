@@ -1,17 +1,5 @@
 package it.unisa.libra.controller;
 
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Presidente;
-import it.unisa.libra.bean.Segreteria;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.bean.TutorInterno;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.controller.ModificaProfiloServlet;
-import it.unisa.libra.model.dao.IAziendaDao;
-import it.unisa.libra.model.dao.IPresidenteDao;
-import it.unisa.libra.model.dao.ISegreteriaDao;
-import it.unisa.libra.model.dao.IStudenteDao;
-import it.unisa.libra.model.dao.ITutorInternoDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -28,7 +16,19 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Presidente;
+import it.unisa.libra.bean.Segreteria;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.TutorInterno;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.controller.ModificaProfiloServlet;
+import it.unisa.libra.model.dao.IAziendaDao;
+import it.unisa.libra.model.dao.IPresidenteDao;
+import it.unisa.libra.model.dao.ISegreteriaDao;
+import it.unisa.libra.model.dao.IStudenteDao;
+import it.unisa.libra.model.dao.ITutorInternoDao;
+import it.unisa.libra.model.dao.IUtenteDao;
 
 public class ModificaProfiloServletTest {
 
@@ -73,6 +73,8 @@ public class ModificaProfiloServletTest {
 
 
   private String email = "example@test.it";
+  private String indirizzo;
+  private String telefono;
 
   @Before
   public void setUp() throws Exception {
@@ -103,10 +105,8 @@ public class ModificaProfiloServletTest {
     when(studente.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("x");
     when(request.getParameter("numeroTelefono")).thenReturn("x");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Lunghezza non consentita");
   }
 
   @Test
@@ -118,10 +118,8 @@ public class ModificaProfiloServletTest {
     when(studente.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("correctAddress");
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Input non valido");
   }
 
   @Test
@@ -134,10 +132,8 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("indirizzo")).thenReturn("x");
     when(request.getParameter("numeroTelefono")).thenReturn("x");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Lunghezza non consentita");
   }
 
   @Test
@@ -150,10 +146,8 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("indirizzo")).thenReturn("correctAdderss");
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Input non valido");
   }
 
   @Test
@@ -167,11 +161,9 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("numeroTelefono")).thenReturn("x");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
     when(request.getParameter("ufficio")).thenReturn("IKickYouOut");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
+    when(request.getParameter("ricevimento")).thenReturn("FuckYou");
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Lunghezza non consentita");
   }
 
   @Test
@@ -185,11 +177,9 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
     when(request.getParameter("ufficio")).thenReturn("IKickYouOut");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
+    when(request.getParameter("ricevimento")).thenReturn("FuckYou");
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Input non valido");
   }
 
   @Test
@@ -201,11 +191,9 @@ public class ModificaProfiloServletTest {
     when(segreteria.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("x");
     when(request.getParameter("numeroTelefono")).thenReturn("x");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
+    when(request.getParameter("ricevimento")).thenReturn("FuckYou");
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Lunghezza non consentita");
   }
 
   @Test
@@ -217,11 +205,9 @@ public class ModificaProfiloServletTest {
     when(segreteria.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("correctAddress");
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
+    when(request.getParameter("ricevimento")).thenReturn("FuckYou");
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Input non valido");
   }
 
   @Test
@@ -233,10 +219,8 @@ public class ModificaProfiloServletTest {
     when(azienda.getUtente()).thenReturn(utente);
     when(request.getParameter("sede")).thenReturn("x");
     when(request.getParameter("numeroTelefono")).thenReturn("x");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Lunghezza non consentita");
   }
 
   @Test
@@ -248,10 +232,8 @@ public class ModificaProfiloServletTest {
     when(azienda.getUtente()).thenReturn(utente);
     when(request.getParameter("sede")).thenReturn("correctAddress");
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
-    when(request.getServletContext()).thenReturn(context);
-    when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
-    verify(dispatcher).forward(request, response);
+    verify(response.getWriter()).write("Input non valido");
   }
 
   @Test
@@ -323,5 +305,4 @@ public class ModificaProfiloServletTest {
     servlet.doPost(request, response);
     verify(response).sendRedirect("profilo.jsp");
   }
-
 }

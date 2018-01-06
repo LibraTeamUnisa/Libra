@@ -1,6 +1,6 @@
 package it.unisa.libra.controller;
 
-import static org.junit.Assert.*; 
+import static org.junit.Assert.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -69,7 +69,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
     tutor.setId(key);
     tutor.setNome("Giovanni");
     tutor.setCognome("Della Brenda");
-    tutor.setDataDiNascita(CheckUtils.parseDate("12/05/1990"));
+    tutor.setDataDiNascita(CheckUtils.checkDate("12/05/1990"));
     tutor.setIndirizzo("Via de Gasperi 1");
     tutor.setTelefono("3337132234");
     
@@ -103,7 +103,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       assertEquals(result.getId().getAmbito(),NEW_SCOPE);
       assertEquals(result.getNome(),NEW_NAME);
       assertEquals(result.getCognome(),NEW_SURNAME);
-      assertEquals(result.getDataDiNascita(),CheckUtils.parseDate(NEW_DATE));
+      assertEquals(result.getDataDiNascita(),CheckUtils.checkDate(NEW_DATE));
       assertEquals(result.getTelefono(),NEW_TELEPHONE);
       assertEquals(result.getIndirizzo(),NEW_ADDRESS);
     } catch(Exception ex) {
@@ -197,7 +197,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       verify(response).setStatus(HttpServletResponse.SC_OK);
       TutorEsterno result=em.find(TutorEsterno.class,key);
       assertEquals(tutor.getNome(),result.getNome());
-      assertEquals(CheckUtils.parseDate(NEW_DATE),result.getDataDiNascita());
+      assertEquals(CheckUtils.checkDate(NEW_DATE),result.getDataDiNascita());
       assertEquals(NEW_ADDRESS,result.getIndirizzo());
       assertEquals(NEW_TELEPHONE,result.getTelefono());
       assertEquals(NEW_SCOPE,result.getId().getAmbito());
@@ -217,7 +217,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       TutorEsterno result=em.find(TutorEsterno.class,key);
       assertEquals(tutor.getNome(),result.getNome());
       assertEquals(NEW_SURNAME,result.getCognome());
-      assertEquals(CheckUtils.parseDate(NEW_DATE),result.getDataDiNascita());
+      assertEquals(CheckUtils.checkDate(NEW_DATE),result.getDataDiNascita());
       assertEquals(NEW_ADDRESS,result.getIndirizzo());
       assertEquals(NEW_TELEPHONE,result.getTelefono());
       assertEquals(NEW_SCOPE,result.getId().getAmbito());
@@ -254,7 +254,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet
       newTutor.setCognome("Cirillo");
       newTutor.setIndirizzo("Via Trebisonda 2");
       newTutor.setTelefono("3338998789");
-      newTutor.setDataDiNascita(CheckUtils.parseDate("13/08/1978"));
+      newTutor.setDataDiNascita(CheckUtils.checkDate("13/08/1978"));
       
       et.begin();
       em.persist(newTutor);

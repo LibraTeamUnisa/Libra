@@ -6,7 +6,7 @@
 		<img src="https://codecov.io/gh/LibraTeamUnisa/Libra/branch/develop/graph/badge.svg"/>
 	</a>
 </p>
- 
+
 <h1>Libra</h1>									
 
 ## Installation

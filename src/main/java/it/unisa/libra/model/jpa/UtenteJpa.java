@@ -1,18 +1,15 @@
 package it.unisa.libra.model.jpa;
 
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
 
 @Stateless
 public class UtenteJpa extends GenericJpa<Utente, String> implements IUtenteDao {
 
   /**
-   * Permette di recuperare dal database l'utente registrato al sistema con mail e password.
-   * 
    * @inheritDoc
    */
   @Override

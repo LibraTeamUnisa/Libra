@@ -54,7 +54,7 @@
         	var stato = $("#stato").val();
         	var statoText = $("[name='select-stato'][value='" + stato + "']").text();
         	
-        	$.post('gestionePfServlet', 
+        	$.post('gestionePF', 
 					{
 						action: "modificaStato",
 						id: pfId,
@@ -75,7 +75,7 @@
 					});
         	
         });
-    });    
+    });
 
     //Parameter
     $('#sa-params').click(function(){
@@ -117,39 +117,6 @@
         });
     });
 
-    
-  //js per salvaPermessi
-    $("#permessiForm").submit(function(e) {
-    		e.preventDefault();
-    		$.post('permessi', {
-    			checkboxStudente: $('#studenteRicevuti').is(':checked'),
-    			radioStudente: $("input[name='radioStudente']:checked").val(),
-    			radioAzienda: $("input[name='radioAzienda']:checked").val(),
-    			checkboxTutorInterno: $('#tutorInternoRicevuti').is(':checked'),
-    			radioTutorInterno: $("input[name='radioTutorInterno']:checked").val(),
-    			checkboxPresidente: $('#presidenteRicevuti').is(':checked'),
-    			radioPresidente: $("input[name='radioPresidente']:checked").val(),
-    			checkboxSegreteria: $('#segreteriaRicevuti').is(':checked'),
-    			radioSegreteria: $("input[name='radioSegreteria']:checked").val(),
-    		}, function(data) {
-    			if (data == "true") {
-    				swal({
-    					title: "",
-    					text: "Modifiche effettuate con successo",
-    					timer: 7000,
-    					type: "success"
-    				})
-    			} else {
-    				swal({
-    					title: "",
-    					text: "Si \xE8 verificato un errore",
-    					timer: 7000,
-    					type: "warning"
-    				})
-    			}
-    		});
-    	});
-
 
     },
     //init
@@ -161,5 +128,3 @@ function($) {
     "use strict";
     $.SweetAlert.init()
 }(window.jQuery);
-
-

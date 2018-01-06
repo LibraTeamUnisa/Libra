@@ -2,26 +2,21 @@ package it.unisa.libra.controller;
 
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IAziendaDao;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.model.dao.IStudenteDao;
-import it.unisa.libra.model.dao.IUtenteDao;
+import static org.mockito.Mockito.verify;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-
-
-
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.model.dao.IAziendaDao;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.model.dao.IStudenteDao;
 
 public class RichiediPfServletTest {
 
@@ -34,20 +29,6 @@ public class RichiediPfServletTest {
   private IProgettoFormativoDao pfDao;
   private IStudenteDao studenteDao;
 
-  /**
-   * Il metodo rimuove i riferimenti degli oggetti.
-   */
-  @After
-  public void tearDown() {
-    request = null;
-    response = null;
-    printWriter = null;
-  }
-
-  /**
-   * Il metodo inizializza gli oggetti necessari al test.
-   * @throws Exception Eccezione lanciata in caso di errore di I/O
-   */
   @Before
   public void setUp() throws Exception {
     request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
@@ -60,11 +41,18 @@ public class RichiediPfServletTest {
     when(response.getWriter()).thenReturn(printWriter);
   }
 
+  @After
+  public void tearDown() {
+    request = null;
+    response = null;
+    printWriter = null;
+  }
+
   @Test
   public void emailNotFoundTest() throws Exception {
     when(request.getSession().getAttribute("utenteEmail")).thenReturn(null);
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+    
     richiediPfServlet.setUtenteDao(utenteDao);
     richiediPfServlet.setStudenteDao(studenteDao);
     richiediPfServlet.setAziendaDao(aziendaDao);
@@ -78,14 +66,14 @@ public class RichiediPfServletTest {
     Utente u = mock(Utente.class, RETURNS_DEEP_STUBS);
     Studente s = mock(Studente.class, RETURNS_DEEP_STUBS);
     Azienda a = mock(Azienda.class, RETURNS_DEEP_STUBS);
-
+    
     when(request.getSession().getAttribute("utenteEmail")).thenReturn("andrea@studenti.unisa.it");
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+       
     when(utenteDao.findById(Utente.class, "andrea@studenti.unisa.it")).thenReturn(u);
     when(studenteDao.findById(Studente.class, "andrea@studenti.unisa.it")).thenReturn(s);
     when(aziendaDao.findByName("Oracle")).thenReturn(a);
-
+    
     richiediPfServlet.setUtenteDao(utenteDao);
     richiediPfServlet.setStudenteDao(studenteDao);
     richiediPfServlet.setAziendaDao(aziendaDao);
@@ -98,10 +86,10 @@ public class RichiediPfServletTest {
   public void studenteNotFoundTest() throws Exception {
     Utente u = mock(Utente.class, RETURNS_DEEP_STUBS);
     Azienda a = mock(Azienda.class, RETURNS_DEEP_STUBS);
-
+    
     when(request.getSession().getAttribute("utenteEmail")).thenReturn("andrea@studenti.unisa.it");
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+    
     when(utenteDao.findById(Utente.class, "andrea@studenti.unisa.it")).thenReturn(u);
     when(studenteDao.findById(Studente.class, "andrea@studenti.unisa.it")).thenReturn(null);
     when(aziendaDao.findByName("Oracle")).thenReturn(a);
@@ -119,10 +107,10 @@ public class RichiediPfServletTest {
     Utente u = mock(Utente.class, RETURNS_DEEP_STUBS);
     Studente s = mock(Studente.class, RETURNS_DEEP_STUBS);
     Azienda a = mock(Azienda.class, RETURNS_DEEP_STUBS);
-
+    
     when(request.getSession().getAttribute("utenteEmail")).thenReturn("andrea@studenti.unisa.it");
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+    
     when(utenteDao.findById(Utente.class, "andrea@studenti.unisa.it")).thenReturn(u);
     when(studenteDao.findById(Studente.class, "andrea@studenti.unisa.it")).thenReturn(s);
     when(aziendaDao.findByName("Oracle")).thenReturn(a);
@@ -139,10 +127,10 @@ public class RichiediPfServletTest {
   public void aziendaNotFoundTest() throws Exception {
     Utente u = mock(Utente.class, RETURNS_DEEP_STUBS);
     Studente s = mock(Studente.class, RETURNS_DEEP_STUBS);
-
+    
     when(request.getSession().getAttribute("utenteEmail")).thenReturn("andrea@studenti.unisa.it");
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+    
     when(utenteDao.findById(Utente.class, "andrea@studenti.unisa.it")).thenReturn(u);
     when(studenteDao.findById(Studente.class, "andrea@studenti.unisa.it")).thenReturn(s);
     when(aziendaDao.findByName("Oracle")).thenReturn(null);
@@ -160,10 +148,10 @@ public class RichiediPfServletTest {
     Utente u = mock(Utente.class, RETURNS_DEEP_STUBS);
     Studente s = mock(Studente.class, RETURNS_DEEP_STUBS);
     Azienda a = mock(Azienda.class, RETURNS_DEEP_STUBS);
-
+    
     when(request.getSession().getAttribute("utenteEmail")).thenReturn("andrea@studenti.unisa.it");
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+    
     when(utenteDao.findById(Utente.class, "andrea@studenti.unisa.it")).thenReturn(u);
     when(studenteDao.findById(Studente.class, "andrea@studenti.unisa.it")).thenReturn(s);
     when(aziendaDao.findByName("Oracle")).thenReturn(a);
@@ -195,10 +183,10 @@ public class RichiediPfServletTest {
     Utente u = mock(Utente.class, RETURNS_DEEP_STUBS);
     Studente s = mock(Studente.class, RETURNS_DEEP_STUBS);
     Azienda a = mock(Azienda.class, RETURNS_DEEP_STUBS);
-
+    
     when(request.getSession().getAttribute("utenteEmail")).thenReturn("andrea@studenti.unisa.it");
     when(request.getParameter("aziendaName")).thenReturn("Oracle");
-
+    
     when(utenteDao.findById(Utente.class, "andrea@studenti.unisa.it")).thenReturn(u);
     when(studenteDao.findById(Studente.class, "andrea@studenti.unisa.it")).thenReturn(s);
     when(aziendaDao.findByName("Oracle")).thenReturn(a);
@@ -213,11 +201,11 @@ public class RichiediPfServletTest {
 
   @Test
   public void doGetTest() throws Exception {
-    richiediPfServlet.doGet(request, response);
-    verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      richiediPfServlet.doGet(request, response);
+      verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
   }
 
-
+  
   private static final String SESSION_ERROR_MSG =
       "Impossibile recuperare i parametri dalla sessione!";
   private static final String USER_ERROR_MSG = "Utente non trovato!";

@@ -6,7 +6,6 @@
 <%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.Context" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.Map" %>
@@ -23,24 +22,11 @@
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
 	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	
-	
-	int numeroStudenti = studenteDao.contaOccorrenze();
-	int numeroProgettiFormativi = progettoFormativoDao.contaOccorrenze();
-	int numeroAziende = aziendaDao.contaOccorrenze();
-	
-	List<Studente> listaStudenti = new ArrayList<Studente>();
-	
-	if(request.getSession().getAttribute("utenteRuolo")!=null && 
-			request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
-		if(request.getSession().getAttribute("listaStudentiPerSegreteria")==null){
-			listaStudenti = studenteDao.listaOrdinataPerCognome();
-			request.getSession().setAttribute("listaStudentiPerSegreteria", listaStudenti);
-		}else{
-			listaStudenti = (ArrayList<Studente>)request.getSession().getAttribute("listaStudentiPerSegreteria");
-		}
-	}
-	
+	int numeroStudenti = studenteDao.findAll(Studente.class).size();
+	int numeroProgettiFormativi = progettoFormativoDao.findAll(ProgettoFormativo.class).size();
+	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
+	int numeroStudentiAttivi = 0;
+	List<Studente> listaStudenti = studenteDao.listaOrdinataPerCognome();
 %>
 
 <!DOCTYPE html>
@@ -128,6 +114,7 @@
                                                 <th>Nome</th>
                                                 <th>E-mail</th>
                                                 <th>Matricola</th>
+                                                <th>Anno di nascita</th>
                                             </tr>
                                         </thead>
                                         
@@ -137,8 +124,9 @@
                                         <tbody><tr>
                                         		<%if(iscritto!=null&&iscritto.getCognome()!=null) {
                                         		%>
-                                        		<td style="width:50px;"><span class="round"><%=iscritto.getUtente().getImgProfilo()%></span></td>
+                                        		
                                                 <td><h6><%=iscritto.getCognome() %></h6></td>
+                                                <td ><span ></span></td>
                                                <% } else{%>
                                                 <td><h6>Non disponibile</h6></td>
                                                 <td ><span ><</span></td>
@@ -161,8 +149,13 @@
                                                 <%} else{ %>
                                                 <td> <h6> Non disponibile</h6></td>
                                                	<%}
+                                                if(iscritto.getDataDiNascita()!=null){
                                                 %>
-   
+                                                <td><%=(iscritto.getDataDiNascita().getDate()+"/"+(iscritto.getDataDiNascita().getMonth()+1)+"/"+(iscritto.getDataDiNascita().getYear()+1900)) %></td>
+                                                <%}else{
+                                                	%>
+                                                	<td> <h6> Non disponibile</h6></td>
+                                               <% }%> 
                                             </tr>
                                           <% 
                                             	}
@@ -233,7 +226,6 @@
                             <!-- Column -->
                             
                             </div>
-                            
                         </div>
                     </div>
                     

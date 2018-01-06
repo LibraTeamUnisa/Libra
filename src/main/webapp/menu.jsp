@@ -20,7 +20,7 @@
 	String emailUtente = "";
 	boolean segreteria = false;
 	boolean presidente = false;
-	boolean tutorInterno = false;
+	boolean tutorInt = false;
 	boolean isStudente= false;
 	String immagineProfilo = "";
 	IUtenteDao utenteDBAccess = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
@@ -54,7 +54,7 @@
 			immagineProfilo = utenteVar.getImgProfilo();
 			nomeUtente = accountTutor.getNome();
 			cognomeUtente = accountTutor.getCognome();
-			tutorInterno = true;	
+			tutorInt = true;	
 		}else if(ruoloUtente.equals("Studente")){
 			utenteVar= utenteDBAccess.findById(Utente.class, emailUtente);
 			accountStudente= utenteVar.getStudente();
@@ -93,14 +93,14 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li>
-                        	<%if(segreteria == true || presidente == true || tutorInterno == true || isStudente== true){ %>
+                        	<%if(segreteria == true || presidente == true || tutorInt == true || isStudente== true){ %>
                         	<a href="catalogoAziende.jsp" aria-expanded="false"><span class="hide-menu">Catalogo aziende</span></a>       
                             <%}else {%>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
                             <%} %>                     
                         </li>
                         <li>
-                        	<%if(segreteria==true || presidente ==true || tutorInterno == true){ %>
+                        	<%if(segreteria==true || presidente ==true || tutorInt == true){ %>
                         	<a href="listaStudenti.jsp" aria-expanded="false"><span class="hide-menu">Studenti</span></a> 
                             <%}else if(isStudente==true){%>
                             <a href="questionarioValutaAzienda.jsp" aria-expanded="false"><span class="hide-menu">Valuta Azienda</span></a>
@@ -111,7 +111,7 @@
                         <li>
                         	<%if(segreteria==true){ %>
                         	<a href="statistiche.jsp" aria-expanded="false"><span class="hide-menu">Statistiche</span></a>  
-                        	<%}else if(presidente==true || tutorInterno == true || isStudente==true){%>
+                        	<%}else if(presidente==true || tutorInt == true || isStudente==true){%>
                             <a href="reportStudente.jsp" aria-expanded="false"><span class="hide-menu">Report</span></a>              
                             <%}else{%>
                             <a href="#" aria-expanded="false"><span class="hide-menu">Apps</span></a>
@@ -132,7 +132,7 @@
                         	<% }%>
                         	 </li>
                         <li>
-                        	<%if(segreteria==true || presidente==true || tutorInterno == true){ %>
+                        	<%if(segreteria==true || presidente==true || tutorInt == true){ %>
                         	<a href="contattiDipartimento.jsp" aria-expanded="false"><span class="hide-menu">Contatti Dipartimento</span></a>    
                             <%}%>                            
                         </li>

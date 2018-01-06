@@ -1,4 +1,20 @@
  <%@page import="it.unisa.libra.util.Actions"%>
+ <%@ page import="it.unisa.libra.bean.Utente" %>
+ <%@ page import="it.unisa.libra.model.dao.IUtenteDao" %>
+ <%@ page import="javax.naming.InitialContext" %>
+ <%@ page import="javax.naming.Context" %>
+ 
+ <%
+ 	session = request.getSession();
+	String userMail = (String) session.getAttribute("utenteEmail");
+ 	
+	if (userMail == null) {
+		response.sendRedirect("/Libra/errore.jsp");
+	}	
+	
+	IUtenteDao utenteDataAccessOBJ = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
+ 	Utente userOBJ = utenteDataAccessOBJ.findById(Utente.class, userMail);
+ %>
 <header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <!-- ============================================================== -->
@@ -91,12 +107,12 @@
                     <ul class="navbar-nav my-lg-0">
                         
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<%=userOBJ.getImgProfilo()%>" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">
-                                            <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
+                                            <div class="u-img"><img src="<%=userOBJ.getImgProfilo()%>" alt="user"></div>
                                             <div class="u-text">
                                                 <h4>Steave Jobs</h4>
                                                 <p class="text-muted">varun@gmail.com</p><a href="profilo.jsp" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
@@ -109,7 +125,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="${pageContext.request.contextPath}/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    <li><a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </li>

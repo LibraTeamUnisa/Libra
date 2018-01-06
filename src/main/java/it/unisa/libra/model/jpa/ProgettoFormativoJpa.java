@@ -1,5 +1,7 @@
 package it.unisa.libra.model.jpa;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,9 +16,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Domanda;
 import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
@@ -281,6 +288,139 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     }
 
     return resultList;
+  }
+
+  @Override
+  public List<ProgettoFormativo> getInOrdineCronologico() {
+    TypedQuery<ProgettoFormativo> query = entityManager
+        .createNamedQuery("ProgettoFormativo.findInOrdineCronologico", ProgettoFormativo.class);
+    Date dataInizio = new Date();
+    int anno = dataInizio.getYear() + 1900;
+    Date dataFine = new Date();
+    try {
+      dataInizio = new SimpleDateFormat("yyyy-MM-dd").parse(anno + "-01-01");
+      dataFine = new SimpleDateFormat("yyyy-MM-dd").parse(anno + "-12-31");
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    query.setParameter("anno", dataInizio);
+    query.setParameter("anno2", dataFine);
+    return query.getResultList();
+  }
+
+  @Override
+  public List<ProgettoFormativo> findUltime10() {
+    TypedQuery<ProgettoFormativo> q = entityManager
+        .createNamedQuery("ProgettoFormativo.findUltimeDieci", ProgettoFormativo.class);
+    q.setParameter("today", new Date());
+    return q.getResultList();
+  }
+
+  @Override
+  public int contaOccorrenze() {
+    int count =
+        ((Number) entityManager.createNamedQuery("ProgettoFormativo.count").getSingleResult())
+            .intValue();
+    return count;
+  }
+
+
+  @Override
+  public Long countByAziendaAndStato(Azienda azienda, int... stati) {
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+    Metamodel metaModel = super.entityManager.getMetamodel();
+    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
+    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
+    criteriaQuery.select(
+        criteriaBuilder.countDistinct(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+    if (stati == null) {
+      return 0l;
+    }
+    if (stati.length == 0) {
+      return 0l;
+    }
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    for (int s : stati) {
+      Predicate p =
+          criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("stato")), s);
+      predicates.add(p);
+    }
+    Predicate predicateStato = criteriaBuilder.or(predicates.toArray(new Predicate[] {}));
+    criteriaQuery
+        .where(
+            criteriaBuilder
+                .and(
+                    (criteriaBuilder.equal(
+                        pf.get(ProgettoFormativo_.getSingularAttribute("azienda")), aziendaParam)),
+                    predicateStato));
+    TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(aziendaParam, azienda);
+    return q.getSingleResult();
+  }
+
+  @Override
+  public List<ProgettoFormativo> findByAziendaAndStato(Azienda azienda, int... stati) {
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<ProgettoFormativo> criteriaQuery =
+        criteriaBuilder.createQuery(ProgettoFormativo.class);
+    Metamodel metaModel = super.entityManager.getMetamodel();
+    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
+    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
+    criteriaQuery.select(pf);
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+    if (stati == null) {
+      return new ArrayList<ProgettoFormativo>();
+    }
+    if (stati.length == 0) {
+      return new ArrayList<ProgettoFormativo>();
+    }
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    for (int s : stati) {
+      Predicate p =
+          criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("stato")), s);
+      predicates.add(p);
+    }
+    Predicate predicateStato = criteriaBuilder.or(predicates.toArray(new Predicate[] {}));
+    criteriaQuery
+        .where(
+            criteriaBuilder
+                .and(
+                    (criteriaBuilder.equal(
+                        pf.get(ProgettoFormativo_.getSingularAttribute("azienda")), aziendaParam)),
+                    predicateStato));
+    criteriaQuery
+        .orderBy(criteriaBuilder.desc(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
+    TypedQuery<ProgettoFormativo> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(aziendaParam, azienda);
+    return q.getResultList();
+  }
+
+  @Override
+  public long countValutatiByAzienda(Azienda azienda) {
+    // count distinct progettoformativo from feedback where progettoformativo.azienda = az and
+    // domanda.tipo = azienda)
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+    Metamodel metaModel = super.entityManager.getMetamodel();
+    EntityType<Feedback> Feedback_ = metaModel.entity(Feedback.class);
+    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
+    EntityType<Domanda> Domanda_ = metaModel.entity(Domanda.class);
+    Root<Feedback> feed = criteriaQuery.from(Feedback.class);
+    Path<ProgettoFormativo> pf = feed.get("progettoFormativo");
+    Path<Domanda> domanda = feed.get("domanda");
+    criteriaQuery.select(criteriaBuilder
+        .countDistinct(feed.get(Feedback_.getSingularAttribute("progettoFormativo"))));
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+    criteriaQuery.where(criteriaBuilder.and(
+        (criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("azienda")),
+            aziendaParam)),
+        criteriaBuilder.equal(domanda.get(Domanda_.getSingularAttribute("tipo")), "Azienda")));
+    TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
+    q.setParameter(aziendaParam, azienda);
+    return q.getSingleResult();
   }
 
   private String[] getAziendeFromString(String aziende) {

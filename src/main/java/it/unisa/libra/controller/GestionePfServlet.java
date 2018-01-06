@@ -1,5 +1,10 @@
 package it.unisa.libra.controller;
 
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.CheckUtils;
+import it.unisa.libra.util.JsonUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.Actions;
-import it.unisa.libra.util.CheckUtils;
-import it.unisa.libra.util.JsonUtils;
 
-/** Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. */
 @WebServlet(name = "GestionePfServlet", urlPatterns = {"/gestionePfServlet"})
 public class GestionePfServlet extends HttpServlet {
 
@@ -79,7 +80,17 @@ public class GestionePfServlet extends HttpServlet {
   /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    doGet(request, response);
+    if (request.getParameter(Actions.ACTION).equals(Actions.MODIFICA_STATO_TIROCINIO)) {
+      ProgettoFormativo pf = progettoFormativoDao.findById(ProgettoFormativo.class,
+          Integer.parseInt(request.getParameter("id")));
+      pf.setStato(Integer.parseInt(request.getParameter("stato")));
+      progettoFormativoDao.persist(pf);
+      response.getWriter().write("true");
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("Azione non valida!");
+      response.getWriter().flush();
+    }
   }
 
 }

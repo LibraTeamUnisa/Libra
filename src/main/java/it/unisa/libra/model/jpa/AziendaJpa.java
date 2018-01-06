@@ -21,6 +21,12 @@ public class AziendaJpa extends GenericJpa<Azienda, String> implements IAziendaD
     }
   }
 
+@Override
+public int contaOccorrenze() {
+	 int count = ((Number)entityManager.createNamedQuery("Azienda.count").getSingleResult()).intValue();
+	 return count;
+}
+
 
   
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,7 +26,9 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s"),
 	@NamedQuery(name = "Studente.findAllSurnameOrdered",
-    query = "SELECT s FROM Studente s ORDER BY s.cognome ASC")
+    query = "SELECT s FROM Studente s ORDER BY s.cognome ASC"),
+	@NamedQuery(name = "Studente.count",
+    query = "SELECT COUNT(s) FROM Studente s")
 })
 
 public class Studente implements Serializable {
@@ -54,7 +57,7 @@ public class Studente implements Serializable {
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

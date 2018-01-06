@@ -2,7 +2,6 @@
 <web-app version="3.1" metadata-complete="false"
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-	
 	<display-name>Libra</display-name>
 	<welcome-file-list>
 		<welcome-file>home.jsp</welcome-file>
@@ -57,7 +56,6 @@
 		<filter-name>NegaPresidente</filter-name>
 		<url-pattern>/aggiungiUtente.jsp</url-pattern>
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
-		<url-pattern>/catalogoAziende.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
 		<url-pattern>/creaPpf.jsp</url-pattern>
@@ -88,7 +86,6 @@
 		<filter-name>NegaSegreteria</filter-name>
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
 		<url-pattern>/caricaPpf.jsp</url-pattern>
-		<url-pattern>/catalogoAziende.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
 		<url-pattern>/creaPpf.jsp</url-pattern>
@@ -145,7 +142,6 @@
 	<filter-mapping>
 		<filter-name>NegaTutorInterno</filter-name>
 		<url-pattern>/aggiungiUtente.jsp</url-pattern>
-		<url-pattern>/catalogoAziende.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
 		<url-pattern>/creaPpf.jsp</url-pattern>
@@ -166,6 +162,5 @@
 		<servlet-name>RecuperoPasswordServlet</servlet-name>
 		<servlet-name>RegistrazioneServlet</servlet-name>
 	</filter-mapping>
-	
 </web-app>
 

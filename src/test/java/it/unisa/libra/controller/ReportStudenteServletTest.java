@@ -3,7 +3,6 @@ package it.unisa.libra.controller;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Report;
 import it.unisa.libra.bean.ReportPK;
@@ -281,7 +280,7 @@ public class ReportStudenteServletTest {
     verify(responseWriter).write("no");
 
   }
-  
+
   @Test
   public void successGetNumReportsTest() throws ServletException, IOException {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.RS_NUM_REPORTS);

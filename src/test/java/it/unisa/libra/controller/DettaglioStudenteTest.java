@@ -2,22 +2,18 @@ package it.unisa.libra.controller;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.util.Actions;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,7 +99,7 @@ public class DettaglioStudenteTest {
   @Test
   public void failActionDettaglioStudenteTest() throws Exception {
     String ruolo = "Studente";
-    
+
     when(request.getSession()).thenReturn(session);
     when(session.getAttribute("utenteRuolo")).thenReturn(ruolo);
     when(request.getParameter(Actions.ACTION)).thenReturn("noAction");

@@ -124,7 +124,7 @@ public class GestionePfServletTest {
 
     verify(pw).write("[]");
   }
-  
+
   @Test
   public void successActionTabellaValutazioniWithNullReturnTest()
       throws IOException, ServletException {
@@ -134,31 +134,30 @@ public class GestionePfServletTest {
     when(request.getParameter("toDate")).thenReturn("2018-10-10");
     when(request.getParameter("limit")).thenReturn("10");
     when(request.getParameter("status")).thenReturn("");
-    
+
     Date fromDate = CheckUtils.parseDateWithPattern("2010-10-10", "yyyy-MM-dd");
     Date toDate = CheckUtils.parseDateWithPattern("2018-10-10", "yyyy-MM-dd");
-    
-    when(pfDao.getTabellaValutazioni(fromDate,toDate,"", "RAGSOC"))
+
+    when(pfDao.getTabellaValutazioni(fromDate, toDate, "", "RAGSOC"))
         .thenReturn(createListOfTopAziendeMap());
 
     servlet.doGet(request, response);
 
     verify(pw).write("[]");
   }
-  
+
   @Test
-  public void successActionNumTirociniCompletatiTest()
-      throws IOException, ServletException {
+  public void successActionNumTirociniCompletatiTest() throws IOException, ServletException {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.PF_NUM_TIROCINI_COMPLETATI);
     when(response.getWriter()).thenReturn(pw);
-    
+
     when(pfDao.getNumTirociniCompletati()).thenReturn(new Long("10"));
 
     servlet.doGet(request, response);
 
     verify(pw).write("10");
   }
-  
+
   @Test
   public void failDoGet() throws Exception {
 
@@ -169,7 +168,7 @@ public class GestionePfServletTest {
 
     verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
   }
-  
+
   @Test
   public void failDoGetInvalidAction() throws Exception {
 

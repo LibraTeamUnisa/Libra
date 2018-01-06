@@ -58,7 +58,7 @@ public class CaricaPpfServlet extends HttpServlet {
      * possiede il ruolo di Azienda */
     if (ruolo.contains("Azienda")) {
       String nomeFile = "PF" + (String)request.getParameter("studente") + ".pdf";
-      /* File file = new File("C:/Users/Umberto/Desktop/wildfly-11.0.0.Final/wildfly-11.0.0.Final/ProposteFormative/" + nomeFile); */ 
+      /* File file = new File("C:/Users/Umberto/Desktop/wildfly-11.0.0.Final/wildfly-11.0.0.Final/ProposteFormative/" + nomeFile); */
 
       /* copio il contenuto del file caricato in un nuovo file */
       /* InputStream filestream = filePart.getInputStream();
@@ -71,7 +71,11 @@ public class CaricaPpfServlet extends HttpServlet {
       /* verifico che l'ambito della proposta corrisponda all'ambito del tutor esterno */
       if ((ambito != null) && (ambitoControl != null)) {
         if (!ambito.contains(ambitoControl)) {
-          response.getWriter().write("ambito non valido");
+          PrintWriter out = response.getWriter();
+          out.println("<script type=\"text/javascript\">");
+          out.println("alert('Il campo ambito non è corretto');");
+          out.println("location='caricaPpf.jsp';");
+          out.println("</script>");
           return;
         }
       }
@@ -81,7 +85,7 @@ public class CaricaPpfServlet extends HttpServlet {
 
       proposta.setAmbito(ambito);
       proposta.setNote(note);
-      proposta.setDocumento("none");
+      proposta.setDocumento("path");
       proposta.setStato(1);
 
       Date today = new Date();
@@ -100,8 +104,7 @@ public class CaricaPpfServlet extends HttpServlet {
       out.println("</script>");
     }
 
-    if (ruolo.contains("Studente")) {
-    
+    if (ruolo.contains("Studente")) {    
       /* verifico che la proposta individuata sia conforme per essere inviata */
       String filePath = null;
       listaProposte = propostaDao.findAll(ProgettoFormativo.class);
@@ -157,14 +160,14 @@ public class CaricaPpfServlet extends HttpServlet {
         return;
       }
 
-      /* File file = new File(filePath); */ 
+      /* File file = new File(filePath); */
 
       /* copio il contenuto del file caricato in un nuovo file */
       /* InputStream filestream = filePart.getInputStream();
          Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING); */
-      proposta.setStato(3); 
+      progetto.setStato(3); 
 
-      propostaDao.persist(proposta);
+      propostaDao.persist(progetto);
 
       response.getWriter().write("ok");
       
@@ -196,10 +199,10 @@ public class CaricaPpfServlet extends HttpServlet {
       /* copio il contenuto del file caricato in un nuovo file */
       /* InputStream filestream = filePart.getInputStream();
          Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING); */
-      proposta.setStato(4);
+      progetto.setStato(4);
 
       /* memorizzo la proposta nel database */
-      propostaDao.persist(proposta);
+      propostaDao.persist(progetto);
 
       response.getWriter().write("ok");
       

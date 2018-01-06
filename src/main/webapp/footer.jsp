@@ -1,3 +1,3 @@
 <footer class="footer">
-      © 2018 LibraTeamUnisa
+      Â© Libra (Since 2018)
 </footer>

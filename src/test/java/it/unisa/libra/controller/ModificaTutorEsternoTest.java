@@ -248,7 +248,6 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet {
       newTutor.setIndirizzo("Via Trebisonda 2");
       newTutor.setTelefono("3338998789");
       newTutor.setDataDiNascita(CheckUtils.parseDate("13/08/1978"));
-
       et.begin();
       em.persist(newTutor);
       et.commit();

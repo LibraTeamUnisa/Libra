@@ -19,8 +19,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
-/**
- * Consente di effettuare il caricamento dell'immagine.
+
+/*
+ * Servlet implementation class CaricaImmagineServlet
+ * 
+ * 
+ * /** Consente di effettuare il caricamento dell'immagine.
  */
 @WebServlet(name = "CaricaImmagineServlet", urlPatterns = "/caricaImmagine")
 @MultipartConfig
@@ -44,6 +48,7 @@ public class CaricaImmagineServlet extends HttpServlet {
 
   /**
    * Gestisce il caricamento di un file in remoto.
+   * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -63,7 +68,7 @@ public class CaricaImmagineServlet extends HttpServlet {
       File file = new File(p + PATH2 + timestamp.getTime() + "." + ext);
       InputStream filestream = filePart.getInputStream();
       Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      user.setImgProfilo(p+ PATH2 + timestamp.getTime() + "." + ext);
+      user.setImgProfilo(p + PATH2 + timestamp.getTime() + "." + ext);
       utenteDao.persist(user);
       response.getWriter().write(IMG_SUCCESS);
       response.sendRedirect("profilo.jsp");
@@ -74,11 +79,10 @@ public class CaricaImmagineServlet extends HttpServlet {
 
   }
 
-
   /**
    * Path necessaria per individuare la cartella dove caricare la nostra immagine.
    */
-  //private static final String PATH = "../../Libra/data/Img/";
+  // private static final String PATH = "../../Libra/data/Img/";
   /**
    * Path da salvare nel db per recuperare l'immagine salvata.
    */

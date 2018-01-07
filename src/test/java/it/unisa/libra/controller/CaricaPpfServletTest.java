@@ -87,9 +87,9 @@ public class CaricaPpfServletTest {
     when(request.getParameter("ambitoControl")).thenReturn(ambitoControl);
     when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
     when(filePart.getInputStream()).thenReturn(fileStream);
-    //servlet.setUtenteDao(utenteDao, propostaDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("ok");
+    // servlet.setUtenteDao(utenteDao, propostaDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("ok");
   }
 
   public void caricaPropostaDaAziendaErrato() throws IOException, ServletException {
@@ -103,9 +103,9 @@ public class CaricaPpfServletTest {
     when(request.getParameter("note")).thenReturn("il progetto è bello");
     when(request.getParameter("ambito")).thenReturn(ambitoB);
     when(request.getParameter("ambito")).thenReturn(ambitoControl);
-    //servlet.setUtenteDao(utenteDao, propostaDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("ambito non valido");
+    // servlet.setUtenteDao(utenteDao, propostaDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("ambito non valido");
   }
 
   @Test
@@ -129,9 +129,9 @@ public class CaricaPpfServletTest {
         .thenReturn(new TutorInterno());
     when(listaProposte.size()).thenReturn(1);
     when(listaProposte.get(0)).thenReturn(proposta);
-    //servlet.setUtenteDao(utenteDao, propostaDao, tutorInternoDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("ok");
+    // servlet.setUtenteDao(utenteDao, propostaDao, tutorInternoDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("ok");
   }
 
   @Test
@@ -146,9 +146,9 @@ public class CaricaPpfServletTest {
     when(proposta.getStudente()).thenReturn(studente);
     when(studente.getUtenteEmail()).thenReturn("alfredo@unisa.it");
     when(proposta.getStato()).thenReturn(2);
-    //servlet.setUtenteDao(utenteDao, propostaDao, tutorInternoDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("errore");
+    // servlet.setUtenteDao(utenteDao, propostaDao, tutorInternoDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("errore");
   }
 
   @Test
@@ -163,9 +163,9 @@ public class CaricaPpfServletTest {
     when(proposta.getDocumento()).thenReturn("documento.txt");
     when(filePart.getInputStream()).thenReturn(fileStream);
     when(file.toPath()).thenReturn(path);
-    //servlet.setUtenteDao(utenteDao, propostaDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("ok");
+    // servlet.setUtenteDao(utenteDao, propostaDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("ok");
   }
 
   @Test
@@ -177,9 +177,9 @@ public class CaricaPpfServletTest {
     when(request.getParameter("id")).thenReturn("1");
     when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(proposta);
     when(proposta.getStato()).thenReturn(3);
-    //servlet.setUtenteDao(utenteDao, propostaDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("errore");
+    // servlet.setUtenteDao(utenteDao, propostaDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("errore");
   }
 
   @Test
@@ -194,9 +194,9 @@ public class CaricaPpfServletTest {
     when(proposta.getDocumento()).thenReturn("documento.txt");
     when(filePart.getInputStream()).thenReturn(fileStream);
     when(file.toPath()).thenReturn(path);
-    //servlet.setUtenteDao(utenteDao, propostaDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("ok");
+    // servlet.setUtenteDao(utenteDao, propostaDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("ok");
   }
 
   @Test
@@ -208,8 +208,8 @@ public class CaricaPpfServletTest {
     when(request.getParameter("id")).thenReturn("1");
     when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(proposta);
     when(proposta.getStato()).thenReturn(4);
-    //servlet.setUtenteDao(utenteDao, propostaDao);
-    //servlet.doPost(request, response);
-    //verify(response.getWriter()).write("errore");
+    // servlet.setUtenteDao(utenteDao, propostaDao);
+    // servlet.doPost(request, response);
+    // verify(response.getWriter()).write("errore");
   }
 }

@@ -33,7 +33,7 @@
 (function() {
 
 	var db = {
-
+ 
 		loadData : function(filter) {
 			return $
 					.grep(

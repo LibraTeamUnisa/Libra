@@ -24,5 +24,5 @@ public class JspPagesIndex {
   public static final String REPORT_STUDENTE = "/reportStudente.jsp";
   public static final String RIMUOVI_UTENTE = "/rimuoviUtente.jsp";
   public static final String STATISTICHE = "/statistiche.jsp";
-
+  public static final String VALUTA_STUDENTI = "/valutaStudenti.jsp";
 }

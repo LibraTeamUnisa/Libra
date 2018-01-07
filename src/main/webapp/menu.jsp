@@ -122,7 +122,7 @@
                         	<!-- menu Azienda -->
                         	<li><a href="<%=JspPagesIndex.CARICA_PPF.substring(1)%>" aria-expanded="false"><span class="hide-menu">Proposte Progetti Formativi</span></a></li>
                         	<li><a href="<%=JspPagesIndex.PF_INVIATI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Progetti Formativi</span></a></li>   
-                        	<li><a href="<%=JspPagesIndex.QUESTIONARIO_VALUTA_STUDENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Valuta Studenti</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.VALUTA_STUDENTI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Valuta Studenti</span></a></li>
                         
                         <% } else if (isTutorInternoMENU) { %>
                         	<!-- menu Tutor Interno -->

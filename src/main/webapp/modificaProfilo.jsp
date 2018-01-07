@@ -23,11 +23,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Profilo personale">
 <meta name="author" content="Andrea Lorenzo">
+<script src="assets/plugins/jquery/jquery.min.js"></script>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="assets/images/favicon.png">
 <title>Libra</title>
 <!-- Bootstrap Core CSS -->
+<link rel="stylesheet"
+	href="assets/plugins/dropify/dist/css/dropify.min.css">
 <link href="assets/plugins/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- chartist CSS -->
@@ -183,20 +186,18 @@
 							<div class="card wild-card">
 								<div class="col-md-8 col-lg-9 text-center"
 									style="margin: 0 auto;">
-									<img src="<%=u.getImgProfilo()%>" alt="user"
-										class="img-circle img-responsive">
-								</div>
-								<form action="caricaImmagine" method="post"
-									enctype="multipart/form-data">
-									<input type="file" placeholder="<%=u.getImgProfilo()%>"
-										class="form-control form-control-line" name="proPic"
-										accept="images/*" required> <br> <br>
-									<div class="row">
-										<div class="col-sm-4"></div>
-										<button type="submit" class="btn btn-success">Modifica
-											immagine</button>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title">Carica Immagine</h4>
+											<input type="file" id="input-file-now" class="dropify" /> <br>
+											<div class="row">
+												<div class="col-sm-2"></div>
+												<button type="submit" onclick="caricaImmagine()"
+													class="btn btn-success">Modifica immagine</button>
+											</div>
+										</div>
 									</div>
-								</form>
+								</div>
 							</div>
 						</div>
 
@@ -860,7 +861,7 @@
 	<!-- ============================================================== -->
 	<!-- All Jquery -->
 	<!-- ============================================================== -->
-	<script src="assets/plugins/jquery/jquery.min.js"></script>
+
 	<!-- Bootstrap tether Core JavaScript -->
 	<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -888,6 +889,50 @@
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+	<script src="assets/plugins/dropify/dist/js/dropify.min.js"></script>
+	<script>
+    $(document).ready(function() {
+        // Basic
+        $('.dropify').dropify();
+        // Translated
+        $('.dropify-fr').dropify({
+            messages: {
+                default: 'Glissez-déposez un fichier ici ou cliquez',
+                replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                remove: 'Supprimer',
+                error: 'Désolé, le fichier trop volumineux'
+            }
+        });
+        // Used events
+        var drEvent = $('#input-file-events').dropify();
+        drEvent.on('dropify.beforeClear', function(event, element) {
+            return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+        });
+        drEvent.on('dropify.afterClear', function(event, element) {
+            alert('File deleted');
+        });
+        drEvent.on('dropify.errors', function(event, element) {
+            console.log('Has Errors');
+        });
+        var drDestroy = $('#input-file-to-destroy').dropify();
+        drDestroy = drDestroy.data('dropify')
+        $('#toggleDropify').on('click', function(e) {
+            e.preventDefault();
+            if (drDestroy.isDropified()) {
+                drDestroy.destroy();
+            } else {
+                drDestroy.init();
+            }
+        })
+    });
+    var caricaImmagine = function(){
+    	var base64 = $(".dropify-render img[src]").attr("src");
+    	$.get("caricaImmagine?file=" + btoa(base64), function(data, status){
+    		console.log(data);
+    	});
+    	window.location.href = '/Libra/profilo.jsp';
+    }
+    </script>
 </body>
 
 </html>

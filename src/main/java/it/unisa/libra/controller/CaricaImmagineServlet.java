@@ -19,8 +19,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
-/**
- * Consente di effettuare il caricamento dell'immagine.
+
+/*
+ * Servlet implementation class CaricaImmagineServlet
+ * 
+ * 
+ * /** Consente di effettuare il caricamento dell'immagine.
  */
 @WebServlet(name = "CaricaImmagineServlet", urlPatterns = "/caricaImmagine")
 @MultipartConfig
@@ -75,11 +79,9 @@ public class CaricaImmagineServlet extends HttpServlet {
 
   }
 
-
   /**
    * Path necessaria per individuare la cartella dove caricare la nostra immagine.
    */
-
   // private static final String PATH = "../../Libra/data/Img/";
   /**
    * Path da salvare nel db per recuperare l'immagine salvata.

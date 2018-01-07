@@ -2,7 +2,6 @@ package it.unisa.libra.controller;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
 import java.io.File;
@@ -21,9 +20,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-
-
 
 
 
@@ -72,20 +68,18 @@ public class CaricaImmagineServletTest {
 
   @After
   public void terDown() throws Exception {}
-/*
-  @Test
-  public void cambioImmagineOk() throws Exception {
-
-    when(request.getSession()).thenReturn(session);
-    when(session.getAttribute("utenteEmail")).thenReturn(email);
-    when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
-    when(request.getPart("proPic")).thenReturn(part);
-    when(request.getPart("proPic").getContentType()).thenReturn("images/jpg");
-    when(part.getSubmittedFileName()).thenReturn("name.jpg");
-    when(part.getInputStream()).thenReturn(is);
-    //servlet.doPost(request, response);
-    //verify(response).sendRedirect("profilo.jsp");
-
-  }
- */ 
+  /*
+   * @Test public void cambioImmagineOk() throws Exception {
+   * 
+   * when(request.getSession()).thenReturn(session);
+   * when(session.getAttribute("utenteEmail")).thenReturn(email);
+   * when(utenteDao.findById(Utente.class, email)).thenReturn(utente);
+   * when(request.getPart("proPic")).thenReturn(part);
+   * when(request.getPart("proPic").getContentType()).thenReturn("images/jpg");
+   * when(part.getSubmittedFileName()).thenReturn("name.jpg");
+   * when(part.getInputStream()).thenReturn(is); // servlet.doPost(request, response); //
+   * verify(response).sendRedirect("profilo.jsp");
+   * 
+   * }
+   */
 }

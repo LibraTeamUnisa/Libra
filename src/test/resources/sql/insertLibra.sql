@@ -20,7 +20,7 @@ INSERT INTO `libra`.`Presidente` (`utenteEmail`, `cognome`, `nome`, `dataDiNasci
 INSERT INTO `libra`.`Studente` (`utenteEmail`, `cognome`, `dataDiNascita`, `matricola`, `nome`) VALUES ('michele@unisa.it', 'Spano', '1996-06-09 00:00:00', '0512103861', 'Michele');
 INSERT INTO `libra`.`Azienda` (`utenteEmail`, `nome`, `partitaIVA`, `sede`) VALUES ('android@google.com', 'Google', 'cdcxfvhyipb', 'Mountain View');
 INSERT INTO `libra`.`TutorInterno` (`utenteEmail`, `cognome`, `dataDiNascita`, `linkSito`, `nome`) VALUES ('pippo@unisa.it', 'Cattaneo', '1992-08-15 00:00:00','https://www.facebook.com/pcattaneo', 'Giuseppe');
-INSERT INTO libra.ProgettoFormativo (`aziendaEmail`,`studenteEmail`,`tutorInternoEmail`,`ambito`, stato,documento,`periodoReport`, `dataInvio`) VALUES ('android@google.com','michele@unisa.it', 'pippo@unisa.it', 'qualcosa','0','\\','0', '2017-11-27 00:00:00');
+INSERT INTO libra.ProgettoFormativo (`aziendaEmail`,`studenteEmail`,`tutorInternoEmail`,`ambito`, stato,documento,`periodoReport`, `dataInvio`) VALUES ('android@google.com','michele@unisa.it', 'pippo@unisa.it', 'qualcosa','1','\\','0', '2017-11-27 00:00:00');
 insert into hibernate_sequence(next_val) values(0);
 
 INSERT INTO `libra`.`Azienda` (`utenteEmail`, `nome`, `partitaIVA`, `sede`) VALUES ('azienda@prova.it', 'Azienda', 'PartIva', 'Trivio');

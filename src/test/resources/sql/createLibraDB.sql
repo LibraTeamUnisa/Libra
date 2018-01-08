@@ -15,10 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-drop schema if exists libra;
-create schema libra;
-use libra;
-
 --
 -- Table structure for table `azienda`
 --
@@ -35,8 +31,6 @@ CREATE TABLE `azienda` (
   CONSTRAINT `emailAzienda` FOREIGN KEY (`utenteEmail`) REFERENCES `utente` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-
 
 --
 -- Dumping data for table `azienda`
@@ -81,7 +75,7 @@ DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE `feedback` (
   `progettoFormativoID` int(11) NOT NULL,
   `domandaID` int(11) NOT NULL,
-  `valutazione` varchar(10) NOT NULL,
+  `valutazione` varchar(256) NOT NULL,
   PRIMARY KEY (`progettoFormativoID`,`domandaID`),
   KEY `domandaID` (`domandaID`),
   CONSTRAINT `domandaID` FOREIGN KEY (`domandaID`) REFERENCES `domanda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -486,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-18 14:17:48
+-- Dump completed on 2018-01-08 16:06:12

@@ -1,4 +1,5 @@
-
+INSERT INTO `libra`.`Utente` (`email`, `password`, `ruolo`) VALUES ('studenteTest1000@studenti.unisa.it', '123123123', 'Studente');
+INSERT INTO `libra`.`Studente` (`utenteEmail`, `cognome`, `matricola`, `nome`) VALUES ('studenteTest1000@studenti.unisa.it', 'Test1000', '051210111000', 'Studente');
 INSERT INTO `libra`.`ProgettoFormativo` (`id`, `ambito`, `periodoReport`, `stato`, `aziendaEmail`, `studenteEmail`, `tutorInternoEmail`, `dataInizio`) VALUES ('1000', 'J2EE', '7', '4', 'admin@amazon.it', 'studenteTest1000@studenti.unisa.it', 'tutor@unisa.it', '20170910');
 INSERT INTO `libra`.`Utente` (`email`, `password`, `ruolo`) VALUES ('studenteTest1010@studenti.unisa.it', '123123123', 'Studente');
 INSERT INTO `libra`.`Studente` (`utenteEmail`, `cognome`, `matricola`, `nome`) VALUES ('studenteTest1010@studenti.unisa.it', 'Test1010', '051210111010', 'Studente');

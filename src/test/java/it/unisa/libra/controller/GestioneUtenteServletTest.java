@@ -19,11 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
-
-
-
-public class GestioneUtenteServletTest{
+public class GestioneUtenteServletTest {
 
 	// Attributi della classe
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("libraTestPU");
@@ -31,19 +27,19 @@ public class GestioneUtenteServletTest{
 	private EntityTransaction tx;
 
 	@Before // Prima di testare i metodi
-	public void initEntityManager() throws Exception{
+	public void initEntityManager() throws Exception {
 		em = emf.createEntityManager(); // Istanzio EntityManager utilizzando EntityManagerFactory
 		tx = em.getTransaction(); // Stessa cosa con EntityTransaction
 	}
 
 	@After // Dopo aver testato i metodi
-	public void closeEntityManager() throws Exception{
+	public void closeEntityManager() throws Exception {
 		if (em != null)
 			em.close();
 	}
 
 	@Test
-	public void shouldCreateUser() throws Exception{ // Dovrebbe creare un utente
+	public void shouldCreateUser() throws Exception { // Dovrebbe creare un utente
 
 		// Crea un istanza di Utente
 
@@ -81,7 +77,7 @@ public class GestioneUtenteServletTest{
 
 	}
 
-	public void shouldCreatePresident() throws Exception{ // Dovrebbe creare un presidente
+	public void shouldCreatePresident() throws Exception { // Dovrebbe creare un presidente
 
 		// Crea un istanza di Presidente
 
@@ -146,7 +142,7 @@ public class GestioneUtenteServletTest{
 
 	}
 
-	public void shouldCreateTutorEsterno() throws Exception{ // Dovrebbe creare un TutorEsterno
+	public void shouldCreateTutorEsterno() throws Exception { // Dovrebbe creare un TutorEsterno
 
 		// Crea un istanza di TutorEsterno
 
@@ -203,7 +199,7 @@ public class GestioneUtenteServletTest{
 
 	}
 
-	public void shouldCreateAzienda() throws Exception{ // Dovrebbe creare un'Azienda
+	public void shouldCreateAzienda() throws Exception { // Dovrebbe creare un'Azienda
 
 		// Crea un istanza di Azienda
 

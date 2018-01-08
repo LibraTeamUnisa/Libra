@@ -90,11 +90,8 @@
                 <!-- User profile -->
                 <div class="user-profile">
                     <!-- User profile image -->
-                    <% if (CheckUtils.checkEmptiness(pathImmagineProfiloMENU)) { %>
-                    	<div class="profile-img"> <img id="profiloImg" src="" onerror="this.src='assets/images/users/default.png';" alt="" /> </div>
-                    <% } else { %>
-                   		<div class="profile-img"> <img src="assets/images/logo-icon.png" alt="" /> </div>
-                    <% } %>
+                   	<div class="profile-img"> <img id="profiloImg" src="" onerror="this.src='assets/images/users/default.png';" alt="" /> </div>
+                    
                     
                     <!-- User profile text-->
                     <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%=nomeUtenteMENU%><span class="caret"></span></a>

@@ -103,12 +103,20 @@
 			<div class="container-fluid">
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli progetto
-							formativo</h3>
+						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli Progetto
+							Formativo</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-							<li class="breadcrumb-item active">Dettagli progetto
-								formativo</li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active">Dettagli Progetto
+								Formativo</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 				</div>

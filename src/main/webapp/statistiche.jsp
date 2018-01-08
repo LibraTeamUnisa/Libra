@@ -212,7 +212,7 @@
 													<input type="radio" name="options" id="option2" value=false
 													autocomplete="off">Terminati
 												</label> <label class="btn btn-warning active" aria-pressed="true">
-													<input type="radio" name="options" id="option3" value = ''
+													<input type="radio" name="options" id="option3" value=''
 													autocomplete="off">Tutti
 												</label>
 											</div>
@@ -236,10 +236,15 @@
 									</div>
 								</div>
 								<div class="row">
-									<div id="errorFilt" class="col-12 marginmd alert alert-warning alert-rounded">  Il filtro non ha prodotto alcun risultato!
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-                                        </div>
-                                </div>
+									<div id="errorFilt"
+										class="col-12 marginmd alert alert-warning alert-rounded">
+										Il filtro non ha prodotto alcun risultato!
+										<button type="button" class="close" data-dismiss="alert"
+											aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+								</div>
 								<div class="row">
 									<div class="col-12" style="margin-top: 10px;">
 										<ul id="listAziendeAnim" class="list-inline pull-right">
@@ -321,9 +326,10 @@
 		var date = $.date('F Y');
 		document.getElementById("currentDateCompletati").innerHTML = date;
 		document.getElementById("currentDateReports").innerHTML = date;
-		
+
 		document.getElementById("alFilt").valueAsDate = new Date();
-		document.getElementById("dalFilt").value =  document.getElementById("alFilt").value.replace('2018','2016');
+		document.getElementById("dalFilt").value = document
+				.getElementById("alFilt").value.replace('2018', '2016');
 	</script>
 
 	<script src="js/stats.js"></script>

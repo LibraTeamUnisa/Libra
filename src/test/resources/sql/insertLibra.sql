@@ -28,8 +28,6 @@ INSERT INTO `libra`.`Tutoresterno` (`ambito`, `aziendaEmail`, `cognome`, `nome`,
 INSERT INTO `libra`.`Studente` (`utenteEmail`, `matricola`, `cognome`, `nome`, `dataDiNascita`) VALUES ('mario@studenti.it', '0215103555', 'Ruggiero', 'Mario', '1995-05-11');
 INSERT INTO `libra`.`studente` (`utenteEmail`, `matricola`, `cognome`, `nome`, `dataDiNascita`) VALUES ('a.piccolella1@studenti.unisa.it', '0512103817', 'Piccolella', 'Angelo', '1996/07/09');
 
-INSERT INTO `libra`.`progettoformativo` (`stato`, `dataInizio`, `dataFine`, `ambito`, `note`, `documento`, `motivazioneRifiuto`, `periodoReport`, `studenteEmail`, `aziendaEmail`, `tutorInternoEmail`, `dataInvio`) VALUES (4,'2017-08-01', '2017-10-05','Biometria', '', 'doc.pdf','', 4, 'mario@studenti.it', 'azienda@prova.it', 'pippo@unisa.it', '2017-09-23'); 
-
 INSERT INTO `libra`.`domanda`(`id`,`testo`, `tipo`) VALUES (1,'La durata del tirocinio è stata adeguata agli obiettivi formativi', 'Azienda');
 INSERT INTO `libra`.`domanda`(`id`,`testo`, `tipo`) VALUES (2,'Gli obiettivi formativi previsti sono stati raggiunti', 'Azienda');
 INSERT INTO `libra`.`domanda`(`id`,`testo`, `tipo`) VALUES (3,'La collaborazione con il tutor didattico è stata', 'Azienda');

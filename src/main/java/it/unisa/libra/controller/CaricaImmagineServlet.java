@@ -92,7 +92,7 @@ public class CaricaImmagineServlet extends HttpServlet {
    */
   private static final String IMG_ERROR = "Caricamento fallito!";
   /**
-   * Messaggio restituito nel caso in cui l'operazione è stata completata con successo.
+   * Messaggio restituito nel caso in cui l'operazione e' stata completata con successo.
    */
   private static final String IMG_SUCCESS = "Caricamento riuscito!";
 }

@@ -1,5 +1,12 @@
 package it.unisa.libra.model.jpa;
 
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Domanda;
+import it.unisa.libra.bean.Feedback;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.CheckUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,13 +29,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Domanda;
-import it.unisa.libra.bean.Feedback;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.CheckUtils;
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>

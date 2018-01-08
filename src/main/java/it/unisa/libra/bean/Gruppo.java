@@ -80,21 +80,24 @@ public class Gruppo implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Gruppo other = (Gruppo) obj;
     if (ruolo == null) {
-      if (other.ruolo != null)
+      if (other.ruolo != null) {
         return false;
-    } else if (!ruolo.equals(other.ruolo))
+      }
+    } else if (!ruolo.equals(other.ruolo)) {
       return false;
+    }
     return true;
   }
-
-
 
 }

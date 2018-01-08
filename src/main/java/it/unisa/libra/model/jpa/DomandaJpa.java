@@ -1,9 +1,9 @@
 package it.unisa.libra.model.jpa;
 
-import java.util.List;
-import javax.ejb.Stateless;
 import it.unisa.libra.bean.Domanda;
 import it.unisa.libra.model.dao.IDomandaDao;
+import java.util.List;
+import javax.ejb.Stateless;
 
 @Stateless
 public class DomandaJpa extends GenericJpa<Domanda, Integer> implements IDomandaDao {

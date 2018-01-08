@@ -85,7 +85,7 @@ public class RichiediPfServlet extends HttpServlet {
 
           pfDao.persist(pf);
           response.getWriter().write(ISCRIZIONE_SUCCESS_MSG);
-          
+
         } else if (studente == null) {
           response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
         } else {
@@ -149,7 +149,7 @@ public class RichiediPfServlet extends HttpServlet {
    */
   private static final String USER_ERROR_MSG = "Utente non trovato!";
   /**
-   * Messaggio restituito nel caso in cui l'operazione è stata completata con successo.
+   * Messaggio restituito nel caso in cui l'operazione ï¿½ stata completata con successo.
    */
   private static final String ISCRIZIONE_SUCCESS_MSG = "Iscrizione effettuata!";
   /**

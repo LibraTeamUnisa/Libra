@@ -93,7 +93,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   private void aggiungi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    // di sicuro esiste ed � l'email di un'azienda grazie ai filtri
+    // di sicuro esiste ed e' l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
@@ -166,7 +166,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    *        richiesta inviata dal client
    * @param response Indica l'oggetto HttpServletResponse generato dal container contenente la
    *        risposta inviata al client
-   * @throws IOException Lanciata nel caso in cui non � possibile ottenere il writer associato
+   * @throws IOException Lanciata nel caso in cui non e' possibile ottenere il writer associato
    *         all'oggetto HttpServletResponse
    */
   private void aggiorna(HttpServletRequest request, HttpServletResponse response)
@@ -269,12 +269,12 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   private void rimuovi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    // di sicuro esiste ed � l'email di un'azienda grazie ai filtri
+    // di sicuro esiste ed e' l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
-      // l'utente azienda � stato eliminato dalla segreteria durante questa esecuzione
+      // l'utente azienda e' stato eliminato dalla segreteria durante questa esecuzione
       // errorCode 422
       response.getWriter().write("Si e' verificato un errore");
       return;

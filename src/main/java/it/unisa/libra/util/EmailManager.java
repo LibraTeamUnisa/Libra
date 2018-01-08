@@ -13,7 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * Definisce un manager di email che si occupa delle impostazioni delle propriet� e dell'invio di un
+ * Definisce un manager di email che si occupa delle impostazioni delle proprieta' e dell'invio di un
  * messaggio di posta elettronica ad un server SMTP che provvede ad effettuare il delivery ad un
  * destinatario opportunamente specificato.
  * 
@@ -108,7 +108,7 @@ public class EmailManager {
    * @param subject Indica l'oggetto del messaggio
    * @param body Indica il corpo del messaggio
    * @return Restituisce l'oggetto messaggio creato secondo i parametri specificati
-   * @throws MessagingException Viene lanciata nel caso in cui non � possibilie strutturare e
+   * @throws MessagingException Viene lanciata nel caso in cui non e' possibile strutturare e
    *         formattare il messaggio da inviare.
    * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non e' possibile effettuare
    *         il parse dell'indirizzo di posta elettronica di destinazione.
@@ -137,9 +137,9 @@ public class EmailManager {
    * @param to Indica il destinatario dell'email
    * @param subject Indica l'oggetto dell'email
    * @param body Indica il messaggio contenuto nell'email
-   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non � possibile effettuare
+   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non e'possibile effettuare
    *         il parse dell' indirizzo di posta elettronica di destinazione.
-   * @throws MessagingException Viene lanciata nel caso in cui non � possibilie strutturare e
+   * @throws MessagingException Viene lanciata nel caso in cui non e' possibilie strutturare e
    *         formattare il messaggio da inviare.
    */
   public void sendEmail(MimeMessage message)

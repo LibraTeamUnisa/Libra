@@ -149,7 +149,7 @@ public class RichiediPfServlet extends HttpServlet {
    */
   private static final String USER_ERROR_MSG = "Utente non trovato!";
   /**
-   * Messaggio restituito nel caso in cui l'operazione � stata completata con successo.
+   * Messaggio restituito nel caso in cui l'operazione e' stata completata con successo.
    */
   private static final String ISCRIZIONE_SUCCESS_MSG = "Iscrizione effettuata!";
   /**

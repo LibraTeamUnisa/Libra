@@ -72,7 +72,7 @@ public class CaricaPpfServlet extends HttpServlet {
         if (!ambito.contains(ambitoControl)) {
           PrintWriter out = response.getWriter();
           out.println("<script type=\"text/javascript\">");
-          out.println("alert('Il campo ambito non � corretto');");
+          out.println("alert('Il campo ambito non e' corretto');");
           out.println("location='caricaPpf.jsp';");
           out.println("</script>");
           return;
@@ -98,7 +98,7 @@ public class CaricaPpfServlet extends HttpServlet {
       /* invio un messaggio di conferma alla jsp */
       PrintWriter out = response.getWriter();
       out.println("<script type=\"text/javascript\">");
-      out.println("alert('La proposta � stata caricata ed inviata');");
+      out.println("alert('La proposta e' stata caricata ed inviata');");
       out.println("location='caricaPpf.jsp';");
       out.println("</script>");
     }
@@ -141,7 +141,7 @@ public class CaricaPpfServlet extends HttpServlet {
       /* invio un messaggio di conferma alla jsp */
       PrintWriter out = response.getWriter();
       out.println("<script type=\"text/javascript\">");
-      out.println("alert('La proposta � stata caricata ed inviata');");
+      out.println("alert('La proposta e' stata caricata ed inviata');");
       out.println("location='caricaPpf.jsp';");
       out.println("</script>");
     }
@@ -173,7 +173,7 @@ public class CaricaPpfServlet extends HttpServlet {
       /* invio un messaggio di conferma alla jsp */
       PrintWriter out = response.getWriter();
       out.println("<script type=\"text/javascript\">");
-      out.println("alert('La proposta � stata caricata ed inviata');");
+      out.println("alert('La proposta e' stata caricata ed inviata');");
       out.println("location='caricaPpf.jsp';");
       out.println("</script>");
     }
@@ -208,7 +208,7 @@ public class CaricaPpfServlet extends HttpServlet {
       /* invio un messaggio di conferma alla jsp */
       PrintWriter out = response.getWriter();
       out.println("<script type=\"text/javascript\">");
-      out.println("alert('La proposta � stata caricata ed inviata');");
+      out.println("alert('La proposta e' stata caricata ed inviata');");
       out.println("location='caricaPpf.jsp';");
       out.println("</script>");
     }

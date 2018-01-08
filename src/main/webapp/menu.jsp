@@ -1,3 +1,4 @@
+<%@page import="it.unisa.libra.util.CheckUtils"%>
 <%@page import="it.unisa.libra.model.dao.ISegreteriaDao"%>
 <%@page import="it.unisa.libra.model.dao.IPresidenteDao"%>
 <%@page import="it.unisa.libra.model.dao.ITutorInternoDao"%>
@@ -80,155 +81,92 @@
 	}
 %>
 
-<aside class="left-sidebar">
-	<!-- Sidebar scroll-->
-	<div class="scroll-sidebar">
 
+		<aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+            
+            
+                <!-- User profile -->
+                <div class="user-profile">
+                    <!-- User profile image -->
+                    <% if (CheckUtils.checkEmptiness(pathImmagineProfiloMENU)) { %>
+                    	<div class="profile-img"> <img id="profiloImg" src="" onerror="this.src='assets/images/users/default.png';" alt="" /> </div>
+                    <% } else { %>
+                   		<div class="profile-img"> <img src="assets/images/logo-icon.png" alt="" /> </div>
+                    <% } %>
+                    
+                    <!-- User profile text-->
+                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%=nomeUtenteMENU%><span class="caret"></span></a>
+                        <div class="dropdown-menu animated flipInY">
+                            <a href="<%=JspPagesIndex.PROFILO.substring(1)%>" class="dropdown-item"><i class="ti-user"></i>Profilo</a>
+                            <a href="<%=JspPagesIndex.NOTIFICHE.substring(1)%>" class="dropdown-item"><i class="ti-email"></i>Notifiche</a>
+                          	<div class="dropdown-divider"></div> 
+                          	<a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"="+Actions.LOGOUT%>" class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End User profile text-->
+                
+                
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
 
-		<!-- User profile -->
-		<div class="user-profile">
-			<!-- User profile image -->
-			<%
-				if (pathImmagineProfiloMENU != null && !("".equals(pathImmagineProfiloMENU))) {
-			%>
-			<div class="profile-img">
-				<img src="" id="profiloImg" alt="" />
-			</div>
-			<%
-				} else {
-			%>
-			<div class="profile-img">
-				<img src="assets/images/logo-icon.png" alt="" />
-			</div>
-			<%
-				}
-			%>
+                    
+                    	<% if (isStudenteMENU) { %>
+                    		<!-- menu Studente -->
+                        	<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Aziende convenzionate</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Report</span></a></li>   
+                        	<li><a href="<%=JspPagesIndex.QUESTIONARIO_VALUTA_AZIENDA.substring(1)%>" aria-expanded="false"><span class="hide-menu">Valuta Azienda</span></a></li>
+                        
+                        <% } else if (isAziendaMENU) { %>
+                        	<!-- menu Azienda -->
+                        	<li><a href="<%=JspPagesIndex.CARICA_PPF.substring(1)%>" aria-expanded="false"><span class="hide-menu">Proposte Progetti Formativi</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.PF_INVIATI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Progetti Formativi</span></a></li>   
+                        	<li><a href="<%=JspPagesIndex.VALUTA_STUDENTI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Valuta Studenti</span></a></li>
+                        
+                        <% } else if (isTutorInternoMENU) { %>
+                        	<!-- menu Tutor Interno -->
+                        	<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Aziende convenzionate</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Report</span></a>   
+                        	
+                        <% } else if (isPresidenteMENU) { %>
+                        	<!-- menu Presidente -->
+                        	<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Aziende convenzionate</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Report</span></a></li> 
+                        	<li><a href="<%=JspPagesIndex.STATISTICHE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Statistiche</span></a></li>
+                        	
+                        <% } else if (isSegreteriaMENU) { %>
+                        	<!-- menu Segreteria -->
+                        	<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Aziende convenzionate</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Report</span></a></li> 
+                        	<li><a href="<%=JspPagesIndex.STATISTICHE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Statistiche</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.GESTIONE_PERMESSI.substring(1)%>" aria-expanded="false"><span class="hide-menu">Permessi feedback</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.AGGIUNGI_UTENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Aggiungi utente</span></a></li>
+                        	<li><a href="<%=JspPagesIndex.RIMUOVI_UTENTE.substring(1)%>" aria-expanded="false"><span class="hide-menu">Rimuovi utente</span></a></li>
+                        <% } %>	
+                    
+                    	<!-- menu comune a tutti gli attori -->
+                        <li><a href="<%=JspPagesIndex.CONTATTI_DIPARTIMENTO.substring(1)%>" aria-expanded="false"><span class="hide-menu">Contatti</span></a></li>
 
-			<!-- User profile text-->
-			<div class="profile-text">
-				<a href="#" class="dropdown-toggle link u-dropdown"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="true"><%=nomeUtenteMENU%><span class="caret"></span></a>
-				<div class="dropdown-menu animated flipInY">
-					<a href="<%=JspPagesIndex.PROFILO.substring(1)%>"
-						class="dropdown-item"><i class="ti-user"></i>Profilo</a> <a
-						href="<%=JspPagesIndex.NOTIFICHE.substring(1)%>"
-						class="dropdown-item"><i class="ti-email"></i>Notifiche</a>
-					<div class="dropdown-divider"></div>
-					<a
-						href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION + "=" + Actions.LOGOUT%>"
-						class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
-				</div>
-			</div>
-		</div>
-		<!-- End User profile text-->
-
-
-		<!-- Sidebar navigation-->
-		<nav class="sidebar-nav">
-			<ul id="sidebarnav">
-
-
-				<%
-					if (isStudenteMENU) {
-				%>
-				<!-- menu Studente -->
-				<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Aziende
-							convenzionate</span></a></li>
-				<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Report</span></a></li>
-				<li><a
-					href="<%=JspPagesIndex.QUESTIONARIO_VALUTA_AZIENDA.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Valuta
-							Azienda</span></a></li>
-
-				<%
-					} else if (isAziendaMENU) {
-				%>
-				<!-- menu Azienda -->
-				<li><a href="<%=JspPagesIndex.CARICA_PPF.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Proposte
-							Progetti Formativi</span></a></li>
-				<li><a href="<%=JspPagesIndex.PF_INVIATI.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Progetti
-							Formativi</span></a></li>
-				<li><a
-					href="<%=JspPagesIndex.QUESTIONARIO_VALUTA_STUDENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Valuta
-							Studenti</span></a></li>
-
-				<%
-					} else if (isTutorInternoMENU) {
-				%>
-				<!-- menu Tutor Interno -->
-				<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Aziende
-							convenzionate</span></a></li>
-				<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
-				<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Report</span></a> <%
- 	} else if (isPresidenteMENU) {
- %> <!-- menu Presidente -->
-				<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Aziende
-							convenzionate</span></a></li>
-				<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
-				<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Report</span></a></li>
-				<li><a href="<%=JspPagesIndex.STATISTICHE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Statistiche</span></a></li>
-
-				<%
-					} else if (isSegreteriaMENU) {
-				%>
-				<!-- menu Segreteria -->
-				<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Aziende
-							convenzionate</span></a></li>
-				<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
-				<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Report</span></a></li>
-				<li><a href="<%=JspPagesIndex.STATISTICHE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Statistiche</span></a></li>
-				<li><a href="<%=JspPagesIndex.GESTIONE_PERMESSI.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Permessi
-							feedback</span></a></li>
-				<li><a href="<%=JspPagesIndex.AGGIUNGI_UTENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Aggiungi
-							utente</span></a></li>
-				<li><a href="<%=JspPagesIndex.RIMUOVI_UTENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Rimuovi
-							utente</span></a></li>
-				<%
-					}
-				%>
-
-				<!-- menu comune a tutti gli attori -->
-				<li><a
-					href="<%=JspPagesIndex.CONTATTI_DIPARTIMENTO.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Contatti
-							Dipartimento</span></a></li>
-
-				<li class="nav-devider"></li>
-
-			</ul>
-		</nav>
-		<!-- End Sidebar navigation -->
-	</div>
-	<!-- End Sidebar scroll-->
-
-
-	<!-- Bottom points-->
-	<div class="sidebar-footer">
-		<!-- item -->
-		<a
-			href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION + "=" + Actions.LOGOUT%>"
-			class="link" data-toggle="tooltip" title="Logout"><i
-			class="mdi mdi-power"></i></a>
-	</div>
-	<!-- End Bottom points-->
-</aside>
+                        <li class="nav-devider"></li>
+                        
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+            
+            
+            <!-- Bottom points-->
+            <div class="sidebar-footer">
+                <!-- item -->
+                <a href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION+"="+ Actions.LOGOUT %>" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
+            </div>
+            <!-- End Bottom points-->
+            
+        </aside>

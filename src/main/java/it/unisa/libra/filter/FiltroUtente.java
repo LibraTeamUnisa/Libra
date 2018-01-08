@@ -1,5 +1,6 @@
 package it.unisa.libra.filter;
 
+import com.mysql.jdbc.StringUtils;
 import it.unisa.libra.util.JspPagesIndex;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -10,7 +11,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.mysql.jdbc.StringUtils;
 
 /**
  * Servlet Filter implementation class FiltroUtente. Garantisce l'accesso alla risorsa richiesta
@@ -56,7 +56,8 @@ public class FiltroUtente implements Filter {
       // quindi questo filtro non deve essere applicato a queste pagine
       String path = ((HttpServletRequest) request).getRequestURI();
       if (path.endsWith(JspPagesIndex.ACCESSO_NEGATO) || path.endsWith(JspPagesIndex.HOME)
-          || path.endsWith(JspPagesIndex.REGISTRAZIONE) || path.equals("/Libra/")) {
+          || path.endsWith(JspPagesIndex.REGISTRAZIONE)
+          || path.endsWith(JspPagesIndex.RECUPERA_PASSWORD) || path.equals("/Libra/")) {
         chain.doFilter(request, response);
         return;
       } else {

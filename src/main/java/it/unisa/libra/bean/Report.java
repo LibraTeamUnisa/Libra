@@ -5,6 +5,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 
@@ -13,7 +14,9 @@ import javax.persistence.NamedQuery;
  * 
  */
 @Entity
-@NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r")
+@NamedQueries({
+    @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r ORDER BY r.id.data DESC"),
+    @NamedQuery(name = "Report.countAll", query = "SELECT count(r) FROM Report r")})
 public class Report implements Serializable {
   private static final long serialVersionUID = 1L;
 

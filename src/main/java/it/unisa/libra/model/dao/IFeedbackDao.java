@@ -5,5 +5,6 @@ import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.FeedbackPK;
 
 public interface IFeedbackDao extends IGenericDao<Feedback, FeedbackPK> {
-  //public List<Feedback> getFeedbackByIdPF(int id);
+
+  List<Feedback> findByType(int idPF, String type);
 }

@@ -1,3 +1,4 @@
+<%@page import="it.unisa.libra.util.JspPagesIndex"%>
 <%@page import="it.unisa.libra.bean.Azienda"%>
 <%@page import="it.unisa.libra.bean.TutorEsternoPK"%>
 <%@page import="it.unisa.libra.model.dao.ITutorEsternoDao"%>
@@ -7,12 +8,6 @@
 <%@page import="it.unisa.libra.model.jpa.TutorEsternoJpa"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<<<<<<< HEAD
-<!-- 
-=======
-
-
->>>>>>> branch 'develop' of https://github.com/LibraTeamUnisa/Libra.git
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,6 +44,49 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+::placeholder {
+    color: #e0e0e0!important;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #e0e0e0!important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+   color: #e0e0e0!important;
+}
+
+#buttonTutorEsterno {
+   float:right;
+   margin:0px!important;
+}
+
+#buttonTutorRow {
+   padding:0px!important;
+}
+
+#modal-link:hover{
+   color:white!important;
+}
+
+#button1:hover > a
+{
+  color:white!important;
+}
+
+#button1:active > a
+{
+  color:white!important;
+}
+
+#button1:focus > a
+{
+  color:white!important;
+}
+
+</style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -97,6 +135,7 @@
 				if(azione != null) {
 					if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) {
 					ambito = (String) request.getParameter("ambito");
+
 					if (ambito == null) badRequest = true;
 					else {
 				
@@ -131,12 +170,13 @@
 							Modifica Tutor Esterno
 							<%} %></h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard </a></li>
-                            <li class="breadcrumb-item active"><%if (azione.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) {%>
-							Aggiungi Tutor Esterno
+                            <li class="breadcrumb-item"><a href="<%=JspPagesIndex.DASHBOARD_AZIENDA.substring(1)%>">Dashboard </a></li>
+                            <%if (azione.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) {%>
+							<li class="breadcrumb-item active">Aggiungi Tutor Esterno</li>
 							<%} else { %>
-							Modifica Tutor Esterno
-							<%} %></li>
+							<li class="breadcrumb-item"><a href="<%=JspPagesIndex.CATALOGO_TUTOR_ESTERNI.substring(1)%>">Tutor</a></li>
+                            <li class="breadcrumb-item active">Modifica Tutor Esterno</li>
+							<%} %>
                         </ol>
                     </div>
                     
@@ -159,41 +199,40 @@
 
 							<input type="hidden" name="idTutor"  id="inputOldAmbito" 
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=id.getAmbito()%>  <%} %> />
+										value="<%=id.getAmbito()%>"  <%} %> />
 							<input type="hidden" name="idAzienda"  id="inputEmailAzienda" 
 										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										value=<%=emailAzienda%>  <%} %> />
                                     <div class="form-group m-t-40 row">
                                         <label for="example-text-input" class="col-2 col-form-label">Ambito</label>
                                         <div class="col-10">
-                                            <input class="form-control" type="text" id="example-text-input" name="ambito" required="required" placeholder="Ambito"
+                                            <input class="form-control" type="text" id="example-text-input" name="ambito" placeholder="Nuovo Ambito"
 
 										maxlength="50" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
-										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=id.getAmbito()%>  <%} %> />
+										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										required="required"  <%} %> />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-search-input" class="col-2 col-form-label">Nome</label>
                                         <div class="col-10">
-                                            <input class="form-control" type="text"  id="example-search-input" name="nome" required="required" placeholder="Nome"
+                                            <input class="form-control" type="text"  id="example-search-input" name="nome" placeholder="Nuovo Nome"
 
 										maxlength="30" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
 
-										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=tutor.getNome()%> <%} %> />
+										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										required="required" <%} %> />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-email-input" class="col-2 col-form-label">Cognome</label>
                                         <div class="col-10">
-                                            <input class="form-control" type="text" id="example-email-input" type="text" name="cognome" required="required"
-										maxlength="30" 
+                                            <input class="form-control" type="text" id="example-email-input" type="text" name="cognome" maxlength="30" 
+                                                   
+                                                   placeholder="Nuovo Cognome" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
 
-										placeholder="Cognome" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
-
-										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=tutor.getCognome()%> <%} %> />
+										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										required="required" <%} %> />
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -201,43 +240,43 @@
                                         <div class="col-10">
                                             <input class="form-control" id="example-url-input" type="text" name="indirizzo"  placeholder="Indirizzo"
 
-										pattern="[a-zA-Z]+[a-zA-Z, 0-9]*[a-zA-Z]+" required="required" maxlength="40"
+										pattern="[a-zA-Z]+[a-zA-Z, 0-9]*[a-zA-Z]+" maxlength="40"
 										title="via, numeroCivico citta'"
 
-										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=tutor.getIndirizzo()%> <%} %> />
+										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										required="required" <%} %> />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-tel-input" class="col-2 col-form-label">Data Di Nascita</label>
                                         <div class="col-10">
-                                            <input class="form-control" id="example-tel-input" type="date" name="dataDiNascita" placeholder="Data di nascita"
-										 required="required" 
-										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=tutor.getDataDiNascita()%> <%}%> />
+                                            <input class="form-control" id="example-tel-input" type="date" name="dataDiNascita" placeholder="Nuova Data di nascita"
+                                            
+										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										required="required" <%}%> />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-password-input" class="col-2 col-form-label">Telefono</label>
                                         <div class="col-10">
-                                            <input class="form-control"  id="example-password-input" type="text" name="telefono" placeholder="Telefono" required="required"
+                                            <input class="form-control"  id="example-password-input" type="text" name="telefono" placeholder="Nuovo Numero Telefonico"
 
-										maxlength="10" pattern="[0-9]{10}" title="solo caratteri numerici"
+										maxlength="10" pattern="[0-9]{8,11}" title="solo caratteri numerici"
 
-										<%if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
-										value=<%=tutor.getTelefono()%> <%} %> />
+										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
+										required="required" <%} %> />
                                         </div>
                                     </div>
                                     <div class="form-group m-b-0">
-								<div class="offset-sm-3 col-sm-9">
+								<div id="buttonTutorRow" class="offset-sm-3 col-sm-9">
 									<div class="button-box">
 										<%if (azione.equals(Actions.AGGIUNGI_TUTOR_ESTERNO)) { %>
 										<button type="submit" id="buttonTutorEsterno"
-											class="btn btn-primary" style="text-align: center;">
+											class="btn btn-outline-danger" style="text-align: center;">
 											Aggiungi Tutor Esterno</button>
 										<% } else { %>
 										<button type="submit" id="buttonTutorEsterno"
-											class="btn btn-primary" style="text-align: center;">
+											class="btn btn-outline-danger" style="text-align: center;">
 											Modifica Tutor Esterno</button>
 										<% } %>
 									</div>
@@ -262,9 +301,8 @@
 										<p id="modalMessage"> </p>
 									</div>
 									<div class="modal-footer">
-										<button id="button1" type="button" class="btn btn-primary">
-											<a class="btn btn-primary" href="dashboardAzienda.jsp"
-												style="text-decoration: none; color: white;"> Dashboard
+										<button id="button1" type="button" class="btn btn-outline-danger">
+											<a id="modal-link" href="dashboardAzienda.jsp"> Dashboard
 											</a>
 										</button>
 									</div>
@@ -308,7 +346,7 @@
 			<!-- ============================================================== -->
 			<!-- footer -->
 			<!-- ============================================================== -->
-			<%@ include file="footer.jsp"%>
+			<!--<%@ include file="footer.jsp"%>-->
 			<!-- ============================================================== -->
 			<!-- End footer -->
 			<!-- ============================================================== -->
@@ -339,11 +377,11 @@
 													$.post(
 																	'gestioneTutorEsternoServlet',
 																	{
+																		action : $("#inputAction").val(),
 
 																		idTutor : $("#inputOldAmbito").val(),
 																		idAzienda : $("#inputEmailAzienda").val(),
 																		 
-																		action : $("#inputAction").val(),
 																		ambito : $("#example-text-input").val(),
 																		nome : $("#example-search-input").val(),
 																		cognome : $("#example-email-input").val(),
@@ -354,20 +392,19 @@
 																		indirizzo : $("#example-url-input").val()
 
 																	},
-																	function(
-																			data) {
+																	function(data,status) {
 																		 $("#buttonTutorEsterno").prop("disabled",true);
-																		 
-																		if ((data == "ok")||($("#inputAction").val()=='modificaTutorEsterno')) {
-
-																			$("#modalMessage").text("L'operazione e' avvenuta correttamente");
-																		} 
-																		else {
-																			$("#modalMessage").text(data);
-																		}
+																		 $("#modalMessage").text(data);
 																		 $("#modalResult").modal('show');
 																			
-																	});
+																	})
+																	.fail(
+																		    function(jqXHR, textStatus, errorThrown) {
+																		    	$("#buttonTutorEsterno").prop("disabled",true);
+																				$("#modalMessage").text(jqXHR.responseText);
+																				$("#modalResult").modal('show');
+																		     }
+																		 );
 												});
 							})
 		</script>
@@ -404,5 +441,4 @@
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 </html>
--->
 

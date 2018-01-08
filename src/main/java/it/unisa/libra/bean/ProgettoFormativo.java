@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ import javax.persistence.TemporalType;
  * The persistent class for the progettoformativo database table.
  * 
  */
+
 @Entity
 @NamedQueries({
     @NamedQuery(name = "ProgettoFormativo.findAll", query = "SELECT p FROM ProgettoFormativo p"),
@@ -30,8 +32,16 @@ import javax.persistence.TemporalType;
         query = "SELECT p FROM ProgettoFormativo p WHERE p.studente=:studente AND p.tutorInterno.utenteEmail=:tutorinterno ORDER BY p.id DESC"),
     @NamedQuery(name = "ProgettoFormativo.findByAziendaNome",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.azienda.nome=:nomeAzienda"),
-    @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda", query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda")})
-
+    @NamedQuery(name = "ProgettoFormativo.countAllCompletati",
+        query = "SELECT count(p) FROM ProgettoFormativo p WHERE p.dataFine IS NOT NULL"),
+    @NamedQuery(name = "ProgettoFormativo.findStudenteByAzienda",
+        query = "SELECT p.studente FROM ProgettoFormativo p WHERE p.azienda=:azienda"),
+    @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",
+        query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.count",
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p")})
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -61,30 +71,30 @@ public class ProgettoFormativo implements Serializable {
   private int stato;
 
   // bi-directional many-to-one association to Feedback
-  @OneToMany(mappedBy = "progettoFormativo")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "progettoFormativo")
   private List<Feedback> feedbacks;
 
   // bi-directional one-to-one association to Notifica
-  @OneToOne(mappedBy = "progettoFormativo")
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "progettoFormativo")
   private Notifica notifica;
 
   // bi-directional many-to-one association to Azienda
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "aziendaEmail")
   private Azienda azienda;
 
   // bi-directional many-to-one association to Studente
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "studenteEmail")
   private Studente studente;
 
   // bi-directional many-to-one association to TutorInterno
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "tutorInternoEmail")
   private TutorInterno tutorInterno;
 
   // bi-directional many-to-one association to Report
-  @OneToMany(mappedBy = "progettoFormativo")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "progettoFormativo")
   private List<Report> reports;
 
   public ProgettoFormativo() {}

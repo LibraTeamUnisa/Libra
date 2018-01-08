@@ -1,9 +1,9 @@
 package it.unisa.libra.model.jpa;
 
+import it.unisa.libra.model.dao.IGenericDao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import it.unisa.libra.model.dao.IGenericDao;
 
 public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
 
@@ -15,7 +15,7 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
   public void persist(E entity) {
     entityManager.merge(entity);
   }
-  
+
   public void remove(Class<E> entityClass, K id) {
     E toRemove = (E) entityManager.find(entityClass, id);
     entityManager.remove(toRemove);

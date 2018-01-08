@@ -37,7 +37,8 @@ public class ModificaPasswordServlet extends HttpServlet {
     } else if (action.equals("verifica")) {
       String pass = request.getParameter("password");
       Boolean passCorretta = controllaPassword(utente, pass);
-      if (passCorretta) { // le due password corrispondono quindi posso mostrare i campi per inserire la nuova password
+      if (passCorretta) { // le due password corrispondono quindi posso mostrare i campi per
+                          // inserire la nuova password
         response.getWriter().write("true");
       } else if (!passCorretta) { // la pass non coincide
         response.getWriter().write("false");

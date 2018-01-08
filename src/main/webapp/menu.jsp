@@ -90,7 +90,9 @@
                 <!-- User profile -->
                 <div class="user-profile">
                     <!-- User profile image -->
-                   	<div class="profile-img"> <img id="profiloImg" src="" onerror="this.src='assets/images/users/default.png';" alt="" /> </div>
+                   	<div class="profile-img"> 
+                   	<img class="imgProfiloUtenteCorrente" src="" onerror="this.src='assets/images/users/default.png';" alt="" /> 
+                   	</div>
                     
                     
                     <!-- User profile text-->

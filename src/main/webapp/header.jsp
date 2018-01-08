@@ -123,14 +123,18 @@
                         
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id="profiloImg" src="" onerror="this.src='assets/images/users/default.png';" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="profile-pic imgProfiloUtenteCorrente" src="" onerror="this.src='assets/images/users/default.png';" alt="user" />
+                            </a>
 
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box row">
 
-                                            <div class="u-img col-4"><img id="profiloImg" src="" onerror="this.src='assets/images/users/default.png';" alt="user"></div>
+                                            <div class="u-img col-4">
+                                            <img class="imgProfiloUtenteCorrente" src="" onerror="this.src='assets/images/users/default.png';" alt="user">
+                                            </div>
 
                                             <div class="u-text col-8">
                                                 <h4><%=nomeUtenteHEADER%></h4>

@@ -1,3 +1,3 @@
 <footer class="footer">
-      © Libra (Since 2018)
+      &copy; Libra (Since 2018)
 </footer>

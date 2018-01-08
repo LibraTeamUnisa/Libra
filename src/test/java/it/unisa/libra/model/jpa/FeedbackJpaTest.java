@@ -1,8 +1,6 @@
 package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import it.unisa.libra.bean.Domanda;

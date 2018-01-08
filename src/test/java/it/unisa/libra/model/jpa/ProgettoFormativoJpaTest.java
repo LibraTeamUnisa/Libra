@@ -1,4 +1,5 @@
 
+
 package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +29,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   private static AziendaJpa jpaA;
   private static DomandaJpa jpaD;
   private static FeedbackJpa jpaF;
-  
+
   @BeforeClass
   public static void setUp() {
     jpaA = new AziendaJpa();
@@ -45,7 +46,6 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaF.entityManager = em;
   }
 
-  
 
   @Test
   public void getLastTest() {
@@ -274,8 +274,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaP.persist(test2);
     List<ProgettoFormativo> lista = jpaP.findUltime10();
     assertNotNull(lista);
-    System.out.println(lista.size()+"");
   }
-  
-  
+
 }
+

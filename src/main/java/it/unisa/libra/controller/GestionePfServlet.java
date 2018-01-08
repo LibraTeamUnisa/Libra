@@ -96,5 +96,4 @@ public class GestionePfServlet extends HttpServlet {
       response.getWriter().flush();
     }
   }
-
 }

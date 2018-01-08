@@ -52,9 +52,10 @@ public class GestioneUtenteServlet extends HttpServlet {
   }
 
   /**
-  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-  *      response)
-  **/
+  * doGet.
+  * 
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
+  */
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -62,9 +63,10 @@ public class GestioneUtenteServlet extends HttpServlet {
   }
 
   /**
-  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-  *      response)
-  **/
+  * doPost.
+  * 
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {

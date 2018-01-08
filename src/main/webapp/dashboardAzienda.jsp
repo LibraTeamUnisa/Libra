@@ -223,10 +223,10 @@
                      	<%			Studente s = pf.getStudente();	  			 					%>
 		                            <div class="row list-group-item">
 		                                <!-- immagine, nome, cognome, matricola -->
-		                                <div class="col-md-4 col-sm-4">
-		                                <img src="<%=s.getUtente().getImgProfilo()%>" alt="user" class="img-circle img-responsive">
+		                                <div class="col-4 col-md-4 col-sm-4">
+		                                <img src="<%=s.getUtente().getImgProfilo()%>" onerror="this.src='assets/images/users/default.png';" alt="user" class="img-circle img-responsive">
 		                                </div>
-		                                <div class="col-md-8 col-sm-8">
+		                                <div class="col-8 col-md-8 col-sm-8">
 		                                <h5><%=s.getNome()%> <%=s.getCognome()%></h5>
 		                                <h6 class="text-muted">matricola <%=s.getMatricola()%></h6>
 		                                </div>
@@ -268,10 +268,10 @@
 		                     	<%			Studente s = pf.getStudente(); %>
 				                            <div class="row list-group-item">
 				                                <!-- immagine, nome, cognome, matricola, ambito e stato progetto -->
-				                                <div class="col-md-4 col-sm-4">
-				                                <img src="<%=s.getUtente().getImgProfilo()%>" alt="user" class="img-circle img-responsive">
+				                                <div class="col-4 col-md-4 col-sm-4">
+				                                <img src="<%=s.getUtente().getImgProfilo()%>" onerror="this.src='assets/images/users/default.png';" alt="user" class="img-circle img-responsive">
 				                                </div>
-				                                <div class="col-md-8 col-sm-8">
+				                                <div class="col-8 col-md-8 col-sm-8">
 				                                <!-- icona diversa a seconda dello stato del progetto -->
 				                                <% int stato = pf.getStato(); %>
 				                                <% if (stato == StatoPf.INVIATO || stato == StatoPf.VERIFICA_TUTOR || stato == StatoPf.VERIFICA_PRESIDENTE) { %>	
@@ -311,11 +311,11 @@
                      <h4 class="card-title text-center">Gestione Tutor</h4>
                      <div class="list-group">
                      	<div class="row list-group-item" style="border-bottom: 0px;">
-                     	<div class="col-md-6 col-sm-6 text-center"><a href="<%=linkAggiungiTutor%>" class="btn btn-warning">Aggiungi</a></div>
-                        <div class="col-md-6 col-sm-6 text-center"><a href="<%=linkModificaTutor%>" class="btn btn-warning">Modifica</a></div>
+                     	<div class="col-6 col-md-6 col-sm-6 text-center"><a href="<%=linkAggiungiTutor%>" class="btn btn-warning">Aggiungi</a></div>
+                        <div class="col-6 col-md-6 col-sm-6 text-center"><a href="<%=linkModificaTutor%>" class="btn btn-warning">Modifica</a></div>
                         </div>
                         <div class="row list-group-item" style="border-top: 0px;">
-                        <div class="col-md-12 col-sm-12 text-center"><a href="<%=linkRimuoviTutor%>" class="btn btn-warning">Rimuovi</a></div>
+                        <div class="col-12 col-md-12 col-sm-12 text-center"><a href="<%=linkRimuoviTutor%>" class="btn btn-warning">Rimuovi</a></div>
                     	</div>
                      </div>
                  </div>

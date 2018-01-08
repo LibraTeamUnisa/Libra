@@ -26,120 +26,116 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-/** Servlet implementation class GestioneUtenteServlet **/
+/** Servlet implementation class GestioneUtenteServlet. **/
 @WebServlet("/GestioneUtenteServlet")
-public class GestioneUtenteServlet extends HttpServlet{
-	private static final long serialVersionUID = 1L;
+public class GestioneUtenteServlet extends HttpServlet {
 
-	@EJB
-	private IUtenteDao utenteDao;
+  private static final long serialVersionUID = 1L;
 
-	@EJB
-	private IPresidenteDao presidenteDao;
+  @EJB
+  private IUtenteDao utenteDao;
 
-	@EJB
-	private ITutorInternoDao tutorInternoDao;
+  @EJB
+  private IPresidenteDao presidenteDao;
 
-	@EJB
-	private IAziendaDao aziendaDao;
+  @EJB
+  private ITutorInternoDao tutorInternoDao;
 
-	@EJB
-	private IGruppoDao gruppoDao;
+  @EJB
+  private IAziendaDao aziendaDao;
 
-	/** Default constructor. */
-	public GestioneUtenteServlet(){
-	}
+  @EJB
+  private IGruppoDao gruppoDao;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-		doPost(request, response);
-	}
+  /** Default constructor. */
+  public GestioneUtenteServlet(){
+  }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
+  /**
+  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+  *      response)
+  **/
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    doPost(request, response);
+  }
 
-		PrintWriter out = response.getWriter();
-		Utente utente = new Utente();
-		Presidente pres = new Presidente();
-		TutorInterno tut = new TutorInterno();
-		Azienda azienda = new Azienda();
-		Gruppo gruppo = new Gruppo();
+  /**
+  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+  *      response)
+  **/
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-		try{
+    PrintWriter out = response.getWriter();
+    Utente utente = new Utente();
+    Presidente pres = new Presidente();
+    TutorInterno tut = new TutorInterno();
+    Azienda azienda = new Azienda();
+    Gruppo gruppo = new Gruppo();
 
-			String ruolo = request.getParameter("ruolo");
-			gruppo.setRuolo(ruolo);
-			utente.setGruppo(gruppo);
-			utente.setImgProfilo("  "); // serve il path della foto sul db
-			utente.setEmail(request.getParameter("email"));
-			utente.setPassword(request.getParameter("password"));
-			utente.setIndirizzo(request.getParameter("indirizzo"));
-			utente.setTelefono(request.getParameter("telefono"));
+    try {
 
-			if(ruolo.equals("Presidente")){
-				// pres.setUtente(utente);
-				String data = request.getParameter("bday");
+      String ruolo = request.getParameter("ruolo");
+      gruppo.setRuolo(ruolo);
+      utente.setGruppo(gruppo);
+      utente.setImgProfilo("  "); // serve il path della foto sul db
+      utente.setEmail(request.getParameter("email"));
+      utente.setPassword(request.getParameter("password"));
+      utente.setIndirizzo(request.getParameter("indirizzo"));
+      utente.setTelefono(request.getParameter("telefono"));
 
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-				Date result = df.parse(data);
-				pres.setUtenteEmail(request.getParameter("email"));
-				pres.setDataDiNascita(result);
-				pres.setLinkSito(request.getParameter("webSite"));
-				pres.setNome(request.getParameter("nome"));
-				pres.setCognome(request.getParameter("cognome"));
-				pres.setGiorniDiRicevimento(request.getParameter("giornoDiRicevimento"));
-				pres.setUfficio(request.getParameter("ufficio"));
+      if (ruolo.equals("Presidente")) {
+        // pres.setUtente(utente);
+        String data = request.getParameter("bday");
 
-				utenteDao.persist(utente);
-				presidenteDao.persist(pres);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date result = df.parse(data);
+        pres.setUtenteEmail(request.getParameter("email"));
+        pres.setDataDiNascita(result);
+        pres.setLinkSito(request.getParameter("webSite"));
+        pres.setNome(request.getParameter("nome"));
+        pres.setCognome(request.getParameter("cognome"));
+        pres.setGiorniDiRicevimento(request.getParameter("giornoDiRicevimento"));
+        pres.setUfficio(request.getParameter("ufficio"));
+        utenteDao.persist(utente);
+        presidenteDao.persist(pres);
 
-			}else if(ruolo.equals("TutorInterno")){
+      } else if (ruolo.equals("TutorInterno")) {
 
-				// tut.setUtente(utente);
-				String data = request.getParameter("bday");
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-				Date result = df.parse(data);
+        // tut.setUtente(utente);
+        String data = request.getParameter("bday");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date result = df.parse(data);
+        tut.setUtenteEmail(request.getParameter("email"));
+        tut.setDataDiNascita(result);
+        tut.setLinkSito(request.getParameter("website"));
+        tut.setNome(request.getParameter("Nome"));
+        tut.setCognome(request.getParameter("cognome"));
+        utenteDao.persist(utente);
+        tutorInternoDao.persist(tut);
 
-				tut.setUtenteEmail(request.getParameter("email"));
-				tut.setDataDiNascita(result);
-				tut.setLinkSito(request.getParameter("website"));
-				tut.setNome(request.getParameter("Nome"));
-				tut.setCognome(request.getParameter("cognome"));
+      } else if (ruolo.equals("Azienda")) {
 
-				utenteDao.persist(utente);
-				tutorInternoDao.persist(tut);
-			}else if(ruolo.equals("Azienda")){
+        // azienda.setUtente(utente);
+        azienda.setUtenteEmail(request.getParameter("email"));
+        azienda.setNome(request.getParameter("Nome"));
+        azienda.setPartitaIVA(request.getParameter("partitaIva"));
+        azienda.setSede(request.getParameter("website"));
+        utenteDao.persist(utente);
+        aziendaDao.persist(azienda);
+     
+      }
 
-				// azienda.setUtente(utente);
+    } catch (Exception e) {
+      out.print("L'aggiunta utente è fallita!");
+    }
 
-				azienda.setUtenteEmail(request.getParameter("email"));
-				azienda.setNome(request.getParameter("Nome"));
-				azienda.setPartitaIVA(request.getParameter("partitaIva"));
-				azienda.setSede(request.getParameter("website"));
-
-				utenteDao.persist(utente);
-				aziendaDao.persist(azienda);
-
-			}
-
-		}catch (Exception e){
-			out.print("L'aggiunta utente è fallita!");
-		}
-
-		// System.out.println("Utente aggiunto con successo!");
-
-		// out.println("alert('Utente aggiunto con successo! Stai per essere
-		// reindirizzato alla dashboard!');");
-		response.sendRedirect("dashboardSegreteria.jsp");
-	}
+    // System.out.println("Utente aggiunto con successo!");
+    // out.println("alert('Utente aggiunto con successo! Stai per essere
+    // reindirizzato alla dashboard!');");
+    response.sendRedirect("dashboardSegreteria.jsp");
+  }
 }

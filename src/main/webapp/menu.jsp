@@ -89,7 +89,7 @@
                 <div class="user-profile">
                     <!-- User profile image -->
                     <% if (pathImmagineProfiloMENU != null && !("".equals(pathImmagineProfiloMENU))) { %>
-                    	<div class="profile-img"> <img src="<%=pathImmagineProfiloMENU%>" onerror="this.src='assets/images/logo-icon.png';" alt="" /> </div>
+                    	<div class="profile-img"> <img src="<%=pathImmagineProfiloMENU%>" onerror="this.src='assets/images/users/default.png';" alt="" /> </div>
                     <% } else { %>
                    		<div class="profile-img"> <img src="assets/images/logo-icon.png" alt="" /> </div>
                     <% } %>

@@ -175,14 +175,10 @@
 
 					<div class="row">
 						<div class="col-sm-4">
-							<div class="card wild-card">
-								<div class="col-md-8 col-lg-9 text-center"
-									style="margin: 0 auto;">
-									<img src="<%=u.getImgProfilo()%>" alt="user"
-										class="img-circle img-responsive">
-								</div>
-								<input type="file" placeholder="<%=u.getImgProfilo()%>"
-									class="form-control form-control-line" disabled>
+							<div class="profile-img">
+								<img class="imgProfiloUtenteCorrente img-responsive img-circle"
+									src="" onerror="this.src='assets/images/users/default.png';"
+									alt="" />
 							</div>
 						</div>
 

@@ -9,6 +9,7 @@ import it.unisa.libra.model.dao.IReportDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.model.dao.IUtenteDao;
 import it.unisa.libra.util.Actions;
+import it.unisa.libra.util.CheckUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
@@ -61,8 +62,14 @@ public class ReportStudenteServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.getWriter().write(BADREQUEST_MESS);
-    return;
+    if (CheckUtils.validAction(request)) {
+      if (request.getParameter(Actions.ACTION).equals(Actions.RS_NUM_REPORTS)) {
+        Long numReports = reportDao.getNumReports();
+        if (numReports != null) {
+          response.getWriter().write(numReports.toString());
+        }
+      }
+    }
   }
 
   /*

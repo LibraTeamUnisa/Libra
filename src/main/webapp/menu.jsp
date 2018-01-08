@@ -231,12 +231,4 @@
 			class="mdi mdi-power"></i></a>
 	</div>
 	<!-- End Bottom points-->
-	<script type="text/javascript">
-		var mostraImmagine = function() {
-			$.get("caricaImmagine?action=carica", function(data, status) {
-				$('#profiloImg').attr('src', atob(data));
-			});
-		}
-		mostraImmagine();
-	</script>
 </aside>

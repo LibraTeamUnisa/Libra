@@ -5,13 +5,13 @@
 <%
 	String emailUtente = (String) session.getAttribute("utenteEmail");
 %>
-<footer class="footer"> © Libra (Since 2018) </footer>
+<footer class="footer"> &copy; Libra (Since 2018) </footer>
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
-	var mostraImmagine = function() {
-		$.get("caricaImmagine?action=carica", function(data, status) {
-			$('#profiloImg').attr('src', atob(data));
-		});
-	}
-	mostraImmagine();
+		var mostraImmagine = function() {
+			$.get('caricaImmagine?action=mostra&email=<%=emailUtente%>', function(data, status) {
+				$('#profiloImg').attr('src', atob(data));
+			});
+		}
+		mostraImmagine();
 </script>

@@ -2,12 +2,10 @@ package it.unisa.libra.controller;
 
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.CheckUtils;
+import it.unisa.libra.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.sql.Timestamp;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 
 
@@ -34,67 +31,54 @@ public class CaricaImmagineServlet extends HttpServlet {
   @EJB
   private IUtenteDao utenteDao;
 
-  /** Default constructor. */
+  /*
+   * @see HttpServlet#HttpServlet()
+   */
   public CaricaImmagineServlet() {}
 
-  /**
-   * Questa servlet non fornisce alcun servizio tramite GET.
+  /*
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-    return;
+    File path = new File(FileUtils.BASE_PATH + FileUtils.PATH_IMG_PROFILO);
+    if (!path.exists()) {
+      path.mkdirs();
+    }
+    String action = request.getParameter("action"); // serve per mostrare
+    String file = request.getParameter("file"); // serve per upload
+    if (action != null && "mostra".equals(action)) {
+      // mostra
+      String email = request.getParameter("email");
+      if (CheckUtils.checkEmptiness(email)) {
+        // ok
+        Utente user = utenteDao.findById(Utente.class, email);
+        response.getWriter()
+            .write(FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, email + ".png"));
+      } else {
+        // errore
+        response.getWriter().write("errore");
+      }
+    } else if (file != null) {
+      // upload
+      String email = (String) request.getSession().getAttribute("utenteEmail");
+      Utente user = utenteDao.findById(Utente.class, email);
+      if (FileUtils.saveBase64ToFile(FileUtils.PATH_IMG_PROFILO, email + ".png", file)) {
+        response.getWriter().write("Salvataggio riuscito con successo");
+      }
+      user.setImgProfilo(FileUtils.PATH_IMG_PROFILO + email + ".png");
+      utenteDao.persist(user);
+    } else {
+      // errore
+      response.getWriter().write("errore");
+    }
   }
 
-  /**
-   * Gestisce il caricamento di un file in remoto.
-   * 
+  /*
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    HttpSession session = request.getSession();
-    String email = (String) session.getAttribute("utenteEmail");
-    Utente user = utenteDao.findById(Utente.class, email);
-
-    Part filePart = request.getPart("proPic");
-    String ext = filePart.getContentType().substring(6);
-
-    // return number of milliseconds since January 1, 1970, 00:00:00 GMT
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-    if (!filePart.getSubmittedFileName().equals("")) {
-      String p = System.getProperty("user.dir");
-      File file = new File(p + PATH2 + timestamp.getTime() + "." + ext);
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      user.setImgProfilo(p + PATH2 + timestamp.getTime() + "." + ext);
-      utenteDao.persist(user);
-      response.getWriter().write(IMG_SUCCESS);
-      response.sendRedirect("profilo.jsp");
-    } else {
-      response.getWriter().write(IMG_ERROR);
-      response.sendRedirect("errore.jsp");
-    }
-
+    doGet(request, response);
   }
-
-  /**
-   * Path necessaria per individuare la cartella dove caricare la nostra immagine.
-   */
-  // private static final String PATH = "../../Libra/data/Img/";
-  /**
-   * Path da salvare nel db per recuperare l'immagine salvata.
-   */
-  private static final String PATH2 = "/../../Libra/data/Img/";
-  /**
-   * Messaggio restituito nel caso in cui l'operazione fallisce.
-   */
-  private static final String IMG_ERROR = "Caricamento fallito!";
-  /**
-   * Messaggio restituito nel caso in cui l'operazione è stata completata con successo.
-   */
-  private static final String IMG_SUCCESS = "Caricamento riuscito!";
 }
-
-

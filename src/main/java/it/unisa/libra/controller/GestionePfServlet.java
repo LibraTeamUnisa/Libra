@@ -27,7 +27,7 @@ public class GestionePfServlet extends HttpServlet {
   /** Default constructor. */
   public GestionePfServlet() {}
 
-  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  /* @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     if (CheckUtils.validAction(request)) {
@@ -81,7 +81,7 @@ public class GestionePfServlet extends HttpServlet {
     }
   }
 
-  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
+  /* @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     if (request.getParameter(Actions.ACTION).equals(Actions.MODIFICA_STATO_TIROCINIO)) {

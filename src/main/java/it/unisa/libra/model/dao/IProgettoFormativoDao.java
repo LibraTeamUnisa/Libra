@@ -64,11 +64,13 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
    */
   public long countValutatiByAzienda(Azienda azienda);
 
+
   public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,
       String status);
 
   public Map<String, String> getTopAziendeFromNumStudenti(Date fromDate, Date toDate, String limit,
       String status);
+
 
   public Long getNumTirociniCompletati();
 

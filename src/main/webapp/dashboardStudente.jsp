@@ -46,7 +46,7 @@
 	
 	/* lista contenente tutte le proposte di progetto formativo */
 	List<ProgettoFormativo> listaProposteStudente = studente.getProgettiFormativi();
-	List<Feedback> listaFeedback = new ArrayList<Feedback>();
+	List<Feedback> listaDomande = new ArrayList<Feedback>();
 	List<Gruppo> listaGruppi = gruppoDAO.findAll(Gruppo.class);
 	for(Gruppo g : listaGruppi) {
 		if(g.getRuolo().contains(ruolo)) {
@@ -95,10 +95,7 @@
             <div class="container-fluid">
             	<div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-            	 		<h3 class="text-themecolor m-b-0 m-t-0">Home</h3>
-                 			<ol class="breadcrumb">
-                    			<li class="breadcrumb-item"><a href="dashboardStudente.jsp">Home</a></li>
-                    		</ol>
+            	 		
                     </div>
                 </div>
                 
@@ -156,25 +153,38 @@
      					<h4 class="card-title">Valutazioni</h4>
      					<table class="table table-responsive">
                     	<tbody>
+                    	<tr>
                     	<% 
                     	for(ProgettoFormativo pf : listaProposteStudente) {
-                			listaFeedback = pf.getFeedbacks();
-                    		for(Feedback fb: listaFeedback) {            			
-								if(!listaFeedback.isEmpty() && (permesso)) {
+                    		listaDomande = pf.getFeedbacks();
+                			List<Feedback> feedbackRicevuti= feedbackDAO.findByType(pf.getId(), "Azienda");
+                			List<Feedback> feedbackInviati= feedbackDAO.findByType(pf.getId(), "Studente");
+								if(!listaDomande.isEmpty() && (!feedbackRicevuti.isEmpty() && (permesso))) {
+		                    		Feedback feedbackRic = feedbackRicevuti.get(0);
 								%>
-								<tr>
 								<td>
 								<p align="center">
-								<a href="visualizzaValutazione.jsp?idPF=<%=pf.getId()%>">
+								<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf.getId()%>">
 								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
 								</a>
 								</p>
-								<p>Valutazione:<%= pf.getAzienda().getNome() %></p> 
+								<p>Valutazione da:<%= pf.getAzienda().getNome() %></p> 
 								<% 
 								} 
-                    		}
+								if(!listaDomande.isEmpty() && (!feedbackInviati.isEmpty() && (permesso))) {
+		                    		Feedback feedbackInv = feedbackInviati.get(0);
+								%>
+								<td>
+								<p align="center">
+								<a href="visualizzaValutazione.jsp?type=Studente&idPF=<%=pf.getId()%>">
+								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
+								</a>
+								</p>
+								<p>Valutazione a:<%= pf.getAzienda().getNome() %></p> 
+								<% 
+								}
                     	}
-                        if(listaFeedback.isEmpty()) {
+                        if(listaDomande.isEmpty()) {
                         	%> <tr><td>Nessuna valutazione ricevuta o inviata</td></tr> <%
                         }
                         %>

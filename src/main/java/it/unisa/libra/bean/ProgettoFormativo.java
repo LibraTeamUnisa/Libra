@@ -81,17 +81,17 @@ public class ProgettoFormativo implements Serializable {
   private Notifica notifica;
 
   // bi-directional many-to-one association to Azienda
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "aziendaEmail")
   private Azienda azienda;
 
   // bi-directional many-to-one association to Studente
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "studenteEmail")
   private Studente studente;
 
   // bi-directional many-to-one association to TutorInterno
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "tutorInternoEmail")
   private TutorInterno tutorInterno;
 

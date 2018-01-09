@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -55,6 +56,7 @@ public class Studente implements Serializable {
 
   // bi-directional one-to-one association to Utente
   @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+  @MapsId
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

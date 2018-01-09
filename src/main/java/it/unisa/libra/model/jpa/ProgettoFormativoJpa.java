@@ -421,6 +421,37 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     return q.getSingleResult();
   }
 
+  @Override
+  public List<Object[]> getPfDaRevisionareTutorInterno(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.findPFtutorInterno");
+    q.setParameter("tutorEmail", email);
+    return q.setMaxResults(10).getResultList();
+  }
+
+  @Override
+  public int getNumStudentiAttivi() {
+    int count =
+        ((Number) entityManager.createNamedQuery("ProgettoFormativo.countAttivi").getSingleResult())
+            .intValue();
+    return count;
+  }
+
+  @Override
+  public int getNumStudentiAssociati(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.countStudentiAssociati");
+    q.setParameter("tutorEmail", email);
+    int count = ((Number) q.getSingleResult()).intValue();
+    return count;
+  }
+
+  @Override
+  public int getPfTutor(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.countByTutorInterno");
+    q.setParameter("tutorEmail", email);
+    int count = ((Number) q.getSingleResult()).intValue();
+    return count;
+  }
+
   private String[] getAziendeFromString(String aziende) {
     if (!CheckUtils.checkEmptiness(aziende)) {
       return null;

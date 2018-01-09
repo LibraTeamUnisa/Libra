@@ -98,7 +98,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
-      // l'utente azienda � stato eliminato dalla segreteria durante questa esecuzione
+      // l'utente azienda e' stato eliminato dalla segreteria durante questa esecuzione
       // errorCode 422
       response.getWriter().write("Si e' verificato un errore");
       return;

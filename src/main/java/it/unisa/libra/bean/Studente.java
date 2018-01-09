@@ -61,7 +61,8 @@ public class Studente implements Serializable {
 
   public Studente() {}
 
-  public Studente(String nome, String cognome, String email, String imgProfilo) {
+  public Studente(String matricola, String nome, String cognome, String email, String imgProfilo) {
+    this.matricola = matricola;
     this.nome = nome;
     this.cognome = cognome;
     this.utenteEmail = email;

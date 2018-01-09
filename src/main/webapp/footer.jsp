@@ -12,8 +12,7 @@
 
 <script type="text/javascript">
 		var mostraImmagine = function() {
-			$.get('caricaImmagine?action=mostra&email=<%=emailUtente%>
-	', function(
+			$.get('caricaImmagine?action=mostra&email=<%=emailUtente%>', function(
 				data, status) {
 			$('img.imgProfiloUtenteCorrente').attr('src', atob(data));
 		});

@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * Servlet implementation class AutenticazioneServlet. Controller Class che gestisce l'aggiunta e la
  * modifica dei report periodici da parte dello Studente.
@@ -55,7 +56,8 @@ public class ReportStudenteServlet extends HttpServlet {
   /** Default constructor. */
   public ReportStudenteServlet() {}
 
-  /**
+
+  /*
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -70,7 +72,7 @@ public class ReportStudenteServlet extends HttpServlet {
     }
   }
 
-  /**
+  /*
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)

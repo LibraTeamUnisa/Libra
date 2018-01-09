@@ -131,7 +131,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
     List<Object[]> resultList =
         entityManager.createQuery(cq).setMaxResults(Integer.parseInt(limit)).getResultList();
-
     // Place results in map
     for (Object[] borderTypes : resultList) {
       results.put((String) borderTypes[1], ((Long) borderTypes[0]).toString());
@@ -163,7 +162,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     Root<ProgettoFormativo> pf = cq.from(ProgettoFormativo.class);
     Join<ProgettoFormativo, Azienda> join = pf.join("azienda");
     List<Predicate> listPred = new ArrayList<>();
-
     Expression<String> month =
         cb.concat(cb.function("MONTH", String.class, pf.get("dataInizio")), " ");
     month = cb.concat(month, cb.function("YEAR", String.class, pf.get("dataInizio")));
@@ -337,10 +335,10 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
         criteriaBuilder.countDistinct(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
     ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
     if (stati == null) {
-      return 0l;
+      return 0L;
     }
     if (stati.length == 0) {
-      return 0l;
+      return 0L;
     }
     List<Predicate> predicates = new ArrayList<Predicate>();
     for (int s : stati) {
@@ -427,7 +425,6 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     if (!CheckUtils.checkEmptiness(aziende)) {
       return null;
     }
-
     return aziende.split(" ");
   }
 

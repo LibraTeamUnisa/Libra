@@ -227,7 +227,7 @@
 									}
 							}else{
 					%>
-								<h4>Nessuna valutazione disponibile.</h4>
+								<h4>Nessun questionario da compilare.</h4>
 					<%
 							}
 						}

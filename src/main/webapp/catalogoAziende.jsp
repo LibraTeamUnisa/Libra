@@ -140,9 +140,18 @@
 										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
 							%>
 								<tr>
-									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
-											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png"
-											width="40" class="img-circle" /></a></td>
+									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>">
+										<img src="<%=utente.getImgProfilo()%>" alt="logo" width="40" class="img-circle" /></a>
+										<script>
+											var mostraImmagine = function() {
+												$.get('caricaImmagine?action=mostra&email=<%=a.getUtenteEmail()%>', function(
+													data, status) {
+												$('img.img-circle').attr('src', atob(data));
+											});
+											}
+											mostraImmagine();
+										</script>
+									</td>
 									<td><%=a.getNome() %></td>
 									<td><%=a.getSede() %></td>
 								</tr>

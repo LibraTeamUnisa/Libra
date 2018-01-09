@@ -16,8 +16,6 @@
 <%
 	String ruolo = (String)request.getSession().getAttribute("utenteRuolo");
 	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
-	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
-	Iterator<Studente> listaStudenti = studenteDao.findAll(Studente.class).iterator();
 	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 %>
 <!DOCTYPE html>
@@ -125,18 +123,14 @@
 							</thead>
 							<tbody>
 								<%
-								while(listaStudenti.hasNext()) {
-									Studente studente = listaStudenti.next();
+								String tutorInternoEmail = null;
+								if(ruolo.equals("TutorInterno"))
+									tutorInternoEmail = (String)request.getSession().getAttribute("utenteEmail");
+								
+								List<Studente> listStudente = studenteDao.getLastProgettoFormativoOfStudenti(tutorInternoEmail);
+								for(Studente studente:listStudente){
 									Utente utente = studente.getUtente();
-									ProgettoFormativo progettoFormativo; 
-									if(ruolo.equals("TutorInterno")) {
-										String tutorInternoEmail = (String)request.getSession().getAttribute("utenteEmail");
-										progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudenteAssociato(studente,tutorInternoEmail);
-										if(progettoFormativo==null)
-											continue;
-									} else {
-										progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-									}
+									ProgettoFormativo progettoFormativo = !CheckUtils.isNullOrEmpty(studente.getProgettiFormativi()) ? studente.getProgettiFormativi().get(0) : null; 
 								%>
 									<tr>
 										<td><a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=studente.getUtenteEmail()%>"><img src="<%=utente.getImgProfilo()%>" alt="user" width="40" class="img-circle"></a></td>
@@ -209,13 +203,6 @@
 	<!-- ============================================================== -->
 	<!-- This page plugins -->
 	<!-- ============================================================== -->
-	<!-- chartist chart -->
-	<script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
-	<script
-		src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-	<!-- Chart JS -->
-	<script src="assets/plugins/echarts/echarts-all.js"></script>
-	<script src="js/dashboard5.js"></script>
 	<!-- ============================================================== -->
 	<!-- Style switcher -->
 	<!-- ============================================================== -->

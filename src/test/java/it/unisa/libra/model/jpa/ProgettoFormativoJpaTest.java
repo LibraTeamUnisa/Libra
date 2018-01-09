@@ -304,4 +304,128 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     assertNotNull(lista);
   }
 
+
+  @Test
+  public void getPfDaRevisionareTutorInternoTest() {
+    ProgettoFormativo progettoFormativo = createPf();
+    
+    Utente t = new Utente();
+    t.setEmail("pippo@unisa.it");
+
+    
+    TutorInterno tutorInterno = new TutorInterno();
+    Date data = new Date();
+    data.setDate(3);
+    
+
+    Studente s = createStudenteObject("andrea@studenti.unisa.it");
+    s.setCognome("Verdi");
+    s.setNome("Mario");
+    
+    Azienda a = new Azienda();
+    a.setUtenteEmail("prova@gmail.com");
+    a.setNome("prova");
+    a.setUtente(new Utente());
+    a.getUtente().setEmail("prova@gmail.com");
+    
+    tutorInterno.setUtente(t);
+    tutorInterno.setUtenteEmail("pippo@unisa.it");
+    t.setTutorInterno(tutorInterno);
+    
+    progettoFormativo.setId(1);
+    progettoFormativo.setTutorInterno(tutorInterno);
+    progettoFormativo.setAmbito("Android");
+    progettoFormativo.setStato(StatoPf.VERIFICA_TUTOR);
+    progettoFormativo.setDataInvio(data);
+    progettoFormativo.setStudente(s);
+    progettoFormativo.setAzienda(a);
+    
+    
+    jpaA.persist(a);
+    jpaT.persist(tutorInterno);
+    jpaS.persist(s);
+    jpaP.persist(progettoFormativo);
+    List<Object[]> result = (List<Object[]>) jpaP.getPfDaRevisionareTutorInterno("pippo@unisa.it");
+    assertNotNull(result);
+    assertEquals("andrea@studenti.unisa.it", result.get(0)[0]);
+    assertEquals("prova", result.get(0)[1]);
+    assertEquals("Android", result.get(0)[2]);
+    assertEquals("Verdi", result.get(0)[3]);
+    assertEquals("Mario", result.get(0)[4]);
+    assertEquals(data, result.get(0)[5]);
+  }
+  
+  @Test
+  public void getNumStudentiAttiviTest() {
+    ProgettoFormativo progettoFormativo = new ProgettoFormativo();
+    progettoFormativo.setStato(StatoPf.VERIFICATO);
+    progettoFormativo.setId(3);
+    
+    jpaP.persist(progettoFormativo);
+   
+    int result = jpaP.getNumStudentiAttivi();
+    List<ProgettoFormativo> previsione = jpaP.findAll(ProgettoFormativo.class);
+    int count = 0;
+    
+    for(ProgettoFormativo p : previsione)
+    {
+      if(p.getStato()==StatoPf.VERIFICATO)
+       count++; 
+    }
+    
+    assertNotNull(result);
+    assertEquals(count,result);
+  }
+  
+  @Test
+  public void getNumStudentiAssociatiTest() {
+    Studente s = createStudenteObject("andrea@studenti.unisa.it");
+    s.setCognome("Verdi");
+    s.setNome("Mario");
+   
+    Utente t = new Utente();
+    t.setEmail("pippo@unisa.it");
+    TutorInterno tutorInterno = new TutorInterno();
+    tutorInterno.setUtente(t);
+    tutorInterno.setUtenteEmail("pippo@unisa.it");
+    t.setTutorInterno(tutorInterno);
+    
+    ProgettoFormativo progettoFormativo = createPf();
+    progettoFormativo.setId(1);
+    progettoFormativo.setTutorInterno(tutorInterno);
+    progettoFormativo.setAmbito("Android");
+    progettoFormativo.setStato(StatoPf.VERIFICA_TUTOR);
+    progettoFormativo.setStudente(s);
+    progettoFormativo.setTutorInterno(tutorInterno);
+    
+    jpaT.persist(tutorInterno);
+    jpaS.persist(s);
+    jpaP.persist(progettoFormativo);
+    int result = jpaP.getNumStudentiAssociati("pippo@unisa.it");
+    assertNotNull(result);
+    assertEquals(1,result);
+  }
+  
+  @Test
+  public void getPFTutorTest() {
+    Utente t = new Utente();
+    t.setEmail("pippo@unisa.it");
+    TutorInterno tutorInterno = new TutorInterno();
+    tutorInterno.setUtente(t);
+    tutorInterno.setUtenteEmail("pippo@unisa.it");
+    t.setTutorInterno(tutorInterno);
+    
+    ProgettoFormativo progettoFormativo = createPf();
+    progettoFormativo.setId(1);
+    progettoFormativo.setTutorInterno(tutorInterno);
+    progettoFormativo.setAmbito("Android");
+    progettoFormativo.setStato(StatoPf.VERIFICA_TUTOR);
+    progettoFormativo.setTutorInterno(tutorInterno);
+    
+    jpaT.persist(tutorInterno);
+    jpaP.persist(progettoFormativo);
+    int result = jpaP.getPfTutor("pippo@unisa.it");
+    assertNotNull(result);
+    assertEquals(1,result);
+  }
 }

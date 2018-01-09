@@ -24,8 +24,8 @@ import javax.persistence.OneToOne;
 @NamedQueries({@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a"),
     @NamedQuery(name = "Azienda.findName",
         query = "SELECT a FROM Azienda a WHERE a.nome=:nomeAzienda"),
-    @NamedQuery(name = "Azienda.count", query = "SELECT COUNT(a) FROM Azienda a")
-
+    @NamedQuery(name = "Azienda.count",
+        query = "SELECT COUNT(a) FROM Azienda a")
 })
 
 public class Azienda implements Serializable {

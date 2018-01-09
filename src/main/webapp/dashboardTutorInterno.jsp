@@ -116,7 +116,7 @@
                                         %>
                                         <tbody><tr>
                                                <td style="width:50px;">
-                                               	<a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=p[0]%>"><img src="###" alt="user" width="40" class="img-circle"></a>
+                                               	<a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=p[0]%>"> <span class="round"><%=((String)p[3]).charAt(0)%></span></a>
                                                </td>
                                                
                                                 <% 

@@ -314,7 +314,7 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     }
 
     @Override
-    public List<ProgettoFormativo> findUltime10() {
+    public List<Map<String,String>> findUltime10() {
       return null;
     }
 

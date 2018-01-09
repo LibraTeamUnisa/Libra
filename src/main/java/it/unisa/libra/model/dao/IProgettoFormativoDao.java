@@ -82,7 +82,7 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
 
   public List<ProgettoFormativo> getInOrdineCronologico();
 
-  public List<ProgettoFormativo> findUltime10();
+  public List<Map<String,String>> findUltime10();
 
   public List<Object[]> getPfDaRevisionareTutorInterno(String email);
 

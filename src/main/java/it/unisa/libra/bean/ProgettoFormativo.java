@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the progettoformativo database table.
  * 
@@ -40,7 +39,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
     @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",
-        query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+        query = "SELECT a.nome, s.cognome, s.nome, t.cognome, t.nome, p.ambito, p.dataInizio FROM ProgettoFormativo p JOIN p.azienda a JOIN p.studente s JOIN p.tutorInterno t WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),     
     @NamedQuery(name = "ProgettoFormativo.findPFtutorInterno",
     query = "SELECT s.utenteEmail,a.nome, p.ambito, s.cognome, s.nome, p.dataInvio FROM ProgettoFormativo p JOIN p.studente s JOIN p.azienda a JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail AND p.stato=2"),
     @NamedQuery(name = "ProgettoFormativo.count",

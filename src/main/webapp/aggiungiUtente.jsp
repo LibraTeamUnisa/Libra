@@ -94,7 +94,7 @@
 					</center>
 
 					<div id="formPresidente" style="display: block;">
-						<form action="GestioneUtenteServlet" method="post"
+						<form action="GestioneUtServlet" method="post"
 							class="form-horizontal form-material">
 							<input type="hidden" name="ruolo" value="Presidente">
 							<div class="row">
@@ -184,7 +184,7 @@
 
 					<div id="formTutorInterno" class="form-horizontal form-material"
 						style="display: none;">
-						<form action="GestioneUtenteServlet" method="post"
+						<form action="GestioneUtServlet" method="post"
 							class="form-horizontal form-material">
 							<input type="hidden" name="ruolo" value="TutorEsterno">
 							<div class="row">
@@ -260,7 +260,7 @@
 
 					<div id="formAzienda" class="form-horizontal form-material"
 						style="display: none;">
-						<form action="GestioneUtenteServlet" method="post"
+						<form action="GestioneUtServlet" method="post"
 							class="form-horizontal form-material">
 							<input type="hidden" name="ruolo" value="Azienda">
 							<div class="row">

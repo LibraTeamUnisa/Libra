@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GestioneUtenteServletTest {
+public class GestioneUtServletTest {
 
 	// Attributi della classe
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("libraTestPU");

@@ -100,6 +100,15 @@ public class ProgettoFormativo implements Serializable {
   private List<Report> reports;
 
   public ProgettoFormativo() {}
+  
+  public ProgettoFormativo(String nome, String cognome, String matricola, String imgProfilo) {
+    this.studente = new Studente();
+    this.studente.setNome(nome);
+    this.studente.setCognome(cognome);
+    this.studente.setMatricola(matricola);
+    this.studente.setUtente(new Utente());
+    this.studente.getUtente().setImgProfilo(imgProfilo);
+  }
 
   public int getId() {
     return this.id;

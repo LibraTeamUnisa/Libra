@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.BeforeClass;
@@ -27,6 +28,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   private static AziendaJpa jpaA;
   private static DomandaJpa jpaD;
   private static FeedbackJpa jpaF;
+  private static UtenteJpa jpaU;
 
   @BeforeClass
   public static void setUp() {
@@ -36,12 +38,14 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     jpaT = new TutorInternoJpa();
     jpaD = new DomandaJpa();
     jpaF = new FeedbackJpa();
+    jpaU = new UtenteJpa();
     jpaA.entityManager = em;
     jpaP.entityManager = em;
     jpaS.entityManager = em;
     jpaT.entityManager = em;
     jpaD.entityManager = em;
     jpaF.entityManager = em;
+    jpaU.entityManager = em;
   }
 
 
@@ -146,8 +150,28 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   @Test
   public void findByAziendaAndStatoTest() {
     ProgettoFormativo progettoFormativo = createPf();
+    
+    Studente stud = new Studente();
+    stud.setNome("nome");
+    stud.setCognome("cognome");
+    stud.setMatricola("0909090909");
+    stud.setUtenteEmail("mail@mail.it");
+    List<ProgettoFormativo> pfs = new ArrayList<>();
+    pfs.add(progettoFormativo);
+    stud.setProgettiFormativi(pfs);
+    Utente ut = new Utente();
+    ut.setEmail("mail@mail.it");
+    ut.setImgProfilo("stringImgProfilo");
+    ut.setStudente(stud);
+    stud.setUtente(ut);
+    progettoFormativo.setStudente(stud);
+    
     progettoFormativo.setStato(StatoPf.INVIATO);
+    
+    jpaU.persist(ut);
+    jpaS.persist(stud);
     jpaP.persist(progettoFormativo);
+
     List<ProgettoFormativo> result =
         jpaP.findByAziendaAndStato(progettoFormativo.getAzienda(), null);
     assertTrue(result.isEmpty());
@@ -159,6 +183,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
         new int[] {StatoPf.VERIFICA_PRESIDENTE});
     assertTrue(result.isEmpty());
     ProgettoFormativo progettoFormativo2 = createPf();
+    progettoFormativo2.setStudente(stud);
     progettoFormativo2.setStato(StatoPf.INVIATO);
     jpaP.persist(progettoFormativo2);
     result =

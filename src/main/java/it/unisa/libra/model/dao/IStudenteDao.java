@@ -19,4 +19,6 @@ public interface IStudenteDao extends IGenericDao<Studente, String> {
   public List<Studente> listaOrdinataPerCognome();
 
   int contaOccorrenze();
+  
+  public List<Studente> getLastProgettoFormativoOfStudenti(String tutorInternoEmail);
 }

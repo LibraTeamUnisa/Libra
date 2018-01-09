@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import it.unisa.libra.bean.Azienda;
@@ -299,7 +300,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     ProgettoFormativo test2 = createPFconData(data);
     jpaP.persist(test);
     jpaP.persist(test2);
-    List<ProgettoFormativo> lista = jpaP.findUltime10();
+    List<Map<String, String>> lista = jpaP.findUltime10();
     assertNotNull(lista);
   }
 

@@ -116,6 +116,11 @@ public class Azienda implements Serializable {
     this.progettiFormativi = progettiFormativi;
   }
 
+  /**
+   * 
+   * @param progettiFormativi
+   * @return
+   */
   public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().add(progettiFormativi);
     progettiFormativi.setAzienda(this);
@@ -123,6 +128,11 @@ public class Azienda implements Serializable {
     return progettiFormativi;
   }
 
+  /**
+   * 
+   * @param progettiFormativi
+   * @return
+   */
   public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().remove(progettiFormativi);
     progettiFormativi.setAzienda(null);

@@ -13,7 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * Definisce un manager di email che si occupa delle impostazioni delle proprietà e dell'invio di un
+ * Definisce un manager di email che si occupa delle impostazioni delle proprieta' e dell'invio di un
  * messaggio di posta elettronica ad un server SMTP che provvede ad effettuare il delivery ad un
  * destinatario opportunamente specificato.
  * 
@@ -43,7 +43,7 @@ public class EmailManager {
   }
 
   /**
-   * Consente di specificare una nuova email per l'autenticazione presso il server SMTP specificato
+   * Consente di specificare una nuova email per l'autenticazione presso il server SMTP specificato.
    * 
    * @param newEmail Indica la nuova email per l'autenticazione
    */
@@ -52,7 +52,7 @@ public class EmailManager {
   }
 
   /**
-   * Consente di specificare una nuova password per l'autenticazione presso il server SMTP
+   * Consente di specificare una nuova password per l'autenticazione presso il server SMTP.
    * specificato
    * 
    * @param newPassword Indica la nuova password per l'autenticazione
@@ -62,12 +62,12 @@ public class EmailManager {
   }
 
   /**
-   * Imposta le proprietà necessarie del messaggion necessarie per effettuarne l'invio.
+   * Imposta le proprieta' necessarie del messaggion necessarie per effettuarne l'invio.
    * 
-   * @param smtpHost Indica il server SMTP a cui effettuare il delivery del messaggio
-   * @param port Indica la porta SSL a cui recapitare il messaggio
-   * @param authEnabled Indica se è necessario usare l'autenticazione
-   * @return Restituisce un oggetto che incapsula le proprietà impostate
+   * @param smtpServer Indica il server SMTP a cui effettuare il delivery del messaggio
+   * @param smtpPort Indica la porta SSL a cui recapitare il messaggio
+   * @param authEnabled Indica se e' necessario usare l'autenticazione
+   * @return Restituisce un oggetto che incapsula le proprieta' impostate
    */
   public Properties setUpProperties(Boolean authEnabled) {
     Properties props = new Properties();
@@ -98,19 +98,19 @@ public class EmailManager {
   }
 
   /**
-   * Effettua la creazione, secondo le proprietà impostate, del messaggio di posta elettronica da
+   * Effettua la creazione, secondo le proprieta' impostate, del messaggio di posta elettronica da
    * inviare ad una specifica destinazione.
    * 
-   * @param props Indica le proprietà di delivery del messaggio da creare
+   * @param props Indica le proprieta' di delivery del messaggio da creare
    * @param auth Indica l'autenticazione,se richiesta, presso il server SMTP
    * @param from Indica il mittente del messaggio
    * @param to Indica il destinatario del messaggio
    * @param subject Indica l'oggetto del messaggio
    * @param body Indica il corpo del messaggio
    * @return Restituisce l'oggetto messaggio creato secondo i parametri specificati
-   * @throws MessagingException Viene lanciata nel caso in cui non è possibilie strutturare e
+   * @throws MessagingException Viene lanciata nel caso in cui non e' possibile strutturare e
    *         formattare il messaggio da inviare.
-   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non è possibile effettuare
+   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non e' possibile effettuare
    *         il parse dell'indirizzo di posta elettronica di destinazione.
    */
   public MimeMessage setUpMessage(Properties props, Authenticator auth, String to, String subject,
@@ -137,9 +137,9 @@ public class EmailManager {
    * @param to Indica il destinatario dell'email
    * @param subject Indica l'oggetto dell'email
    * @param body Indica il messaggio contenuto nell'email
-   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non è possibile effettuare
+   * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non e'possibile effettuare
    *         il parse dell' indirizzo di posta elettronica di destinazione.
-   * @throws MessagingException Viene lanciata nel caso in cui non è possibilie strutturare e
+   * @throws MessagingException Viene lanciata nel caso in cui non e' possibilie strutturare e
    *         formattare il messaggio da inviare.
    */
   public void sendEmail(MimeMessage message)

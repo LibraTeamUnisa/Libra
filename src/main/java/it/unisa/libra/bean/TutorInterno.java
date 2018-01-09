@@ -39,11 +39,11 @@ public class TutorInterno implements Serializable {
   private String nome;
 
   // bi-directional many-to-one association to ProgettoFormativo
-  @OneToMany(mappedBy = "tutorInterno", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "tutorInterno",fetch=FetchType.LAZY)
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

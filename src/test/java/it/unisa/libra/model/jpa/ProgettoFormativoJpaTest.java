@@ -194,6 +194,8 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     Azienda a = new Azienda();
     a.setUtenteEmail("prova@gmail.com");
     a.setNome("prova");
+    a.setUtente(new Utente());
+    a.getUtente().setEmail("prova@gmail.com");
     jpaA.persist(a);
 
     ProgettoFormativo toPersist = new ProgettoFormativo();
@@ -205,6 +207,8 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     Azienda a = new Azienda();
     a.setUtenteEmail("prova@gmail.com");
     a.setNome("prova");
+    a.setUtente(new Utente());
+    a.getUtente().setEmail("prova@gmail.com");
     jpaA.persist(a);
 
     ProgettoFormativo toPersist = new ProgettoFormativo();

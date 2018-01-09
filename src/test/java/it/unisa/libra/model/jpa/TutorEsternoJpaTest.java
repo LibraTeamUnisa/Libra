@@ -71,6 +71,7 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     Azienda a = new Azienda();
     a.setUtenteEmail(u.getEmail());
     a.setNome("prova");
+    a.setUtente(u);
     AziendaJpa aziendaJpa = new AziendaJpa();
     aziendaJpa.entityManager = em;
     aziendaJpa.persist(a);
@@ -91,6 +92,7 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     utenteJpa.persist(u);
     Azienda a = new Azienda();
     a.setUtenteEmail(u.getEmail());
+    a.setUtente(u);
     AziendaJpa aziendaJpa = new AziendaJpa();
     aziendaJpa.entityManager = em;
     aziendaJpa.persist(a);
@@ -114,6 +116,7 @@ public class TutorEsternoJpaTest extends GenericJpaTest {
     utenteJpa.persist(u);
     Azienda a = new Azienda();
     a.setUtenteEmail(u.getEmail());
+    a.setUtente(u);
     AziendaJpa aziendaJpa = new AziendaJpa();
     aziendaJpa.entityManager = em;
     aziendaJpa.persist(a);

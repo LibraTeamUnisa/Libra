@@ -2,10 +2,11 @@ package it.unisa.libra.controller;
 
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.TutorInterno;
-
+import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.ITutorInternoDao;
 import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,17 +51,22 @@ public class CaricaPpfServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
+	  
     String email = (String)request.getSession().getAttribute("utenteEmail");
-    Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
     String ruolo = (String)request.getSession().getAttribute("utenteRuolo");
+    Utente user = utenteDao.findById(Utente.class, email);
+    File path = new File(FileUtils.BASE_PATH + FileUtils.PATH_PDF_PROGETTOF);
+    
+    if(!path.exists()) {
+    	path.mkdirs();
+    }
     
     /* sezione servlet eseguita solo se l'utente che ha inviato la proposta 
      * possiede il ruolo di Azienda */
     if (ruolo.contains("Azienda")) {
-      String nomeFile = "PF" + (String)request.getParameter("studente") + ".pdf";
       String p = System.getProperty("user.dir");
-      File file = new File(p + "/../../Libra/data/ProgettiFormativi/" + nomeFile); 
-
+      
+      
       /* copio il contenuto del file caricato in un nuovo file */
       InputStream filestream = filePart.getInputStream();
       Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);

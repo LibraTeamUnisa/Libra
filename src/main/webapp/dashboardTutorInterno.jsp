@@ -112,7 +112,7 @@
                                         </thead>
                                         
                                         <%if(progettiDaRevisionare!=null && progettiDaRevisionare.size()>0){
-                                        	for(Object[] p : progettiDaRevisionare){ 
+                                        	for(Object[] p : progettiDaRevisionare){
                                         %>
                                         <tbody><tr>
                                                <td style="width:50px;">

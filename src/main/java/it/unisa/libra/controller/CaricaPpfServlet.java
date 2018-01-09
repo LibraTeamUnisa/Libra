@@ -68,8 +68,8 @@ public class CaricaPpfServlet extends HttpServlet {
       
       
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
       String note = (String)request.getParameter("note");
       String ambito = (String)request.getParameter("ambito");
@@ -92,7 +92,7 @@ public class CaricaPpfServlet extends HttpServlet {
 
       proposta.setAmbito(ambito);
       proposta.setNote(note);
-      proposta.setDocumento(file.getPath());
+      //proposta.setDocumento(file.getPath());
       proposta.setStato(1);
 
       Date today = new Date();
@@ -130,8 +130,8 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(filePath); 
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
       String note = (String)request.getParameter("note");
       String tutorInternoMail = request.getParameter("tutorInterno");
@@ -170,8 +170,8 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(filePath);
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
       progetto.setStato(3); 
 
       propostaDao.persist(progetto);
@@ -204,8 +204,8 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(filePath);
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
       progetto.setStato(4);
 
       /* memorizzo la proposta nel database */

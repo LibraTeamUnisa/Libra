@@ -160,12 +160,12 @@
                     	for(ProgettoFormativo pf : listaProposteStudente) {
                 			listaFeedback = pf.getFeedbacks();
                     		for(Feedback fb: listaFeedback) {            			
-								if(!listaFeedback.isEmpty()) {
+								if(!listaFeedback.isEmpty() && (permesso)) {
 								%>
 								<tr>
 								<td>
 								<p align="center">
-								<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf.getId()%>">
+								<a href="visualizzaValutazione.jsp?idPF=<%=pf.getId()%>">
 								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
 								</a>
 								</p>

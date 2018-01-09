@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,7 +46,7 @@ public class Utente implements Serializable {
   private Azienda azienda;
 
   // bi-directional many-to-one association to Notifica
-  @OneToMany(mappedBy = "utente")
+  @OneToMany(fetch = FetchType.LAZY,mappedBy = "utente")
   private List<Notifica> notifiche;
 
   // bi-directional one-to-one association to Presidente

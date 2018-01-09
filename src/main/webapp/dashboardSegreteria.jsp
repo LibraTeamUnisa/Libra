@@ -29,18 +29,6 @@
 	int numeroProgettiFormativi = progettoFormativoDao.contaOccorrenze();
 	int numeroAziende = aziendaDao.contaOccorrenze();
 	
-	List<Studente> listaStudenti = new ArrayList<Studente>();
-	
-	if(request.getSession().getAttribute("utenteRuolo")!=null && 
-			request.getSession().getAttribute("utenteRuolo").equals("Segreteria")){
-		if(request.getSession().getAttribute("listaStudentiPerSegreteria")==null){
-			listaStudenti = studenteDao.listaOrdinataPerCognome();
-			request.getSession().setAttribute("listaStudentiPerSegreteria", listaStudenti);
-		}else{
-			listaStudenti = (ArrayList<Studente>)request.getSession().getAttribute("listaStudentiPerSegreteria");
-		}
-	}
-	
 %>
 
 <!DOCTYPE html>
@@ -131,7 +119,9 @@
                                             </tr>
                                         </thead>
                                         
-                                        <%if(listaStudenti!=null && listaStudenti.size()>0){
+                                        <%
+                                        List<Studente> listaStudenti = studenteDao.listaOrdinataPerCognome();
+                                        if(listaStudenti!=null && listaStudenti.size()>0){
                                         	for(Studente iscritto:listaStudenti){
                                         %>
                                         <tbody><tr>

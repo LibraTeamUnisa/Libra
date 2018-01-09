@@ -4,7 +4,7 @@
 <%@ page import="it.unisa.libra.bean.Studente, it.unisa.libra.bean.ProgettoFormativo" %> 
 
 <% 
-Studente s = (Studente) request.getAttribute("studente");
+Studente studente = (Studente) request.getAttribute("studente");
 ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormativo");
 
 %>
@@ -94,10 +94,10 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 	                        <div class="card">
 	                            <div class="card-block align-self-center">
 	                                <div class="text-center"> 
-		                                <img src="<%= s.getUtente().getImgProfilo() %>" class="img-circle" width="150">
+		                                <img src="<%= studente.getUtente().getImgProfilo() %>" class="img-circle" width="150">
 		                                <br>
 		                                <div class="card-block">
-		                                    <h4 class="card-title"><%= s.getNome() %> <%= s.getCognome() %></h4>
+		                                    <h4 class="card-title"><%= studente.getNome() %> <%= studente.getCognome() %></h4>
 		                                    <p class="card-text text-center">Stato <br> 
 		                                    <% if (pf != null) {
 		                                    	int stato = pf.getStato();
@@ -123,16 +123,16 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 	                            <div class="card-block">
 	                                <h3 class="card-title">Dati personali</h3>
 	                                <p class="card-text">
-	                                	<strong>Nome:</strong><span class="text-muted"> <%= s.getNome() %></span> <br>
-	                                	<strong>Cognome:</strong><span class="text-muted"> <%= s.getCognome() %></span> <br>
-	                                	<strong>Data di nascita:</strong><span class="text-muted"> <%= s.getDataDiNascita() %></span> <br>
-	                                	<strong>Matricola:</strong><span class="text-muted"> <%= s.getMatricola() %></span>
+	                                	<strong>Nome:</strong><span class="text-muted"> <%= studente.getNome() %></span> <br>
+	                                	<strong>Cognome:</strong><span class="text-muted"> <%= studente.getCognome() %></span> <br>
+	                                	<strong>Data di nascita:</strong><span class="text-muted"> <%= studente.getDataDiNascita() %></span> <br>
+	                                	<strong>Matricola:</strong><span class="text-muted"> <%= studente.getMatricola() %></span>
 	                                </p>
 	                                <h3 class="card-title">Contatti</h3>
 	                                <p class="card-text">
-	                                	<strong>Indirizzo:</strong><span class="text-muted"> <%= s.getUtente().getIndirizzo() %></span> <br>
-	                                	<strong>E-mail:</strong><span class="text-muted"> <%= s.getUtente().getEmail() %></span> <br>
-	                                	<strong>Telefono:</strong><span class="text-muted">  <%= s.getUtente().getTelefono() %></span> 
+	                                	<strong>Indirizzo:</strong><span class="text-muted"> <%= studente.getUtente().getIndirizzo() %></span> <br>
+	                                	<strong>E-mail:</strong><span class="text-muted"> <%= studente.getUtente().getEmail() %></span> <br>
+	                                	<strong>Telefono:</strong><span class="text-muted">  <%= studente.getUtente().getTelefono() %></span> 
 	                                </p>
 	                            </div>
 	                        </div>
@@ -186,11 +186,11 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 		                           			<button type="button" class="btn btn-outline-primary" id="sa-warning-tirocinio"> Conferma</button>		                				
 		                				</div>
 	                				</div>
-	                				<% } else { %>
+	                				<% } else if ((request.getSession().getAttribute("utenteRuolo").equals("TutorInterno") && pf.getStato() == 2) || (request.getSession().getAttribute("utenteRuolo").equals("Presidente") && pf.getStato() == 3)) { %>
 	                				<div class="row card-block">
 		                				<div class="col-md-4">
-		                					<button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button>
-		                					<button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button>
+		                					<a href="caricaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button></a>
+		                					<a href="rifiutaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button></a>
 		                				</div>
 		                				<div class="col-md-8">
 		                				</div>

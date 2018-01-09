@@ -66,10 +66,10 @@
 		session = request.getSession();
 		String email = (String) session.getAttribute("utenteEmail");
 		String ruolo = (String) session.getAttribute("utenteRuolo");
-		
+
 		if (email == null || ruolo == null) {
 			response.sendRedirect("/Libra/errore.jsp");
-		}	
+		}
 	%>
 
 
@@ -102,10 +102,18 @@
 
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Visualizza Profilo</h3>
+						<h3 class="text-themecolor m-b-0 m-t-0">Modifica Profilo</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
 							<li class="breadcrumb-item active">Profilo</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 				</div>
@@ -175,15 +183,10 @@
 
 					<div class="row">
 						<div class="col-sm-4">
-							<div class="card wild-card">
-								<div class="col-md-8 col-lg-9 text-center"
-									style="margin: 0 auto;">
-									<img
-										src="<%=u.getImgProfilo()%>" alt="user"
-										class="img-circle img-responsive">
-								</div>
-								<input type="file" placeholder="<%=u.getImgProfilo()%>"
-									class="form-control form-control-line" disabled>
+							<div class="profile-img">
+								<img class="imgProfiloUtenteCorrente img-responsive img-circle"
+									src="" onerror="this.src='assets/images/users/default.png';"
+									alt="" />
 							</div>
 						</div>
 

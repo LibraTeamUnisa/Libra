@@ -3,8 +3,10 @@ package it.unisa.libra.bean;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
@@ -24,9 +26,10 @@ public class Segreteria implements Serializable {
 
   private String giorniDiRicevimento;
 
-  
+
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+  @MapsId
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

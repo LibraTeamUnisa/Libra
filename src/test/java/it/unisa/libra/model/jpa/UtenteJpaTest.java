@@ -6,7 +6,7 @@ import org.junit.Test;
 import it.unisa.libra.bean.Utente;
 
 public class UtenteJpaTest extends GenericJpaTest {
-  
+
   private static UtenteJpa utentejpa;
 
   @Before
@@ -25,7 +25,7 @@ public class UtenteJpaTest extends GenericJpaTest {
     assertNotNull(toCheck);
     assertEquals(utente.getEmail(), toCheck.getEmail());
   }
-  
+
   @Test
   public void findByNameSuccessTest() {
     Utente a1 = createObject2();
@@ -45,14 +45,14 @@ public class UtenteJpaTest extends GenericJpaTest {
 
     return toPersist;
   }
-  
+
   private Utente createObject2() {
 
     Utente utente = new Utente();
     utente.setEmail("test2@email.it");
     utente.setPassword("testpwd");
-    
+
     return utente;
   }
-  
+
 }

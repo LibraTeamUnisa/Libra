@@ -23,11 +23,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Profilo personale">
 <meta name="author" content="Andrea Lorenzo">
+<script src="assets/plugins/jquery/jquery.min.js"></script>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="assets/images/favicon.png">
 <title>Libra</title>
 <!-- Bootstrap Core CSS -->
+<link rel="stylesheet"
+	href="assets/plugins/dropify/dist/css/dropify.min.css">
 <link href="assets/plugins/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- chartist CSS -->
@@ -106,10 +109,19 @@
 
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Visualizza Profilo</h3>
+						<h3 class="text-themecolor m-b-0 m-t-0">Modifica Profilo</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-							<li class="breadcrumb-item active">Profilo</li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active"><a href="profilo.jsp">Profilo</a></li>
+							<li class="breadcrumb-item active">Modifica Profilo</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 				</div>
@@ -182,15 +194,20 @@
 							<div class="card wild-card">
 								<div class="col-md-8 col-lg-9 text-center"
 									style="margin: 0 auto;">
-									<a href="#"><img
-										src="assets/images/users/<%=u.getImgProfilo()%>" alt="user"
-										class="img-circle img-responsive"></a>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title">Carica Immagine</h4>
+											<input type="file" id="input-file-now" class="dropify" /> <br>
+											<div class="row">
+												<div class="col-sm-2"></div>
+												<button type="submit" onclick="caricaImmagine()"
+													class="btn btn-success">Modifica immagine</button>
+											</div>
+										</div>
+									</div>
 								</div>
-								<input type="file" placeholder="<%=u.getImgProfilo()%>"
-									class="form-control form-control-line" accept="image/*">
 							</div>
 						</div>
-
 
 						<!--STUDENTE-->
 						<%
@@ -264,6 +281,24 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
 									<div class="col-sm-10"></div>
 									<div class="row">
 										<div class="col-sm-4">
@@ -294,13 +329,17 @@
 												class="form-control form-control-line" name="numeroTelefono">
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
-										<div class="col-sm-4"></div>
-										<div class="col-sm-2"></div>
-										<div class="col-sm-4">
-											<br> <input type="submit" value="Modifica">
-										</div>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/profilo.jsp"><button type="button"
+												class="btn btn-danger">Annulla</button></a>
+										<div class="col-sm-1"></div>
+										<button type="submit" class="btn btn-success">Modifica</button>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/modificaPassword.jsp"><button
+												type="button" class="btn btn-success">Modifica
+												Password</button></a>
 									</div>
 								</form>
 								<br>
@@ -373,6 +412,24 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="col-md-12">Indirizzo:</label>
@@ -412,13 +469,17 @@
 												class="form-control form-control-line" name="sito">
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
-										<div class="col-sm-4"></div>
-										<div class="col-sm-2"></div>
-										<div class="col-sm-4">
-											<br> <input type="submit" value="Modifica">
-										</div>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/profilo.jsp"><button type="button"
+												class="btn btn-danger">Annulla</button></a>
+										<div class="col-sm-1"></div>
+										<button type="submit" class="btn btn-success">Modifica</button>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/modificaPassword.jsp"><button
+												type="button" class="btn btn-success">Modifica
+												Password</button></a>
 									</div>
 								</form>
 								<br>
@@ -490,250 +551,317 @@
 										<b>Contatti:</b>
 									</h3>
 									<br>
-							</div>
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Indirizzo:</label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" placeholder="<%=u.getIndirizzo()%>"
-										class="form-control form-control-line" name="indirizzo">
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Email:</label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" placeholder="<%=u.getEmail()%>"
-										class="form-control form-control-line" disabled>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Telefono:</label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" placeholder="<%=u.getTelefono()%>"
-										class="form-control form-control-line" name="numeroTelefono">
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Sito:</label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" placeholder="<%=p.getLinkSito()%>"
-										class="form-control form-control-line" name="sito">
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Ufficio:</label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" placeholder="<%=p.getUfficio()%>"
-										class="form-control form-control-line" name="ufficio">
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Ricevimento:</label>
-								</div>
-								<div class="col-sm-5">
-									<address>
-										<%
-											Map<String, String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
-												for (Entry<String, String> entry : giorniAp.entrySet()) {
-										%>
-										<input type="text"
-											placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-											class="form-control form-control-line" name="ricevimento">
-										<br>
-										<%
-											}
-										%>
-									</address>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4"></div>
-								<div class="col-sm-2"></div>
-								<div class="col-sm-4">
-									<br> <input type="submit" value="Modifica">
-								</div>
-							</div>
-							</form>
-							<br>
-						</div>
-					</div>
-					<%
-						}
-					%>
-
-					<!--SEGRETERIA-->
-					<%
-						ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
-						Segreteria seg = segreteriaDao.findById(Segreteria.class, email);
-
-						if (ruolo.equals("Segreteria")) {
-					%>
-					<div class="col-sm-8">
-						<div class="card wild-card" style="color: black; font-size: 120%;">
-							<form action="modificaProfilo" method="post">
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Ricevimento:</label>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Indirizzo:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getIndirizzo()%>"
+												class="form-control form-control-line" name="indirizzo">
+										</div>
 									</div>
 
-									<div class="col-sm-5">
-
-										<address>
-											<%
-												Map<String, String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
-													for (Entry<String, String> entry : giorniAp.entrySet()) {
-											%>
-											<input type="text"
-												placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-												class="form-control form-control-line" name="ricevimento">
-											<br>
-											<%
-												}
-											%>
-										</address>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Email:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getEmail()%>"
+												class="form-control form-control-line" disabled>
+										</div>
 									</div>
-								</div>
 
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Sito:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=p.getLinkSito()%>"
+												class="form-control form-control-line" name="sito">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Ufficio:</label>
+										</div>
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=p.getUfficio()%>"
+												class="form-control form-control-line" name="ufficio">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Ricevimento:</label>
+										</div>
+										<div class="col-sm-5">
+											<address>
+												<%
+													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
+														for (Entry<String, String> entry : giorniAp.entrySet()) {
+												%>
+												<input type="text"
+													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+													class="form-control form-control-line" name="ricevimento">
+												<br>
+												<%
+													}
+												%>
+											</address>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-sm-1"></div>
+										<a href="/Libra/profilo.jsp"><button type="button"
+												class="btn btn-danger">Annulla</button></a>
+										<div class="col-sm-1"></div>
+										<button type="submit" class="btn btn-success">Modifica</button>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/modificaPassword.jsp"><button
+												type="button" class="btn btn-success">Modifica
+												Password</button></a>
+									</div>
+								</form>
 								<br>
-								<h3 class="box-title m-b-0">
-									<b>Contatti:</b>
-								</h3>
-								<br>
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Indirizzo:</label>
-									</div>
-
-									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getIndirizzo()%>"
-											class="form-control form-control-line" name="indirizzo">
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Email:</label>
-									</div>
-
-									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getEmail()%>"
-											class="form-control form-control-line" disabled>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Telefono:</label>
-									</div>
-
-									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getTelefono()%>"
-											class="form-control form-control-line" name="numeroTelefono">
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-4"></div>
-									<div class="col-sm-2"></div>
-									<div class="col-sm-4">
-										<br> <input type="submit" value="Modifica">
-									</div>
-								</div>
-							</form>
-							<br>
+							</div>
 						</div>
-					</div>
-					<%
-						}
-					%>
+						<%
+							}
+						%>
 
-					<!--AZIENDA-->
-					<%
-						IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-						Azienda a = aziendaDao.findById(Azienda.class, email);
+						<!--SEGRETERIA-->
+						<%
+							ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
+							Segreteria seg = segreteriaDao.findById(Segreteria.class, email);
 
-						if (ruolo.equals("Azienda")) {
-					%>
-					<div class="col-sm-8">
-						<div class="card wild-card" style="color: black; font-size: 120%;">
-							<br>
-							<form action="modificaProfilo" method="post">
-								<h3 class="box-title m-b-0">
-									<b>Contatti:</b>
-								</h3>
+							if (ruolo.equals("Segreteria")) {
+						%>
+						<div class="col-sm-8">
+							<div class="card wild-card"
+								style="color: black; font-size: 120%;">
+								<form action="modificaProfilo" method="post">
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Ricevimento:</label>
+										</div>
+
+										<div class="col-sm-5">
+
+											<address>
+												<%
+													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+														for (Entry<String, String> entry : giorniAp.entrySet()) {
+												%>
+												<input type="text"
+													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
+													class="form-control form-control-line" name="ricevimento">
+												<br>
+												<%
+													}
+												%>
+											</address>
+										</div>
+									</div>
+
+									<br>
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
+									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Indirizzo:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getIndirizzo()%>"
+												class="form-control form-control-line" name="indirizzo">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Email:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getEmail()%>"
+												class="form-control form-control-line" disabled>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-sm-1"></div>
+										<a href="/Libra/profilo.jsp"><button type="button"
+												class="btn btn-danger">Annulla</button></a>
+										<div class="col-sm-1"></div>
+										<button type="submit" class="btn btn-success">Modifica</button>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/modificaPassword.jsp"><button
+												type="button" class="btn btn-success">Modifica
+												Password</button></a>
+									</div>
+								</form>
 								<br>
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Sede:</label>
-									</div>
-
-									<div class="col-sm-5">
-										<input type="text" placeholder="<%=a.getSede()%>"
-											class="form-control form-control-line" name="sede">
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-4">
-										<label class="col-md-12">Telefono:</label>
-									</div>
-
-									<div class="col-sm-5">
-										<input type="text" placeholder="<%=u.getTelefono()%>"
-											class="form-control form-control-line" name="numeroTelefono">
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-4"></div>
-									<div class="col-sm-2"></div>
-									<div class="col-sm-4">
-										<br> <input type="submit" value="Modifica">
-									</div>
-								</div>
-							</form>
-							<br>
-
+							</div>
 						</div>
-					</div>
+						<%
+							}
+						%>
 
-					<%
-						}
-					%>
+						<!--AZIENDA-->
+						<%
+							IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+							Azienda a = aziendaDao.findById(Azienda.class, email);
+
+							if (ruolo.equals("Azienda")) {
+						%>
+						<div class="col-sm-8">
+							<div class="card wild-card"
+								style="color: black; font-size: 120%;">
+								<br>
+								<form action="modificaProfilo" method="post">
+									<h3 class="box-title m-b-0">
+										<b>Contatti:</b>
+									</h3>
+									<br>
+									<%
+										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
+											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
+											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											if (erroreLunghezzaIndirizzo != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
+									<%
+										} else if (erroreLunghezzaTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaTelefono%></label>
+									<%
+										} else if (erroreFormatoTelefono != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										}
+									%>
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Sede:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=a.getSede()%>"
+												class="form-control form-control-line" name="sede">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="col-md-12">Telefono:</label>
+										</div>
+
+										<div class="col-sm-5">
+											<input type="text" placeholder="<%=u.getTelefono()%>"
+												class="form-control form-control-line" name="numeroTelefono">
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-sm-1"></div>
+										<a href="/Libra/profilo.jsp"><button type="button"
+												class="btn btn-danger">Annulla</button></a>
+										<div class="col-sm-1"></div>
+										<button type="submit" class="btn btn-success">Modifica</button>
+										<div class="col-sm-1"></div>
+										<a href="/Libra/modificaPassword.jsp"><button
+												type="button" class="btn btn-success">Modifica
+												Password</button></a>
+									</div>
+								</form>
+								<br>
+
+							</div>
+						</div>
+
+						<%
+							}
+						%>
+					</div>
 				</div>
-			</div>
 
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- footer -->
+			<!-- ============================================================== -->
+			<%@ include file="footer.jsp"%>
+			<!-- ============================================================== -->
+			<!-- End footer -->
+			<!-- ============================================================== -->
 		</div>
 		<!-- ============================================================== -->
-		<!-- End Container fluid  -->
+		<!-- End Page wrapper  -->
 		<!-- ============================================================== -->
-		<!-- ============================================================== -->
-		<!-- footer -->
-		<!-- ============================================================== -->
-		<%@ include file="footer.jsp"%>
-		<!-- ============================================================== -->
-		<!-- End footer -->
-		<!-- ============================================================== -->
-	</div>
-	<!-- ============================================================== -->
-	<!-- End Page wrapper  -->
-	<!-- ============================================================== -->
 	</div>
 	<!-- ============================================================== -->
 	<!-- End Wrapper -->
@@ -741,7 +869,7 @@
 	<!-- ============================================================== -->
 	<!-- All Jquery -->
 	<!-- ============================================================== -->
-	<script src="assets/plugins/jquery/jquery.min.js"></script>
+
 	<!-- Bootstrap tether Core JavaScript -->
 	<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -769,6 +897,50 @@
 	<!-- Style switcher -->
 	<!-- ============================================================== -->
 	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+	<script src="assets/plugins/dropify/dist/js/dropify.min.js"></script>
+	<script>
+    $(document).ready(function() {
+        // Basic
+        $('.dropify').dropify();
+        // Translated
+        $('.dropify-fr').dropify({
+            messages: {
+                default: 'Glissez-déposez un fichier ici ou cliquez',
+                replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                remove: 'Supprimer',
+                error: 'Désolé, le fichier trop volumineux'
+            }
+        });
+        // Used events
+        var drEvent = $('#input-file-events').dropify();
+        drEvent.on('dropify.beforeClear', function(event, element) {
+            return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+        });
+        drEvent.on('dropify.afterClear', function(event, element) {
+            alert('File deleted');
+        });
+        drEvent.on('dropify.errors', function(event, element) {
+            console.log('Has Errors');
+        });
+        var drDestroy = $('#input-file-to-destroy').dropify();
+        drDestroy = drDestroy.data('dropify')
+        $('#toggleDropify').on('click', function(e) {
+            e.preventDefault();
+            if (drDestroy.isDropified()) {
+                drDestroy.destroy();
+            } else {
+                drDestroy.init();
+            }
+        })
+    });
+    var caricaImmagine = function(){
+    	var base64 = $(".dropify-render img[src]").attr("src");
+    	$.get("caricaImmagine?file=" + btoa(base64), function(data, status){
+    		console.log(data);
+    	});
+    	window.location.href = '/Libra/profilo.jsp';
+    }
+    </script>
 </body>
 
 </html>

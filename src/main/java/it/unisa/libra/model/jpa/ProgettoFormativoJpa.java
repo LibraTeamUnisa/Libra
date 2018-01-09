@@ -1,5 +1,6 @@
 package it.unisa.libra.model.jpa;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -308,11 +309,24 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
   }
 
   @Override
-  public List<ProgettoFormativo> findUltime10() {
-    TypedQuery<ProgettoFormativo> q = entityManager
-        .createNamedQuery("ProgettoFormativo.findUltimeDieci", ProgettoFormativo.class);
+  public List<Map<String,String>> findUltime10() {
+    List<Map<String,String>> list = new ArrayList<>();
+    Query q = entityManager
+        .createNamedQuery("ProgettoFormativo.findUltimeDieci");
     q.setParameter("today", new Date());
-    return q.getResultList();
+    
+    List<Object[]> result = q.setMaxResults(10).getResultList();
+    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    for(Object[] obj : result) {
+      Map<String,String> map = new HashMap<>();
+      map.put("azienda", (String)obj[0]);
+      map.put("studente", ((String)obj[1])+" "+((String)obj[2]));
+      map.put("tutor", ((String)obj[3])+" "+((String)obj[4]));
+      map.put("ambito", (String)obj[5]);
+      map.put("dataInizio", formatter.format((Date)obj[6]));
+      list.add(map);
+    }
+    return list;
   }
 
   @Override

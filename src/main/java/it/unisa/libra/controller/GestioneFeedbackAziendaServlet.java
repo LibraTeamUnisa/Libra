@@ -50,7 +50,7 @@ public class GestioneFeedbackAziendaServlet extends HttpServlet {
 
   /**
    * Questo metodo ha la funzione di persistere un oggetto Feedback. In Particolare controlla se la
-   * domanda è di tipo valutativa o se riguarda una descrizione in merito all'esperienza.
+   * domanda e' di tipo valutativa o se riguarda una descrizione in merito all'esperienza.
    * 
    * @param: HttpSerlvletRequest request: oggetto request della serlvet.
    * @param: Domanda domanda: oggetto contenente l'id necessario ad associare la valutazione alla

@@ -52,7 +52,15 @@
 				<div class="card-block">
 					<form class="form-horizontal form-material" id="loginform"
 						method="post">
-						<h3 class="box-title m-b-20">Login</h3>
+						<!-- Logo icon -->
+						<b> <img src="assets/images/logo-icon.png" alt="homepage"
+							class="light-logo" />
+						</b>
+						<!--End Logo icon -->
+						<!-- Logo text -->
+						<span> <img src="assets/images/logo-text.png"
+							class="light-logo" alt="homepage" /></span>
+						<h3 class="box-title m-b-20"></h3>
 						<div class="form-group ">
 							<div class="col-xs-12">
 								<input id="email" class="form-control" type="email" required
@@ -93,8 +101,8 @@
 							<div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
 
 							</div>
-					</div>
-						</div>
+					    </div>
+						
 						<div class="form-group m-b-0">
 							<div class="col-sm-12 text-center">
 								<p>
@@ -105,11 +113,9 @@
 						</div>
 
 					</form>
-
 				</div>
 			</div>
 		</div>
-
 	</section>
 	<!-- ============================================================== -->
 	<!-- End Wrapper -->

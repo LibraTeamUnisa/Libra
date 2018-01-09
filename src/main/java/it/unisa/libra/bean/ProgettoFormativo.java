@@ -39,9 +39,17 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
     @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",
-        query = "SELECT a.nome, s.cognome, s.nome, t.cognome, t.nome, p.ambito, p.dataInizio FROM ProgettoFormativo p JOIN p.azienda a JOIN p.studente s JOIN p.tutorInterno t WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+        query = "SELECT a.nome, s.cognome, s.nome, t.cognome, t.nome, p.ambito, p.dataInizio FROM ProgettoFormativo p JOIN p.azienda a JOIN p.studente s JOIN p.tutorInterno t WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),     
+    @NamedQuery(name = "ProgettoFormativo.findPFtutorInterno",
+    query = "SELECT s.utenteEmail,a.nome, p.ambito, s.cognome, s.nome, p.dataInvio FROM ProgettoFormativo p JOIN p.studente s JOIN p.azienda a JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail AND p.stato=2"),
     @NamedQuery(name = "ProgettoFormativo.count",
-        query = "SELECT COUNT(p) FROM ProgettoFormativo p")})
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p"),
+    @NamedQuery(name = "ProgettoFormativo.countAttivi",
+    query = "SELECT COUNT(p) FROM ProgettoFormativo p  WHERE p.stato = 4"),
+    @NamedQuery(name = "ProgettoFormativo.countStudentiAssociati",
+    query = "SELECT COUNT(DISTINCT s.utenteEmail) FROM ProgettoFormativo p JOIN p.studente s JOIN p.tutorInterno t WHERE t.utenteEmail=:tutorEmail"),
+    @NamedQuery(name = "ProgettoFormativo.countByTutorInterno",
+    query = "SELECT COUNT(p) FROM ProgettoFormativo p JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail")})
 
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -99,6 +107,15 @@ public class ProgettoFormativo implements Serializable {
   private List<Report> reports;
 
   public ProgettoFormativo() {}
+  
+  public ProgettoFormativo(String nome, String cognome, String matricola, String imgProfilo) {
+    this.studente = new Studente();
+    this.studente.setNome(nome);
+    this.studente.setCognome(cognome);
+    this.studente.setMatricola(matricola);
+    this.studente.setUtente(new Utente());
+    this.studente.getUtente().setImgProfilo(imgProfilo);
+  }
 
   public int getId() {
     return this.id;

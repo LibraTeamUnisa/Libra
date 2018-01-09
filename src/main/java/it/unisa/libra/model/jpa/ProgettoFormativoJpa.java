@@ -5,6 +5,7 @@ import it.unisa.libra.bean.Domanda;
 import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.CheckUtils;
 import java.text.DateFormat;
@@ -374,24 +375,31 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
   @Override
   public List<ProgettoFormativo> findByAziendaAndStato(Azienda azienda, int... stati) {
-    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
-    CriteriaQuery<ProgettoFormativo> criteriaQuery =
-        criteriaBuilder.createQuery(ProgettoFormativo.class);
-    Metamodel metaModel = super.entityManager.getMetamodel();
-    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
-    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
-    criteriaQuery.select(pf);
-    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
-    if (stati == null) {
+    
+     if (stati == null) {
       return new ArrayList<ProgettoFormativo>();
     }
     if (stati.length == 0) {
       return new ArrayList<ProgettoFormativo>();
     }
+    
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<ProgettoFormativo> criteriaQuery =
+        criteriaBuilder.createQuery(ProgettoFormativo.class);
+    
+    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
+    
+    Join<ProgettoFormativo, Studente> join = pf.join("studente");
+    Join<Studente, Utente> joinUt = join.join("utente");
+    
+    criteriaQuery.multiselect(join.get("nome"), join.get("cognome"), join.get("matricola"), joinUt.get("imgProfilo"));
+    
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+   
     List<Predicate> predicates = new ArrayList<Predicate>();
     for (int s : stati) {
       Predicate p =
-          criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("stato")), s);
+          criteriaBuilder.equal(pf.get("stato"), s);
       predicates.add(p);
     }
     Predicate predicateStato = criteriaBuilder.or(predicates.toArray(new Predicate[] {}));
@@ -400,10 +408,10 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
             criteriaBuilder
                 .and(
                     (criteriaBuilder.equal(
-                        pf.get(ProgettoFormativo_.getSingularAttribute("azienda")), aziendaParam)),
+                        pf.get("azienda"), aziendaParam)),
                     predicateStato));
     criteriaQuery
-        .orderBy(criteriaBuilder.desc(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
+        .orderBy(criteriaBuilder.desc(pf.get("id")));
     TypedQuery<ProgettoFormativo> q = super.entityManager.createQuery(criteriaQuery);
     q.setParameter(aziendaParam, azienda);
     return q.getResultList();
@@ -432,6 +440,37 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
     q.setParameter(aziendaParam, azienda);
     return q.getSingleResult();
+  }
+
+  @Override
+  public List<Object[]> getPfDaRevisionareTutorInterno(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.findPFtutorInterno");
+    q.setParameter("tutorEmail", email);
+    return q.setMaxResults(10).getResultList();
+  }
+
+  @Override
+  public int getNumStudentiAttivi() {
+    int count =
+        ((Number) entityManager.createNamedQuery("ProgettoFormativo.countAttivi").getSingleResult())
+            .intValue();
+    return count;
+  }
+
+  @Override
+  public int getNumStudentiAssociati(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.countStudentiAssociati");
+    q.setParameter("tutorEmail", email);
+    int count = ((Number) q.getSingleResult()).intValue();
+    return count;
+  }
+
+  @Override
+  public int getPfTutor(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.countByTutorInterno");
+    q.setParameter("tutorEmail", email);
+    int count = ((Number) q.getSingleResult()).intValue();
+    return count;
   }
 
   private String[] getAziendeFromString(String aziende) {

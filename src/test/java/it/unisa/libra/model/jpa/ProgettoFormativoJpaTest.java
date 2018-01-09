@@ -275,7 +275,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     ProgettoFormativo test2 = createPFconData(data);
     jpaP.persist(test);
     jpaP.persist(test2);
-    List<Map<String,String>> lista = jpaP.findUltime10();
+    List<Map<String, String>> lista = jpaP.findUltime10();
     assertNotNull(lista);
   }
 

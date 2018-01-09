@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -40,7 +41,8 @@ public class Azienda implements Serializable {
   private String sede;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+  @MapsId
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

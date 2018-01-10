@@ -135,7 +135,6 @@
 
 					</div>
 				</div>
-
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->
@@ -167,17 +166,13 @@
 																		$(
 																				"#modalMessage")
 																				.text(
-																						"L'operazione &egrave; avvenuta correttamente");
+																						"L'operazione e' avvenuta correttamente");
+																	
 																	} else {
-																		$(
-																				"#modalMessage")
-																				.text(
-																						data);
-																	}
-																	$(
-																			"#modalResult")
-																			.modal(
-																					'show');
+																		$("#modalMessage").text("Non e' stato possibile eseguire l'operazione, Riprovare");
+																}
+																	
+																	$("#modalResult").modal('show');
 																});
 											});
 						})

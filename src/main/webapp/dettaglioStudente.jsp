@@ -2,10 +2,15 @@
     pageEncoding="ISO-8859-1"%>
 
 <%@ page import="it.unisa.libra.bean.Studente, it.unisa.libra.bean.ProgettoFormativo" %> 
+<%@ page import="java.util.Base64"%>
+<%@ page import="it.unisa.libra.util.FileUtils" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 <% 
 Studente studente = (Studente) request.getAttribute("studente");
 ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormativo");
+DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 %>
 
@@ -81,20 +86,35 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
             <!-- ============================================================== -->
             <div class="container-fluid">
             	<div class="row page-titles">
-                    <div class="col-md-12 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Dettaglio Studente</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dettaglio Studente</li>
-                        </ol>
-                    </div>
-                </div>
+					<div class="col-md-6 col-8 align-self-center">
+						<h3 class="text-themecolor m-b-0 m-t-0">Dettaglio Studente</h3>
+						<ol class="breadcrumb">
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active">Dettaglio Studente</li>
+							<%
+								}
+							%>
+						</ol>
+					</div>
+				</div>
             	<div class="row">
 	             	<div class="col-md-4">
 	                        <div class="card">
 	                            <div class="card-block align-self-center">
 	                                <div class="text-center"> 
-		                                <img src="<%= studente.getUtente().getImgProfilo() %>" class="img-circle" width="150">
+	                                	<%
+		                                	String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, studente.getUtente().getImgProfilo());
+											String img="";
+											if(path != null){
+												img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+											}
+	                                	%>
+		                                <img src="<%if(path != null){%><%=img%><%}else{%>assets/images/users/default.png<%}%>" class="img-circle" width="150">
 		                                <br>
 		                                <div class="card-block">
 		                                    <h4 class="card-title"><%= studente.getNome() %> <%= studente.getCognome() %></h4>
@@ -102,16 +122,16 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 		                                    <% if (pf != null) {
 		                                    	int stato = pf.getStato();
 		                                     	if (stato == 0 || stato == 1 || stato == 2 || stato == 3) { %>
-		                                    <button type="button" class="btn btn-rounded btn-sm btn-warning">In attesa</button></p>
+		                                    <span class="label label-warning">In attesa</span></p>
 		                                    <% } else if (stato == 4) { %>
-		                                    <button type="button" class="btn btn-rounded btn-sm btn-primary">Verificato</button></p>
+		                                    <span class="label label-primary">Verificato</span></p>
 		                                    <% } else if (stato == 5) { %>
-		                                    <button type="button" class="btn btn-rounded btn-sm btn-success">Approvato</button></p>
+		                                    <span class="label label-success">Approvato</span></p>
 		                                   	<% } else if (stato == 6) { %>
-		                                    <button type="button" class="btn btn-rounded btn-sm btn-danger">Rifiutato</button></p>
+		                                    <span class="label label-danger">Rifiutato</span></p>
                                				<% } 
                                				} else {%>
-		                                    <button type="button" class="btn btn-rounded btn-sm btn-info">Disponibile</button></p>
+		                                    <span class="label label-info">Disponibile</span></p>
 											<% } %>
                                			</div>
                                		</div>
@@ -125,7 +145,7 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 	                                <p class="card-text">
 	                                	<strong>Nome:</strong><span class="text-muted"> <%= studente.getNome() %></span> <br>
 	                                	<strong>Cognome:</strong><span class="text-muted"> <%= studente.getCognome() %></span> <br>
-	                                	<strong>Data di nascita:</strong><span class="text-muted"> <%= studente.getDataDiNascita() %></span> <br>
+	                                	<strong>Data di nascita:</strong><span class="text-muted"> <%= formatter.format(studente.getDataDiNascita()) %></span> <br>
 	                                	<strong>Matricola:</strong><span class="text-muted"> <%= studente.getMatricola() %></span>
 	                                </p>
 	                                <h3 class="card-title">Contatti</h3>
@@ -143,7 +163,7 @@ ProgettoFormativo pf = (ProgettoFormativo) request.getAttribute("progettoFormati
 	                		<div class="card">
 	                			<div class="card-block">
 	                				<h3 class="card-title">Proposta di Progetto Formativo</h3>
-	                				<% if (pf != null) { %>
+	                				<% if (pf != null && pf.getStato()!=0) { %>
 	                				<div class="row card-block">
 		                				<div class="col-md-2">
 			                				<p class="card-text text-center">

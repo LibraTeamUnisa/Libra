@@ -1,6 +1,7 @@
 package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -151,7 +152,7 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   @Test
   public void findByAziendaAndStatoTest() {
     ProgettoFormativo progettoFormativo = createPf();
-    
+
     Studente stud = new Studente();
     stud.setNome("nome");
     stud.setCognome("cognome");
@@ -166,9 +167,9 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     ut.setStudente(stud);
     stud.setUtente(ut);
     progettoFormativo.setStudente(stud);
-    
+
     progettoFormativo.setStato(StatoPf.INVIATO);
-    
+
     jpaU.persist(ut);
     jpaS.persist(stud);
     jpaP.persist(progettoFormativo);
@@ -308,30 +309,30 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
   @Test
   public void getPfDaRevisionareTutorInternoTest() {
     ProgettoFormativo progettoFormativo = createPf();
-    
+
     Utente t = new Utente();
     t.setEmail("pippo@unisa.it");
 
-    
+
     TutorInterno tutorInterno = new TutorInterno();
     Date data = new Date();
     data.setDate(3);
-    
+
 
     Studente s = createStudenteObject("andrea@studenti.unisa.it");
     s.setCognome("Verdi");
     s.setNome("Mario");
-    
+
     Azienda a = new Azienda();
     a.setUtenteEmail("prova@gmail.com");
     a.setNome("prova");
     a.setUtente(new Utente());
     a.getUtente().setEmail("prova@gmail.com");
-    
+
     tutorInterno.setUtente(t);
     tutorInterno.setUtenteEmail("pippo@unisa.it");
     t.setTutorInterno(tutorInterno);
-    
+
     progettoFormativo.setId(1);
     progettoFormativo.setTutorInterno(tutorInterno);
     progettoFormativo.setAmbito("Android");
@@ -339,8 +340,8 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     progettoFormativo.setDataInvio(data);
     progettoFormativo.setStudente(s);
     progettoFormativo.setAzienda(a);
-    
-    
+
+
     jpaA.persist(a);
     jpaT.persist(tutorInterno);
     jpaS.persist(s);
@@ -354,42 +355,41 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     assertEquals("Mario", result.get(0)[4]);
     assertEquals(data, result.get(0)[5]);
   }
-  
+
   @Test
   public void getNumStudentiAttiviTest() {
     ProgettoFormativo progettoFormativo = new ProgettoFormativo();
     progettoFormativo.setStato(StatoPf.VERIFICATO);
     progettoFormativo.setId(3);
-    
+
     jpaP.persist(progettoFormativo);
-   
+
     int result = jpaP.getNumStudentiAttivi();
     List<ProgettoFormativo> previsione = jpaP.findAll(ProgettoFormativo.class);
     int count = 0;
-    
-    for(ProgettoFormativo p : previsione)
-    {
-      if(p.getStato()==StatoPf.VERIFICATO)
-       count++; 
+
+    for (ProgettoFormativo p : previsione) {
+      if (p.getStato() == StatoPf.VERIFICATO)
+        count++;
     }
-    
+
     assertNotNull(result);
-    assertEquals(count,result);
+    assertEquals(count, result);
   }
-  
+
   @Test
   public void getNumStudentiAssociatiTest() {
     Studente s = createStudenteObject("andrea@studenti.unisa.it");
     s.setCognome("Verdi");
     s.setNome("Mario");
-   
+
     Utente t = new Utente();
     t.setEmail("pippo@unisa.it");
     TutorInterno tutorInterno = new TutorInterno();
     tutorInterno.setUtente(t);
     tutorInterno.setUtenteEmail("pippo@unisa.it");
     t.setTutorInterno(tutorInterno);
-    
+
     ProgettoFormativo progettoFormativo = createPf();
     progettoFormativo.setId(1);
     progettoFormativo.setTutorInterno(tutorInterno);
@@ -397,15 +397,15 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     progettoFormativo.setStato(StatoPf.VERIFICA_TUTOR);
     progettoFormativo.setStudente(s);
     progettoFormativo.setTutorInterno(tutorInterno);
-    
+
     jpaT.persist(tutorInterno);
     jpaS.persist(s);
     jpaP.persist(progettoFormativo);
     int result = jpaP.getNumStudentiAssociati("pippo@unisa.it");
     assertNotNull(result);
-    assertEquals(1,result);
+    assertEquals(1, result);
   }
-  
+
   @Test
   public void getPFTutorTest() {
     Utente t = new Utente();
@@ -414,18 +414,104 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     tutorInterno.setUtente(t);
     tutorInterno.setUtenteEmail("pippo@unisa.it");
     t.setTutorInterno(tutorInterno);
-    
+
     ProgettoFormativo progettoFormativo = createPf();
     progettoFormativo.setId(1);
     progettoFormativo.setTutorInterno(tutorInterno);
     progettoFormativo.setAmbito("Android");
     progettoFormativo.setStato(StatoPf.VERIFICA_TUTOR);
     progettoFormativo.setTutorInterno(tutorInterno);
-    
+
     jpaT.persist(tutorInterno);
     jpaP.persist(progettoFormativo);
     int result = jpaP.getPfTutor("pippo@unisa.it");
     assertNotNull(result);
-    assertEquals(1,result);
+    assertEquals(1, result);
+  }
+
+  @Test
+  public void getStudentiByAziendaEmptyTest() {
+    Map<String,String> mapAziende = jpaP.getTopAziendeFromNumStudenti("30", "10", "5");
+    assertNotNull(mapAziende);
+    assertTrue(!mapAziende.isEmpty());
+  }
+  
+  @Test
+  public void getStudentiByAziendaOkTest() {
+    jpaA.persist(createAzienda("aziendaX"));
+    jpaP.persist(createProgettoFormativo("aziendaX",4));
+    Map<String,String> mapAziende = jpaP.getTopAziendeFromNumStudenti("30", "10", null);
+    assertNotNull(mapAziende);
+    assertFalse(mapAziende.isEmpty());
+    assertEquals(mapAziende.get("aziendaX"),"1");
+  }
+  
+  @Test
+  public void getNumTirociniCompletatiEmptyTest() {
+    Long numCompletati = jpaP.getNumTirociniCompletati();
+    assertEquals(numCompletati,new Long(0));
+  }
+  
+  @Test
+  public void countByAziendaAndDateEmptyTest() {
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,null,null,null);
+    assertTrue(!list.isEmpty());
+  }
+  
+  @Test
+  public void countByAziendaAndDateTirIniziatiTest() {
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,null,"true",null);
+    assertTrue(!list.isEmpty());
+  }
+  
+  @Test
+  public void countByAziendaAndDateTirFinitiTest() {
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,null,"false",null);
+    assertTrue(list.isEmpty());
+  }
+  
+  @Test
+  public void countByAziendaAndDateTirIniziatiRagSocTest() {
+    jpaA.persist(createAzienda("aziendaEnded"));
+    jpaP.persist(createProgettoFormativo("aziendaEnded",4));
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,"1","true","aziendaEnded");
+    assertTrue(!list.isEmpty());
+  }
+  
+  @Test
+  public void getTabellaValutazioniEmptyTest() {
+    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null, null, null, null);
+    assertTrue(!list.isEmpty());
+  }
+  
+  @Test
+  public void getTabellaValutazioniTirIniziatiTest() {
+    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null,null,"true",null);
+    assertTrue(list.isEmpty());
+  }
+  
+  @Test
+  public void getTabellaValutazioniTirFinitiTest() {
+    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null,null,"false",null);
+    assertTrue(list.isEmpty());
+  }
+  
+  private ProgettoFormativo createProgettoFormativo(String azienda,int stato) {
+    ProgettoFormativo pf = new ProgettoFormativo();
+    pf.setStato(stato);
+    pf.setDataInizio(new Date());
+    pf.setAzienda(createAzienda(azienda));
+    return pf;
+  }
+  
+  private Azienda createAzienda(String azienda) {
+    Azienda az = new Azienda();
+    az.setNome(azienda);
+    az.setUtenteEmail(azienda+"@email.it");
+    
+    Utente ut = new Utente();
+    ut.setEmail(azienda+"@email.it");
+    az.setUtente(ut);
+    return az;
   }
 }

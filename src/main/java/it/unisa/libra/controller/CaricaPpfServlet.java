@@ -2,6 +2,12 @@ package it.unisa.libra.controller;
 
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.TutorInterno;
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.model.dao.ITutorInternoDao;
+import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.FileUtils;
+
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.ITutorInternoDao;
 import it.unisa.libra.model.dao.IUtenteDao;
@@ -46,6 +52,20 @@ public class CaricaPpfServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+	  
+    String email = (String)request.getSession().getAttribute("utenteEmail");
+    String ruolo = (String)request.getSession().getAttribute("utenteRuolo");
+    Utente user = utenteDao.findById(Utente.class, email);
+    File path = new File(FileUtils.BASE_PATH + FileUtils.PATH_PDF_PROGETTOF);
+    
+    if(!path.exists()) {
+    	path.mkdirs();
+    }
+    
+    /* sezione servlet eseguita solo se l'utente che ha inviato la proposta 
+     * possiede il ruolo di Azienda */
+    if (ruolo.contains("Azienda")) {
+    String p = System.getProperty("user.dir");
     String email = (String) request.getSession().getAttribute("utenteEmail");
     Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
     String ruolo = (String) request.getSession().getAttribute("utenteRuolo");
@@ -60,8 +80,8 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(p + "/../../Libra/data/ProgettiFormativi/" + nomeFile);
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
       String note = (String) request.getParameter("note");
       String ambito = (String) request.getParameter("ambito");
@@ -84,7 +104,7 @@ public class CaricaPpfServlet extends HttpServlet {
 
       proposta.setAmbito(ambito);
       proposta.setNote(note);
-      proposta.setDocumento(file.getPath());
+      //proposta.setDocumento(file.getPath());
       proposta.setStato(1);
 
       Date today = new Date();
@@ -122,8 +142,8 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(filePath);
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
       String note = (String) request.getParameter("note");
       String tutorInternoMail = request.getParameter("tutorInterno");
@@ -162,6 +182,10 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(filePath);
 
       /* copio il contenuto del file caricato in un nuovo file */
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      progetto.setStato(3); 
+
       InputStream filestream = filePart.getInputStream();
       Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
       progetto.setStato(3);
@@ -196,8 +220,8 @@ public class CaricaPpfServlet extends HttpServlet {
       File file = new File(filePath);
 
       /* copio il contenuto del file caricato in un nuovo file */
-      InputStream filestream = filePart.getInputStream();
-      Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      //InputStream filestream = filePart.getInputStream();
+      //Files.copy(filestream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
       progetto.setStato(4);
 
       /* memorizzo la proposta nel database */

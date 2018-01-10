@@ -18,12 +18,13 @@
 <%@page import="it.unisa.libra.bean.Permesso"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="org.hibernate.Hibernate"%>
 
 <%
 	String var; /* stringa utilizzata per il controllo dello stato della proposta di progetto formativo */
 	int stato = -1;
-	int i = 0;
-	Boolean flag = false;
+	Boolean trovato = false;
+	Boolean permesso = false;
 	
 	SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -34,6 +35,8 @@
 	IUtenteDao utenteDAO= (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
 	
 	Studente studente = studenteDAO.findById(Studente.class,(String)session.getAttribute("utenteEmail")); 
+	String ruolo = (String)session.getAttribute("utenteRuolo");
+	Azienda azienda = new Azienda();
 	
 	/* carico dal database l'ultima proposta caricata dallo studente */
 	ProgettoFormativo lastProgettoFormativo = progettoFormativoDAO.getLastProgettoFormativoByStudente(studente);
@@ -42,20 +45,20 @@
 	if(lastProgettoFormativo != null) stato = lastProgettoFormativo.getStato();	
 	
 	/* lista contenente tutte le proposte di progetto formativo */
-	List<ProgettoFormativo> listaProposte = progettoFormativoDAO.findAll(ProgettoFormativo.class);
-	List<ProgettoFormativo> listaProposteStudente = new ArrayList<ProgettoFormativo>();
-	List<Feedback> listaFeedback = feedbackDAO.findAll(Feedback.class);
-	
-	/*controllo tutti i pf relativi allo studente*/
-	for(ProgettoFormativo pf: listaProposte) {
-		String mail = pf.getStudente().getUtenteEmail();
-		if(mail != null) {
-			if(mail.contains(studente.getUtenteEmail()) && (pf.getStato() != 0))
-			{
-				listaProposteStudente.add(pf);
+	List<ProgettoFormativo> listaProposteStudente = studente.getProgettiFormativi();
+	List<Feedback> listaDomande = new ArrayList<Feedback>();
+	List<Gruppo> listaGruppi = gruppoDAO.findAll(Gruppo.class);
+	for(Gruppo g : listaGruppi) {
+		if(g.getRuolo().contains(ruolo)) {
+			List<Permesso> listaPermessi = g.getPermessi();
+			for(Permesso pm : listaPermessi) {
+				if(pm.getTipo().contains("ricevuti")) {
+					permesso = true;
+				}
 			}
 		}
-	}				
+	}
+	
 %>
 
 <!DOCTYPE html>
@@ -92,10 +95,7 @@
             <div class="container-fluid">
             	<div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-            	 		<h3 class="text-themecolor m-b-0 m-t-0">Home</h3>
-                 			<ol class="breadcrumb">
-                    			<li class="breadcrumb-item"><a href="dashboardStudente.jsp">Home</a></li>
-                    		</ol>
+            	 		
                     </div>
                 </div>
                 
@@ -153,57 +153,40 @@
      					<h4 class="card-title">Valutazioni</h4>
      					<table class="table table-responsive">
                     	<tbody>
+                    	<tr>
                     	<% 
-                    	for(ProgettoFormativo pf: listaProposteStudente) {
+                    	for(ProgettoFormativo pf : listaProposteStudente) {
+                    		listaDomande = pf.getFeedbacks();
                 			List<Feedback> feedbackRicevuti= feedbackDAO.findByType(pf.getId(), "Azienda");
                 			List<Feedback> feedbackInviati= feedbackDAO.findByType(pf.getId(), "Studente");
-							boolean control = false;
-							String ruolo = (String)session.getAttribute("utenteRuolo");
-							List<Gruppo> listaGruppi = gruppoDAO.findAll(Gruppo.class);
-							if(listaGruppi != null) {
-								for(Gruppo g : listaGruppi) {		
-									List<Permesso> listaPermessi = g.getPermessi();
-									if((!listaPermessi.isEmpty()) && (g.getRuolo().contains(ruolo))) {
-										for(Permesso p : listaPermessi) {
-											if(p.getTipo().contains("ricevuti")) {
-												control = true;
-											}
-										}
-									}
+								if(!listaDomande.isEmpty() && (!feedbackRicevuti.isEmpty() && (permesso))) {
+		                    		Feedback feedbackRic = feedbackRicevuti.get(0);
+								%>
+								<td>
+								<p align="center">
+								<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf.getId()%>">
+								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
+								</a>
+								</p>
+								<p>Valutazione da:<%= pf.getAzienda().getNome() %></p> 
+								<% 
+								} 
+								if(!listaDomande.isEmpty() && (!feedbackInviati.isEmpty() && (permesso))) {
+		                    		Feedback feedbackInv = feedbackInviati.get(0);
+								%>
+								<td>
+								<p align="center">
+								<a href="visualizzaValutazione.jsp?type=Studente&idPF=<%=pf.getId()%>">
+								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
+								</a>
+								</p>
+								<p>Valutazione a:<%= pf.getAzienda().getNome() %></p> 
+								<% 
 								}
-							}
-							if(!feedbackRicevuti.isEmpty() && (control)) {
-								flag=true;
-							%>
-							<tr>
-							<td>
-							<p align="center">
-							<a href="visualizzaValutazione.jsp?type=Azienda&idPF=<%=pf.getId()%>">
-								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
-							</a>
-							</p>
-							<p>Valutazione da:<%= pf.getAzienda().getNome() %></p> 
-							<% 
-							} 
-							if(!feedbackInviati.isEmpty()) { 
-								flag=true; 
-							%>
-							<p align="center">
-							<a href="visualizzaValutazione.jsp?type=Studente&idPF=<%=pf.getId()%>">
-								<i class="fa fa-file-pdf-o" style="font-size: 48px;"></i>
-							</a>
-							</p>
-							<p>Valutazione per:<%= pf.getAzienda().getNome() %></p> 
-							<% 
-							}
-							%>
-							</td>
-      						<%
-                    	} 
-                        if(!flag) {
+                    	}
+                        if(listaDomande.isEmpty()) {
                         	%> <tr><td>Nessuna valutazione ricevuta o inviata</td></tr> <%
                         }
-                        flag = false;
                         %>
                     	</tbody>
                     	</table>
@@ -217,33 +200,36 @@
                     	<%
                         if(!listaProposteStudente.isEmpty()) { 
                         	String dates = " ";
-                    		for(ProgettoFormativo p : listaProposteStudente) {
-                    				Azienda azienda = p.getAzienda();
-                    				if(p.getDataInvio()!= null)
-                    				{
-                    					dates = formatter.format(p.getDataInvio());
-                    				}
+                    		for(ProgettoFormativo pf : listaProposteStudente) {
+                    				azienda = pf.getAzienda();
+                    				if(pf.getStato() > 0) {
+                    					trovato = true;
+                    					if(pf.getDataInvio()!= null) {
+                        					dates = formatter.format(pf.getDataInvio());
+                        				}
                         			%>
                     				<td>
                     					<form id="myForm" method="post">
-                    						<p align="center"><a href="dettaglioPpf.jsp?id=<%=p.getId()%>">
+                    						<p align="center"><a href="dettaglioPpf.jsp?id=<%=pf.getId()%>">
                     						<i class="fa fa-file-pdf-o" style="font-size:48px;"></i></a></p>
                     						<p align="center"><%= azienda.getNome() %></p>
                     						<p align="center"><%= dates %></p>
                     					</form>
                     				</td>	
                     		<%
+                    				}
                     		}
                     	}
-                        else {
+                        if(!trovato) {
                     		%> <tr><td>Al momento non hai ricevuto proposte di progetto formativo</td></tr> <%
                     	}
+                    	trovato = false;
                     		%>
                     	</tbody>
                     	</table>
                     </div>
                     	
-                    	<div class="card wizard-card" style="padding: 1%">
+                    <div class="card wizard-card" style="padding: 1%">
                    		<h4 class="card-title" >Domande Caricate</h4> 
                     	<table class="table table-responsive">
                     	<tbody>
@@ -251,18 +237,18 @@
                     	<% 
                         if(!listaProposteStudente.isEmpty()) { 
                         	String dates = " ";
-                    		for(ProgettoFormativo p : listaProposteStudente) {
-                    			if(p.getStato() >= 2) 
+                    		for(ProgettoFormativo pf : listaProposteStudente) {
+                    			if(pf.getStato() >= 2) 
                     			{
-            						flag = true;
-                    				Azienda azienda = p.getAzienda();
-                    				if(p.getDataInvio()!=null) {
-                        				dates = formatter.format(p.getDataInvio());
+            						trovato = true;
+                    				azienda = pf.getAzienda();
+                    				if(pf.getDataInvio()!=null) {
+                        				dates = formatter.format(pf.getDataInvio());
                     				}
                             	%>
                         			<td>
                         			<form id="myForm2" method="post">
-                        				<p align="center"><a href="dettaglioPpf.jsp?id=<%=p.getId()%>">
+                        				<p align="center"><a href="dettaglioPpf.jsp?id=<%=pf.getId()%>">
                         				<i class="fa fa-file-pdf-o" style="font-size:48px;"></i></a></p>
                         				<p align="center"><%= azienda.getNome() %></p>
                         				<p align="center"><%= dates %></p>
@@ -272,9 +258,10 @@
                         		}
                     		}
                     	} 
-                    	if(!flag) {
+                    	if(!trovato) {
                         	%> <tr><td>Al momento non hai caricato proposte di progetto formativo</td></tr> <%
                         }
+                    	trovato = false;
                         %>
                     	</tbody>
                     	</table>  

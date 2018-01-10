@@ -88,7 +88,7 @@
 									<div class="col-xs-12">
 										<input type="email" name="email" required="required"
 											id="labelEmail" class="form-control" placeholder="Email"
-											maxlength="30" />
+											maxlength="50" />
 									</div>
 								</div>
 								<div class="form-group text-center m-t-20">

@@ -155,7 +155,7 @@ private String parseDate(Date date)
 								<!-- Modal per la conferma della rimozione  -->
 								<!-- ============================================================== -->
 								<div class="modal fade" id="my_modal" role="dialog">
-									<div class="modal-dialog modal-lg">
+									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<h4 class="modal-title" id="myLargeModalLabel">

@@ -1,3 +1,5 @@
+<%@page import="it.unisa.libra.util.FileUtils"%>
+<%@page import="java.util.Base64"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="javax.naming.Context"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -132,25 +134,23 @@
 							</thead>
 							<tbody>
 							<%
-								if (email == null ) {
+								if (email == null) {
 									response.sendRedirect("/Libra/errore.jsp");
 								}
-								else{
+								else if(email != null && !session.getAttribute("utenteRuolo").equals("Azienda")){
 									for(Azienda a: aziende){
-										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
+										String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, a.getUtenteEmail()+".png");
+										String img="";
+										if(path != null){
+											img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+										}
 							%>
+										
 								<tr>
-									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>">
-										<img src="<%=utente.getImgProfilo()%>" alt="logo" width="40" class="img-circle" /></a>
-										<script>
-											var mostraImmagine = function() {
-												$.get('caricaImmagine?action=mostra&email=<%=a.getUtenteEmail()%>', function(
-													data, status) {
-												$('img.img-circle').attr('src', atob(data));
-											});
-											}
-											mostraImmagine();
-										</script>
+									<td>
+										<a href="profiloAziendale.jsp?nome=<%=a.getNome()%>">
+											<img src="<%if(path != null){%><%=img%><%}else{%>assets/images/users/default.png<%}%>" class="img-circle" alt="" width="40"/>
+										</a>	
 									</td>
 									<td><%=a.getNome() %></td>
 									<td><%=a.getSede() %></td>
@@ -272,6 +272,8 @@
 					
 			});
 		});
+		
+		
 	</script>
 </body>
 

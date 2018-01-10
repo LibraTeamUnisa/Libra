@@ -1,9 +1,12 @@
 package it.unisa.libra.controller;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,39 +19,34 @@ import javax.servlet.http.HttpSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
-import it.unisa.libra.util.CheckUtils;
-import it.unisa.libra.util.FileUtils;
+
+
 
 public class CaricaImmagineServletTest {
 
-   
+
   private IUtenteDao utentedao;
-   
+
   private Utente utente;
 
   private CaricaImmagineServlet servlet;
-   
+
   private HttpServletRequest request;
-   
+
   private HttpServletResponse response;
-   
+
   private HttpSession session;
-   
+
   private ServletContext context;
-   
+
   private ServletConfig config;
-   
+
   private PrintWriter responseWriter;
   private FileUtils util;
-   
+
   private File path;
 
-  
+
   private String file = "testBase64";
   private String email = "testImgFile";
   private String emailImgInesistente = "emailInesistente";
@@ -85,7 +83,7 @@ public class CaricaImmagineServletTest {
     // so che lancera' eccezione e ritornera' null perche' non esiste il file email.png
     verify(response.getWriter()).write(str);
   }
-  
+
   @Test
   public void visualizzazioneError() throws ServletException, IOException {
     when(request.getParameter("action")).thenReturn("mostra");
@@ -93,7 +91,7 @@ public class CaricaImmagineServletTest {
     servlet.doGet(request, response);
     verify(response.getWriter()).write("errore");
   }
-  
+
   @Test
   public void caricaOk() throws ServletException, IOException {
     when(request.getParameter("file")).thenReturn(file);
@@ -102,7 +100,7 @@ public class CaricaImmagineServletTest {
     mailObj = mailStr;
     when(session.getAttribute("utenteEmail")).thenReturn(mailObj);
     when(utentedao.findById(Utente.class, mailStr)).thenReturn(utente);
-   servlet.setUtenteDao(utentedao);
+    servlet.setUtenteDao(utentedao);
     servlet.doGet(request, response);
     verify(response.getWriter()).write("Salvataggio riuscito con successo");
   }

@@ -66,12 +66,16 @@ public class CaricaImmagineServlet extends HttpServlet {
       if (FileUtils.saveBase64ToFile(FileUtils.PATH_IMG_PROFILO, email + ".png", file)) {
         response.getWriter().write("Salvataggio riuscito con successo");
       }
-      user.setImgProfilo(FileUtils.PATH_IMG_PROFILO + email + ".png");
+      user.setImgProfilo(email + ".png");
       utenteDao.persist(user);
     } else {
       // errore
       response.getWriter().write("errore");
     }
+  }
+
+  public void setUtenteDao(IUtenteDao utenteDao) {
+    this.utenteDao = utenteDao;
   }
 
   /*

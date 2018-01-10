@@ -315,7 +315,6 @@ public class ModificaProfiloServlet extends HttpServlet {
   private static final String TELEFONO = "numeroTelefono";
   private static final String SITO = "sito";
   private static final String UFFICIO = "ufficio";
-  private static final String RICEVIMENTO = "ricevimento";
   private static final String SEDE = "sede";
   private static final String GIORNO1 = "giorno1";
   private static final String GIORNO2 = "giorno2";

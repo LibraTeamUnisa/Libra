@@ -197,7 +197,7 @@
 									<div class="card">
 										<div class="card-block">
 											<h4 class="card-title">Carica Immagine</h4>
-											<input type="file" class="dropify" /> <br>
+											<input type="file"  id="input-file-now" class="dropify" /> <br>
 											<div class="row">
 												<div class="col-sm-2"></div>
 												<button type="submit" onclick="caricaImmagine()"

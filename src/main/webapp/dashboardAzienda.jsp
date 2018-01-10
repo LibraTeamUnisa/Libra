@@ -285,7 +285,7 @@
 				                                <% } %>
 				                                <h5><%=s.getNome()%> <%=s.getCognome()%></h5>
 				                                <h6 class="text-muted">matricola <%=s.getMatricola()%></h6>
-				                                <h6 class="label label-warning"><%=pf.getAmbito() %></h6>
+				                                <h6 class="label label-warning"><%=pf.getAmbito()%></h6>
 				                            	</div>
 				                            </div>
 		                        <% 		} %>

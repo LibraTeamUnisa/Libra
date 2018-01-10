@@ -392,7 +392,7 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     Join<ProgettoFormativo, Studente> join = pf.join("studente");
     Join<Studente, Utente> joinUt = join.join("utente");
     
-    criteriaQuery.multiselect(join.get("nome"), join.get("cognome"), join.get("matricola"), joinUt.get("imgProfilo"));
+    criteriaQuery.multiselect(pf.get("ambito"), join.get("nome"), join.get("cognome"), join.get("matricola"), joinUt.get("imgProfilo"));
     
     ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
    

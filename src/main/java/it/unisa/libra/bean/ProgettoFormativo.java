@@ -108,7 +108,8 @@ public class ProgettoFormativo implements Serializable {
 
   public ProgettoFormativo() {}
   
-  public ProgettoFormativo(String nome, String cognome, String matricola, String imgProfilo) {
+  public ProgettoFormativo(String ambito, String nome, String cognome, String matricola, String imgProfilo) {
+    this.ambito = ambito;
     this.studente = new Studente();
     this.studente.setNome(nome);
     this.studente.setCognome(cognome);

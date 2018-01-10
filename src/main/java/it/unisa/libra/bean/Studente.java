@@ -1,6 +1,7 @@
 package it.unisa.libra.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,10 +19,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the studente database table.
- * 
  */
 @Entity
 @NamedQueries({@NamedQuery(name = "Studente.findAll", query = "SELECT s FROM Studente s"),
@@ -61,6 +60,30 @@ public class Studente implements Serializable {
   private Utente utente;
 
   public Studente() {}
+
+  public Studente(String matricola, String nome, String cognome, String email, String imgProfilo) {
+    this.matricola = matricola;
+    this.nome = nome;
+    this.cognome = cognome;
+    this.utenteEmail = email;
+    utente = new Utente();
+    utente.setImgProfilo(imgProfilo);
+    utente.setEmail(email);
+  }
+  
+  public Studente(String nome, String cognome, String email, String imgProfilo, Date dataInvio, int stato) {
+    this.nome = nome;
+    this.cognome = cognome;
+    this.utenteEmail = email;
+    utente = new Utente();
+    utente.setImgProfilo(imgProfilo);
+    utente.setEmail(email);
+    ProgettoFormativo progForm = new ProgettoFormativo();
+    progForm.setDataInvio(dataInvio);
+    progForm.setStato(stato);
+    progettiFormativi = new ArrayList<ProgettoFormativo>();
+    progettiFormativi.add(progForm);
+  }
 
   public String getUtenteEmail() {
     return this.utenteEmail;

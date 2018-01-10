@@ -1,4 +1,4 @@
-package it.unisa.libra.model.jpa;
+package it.unisa.libra.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

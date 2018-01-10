@@ -24,8 +24,8 @@ import javax.persistence.OneToOne;
 @NamedQueries({@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a"),
     @NamedQuery(name = "Azienda.findName",
         query = "SELECT a FROM Azienda a WHERE a.nome=:nomeAzienda"),
-    @NamedQuery(name = "Azienda.count", query = "SELECT COUNT(a) FROM Azienda a")
-
+    @NamedQuery(name = "Azienda.count",
+        query = "SELECT COUNT(a) FROM Azienda a")
 })
 
 public class Azienda implements Serializable {
@@ -116,6 +116,11 @@ public class Azienda implements Serializable {
     this.progettiFormativi = progettiFormativi;
   }
 
+  /**
+   * 
+   * @param progettiFormativi
+   * @return
+   */
   public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().add(progettiFormativi);
     progettiFormativi.setAzienda(this);
@@ -123,6 +128,11 @@ public class Azienda implements Serializable {
     return progettiFormativi;
   }
 
+  /**
+   * 
+   * @param progettiFormativi
+   * @return
+   */
   public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().remove(progettiFormativi);
     progettiFormativi.setAzienda(null);

@@ -1,10 +1,10 @@
 package it.unisa.libra.model.jpa;
 
-import java.util.List;
-import javax.ejb.Stateless;
 import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.FeedbackPK;
 import it.unisa.libra.model.dao.IFeedbackDao;
+import java.util.List;
+import javax.ejb.Stateless;
 
 @Stateless
 public class FeedbackJpa extends GenericJpa<Feedback, FeedbackPK> implements IFeedbackDao {

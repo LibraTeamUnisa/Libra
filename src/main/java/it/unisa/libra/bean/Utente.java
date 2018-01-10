@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,6 +12,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 
 /**
@@ -38,26 +42,31 @@ public class Utente implements Serializable {
 
   // bi-directional one-to-one association to Azienda
   @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
+  @LazyToOne(LazyToOneOption.NO_PROXY)
   private Azienda azienda;
 
   // bi-directional many-to-one association to Notifica
-  @OneToMany(mappedBy = "utente")
+  @OneToMany(fetch = FetchType.LAZY,mappedBy = "utente")
   private List<Notifica> notifiche;
 
   // bi-directional one-to-one association to Presidente
   @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
+  @LazyToOne(LazyToOneOption.NO_PROXY)
   private Presidente presidente;
 
   // bi-directional one-to-one association to Segreteria
   @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
+  @LazyToOne(LazyToOneOption.NO_PROXY)
   private Segreteria segreteria;
 
   // bi-directional one-to-one association to Studente
   @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
+  @LazyToOne(LazyToOneOption.NO_PROXY)
   private Studente studente;
 
   // bi-directional one-to-one association to TutorInterno
   @OneToOne(mappedBy = "utente", cascade = {CascadeType.ALL})
+  @LazyToOne(LazyToOneOption.NO_PROXY)
   private TutorInterno tutorInterno;
 
   // bi-directional many-to-one association to Gruppo

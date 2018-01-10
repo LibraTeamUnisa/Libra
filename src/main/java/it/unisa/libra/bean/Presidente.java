@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -40,7 +42,8 @@ public class Presidente implements Serializable {
   private String ufficio;
 
   // bi-directional one-to-one association to Utente
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+  @MapsId
   @JoinColumn(name = "utenteEmail")
   private Utente utente;
 

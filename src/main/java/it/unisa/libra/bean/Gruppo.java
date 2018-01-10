@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
@@ -27,7 +28,7 @@ public class Gruppo implements Serializable {
   private List<Permesso> permessi;
 
   // bi-directional many-to-one association to Utente
-  @OneToMany(mappedBy = "gruppo", cascade = {CascadeType.ALL})
+  @OneToMany(fetch = FetchType.LAZY,mappedBy = "gruppo", cascade = {CascadeType.ALL})
   private List<Utente> utenti;
 
   public Gruppo() {}
@@ -80,21 +81,24 @@ public class Gruppo implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Gruppo other = (Gruppo) obj;
     if (ruolo == null) {
-      if (other.ruolo != null)
+      if (other.ruolo != null) {
         return false;
-    } else if (!ruolo.equals(other.ruolo))
+      }
+    } else if (!ruolo.equals(other.ruolo)) {
       return false;
+    }
     return true;
   }
-
-
 
 }

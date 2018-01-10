@@ -282,6 +282,26 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     public List<Studente> getStudentiByAzienda(Azienda azienda) {
       return null;
     }
+    
+    @Override
+    public List<Object[]> getPfDaRevisionareTutorInterno(String email){
+      return null;
+    }
+    
+    @Override
+    public int getNumStudentiAttivi() {
+      return 0;
+    }
+    
+    @Override
+    public int getNumStudentiAssociati(String email) {
+      return 0;
+    }
+    
+    @Override
+    public int getPfTutor(String email) {
+      return 0;
+    }
 
     @Override
     public Map<String, String> getTopAziendeFromNumStudenti(String pastDays, String limit,String status) {
@@ -294,7 +314,7 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet
     }
 
     @Override
-    public List<ProgettoFormativo> findUltime10() {
+    public List<Map<String,String>> findUltime10() {
       return null;
     }
 

@@ -52,7 +52,6 @@ public class CaricaImmagineServlet extends HttpServlet {
       String email = request.getParameter("email");
       if (CheckUtils.checkEmptiness(email)) {
         // ok
-        Utente user = utenteDao.findById(Utente.class, email);
         response.getWriter()
             .write(FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, email + ".png"));
       } else {

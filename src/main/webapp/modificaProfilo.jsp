@@ -555,6 +555,7 @@
 										String erroreLunghezzaIndirizzo = (String) request.getAttribute("erroreLunghezzaIndirizzo");
 											String erroreLunghezzaTelefono = (String) request.getAttribute("erroreLunghezzaTelefono");
 											String erroreFormatoTelefono = (String) request.getAttribute("erroreFormatoTelefono");
+											String erroreRicevimento = (String) request.getAttribute("ErroreRicevimento");
 											if (erroreLunghezzaIndirizzo != null) {
 									%>
 									<label class="col-md-12" style="color: red;"><%=erroreLunghezzaIndirizzo%></label>
@@ -566,6 +567,10 @@
 										} else if (erroreFormatoTelefono != null) {
 									%>
 									<label class="col-md-12" style="color: red;"><%=erroreFormatoTelefono%></label>
+									<%
+										} else if (erroreRicevimento != null) {
+									%>
+									<label class="col-md-12" style="color: red;"><%=erroreRicevimento%></label>
 									<%
 										}
 									%>
@@ -624,19 +629,24 @@
 											<label class="col-md-12">Ricevimento:</label>
 										</div>
 										<div class="col-sm-5">
-											<address>
-												<%
-													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(p.getGiorniDiRicevimento());
-														for (Entry<String, String> entry : giorniAp.entrySet()) {
-												%>
-												<input type="text"
-													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-													class="form-control form-control-line" name="ricevimento">
-												<br>
-												<%
-													}
-												%>
-											</address>
+											<select name="giorno1" class="form-control form-control-line">
+												<option value="LUN">Luned&igrave;</option>
+												<option value="MAR">Marted&igrave;</option>
+												<option value="MER">Mercoled&igrave;</option>
+												<option value="GIO">Gioved&igrave;</option>
+												<option value="VEN">Venerd&igrave;</option>
+											</select> <input type="text" name="fasciaOraria1"
+												class="form-control form-control-line"
+												placeholder="Insersci la fascia oraria"> <br> <select
+												name="giorno2" class="form-control form-control-line">
+												<option value="LUN">Luned&igrave;</option>
+												<option value="MAR">Marted&igrave;</option>
+												<option value="MER">Mercoled&igrave;</option>
+												<option value="GIO">Gioved&igrave;</option>
+												<option value="VEN">Venerd&igrave;</option>
+											</select> <input type="text" name="fasciaOraria2"
+												class="form-control form-control-line"
+												placeholder="Insersci la fascia oraria">
 										</div>
 									</div>
 									<br>
@@ -669,6 +679,14 @@
 						<div class="col-sm-8">
 							<div class="card wild-card"
 								style="color: black; font-size: 120%;">
+								<%
+									String erroreRicevimento = (String) request.getAttribute("ErroreRicevimento");
+										if (erroreRicevimento != null) {
+								%>
+								<label class="col-md-12" style="color: red;"><%=erroreRicevimento%></label>
+								<%
+									}
+								%>
 								<form action="modificaProfilo" method="post">
 									<div class="row">
 										<div class="col-sm-4">
@@ -676,23 +694,26 @@
 										</div>
 
 										<div class="col-sm-5">
-
-											<address>
-												<%
-													Map<String, String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
-														for (Entry<String, String> entry : giorniAp.entrySet()) {
-												%>
-												<input type="text"
-													placeholder="<%=entry.getKey()%>: <%=entry.getValue()%>"
-													class="form-control form-control-line" name="ricevimento">
-												<br>
-												<%
-													}
-												%>
-											</address>
+											<select name="giorno1" class="form-control form-control-line">
+												<option value="LUN">Luned&igrave;</option>
+												<option value="MAR">Marted&igrave;</option>
+												<option value="MER">Mercoled&igrave;</option>
+												<option value="GIO">Gioved&igrave;</option>
+												<option value="VEN">Venerd&igrave;</option>
+											</select> <input type="text" name="fasciaOraria1"
+												class="form-control form-control-line"
+												placeholder="Insersci la fascia oraria"> <br> <select
+												name="giorno2" class="form-control form-control-line">
+												<option value="LUN">Luned&igrave;</option>
+												<option value="MAR">Marted&igrave;</option>
+												<option value="MER">Mercoled&igrave;</option>
+												<option value="GIO">Gioved&igrave;</option>
+												<option value="VEN">Venerd&igrave;</option>
+											</select> <input type="text" name="fasciaOraria2"
+												class="form-control form-control-line"
+												placeholder="Insersci la fascia oraria">
 										</div>
 									</div>
-
 									<br>
 									<h3 class="box-title m-b-0">
 										<b>Contatti:</b>

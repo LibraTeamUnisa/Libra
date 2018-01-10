@@ -250,7 +250,7 @@
                                     <div class="form-group row">
                                         <label for="example-tel-input" class="col-2 col-form-label">Data Di Nascita</label>
                                         <div class="col-10">
-                                            <input class="form-control" id="example-tel-input" type="date" name="dataDiNascita" placeholder="Nuova Data di nascita"
+                                            <input class="form-control" id="example-tel-input" type="date" name="dataDiNascita" placeholder="Nuova Data di nascita" min="1940-01-01" max="2000-12-31" 
                                             
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										required="required" <%}%> />

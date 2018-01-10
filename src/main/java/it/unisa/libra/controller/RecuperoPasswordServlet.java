@@ -75,12 +75,10 @@ public class RecuperoPasswordServlet extends HttpServlet {
         eManager.sendEmail(message);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("L'email e' stata inviata all'indirizzo specificato.");
+        response.getWriter().write("ok");
         response.getWriter().flush();
       } else {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("L'email inserita non e' valida.");
-        response.getWriter().flush();
       }
     } catch (Exception ex) {
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

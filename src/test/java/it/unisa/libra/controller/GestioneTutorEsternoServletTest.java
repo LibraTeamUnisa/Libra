@@ -131,7 +131,7 @@ public class GestioneTutorEsternoServletTest {
   }
 
   @Test
-  public void aggiuntaOkConDataUnparsableTest() throws Exception {
+  public void aggiuntaConDataUnparsableTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.AGGIUNGI_TUTOR_ESTERNO);
     when(request.getSession().getAttribute("utenteEmail")).thenReturn(EMAIL_AZIENDA);
     IAziendaDao aziendaDao = mock(IAziendaDao.class);
@@ -148,9 +148,30 @@ public class GestioneTutorEsternoServletTest {
     servlet.setAziendaDao(aziendaDao);
     servlet.setTutorDao(tutorDao);
     servlet.doPost(request, response);
-    verify(responseWriter).write(SUCCESS_MESS);
+    verify(responseWriter).write(BADREQUEST_MESS + " Rispetta il formato richiesto!");
   }
 
+  @Test
+  public void aggiuntaNatoNelFuturoTest() throws Exception {
+    when(request.getParameter(Actions.ACTION)).thenReturn(Actions.AGGIUNGI_TUTOR_ESTERNO);
+    when(request.getSession().getAttribute("utenteEmail")).thenReturn(EMAIL_AZIENDA);
+    IAziendaDao aziendaDao = mock(IAziendaDao.class);
+    when(aziendaDao.findById(Azienda.class, EMAIL_AZIENDA)).thenReturn(new Azienda());
+    when(request.getParameter("ambito")).thenReturn(AMBITO);
+    ITutorEsternoDao tutorDao = mock(ITutorEsternoDao.class);
+    TutorEsternoPK idTutor = new TutorEsternoPK();
+    when(tutorDao.findById(TutorEsterno.class, idTutor)).thenReturn(null);
+    when(request.getParameter("nome")).thenReturn("nome");
+    when(request.getParameter("cognome")).thenReturn("cognome");
+    when(request.getParameter("dataDiNascita")).thenReturn("9999-12-31");
+    when(request.getParameter("indirizzo")).thenReturn("indirizzo");
+    when(request.getParameter("telefono")).thenReturn("081123456");
+    servlet.setAziendaDao(aziendaDao);
+    servlet.setTutorDao(tutorDao);
+    servlet.doPost(request, response);
+    verify(responseWriter).write(BADREQUEST_MESS + " Davvero il tuo tutor viaggia nel tempo?");
+  }
+    
   @Test
   public void aggiuntaAziendaNullTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.AGGIUNGI_TUTOR_ESTERNO);

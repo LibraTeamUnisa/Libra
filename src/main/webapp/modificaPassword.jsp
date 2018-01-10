@@ -82,7 +82,7 @@
 								<p> Vecchia Password: </p>
 							</div>
 							<div class="col-xs-12">
-								<input id="password" class="form-control" type="password" maxlength="20" required>
+								<input id="password" class="form-control" type="password" placeholder="Inserisci Password" maxlength="20" required>
 							</div>
 							 
 							<button id="bottone00"

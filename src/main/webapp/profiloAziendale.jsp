@@ -156,7 +156,7 @@
 								</p>
 								<p>
 									<strong>Aree di interesse</strong>
-									<%
+									<%if(tutorEsterni != null){
 										if (tutorEsterni.size() == 0) {
 									%>
 									<span class="text-muted"> Nessun ambito disponibile </span>
@@ -173,12 +173,14 @@
 									<%
 										}
 												}
+									  }	
 									%>
 								</p>
 
 								<p>
 									<strong>Tutor esterni</strong>
 									<%
+									if(tutorEsterni != null){
 										if (tutorEsterni.size() == 0) {
 									%>
 									<span class="text-muted"> Nessun tutor esterno
@@ -197,6 +199,7 @@
 									<%
 										}
 												}
+									}
 									%>
 								</p>
 								<p>

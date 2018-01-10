@@ -123,22 +123,43 @@
 					String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 						Studente studente = studenteDao.findById(Studente.class, emailStudente);
 						ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-						List<Report> listaReportStudenti = reportDao.findAll(Report.class);
-						if ((listaReportStudenti == null) || listaReportStudenti.isEmpty()) {
+						if(progettoFormativo == null){
+							%>
+				<h1>Non sei iscritto a Nessun Progetto Formativo</h1>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
 				%>
-				<h1>Nessun report disponibile</h1>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
 
+				<%						
+						}else if(progettoFormativo != null){
+						List<Report> listaReportStudenti = progettoFormativo.getReports();
+						if (((listaReportStudenti == null) || listaReportStudenti.isEmpty())
+								&& (progettoFormativo.getStato() == 4)) {
+				%>
 				<button type="button" class="btn btn-success" data-toggle="modal"
 					data-target="#myModal">Aggiungi Report</button>
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
-					} else {
+					} else if ((progettoFormativo.getStato() != 4)) {
+				%>
+				<h1>Non è possibile aggiungere Report</h1>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
+				%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+
+				<%
+					} else if ((listaReportStudenti != null) || (!listaReportStudenti.isEmpty())) {
 							Iterator<?> it = listaReportStudenti.iterator();
 				%>
 
 				<form class="form-horizontal form-material" id="listReport">
-
 					<div class="card">
 						<div class="card-block">
 							<h4 class="card-title"></h4>
@@ -163,9 +184,15 @@
 													<th style="width: 28%;" data-field="6"><div
 															class="th-inner ">Oggetto</div>
 														<div class="fht-cell"></div></th>
+													<%
+														if (progettoFormativo.getStato() == 4) {
+													%>
 													<th style="width: 25%;" data-field="6"><div
 															class="th-inner ">Action</div>
 														<div class="fht-cell"></div></th>
+													<%
+														}
+													%>
 												</tr>
 											</thead>
 										</table>
@@ -190,9 +217,15 @@
 														<th style="width: 34%;" data-field="6"><div
 																class="th-inner "></div>
 															<div class="fht-cell"></div></th>
+														<%
+															if (progettoFormativo.getStato() == 4) {
+														%>
 														<th style="width: 34%;" data-field="6"><div
 																class="th-inner "></div>
 															<div class="fht-cell"></div></th>
+														<%
+															}
+														%>
 													</tr>
 												</thead>
 												<tbody>
@@ -232,6 +265,9 @@
 															</div>
 															<div class="fht-cell"></div>
 														</td>
+														<%
+															if (progettoFormativo.getStato() == 4) {
+														%>
 														<td class="td-class-1" style="width: 34%;">
 															<div class="th-inner">
 																<%
@@ -320,6 +356,9 @@
 															</div>
 															<div class="fht-cell"></div>
 														</td>
+														<%
+															}
+														%>
 
 													</tr>
 
@@ -340,7 +379,7 @@
 					</div>
 				</form>
 				<%
-					}
+					if (progettoFormativo.getStato() == 4) {
 				%>
 				<button type="button" class="btn btn-success" data-toggle="modal"
 					data-target="#myModal">Aggiungi Report</button>
@@ -348,6 +387,8 @@
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
+					}}
+						}
 					} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
 				%>
 				<div class="row page-titles">
@@ -371,12 +412,32 @@
 						</ol>
 					</div>
 				</div>
-
+				<%
+													int i = 0;
+														List<Report> listaReportStudentia = reportDao.findAll(Report.class);
+														if((listaReportStudentia == null)||(listaReportStudentia.isEmpty())){
+															%>
+				<h1>Non sono presenti Report</h1>
+				<%
+												String dashboard="";
+												if (ruolo.equals("Presidente")) 
+													dashboard = request.getContextPath() + "/dashboard".concat("Presidente").concat(".jsp");
+												else if (ruolo.equals("Segreteria"))
+													
+											dashboard = request.getContextPath() + "/dashboard".concat("Segreteria").concat(".jsp");
+												
+												
+												%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+				<%	}else if((listaReportStudentia != null)||(!listaReportStudentia.isEmpty())){%>
 				<div class="card">
 					<div class="card-block">
 						<h4 class="card-title"></h4>
 						<h6 class="card-subtitle"></h6>
 						<div class="bootstrap-table">
+
 							<div class="fixed-table-container"
 								style="height: 430px; margin-top: -40px;">
 								<div class="table-responsive m-t-40">
@@ -449,10 +510,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<%
-													int i = 0;
-														List<Report> listaReportStudentia = reportDao.findAll(Report.class);
-														Iterator<Report> listReport = listaReportStudentia.iterator();
+												<%		Iterator<Report> listReport = listaReportStudentia.iterator();
 														while (listReport.hasNext()) {
 
 															Report report = listReport.next();
@@ -535,9 +593,10 @@
 							</div>
 						</div>
 					</div>
+
+					<%}%>
 				</div>
-				<%
-					} else if (ruolo.equals("TutorInterno")) {
+				<%} else if (ruolo.equals("TutorInterno")) {
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
@@ -552,6 +611,26 @@
 					</div>
 				</div>
 
+				<%
+													int i = 0;
+														String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
+
+														TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, emailTutor);
+
+														List<Report> listaReportStudentit = reportDao.findAll(Report.class);
+														if((listaReportStudentit == null)||(listaReportStudentit.isEmpty())){
+															%>
+
+				<h1>Non sono presenti Report</h1>
+				<%
+													String dashboard = request.getContextPath() + "/dashboard".concat("TutorInterno").concat(".jsp");
+												%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+
+				<%	}else if((listaReportStudentit != null)||(!listaReportStudentit.isEmpty())) { %>
+
 				<div class="card">
 					<div class="card-block">
 						<h4 class="card-title"></h4>
@@ -559,6 +638,7 @@
 						<div class="bootstrap-table">
 							<div class="fixed-table-container"
 								style="height: 430px; margin-top: -40px;">
+
 								<div class="table-responsive m-t-40">
 									<table id="example23"
 										class="display nowrap table table-hover table-striped table-bordered dataTable"
@@ -630,12 +710,6 @@
 											<tbody>
 
 												<%
-													int i = 0;
-														String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
-
-														TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, emailTutor);
-
-														List<Report> listaReportStudentit = reportDao.findAll(Report.class);
 														Iterator<Report> listd = listaReportStudentit.iterator();
 														while (listd.hasNext()) {
 															Report reportprfo = listd.next();
@@ -722,9 +796,11 @@
 							</div>
 						</div>
 					</div>
+					<%
+					}%>
 				</div>
 				<%
-					} else {
+				 }else {
 						badRequest = true;
 					}
 					if (badRequest) {

@@ -1,3 +1,5 @@
+<%@page import="java.util.Base64"%>
+<%@page import="it.unisa.libra.util.FileUtils"%>
 <%@page import="it.unisa.libra.util.StatoPf"%>
 <%@page import="it.unisa.libra.model.dao.ITutorEsternoDao"%>
 <%@page import="it.unisa.libra.bean.Azienda"%>
@@ -210,6 +212,9 @@
              
              	 <!-- col sinistra -->
                  <div class="col-md-6 col-sm-12 p-20">
+                 
+                 <div class="row">
+                 <div class="col-12 col-md-12 col-sm-12">
                      <h4 class="card-title text-center">Iscrizioni</h4>
                      	<div class="list-group">
                      	<% if (pfRichiesti.isEmpty()) { %>
@@ -221,12 +226,18 @@
                        	<%		for (int i = 0; i < pfRichiestiMax && i < pfRichiesti.size(); i++) { %>
 		                <%			ProgettoFormativo pf = pfRichiesti.get(i); 						%>
                      	<%			Studente s = pf.getStudente();	  			 					%>
+			            <%  		String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, s.getUtenteEmail()+".png");
+									String img="";
+									if(path != null){
+										img = (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+									} 
+						%>
 		                            <div class="row list-group-item">
 		                                <!-- immagine, nome, cognome, matricola -->
-		                                <div class="col-4 col-md-4 col-sm-4">
-		                                <img src="<%=s.getUtente().getImgProfilo()%>" onerror="this.src='assets/images/users/default.png';" alt="user" class="img-circle img-responsive">
+		                                <div class="col-3 col-md-3 col-sm-3">
+		                                <img src="<%=img%>" onerror="this.src='assets/images/users/default.png';" alt="user" class="img-circle img-responsive">
 		                                </div>
-		                                <div class="col-8 col-md-8 col-sm-8">
+		                                <div class="col-9 col-md-9 col-sm-9">
 		                                <h5><%=s.getNome()%> <%=s.getCognome()%></h5>
 		                                <h6 class="text-muted">matricola <%=s.getMatricola()%></h6>
 		                                </div>
@@ -244,6 +255,8 @@
 		                     	</div>
                          <% } %>
                  </div>
+                 </div>
+                 </div>
                  <!--  end col sinistra -->
                  
                  
@@ -257,8 +270,10 @@
                      	 <h4 class="card-title text-center">Progetti Formativi</h4>
 		                     <div class="list-group">
 		                     <% if (pfInviati.isEmpty()) { %>
-			                     	<div class="list-group-item">
+			                     	<div class="row list-group-item">
+			                     	<div class="col-12 col-md-12 col-sm-12">
 			                     	<p>Non ci sono progetti formativi</p>
+			                     	</div>
 			                     	</div>
 			                     	</div>
 			                     	<!-- end list group -->
@@ -266,12 +281,18 @@
 		                     	<%		for (int i = 0; i < pfInviatiMax && i < pfInviati.size(); i++) { %>
 		                     	<%			ProgettoFormativo pf = pfInviati.get(i); %>
 		                     	<%			Studente s = pf.getStudente(); %>
+		                     	<% 			String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, s.getUtenteEmail()+".png");
+											String img="";
+											if(path != null){
+												img = (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+											} 
+								%>
 				                            <div class="row list-group-item">
 				                                <!-- immagine, nome, cognome, matricola, ambito e stato progetto -->
-				                                <div class="col-4 col-md-4 col-sm-4">
-				                                <img src="<%=s.getUtente().getImgProfilo()%>" onerror="this.src='assets/images/users/default.png';" alt="user" class="img-circle img-responsive">
+				                                <div class="col-3 col-md-3 col-sm-3">
+				                                <img src="<%=img%>" onerror="this.src='assets/images/users/default.png';" alt="user" class="img-circle img-responsive">
 				                                </div>
-				                                <div class="col-8 col-md-8 col-sm-8">
+				                                <div class="col-9 col-md-9 col-sm-9">
 				                                <!-- icona diversa a seconda dello stato del progetto -->
 				                                <% int stato = pf.getStato(); %>
 				                                <% if (stato == StatoPf.INVIATO || stato == StatoPf.VERIFICA_TUTOR || stato == StatoPf.VERIFICA_PRESIDENTE) { %>	

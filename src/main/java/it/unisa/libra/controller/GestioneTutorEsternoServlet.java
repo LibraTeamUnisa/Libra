@@ -10,6 +10,7 @@ import it.unisa.libra.util.CheckUtils;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -198,7 +199,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
         String indirizzo = request.getParameter("indirizzo");
         String ambito = request.getParameter("ambito");
         Integer count = 0;
-
+        boolean toRemove=false;
         if (CheckUtils.checkEmptiness(ambito)) {
           TutorEsternoPK newKey = new TutorEsternoPK();
           newKey.setAziendaEmail(tutorKey.getAziendaEmail());
@@ -206,9 +207,9 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           boolean notSet = tutorDao.findById(TutorEsterno.class, newKey) == null;
 
           if (notSet) {
-            tutorDao.remove(TutorEsterno.class, tutorKey);
             tutor.setId(newKey);
             count++;
+            toRemove=true;
           } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Non puoi assegnare il tutor all'ambito specificato");
@@ -231,11 +232,19 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
 
         boolean isParsable = CheckUtils.parseDate(data) != null
             || CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null;
+        
         if (isParsable) {
           Date newDate = CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null
               ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") : CheckUtils.parseDate(data);
-          tutor.setDataDiNascita(newDate);
-          count++;
+          if(CheckUtils.notInFuture(newDate)&&CheckUtils.isMaggiorenne(newDate)) {
+            tutor.setDataDiNascita(newDate);
+            count++;
+          } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("La data specificata non &egrave corretta");
+            response.getWriter().flush();
+            return;
+          }
         }
         if (CheckUtils.checkEmptiness(indirizzo)) {
           tutor.setIndirizzo(indirizzo);
@@ -246,6 +255,11 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("Le informazioni specificate non sono corrette");
         } else {
+          
+          if(toRemove) {
+            tutorDao.remove(TutorEsterno.class, tutorKey);
+          }
+          
           tutorDao.persist(tutor);
           response.setStatus(HttpServletResponse.SC_OK);
           response.getWriter().write("Operazione terminata. Aggiornati " + count + " campi");

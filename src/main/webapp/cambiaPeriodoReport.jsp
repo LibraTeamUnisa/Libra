@@ -201,6 +201,8 @@
                                           </div>
                                           <!-- TRAINERSHIP DATA -->
                                           <dl class="row" style="margin: 0px!important">
+                                              <dt class="col-sm-3">Ambito</dt>
+                                              <dd class="col-sm-9"><%= pf.getAmbito() %></dd>
                                               <div class="separator"></div>
                                               <dt class="col-sm-3">Ambito</dt>
                                               <dd class="col-sm-9"><%= pf.getAmbito() %></dd>

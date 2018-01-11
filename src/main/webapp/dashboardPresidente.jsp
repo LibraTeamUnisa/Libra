@@ -29,7 +29,7 @@
 	int numeroStudenti = studenteDao.contaOccorrenze();
 	int numeroAziende = aziendaDao.contaOccorrenze();
 	
-	List<ProgettoFormativo> progettiInCorso = progettoFormativoDao.findUltime10();
+	List<Map<String,String>> progettiInCorso = progettoFormativoDao.findUltime10();
 
 %>
 
@@ -137,38 +137,38 @@
                                         /* Metto in tabella gli ultimi 10 progetti formativi*/
                                         
                                         if(progettiInCorso!=null && progettiInCorso.size()>0){
-                                        	for(ProgettoFormativo p:progettiInCorso){
+                                        	for(Map<String,String> p:progettiInCorso){
                                         %>
                                         <tbody><tr>
-                                        		<%if(p.getAzienda()!=null&&p.getAzienda().getNome()!=null) {
+                                        		<%if(p.get("azienda")!=null) {
                                         		%>
-                                               <td style="width:50px;"><span class="round"><%=p.getAzienda().getNome().charAt(0) %></span></td>
-                                                <td><h6><%=p.getAzienda().getNome() %></h6></td>
+                                               <td style="width:50px;"><span class="round"><%=p.get("azienda").charAt(0) %></span></td>
+                                                <td><h6><%=p.get("azienda") %></h6></td>
                                                <% } else{%>
                                                <td style="width:50px;"><span class="round">NA</span></td>
                                                 <td><h6>Non disponibile</h6></td>
                                                 <%} 
-                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getCognome()!=null){
+                                                if(p.get("studente")!=null){
                                                 %>
-                                               	 <td> <h6> <%=(p.getStudente().getNome()+" "+p.getStudente().getCognome()) %></h6></td>
+                                               	 <td> <h6> <%=p.get("studente") %></h6></td>
                                                	 <%} else{ %>
                                                	 <td> <h6> Non disponibile</h6></td>
                                                	 <%}
-                                                if(p.getTutorInterno()!=null&&p.getTutorInterno().getNome()!=null&&p.getTutorInterno().getCognome()!=null){
+                                                if(p.get("tutor")!=null){
                                                 %>
-                                                <td> <h6> <%=(p.getTutorInterno().getNome()+" "+p.getTutorInterno().getCognome()) %></h6></td>
+                                                <td> <h6> <%=p.get("tutor") %></h6></td>
                                                 <%} else{ %>
                                                 <td> <h6> Non disponibile</h6></td>
                                                  <%}
-                                                if(p.getAmbito()!=null){
+                                                if(p.get("ambito")!=null){
                                                 %>
-                                                <td><span class="label label-light-success"><%=p.getAmbito() %></span></td>
+                                                <td><span class="label label-light-success"><%=p.get("ambito") %></span></td>
                                                 <%} else{ %>
                                                 <td> <h6> Non disponibile</h6></td>
                                                	<%}
-                                                if(p.getDataInizio()!=null){
+                                                if(p.get("dataInizio")!=null){
                                                 %>
-                                                <td><%=(p.getDataInizio().getDate()+"/"+(p.getDataInizio().getMonth()+1)+"/"+(p.getDataInizio().getYear()+1900)) %></td>
+                                                <td><%=p.get("dataInizio") %></td>
                                                 <%}else{
                                                 	%>
                                                 	<td> <h6> Non disponibile</h6></td>
@@ -325,61 +325,6 @@
                      
                 </div>
                  
-                
-                
-                <div class="right-sidebar">
-                    <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-                        <div class="r-panel-body">
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
-                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
-                            </ul>
-                            <ul class="m-t-20 chatonline">
-                                <li><b>Chat option</b></li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -432,10 +377,10 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
@@ -443,30 +388,30 @@
     <!--Menu sidebar -->
     <script src="js/sidebarmenu.js"></script>
     <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
     <!-- chartist chart -->
-    <script src="../assets/plugins/chartist-js/dist/chartist.min.js"></script>
-    <script src="../assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../assets/plugins/echarts/echarts-all.js"></script>
+    <script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
+    <script src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="assets/plugins/echarts/echarts-all.js"></script>
     <!-- Vector map JavaScript -->
-    <script src="../assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="../assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
     <!-- Calendar JavaScript -->
-    <script src="../assets/plugins/moment/moment.js"></script>
-    <script src='../assets/plugins/calendar/dist/fullcalendar.min.js'></script>
-    <script src="../assets/plugins/calendar/dist/jquery.fullcalendar.js"></script>
-    <script src="../assets/plugins/calendar/dist/cal-init.js"></script>
+    <script src="assets/plugins/moment/moment.js"></script>
+    <script src='assets/plugins/calendar/dist/fullcalendar.min.js'></script>
+    <script src="assets/plugins/calendar/dist/jquery.fullcalendar.js"></script>
+    <script src="assets/plugins/calendar/dist/cal-init.js"></script>
     <!-- sparkline chart -->
-    <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
     <script>
     	var numero = 1;
     	var mese1,mese2,mese3,mese4,mese5,mese6,mese7,mese8,mese9,mese10,mese11,mese12;

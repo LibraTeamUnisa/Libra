@@ -118,6 +118,7 @@
                                     <address>
                                     	<% 
                                     	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+                                    	if(!CheckUtils.isNullOrEmpty(giorniAp))
                                     	for (Entry<String, String> entry : giorniAp.entrySet()){
                                     	%>
                                     		<span class="badge badge-info"><%=entry.getKey()%></span>
@@ -153,16 +154,24 @@
                                     <small>Dipartimento di Informatica</small>
                                     <span class="badge badge-primary"><%=pres.getUfficio()%></span>
                                     <br>
+                                    	<% 
+                                    	Map<String,String> giorniAp = null;
+                                    	try{
+                                    		giorniAp = JsonUtils.parseOrariApertura(pres.getGiorniDiRicevimento());
+                                    	}catch(Exception e){
+                                    	}
+                                    	if(!CheckUtils.isNullOrEmpty(giorniAp)){
+                                    		%>
                                     <span class="mail-desc">Orari di ricevimento</span>
                                     <address>
-                                    	<% 
-                                    	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(pres.getGiorniDiRicevimento());
-                                    	for (Entry<String, String> entry : giorniAp.entrySet()){
+                                    	<%
+                                    		for (Entry<String, String> entry : giorniAp.entrySet()){
                                     	%>
                                     		<span class="badge badge-info"><%=entry.getKey()%></span>
                                        		<span class="time"><%=entry.getValue()%></span>
                                         	<br>
-                                		<%}%>
+                                		<%}
+                                		} else {%><br><br><br><%}%>
                                     </address>
                                     <span class="mdi mdi-phone"> <%=pres.getUtente().getTelefono()%></span>
                                     <br>

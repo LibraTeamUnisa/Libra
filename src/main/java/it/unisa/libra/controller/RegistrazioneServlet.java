@@ -4,7 +4,7 @@ import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IGruppoDao;
-import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.model.dao.IStudenteDao;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Questa classe permette allo studente di registrarsi.
  *
@@ -24,12 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  * @version [0.0]
  */
 
-/** Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. **/
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = "/registrazione")
 public class RegistrazioneServlet extends HttpServlet {
 
   @Inject
-  private IUtenteDao utenteDao;
+  private IStudenteDao studenteDao;
   @Inject
   private IGruppoDao gruppoDao;
 
@@ -40,6 +39,8 @@ public class RegistrazioneServlet extends HttpServlet {
   public RegistrazioneServlet() {}
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,22 +68,23 @@ public class RegistrazioneServlet extends HttpServlet {
       response.getWriter().write("Errore durante il parse della data");
     }
 
-    /**
+    /*
      * Realizzazione di un oggetto di tipo studente
      */
     Studente studente = istanziaStudente(nome, cognome, email, matricola, data);
 
-    /**
+    /*
      * Realizzazione di utente, generalizzazione dello studente
      */
     Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
+    studente.setUtente(utente);
 
     gruppo = gruppoDao.findById(Gruppo.class, "Studente");
 
     if (gruppo != null) {
-      if (utenteDao.findById(Utente.class, email) == null) {
-        utente.setGruppo(gruppo);
-        utenteDao.persist(utente);
+      if (studenteDao.findById(Studente.class, email) == null) {
+        studente.getUtente().setGruppo(gruppo);
+        studenteDao.persist(studente);
         response.setContentType("text/plain");
         response.getWriter().write("Registrazione avvenuta con successo");
       } else {
@@ -96,6 +98,8 @@ public class RegistrazioneServlet extends HttpServlet {
   }
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -125,15 +129,5 @@ public class RegistrazioneServlet extends HttpServlet {
     utente.setTelefono(telefono);
     return utente;
   }
-
-  public void setUtenteDao(IUtenteDao utenteDao) {
-    this.utenteDao = utenteDao;
-  }
-
-  public void setGruppoDao(IGruppoDao gruppoDao) {
-    this.gruppoDao = gruppoDao;
-  }
-
-
 
 }

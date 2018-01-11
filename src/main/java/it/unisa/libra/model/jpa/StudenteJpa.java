@@ -3,9 +3,12 @@ package it.unisa.libra.model.jpa;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IStudenteDao;
+import it.unisa.libra.util.CheckUtils;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -39,9 +42,23 @@ public class StudenteJpa extends GenericJpa<Studente, String> implements IStuden
 
   @Override
   public List<Studente> listaOrdinataPerCognome() {
-    TypedQuery<Studente> query = (TypedQuery<Studente>) entityManager
-        .createNamedQuery("Studente.findAllSurnameOrdered", Studente.class);
-    return query.getResultList();
+
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Studente> cq = cb.createQuery(Studente.class);
+    Root<Studente> root = cq.from(Studente.class);
+    Join<Studente, Utente> join = root.join("utente");
+
+    cq.multiselect(root.get("matricola"), root.get("nome"), root.get("cognome"),
+        root.get("utenteEmail"), join.get("imgProfilo"));
+
+    cq.orderBy(cb.asc(root.get("cognome")));
+
+    Query query = entityManager.createQuery(cq);
+
+    List<Studente> results = query.getResultList();
+
+    return results;
+
   }
 
   @Override
@@ -50,5 +67,33 @@ public class StudenteJpa extends GenericJpa<Studente, String> implements IStuden
         ((Number) entityManager.createNamedQuery("Studente.count").getSingleResult()).intValue();
     return count;
   }
-}
 
+  public List<Studente> getLastProgettoFormativoOfStudenti(String tutorInternoEmail) {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Studente> cq = cb.createQuery(Studente.class);
+
+    Root<Studente> root = cq.from(Studente.class);
+    Join<Studente, Utente> joinUtente = root.join("utente");
+    Join<Studente, ProgettoFormativo> joinProgForm = root.join("progettiFormativi");
+    Join joinTutorInterno =
+        CheckUtils.checkEmptiness(tutorInternoEmail) ? joinProgForm.join("tutorInterno") : null;
+
+    cq.multiselect(root.get("nome"), root.get("cognome"), root.get("utenteEmail"),
+        joinUtente.get("imgProfilo"), joinProgForm.get("dataInvio"), joinProgForm.get("stato"));
+
+    if (joinTutorInterno != null) {
+      cq.where(cb.equal(joinTutorInterno.get("utenteEmail"), tutorInternoEmail));
+    }
+
+    cq.where(cb.isNull(joinProgForm.get("dataFine")));
+
+    cq.orderBy(cb.asc(root.get("cognome")));
+
+    Query query = entityManager.createQuery(cq);
+
+    List<Studente> results = query.getResultList();
+
+    return results;
+  }
+
+}

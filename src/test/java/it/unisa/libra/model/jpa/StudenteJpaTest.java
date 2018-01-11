@@ -50,6 +50,8 @@ public class StudenteJpaTest extends GenericJpaTest {
     utente.setPassword("1234567");
     utente.setTelefono("123");
 
+    studente.setUtente(utente);
+
     Gruppo gruppo = new Gruppo();
     gruppo.setRuolo("Studente");
     gruppoJpa.persist(gruppo);
@@ -98,6 +100,8 @@ public class StudenteJpaTest extends GenericJpaTest {
     utente.setPassword("1234567");
     utente.setTelefono("123");
 
+    studente.setUtente(utente);
+
     utenteJpa.persist(utente);
 
 
@@ -127,9 +131,13 @@ public class StudenteJpaTest extends GenericJpaTest {
   public void countByAziendaTest() {
     Azienda azienda = new Azienda();
     azienda.setUtenteEmail("emailAziendaprova1@prova.libra.it");
+    azienda.setUtente(new Utente());
+    azienda.getUtente().setEmail("emailAziendaprova1@prova.libra.it");
     aziendaJpa.persist(azienda);
     Studente studente = new Studente();
+    studente.setUtente(new Utente());
     studente.setUtenteEmail("emailStudente1");
+    studente.getUtente().setEmail("emailStudente1");
     studente.setCognome("C");
     studenteJpa.persist(studente);
     ProgettoFormativo pf = new ProgettoFormativo();

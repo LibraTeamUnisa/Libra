@@ -1,26 +1,26 @@
 package it.unisa.libra.controller;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.model.dao.IStudenteDao;
-import it.unisa.libra.util.Actions;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.model.dao.IStudenteDao;
+import it.unisa.libra.util.Actions;
 
 public class DettaglioStudenteTest {
 
@@ -56,8 +56,7 @@ public class DettaglioStudenteTest {
 
   @Test
   public void dettaglioStudenteTest() throws Exception {
-    String ruolo = "Presidente";
-    String mail = "mail@mail.it";
+    String ruolo = "Presidente", mail = "mail@mail.it";
 
     when(request.getSession()).thenReturn(session);
     when(session.getAttribute("utenteRuolo")).thenReturn(ruolo);
@@ -76,8 +75,7 @@ public class DettaglioStudenteTest {
 
   @Test
   public void failRuoloDettaglioStudenteTest() throws Exception {
-    String ruolo = "Studente";
-    String mail = "mail@mail.it";
+    String ruolo = "Studente", mail = "mail@mail.it";
 
     when(request.getSession()).thenReturn(session);
     when(session.getAttribute("utenteRuolo")).thenReturn(ruolo);
@@ -98,7 +96,7 @@ public class DettaglioStudenteTest {
 
   @Test
   public void failActionDettaglioStudenteTest() throws Exception {
-    String ruolo = "Studente";
+    String ruolo = "Studente", mail = "mail@mail.it";
 
     when(request.getSession()).thenReturn(session);
     when(session.getAttribute("utenteRuolo")).thenReturn(ruolo);
@@ -117,7 +115,7 @@ public class DettaglioStudenteTest {
 
   @Test
   public void failParametroMancanteDettaglioStudenteTest() throws Exception {
-    String ruolo = "Studente";
+    String ruolo = "Studente", mail = null;
 
     when(request.getSession()).thenReturn(session);
     when(session.getAttribute("utenteRuolo")).thenReturn(ruolo);

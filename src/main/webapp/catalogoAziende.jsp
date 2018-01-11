@@ -1,3 +1,5 @@
+<%@page import="it.unisa.libra.util.FileUtils"%>
+<%@page import="java.util.Base64"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="javax.naming.Context"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -104,14 +106,22 @@
 			<!-- ============================================================== -->
 			<div class="container-fluid">
 				<div class="row page-titles">
-                    <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Catalogo Aziende</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-                            <li class="breadcrumb-item active">Catalogo Aziende</li>
-                        </ol>
-                    </div>    
-                </div>
+					<div class="col-md-6 col-8 align-self-center">
+						<h3 class="text-themecolor m-b-0 m-t-0">Aziende Convenzionate</h3>
+						<ol class="breadcrumb">
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active">Aziende Convenzionate</li>
+							<%
+								}
+							%>
+						</ol>
+					</div>
+				</div>
 				<div class="card wizard-card" style="padding:1%">
 					<div class="table-responsive">
 						<table class="table">
@@ -124,17 +134,24 @@
 							</thead>
 							<tbody>
 							<%
-								if (email == null ) {
+								if (email == null) {
 									response.sendRedirect("/Libra/errore.jsp");
 								}
-								else{
+								else if(email != null && !session.getAttribute("utenteRuolo").equals("Azienda")){
 									for(Azienda a: aziende){
-										Utente utente =(Utente)utenteDAO.findById(Utente.class, a.getUtenteEmail());	
+										String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, a.getUtenteEmail()+".png");
+										String img="";
+										if(path != null){
+											img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+										}
 							%>
+										
 								<tr>
-									<td><a href="profiloAziendale.jsp?nome=<%=a.getNome()%>"><img
-											src="<%=utente.getImgProfilo()%>" alt="logoAzienda.png"
-											width="40" class="img-circle" /></a></td>
+									<td>
+										<a href="profiloAziendale.jsp?nome=<%=a.getNome()%>">
+											<img src="<%if(path != null){%><%=img%><%}else{%>assets/images/users/default.png<%}%>" class="img-circle" alt="" width="40"/>
+										</a>	
+									</td>
 									<td><%=a.getNome() %></td>
 									<td><%=a.getSede() %></td>
 								</tr>
@@ -255,6 +272,8 @@
 					
 			});
 		});
+		
+		
 	</script>
 </body>
 

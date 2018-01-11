@@ -1,8 +1,8 @@
 package it.unisa.libra.model.dao;
 
-import java.util.List;
 import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.FeedbackPK;
+import java.util.List;
 
 public interface IFeedbackDao extends IGenericDao<Feedback, FeedbackPK> {
 

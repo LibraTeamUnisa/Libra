@@ -5,6 +5,7 @@ public class JspPagesIndex {
 
   public static final String ACCESSO_NEGATO = "/accessoNegato.jsp";
   public static final String AGGIUNGI_UTENTE = "/aggiungiUtente.jsp";
+  public static final String CAMBIA_PERIODO_REPORT = "/cambiaPeriodoReport.jsp";
   public static final String CARICA_PPF = "/caricaPpf.jsp";
   public static final String CATALOGO_AZIENDE = "/catalogoAziende.jsp";
   public static final String CATALOGO_TUTOR_ESTERNI = "/catalogoTutorEsterni.jsp";
@@ -25,4 +26,5 @@ public class JspPagesIndex {
   public static final String RIMUOVI_UTENTE = "/rimuoviUtente.jsp";
   public static final String STATISTICHE = "/statistiche.jsp";
   public static final String VALUTA_STUDENTI = "/valutaStudenti.jsp";
+
 }

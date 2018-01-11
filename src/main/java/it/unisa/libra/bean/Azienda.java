@@ -14,7 +14,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
 /**
  * The persistent class for the azienda database table.
  * 
@@ -24,9 +23,7 @@ import javax.persistence.OneToOne;
 @NamedQueries({@NamedQuery(name = "Azienda.findAll", query = "SELECT a FROM Azienda a"),
     @NamedQuery(name = "Azienda.findName",
         query = "SELECT a FROM Azienda a WHERE a.nome=:nomeAzienda"),
-    @NamedQuery(name = "Azienda.count", query = "SELECT COUNT(a) FROM Azienda a")
-
-})
+    @NamedQuery(name = "Azienda.count", query = "SELECT COUNT(a) FROM Azienda a")})
 
 public class Azienda implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -116,6 +113,11 @@ public class Azienda implements Serializable {
     this.progettiFormativi = progettiFormativi;
   }
 
+  /** Aggiunge un progetto formativo.
+   * 
+   * @param progettiFormativi il progetto da aggiungere
+   * @return il progetto aggiunto
+   */
   public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().add(progettiFormativi);
     progettiFormativi.setAzienda(this);
@@ -123,6 +125,11 @@ public class Azienda implements Serializable {
     return progettiFormativi;
   }
 
+  /** Rimuove un progetto formativo.
+   * 
+   * @param progettiFormativi il progetto da rimuovere
+   * @return il progetto rimosso
+   */
   public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().remove(progettiFormativi);
     progettiFormativi.setAzienda(null);
@@ -138,6 +145,11 @@ public class Azienda implements Serializable {
     this.tutorEsterni = tutorEsterni;
   }
 
+  /** Aggiunge un tutor esterno.
+   * 
+   * @param tutorEsterno il tutor da aggiungere
+   * @return il tutor aggiunto
+   */
   public TutorEsterno addTutorEsterno(TutorEsterno tutorEsterno) {
     getTutorEsterni().add(tutorEsterno);
     // tutorEsterno.setAzienda(this);
@@ -145,6 +157,11 @@ public class Azienda implements Serializable {
     return tutorEsterno;
   }
 
+  /** Rimuove un tutor esterno.
+   * 
+   * @param tutorEsterno il tutor da rimuovere
+   * @return il tutor rimosso
+   */
   public TutorEsterno removeTutorEsterno(TutorEsterno tutorEsterno) {
     getTutorEsterni().remove(tutorEsterno);
     // tutorEsterno.setAzienda(null);

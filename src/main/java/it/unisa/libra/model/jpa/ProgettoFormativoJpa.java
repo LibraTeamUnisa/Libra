@@ -1,5 +1,13 @@
 package it.unisa.libra.model.jpa;
 
+import it.unisa.libra.bean.Azienda;
+import it.unisa.libra.bean.Domanda;
+import it.unisa.libra.bean.Feedback;
+import it.unisa.libra.bean.ProgettoFormativo;
+import it.unisa.libra.bean.Studente;
+import it.unisa.libra.model.dao.IProgettoFormativoDao;
+import it.unisa.libra.util.CheckUtils;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,13 +30,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
-import it.unisa.libra.bean.Azienda;
-import it.unisa.libra.bean.Domanda;
-import it.unisa.libra.bean.Feedback;
-import it.unisa.libra.bean.ProgettoFormativo;
-import it.unisa.libra.bean.Studente;
-import it.unisa.libra.model.dao.IProgettoFormativoDao;
-import it.unisa.libra.util.CheckUtils;
 
 @Stateless
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
@@ -308,11 +309,23 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
   }
 
   @Override
-  public List<ProgettoFormativo> findUltime10() {
-    TypedQuery<ProgettoFormativo> q = entityManager
-        .createNamedQuery("ProgettoFormativo.findUltimeDieci", ProgettoFormativo.class);
+  public List<Map<String, String>> findUltime10() {
+    List<Map<String, String>> list = new ArrayList<>();
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.findUltimeDieci");
     q.setParameter("today", new Date());
-    return q.getResultList();
+
+    List<Object[]> result = q.setMaxResults(10).getResultList();
+    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    for (Object[] obj : result) {
+      Map<String, String> map = new HashMap<>();
+      map.put("azienda", (String) obj[0]);
+      map.put("studente", ((String) obj[1]) + " " + ((String) obj[2]));
+      map.put("tutor", ((String) obj[3]) + " " + ((String) obj[4]));
+      map.put("ambito", (String) obj[5]);
+      map.put("dataInizio", formatter.format((Date) obj[6]));
+      list.add(map);
+    }
+    return list;
   }
 
   @Override
@@ -361,36 +374,36 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
 
   @Override
   public List<ProgettoFormativo> findByAziendaAndStato(Azienda azienda, int... stati) {
-    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
-    CriteriaQuery<ProgettoFormativo> criteriaQuery =
-        criteriaBuilder.createQuery(ProgettoFormativo.class);
-    Metamodel metaModel = super.entityManager.getMetamodel();
-    EntityType<ProgettoFormativo> ProgettoFormativo_ = metaModel.entity(ProgettoFormativo.class);
-    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
-    criteriaQuery.select(pf);
-    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+
     if (stati == null) {
       return new ArrayList<ProgettoFormativo>();
     }
     if (stati.length == 0) {
       return new ArrayList<ProgettoFormativo>();
     }
+
+    CriteriaBuilder criteriaBuilder = super.entityManager.getCriteriaBuilder();
+    CriteriaQuery<ProgettoFormativo> criteriaQuery =
+        criteriaBuilder.createQuery(ProgettoFormativo.class);
+
+    Root<ProgettoFormativo> pf = criteriaQuery.from(ProgettoFormativo.class);
+
+    Join<ProgettoFormativo, Studente> join = pf.join("studente");
+
+    criteriaQuery.multiselect(pf.get("ambito"), pf.get("stato"), join.get("utenteEmail"),
+        join.get("nome"), join.get("cognome"), join.get("matricola"));
+
+    ParameterExpression<Azienda> aziendaParam = criteriaBuilder.parameter(Azienda.class);
+
     List<Predicate> predicates = new ArrayList<Predicate>();
     for (int s : stati) {
-      Predicate p =
-          criteriaBuilder.equal(pf.get(ProgettoFormativo_.getSingularAttribute("stato")), s);
+      Predicate p = criteriaBuilder.equal(pf.get("stato"), s);
       predicates.add(p);
     }
     Predicate predicateStato = criteriaBuilder.or(predicates.toArray(new Predicate[] {}));
-    criteriaQuery
-        .where(
-            criteriaBuilder
-                .and(
-                    (criteriaBuilder.equal(
-                        pf.get(ProgettoFormativo_.getSingularAttribute("azienda")), aziendaParam)),
-                    predicateStato));
-    criteriaQuery
-        .orderBy(criteriaBuilder.desc(pf.get(ProgettoFormativo_.getSingularAttribute("id"))));
+    criteriaQuery.where(criteriaBuilder
+        .and((criteriaBuilder.equal(pf.get("azienda"), aziendaParam)), predicateStato));
+    criteriaQuery.orderBy(criteriaBuilder.desc(pf.get("id")));
     TypedQuery<ProgettoFormativo> q = super.entityManager.createQuery(criteriaQuery);
     q.setParameter(aziendaParam, azienda);
     return q.getResultList();
@@ -419,6 +432,37 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     TypedQuery<Long> q = super.entityManager.createQuery(criteriaQuery);
     q.setParameter(aziendaParam, azienda);
     return q.getSingleResult();
+  }
+
+  @Override
+  public List<Object[]> getPfDaRevisionareTutorInterno(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.findPFtutorInterno");
+    q.setParameter("tutorEmail", email);
+    return q.setMaxResults(10).getResultList();
+  }
+
+  @Override
+  public int getNumStudentiAttivi() {
+    int count =
+        ((Number) entityManager.createNamedQuery("ProgettoFormativo.countAttivi").getSingleResult())
+            .intValue();
+    return count;
+  }
+
+  @Override
+  public int getNumStudentiAssociati(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.countStudentiAssociati");
+    q.setParameter("tutorEmail", email);
+    int count = ((Number) q.getSingleResult()).intValue();
+    return count;
+  }
+
+  @Override
+  public int getPfTutor(String email) {
+    Query q = entityManager.createNamedQuery("ProgettoFormativo.countByTutorInterno");
+    q.setParameter("tutorEmail", email);
+    int count = ((Number) q.getSingleResult()).intValue();
+    return count;
   }
 
   private String[] getAziendeFromString(String aziende) {

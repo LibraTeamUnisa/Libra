@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.TutorEsterno;
 import it.unisa.libra.bean.TutorEsternoPK;
+import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.ITutorEsternoDao;
 import it.unisa.libra.util.Actions;
 import it.unisa.libra.util.CheckUtils;
@@ -51,6 +52,8 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet {
     super.setTutorDao(new ITutorEsternoDaoTest(em));
 
     azienda = new Azienda();
+    azienda.setUtente(new Utente());
+    azienda.getUtente().setEmail("azienda@yahoo.it");
     azienda.setUtenteEmail("azienda@yahoo.it");
     azienda.setNome("Azienda");
     azienda.setPartitaIVA("12345678");
@@ -334,6 +337,7 @@ public class ModificaTutorEsternoTest extends GestioneTutorEsternoServlet {
       // TODO Auto-generated method stub
       return null;
     }
+
     @Override
     public long countByEmailAzienda(String emailAzienda) {
       // TODO Auto-generated method stub

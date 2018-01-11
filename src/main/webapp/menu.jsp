@@ -102,9 +102,7 @@
 					aria-expanded="true"><%=nomeUtenteMENU%><span class="caret"></span></a>
 				<div class="dropdown-menu animated flipInY">
 					<a href="<%=JspPagesIndex.PROFILO.substring(1)%>"
-						class="dropdown-item"><i class="ti-user"></i>Profilo</a> <a
-						href="<%=JspPagesIndex.NOTIFICHE.substring(1)%>"
-						class="dropdown-item"><i class="ti-email"></i>Notifiche</a>
+						class="dropdown-item"><i class="ti-user"></i>Profilo</a>
 					<div class="dropdown-divider"></div>
 					<a
 						href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION + "=" + Actions.LOGOUT%>"
@@ -158,9 +156,12 @@
 				<li><a href="<%=JspPagesIndex.LISTA_STUDENTI.substring(1)%>"
 					aria-expanded="false"><span class="hide-menu">Studenti</span></a></li>
 				<li><a href="<%=JspPagesIndex.REPORT_STUDENTE.substring(1)%>"
-					aria-expanded="false"><span class="hide-menu">Report</span></a> <%
- 	} else if (isPresidenteMENU) {
- %>
+					aria-expanded="false"><span class="hide-menu">Report</span></a></li> 
+				<li><a href="<%=JspPagesIndex.CAMBIA_PERIODO_REPORT.substring(1)%>"
+					aria-expanded="false"><span class="hide-menu">Cambia Periodo Report</span></a>
+				<%
+				 	} else if (isPresidenteMENU) {
+				 %>
 					<!-- menu Presidente -->
 				<li><a href="<%=JspPagesIndex.CATALOGO_AZIENDE.substring(1)%>"
 					aria-expanded="false"><span class="hide-menu">Aziende

@@ -106,30 +106,34 @@
 					<div class="col-lg-6">
 
 						<div class="card">
-							<div class="card">
-								<h4 class="card-title" align="center"></h4>
-								<h4 class="card-title" align="center">LISTA STUDENTI
-									ISCRITTI</h4>
-								<div class="table-responsive m-t-40">
-
-									<table class="table stylish-table">
-
-										<thead>
-											<tr>
-												<th colspan="2">Cognome</th>
+						<div class="row page-titles">
+					<div class="col-md-6 col-8 align-self-center">
+					<h3 class="text-themecolor m-b-0 m-t-0"></h3>
+					<h3 class="text-themecolor m-b-0 m-t-0" align="right" ></h3>
+					<h2 class="text-themecolor m-b-0 m-t-0" style="padding-left:3%" style="padding-top:3%" >LISTA STUDENTI</h2>
+					
+						
+					</div>
+				</div>
+						<div class="card wizard-card" style="padding:1%">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th colspan="2">Cognome</th>
 												<th>Nome</th>
 												<th>E-mail</th>
 												<th>Matricola</th>
-											</tr>
-										</thead>
-
-										<%
+								</tr>
+							</thead>
+							<tbody>
+							<%
 											List<Studente> listaStudenti = studenteDao.listaOrdinataPerCognome();
 											if (listaStudenti != null && listaStudenti.size() > 0) {
 												for (Studente iscritto : listaStudenti) {
 										%>
-										<tbody>
-											<tr>
+										
+								<tr>
 												<%
 													if (iscritto != null && iscritto.getCognome() != null) {
 												%>
@@ -189,10 +193,11 @@
 													
 												}
 											%>
-										</tbody>
-									</table>
-								</div>
-							</div>
+							</tbody>
+						</table>
+					</div>
+				</div>
+							
 						</div>
 					</div>
 
@@ -298,6 +303,68 @@
 	<script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
 	<!--Custom JavaScript -->
 	<script src="js/custom.min.js"></script>
+	<script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+	<script src="js/datatables.js"></script>
+	<script>
+		var table;
+		$(document).ready(function() {
+			table = $('.table').DataTable({
+				"paging": true,
+				"searching": true,
+				"pageLength": 10,
+				"columnDefs": [	
+					{ "searchable": false, "targets": 0 },
+					{ "searchable": false, "targets": 3 },
+				  ],
+				"language": {
+		            "lengthMenu": "Mostra _MENU_ risultati per pagina",
+		            "zeroRecords": "Nessun risultato trovato",
+		            "info": "Pagina _PAGE_ di _PAGES_",
+		            "infoEmpty": "Nessun risultato presente",
+		            "infoFiltered": "(Cercati su _MAX_ risultati totali)",
+		            "paginate": {
+		                "first":      "Prima",
+		                "last":       "Ultima",
+		                "next":       "Successiva",
+		                "previous":   "Precedente"
+		            }
+			    },
+				"initComplete" : function() {
+					$(".dataTables_filter").empty();
+					$(".dataTables_filter").html(
+						'<div class="input-group add-on">'+
+						'<input class="form-control" placeholder"Cerca" name="srch-term" id="srch-term" type="text">'+
+							'<div class="input-group-btn">'+
+								'<button class="btn btn-default buttonSearch">'+
+									'<i class="mdi mdi-magnify"></i>'+
+								'</button>'+
+							'</div>'+
+						'</div>');
+					var input= $('.dataTables_filter input');
+					self= this.api();
+					$(".buttonSearch").mouseenter(function(){
+						$(this).css({'background-color': '#D91A5F'});	
+					})
+					$(".buttonSearch").mouseleave(function(){
+						$(this).css({'background-color':'#DDDDDD'});	
+					})
+					$(".buttonSearch").click(function(){
+						var text= input.val();
+						$(this).css({'outline':'none', 'box-shadow':'none'});
+						$('.text-danger').remove();
+						if(/^([0-9a-zA-Z\s@:./]{0,100})$/.test(text)==false){
+							$('.dataTables_filter').append('<small class="text-danger">Input errato. Sono ammessi solo caratteri</small>');
+						}else{
+							self.search(input.val()).draw();
+						}
+					})
+				}
+					
+			});
+		});
+		
+		
+	</script>
 	<!-- ============================================================== -->
 	<!-- This page plugins -->
 	<!-- ============================================================== -->

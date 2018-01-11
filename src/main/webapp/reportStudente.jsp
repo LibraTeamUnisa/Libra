@@ -62,6 +62,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
+
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -146,7 +150,7 @@
 				<%
 					} else if ((progettoFormativo.getStato() != 4)) {
 				%>
-				<h1>Non è possibile aggiungere Report</h1>
+				<h1>Non Ã¨ possibile aggiungere Report</h1>
 				<%
 					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
 				%>
@@ -273,7 +277,7 @@
 																<%
 																	Long oo = rep.getId().getData().getTime();
 																%>
-																<button type="button" class="btn btn-primary"
+																<button type="button" class="btn btn-warning"
 																	onclick="$('#exampleModal<%=oo%>').modal('show')"
 																	id="<%=oo%>">ModificaReport</button>
 
@@ -316,7 +320,7 @@
 																				</div>
 																			</div>
 																			<div class="modal-footer">
-																				<button type="submit" class="btn btn-primary"
+																				<button type="submit" class="btn btn-success"
 																					style="float: left;" id="confermaModifica"
 																					onclick='modifica()'>Salva le modifiche</button>
 
@@ -383,9 +387,9 @@
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
-					}}
-						}
-					} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
+
+					}}} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
+
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">

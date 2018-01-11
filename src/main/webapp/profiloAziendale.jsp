@@ -269,7 +269,7 @@
 																	</div>
 																	
 																	<div class="modal-footer">
-																		<a href="profiloAziendale.jsp?nome=<%=nome%>" class="btn btn-success" style="text-decoration:none; color:white;" id="okButton">
+																		<a href="dashboardStudente.jsp" class="btn btn-success" style="text-decoration:none; color:white;" id="okButton">
 																		 Ok
 																		</a>
 																	</div>

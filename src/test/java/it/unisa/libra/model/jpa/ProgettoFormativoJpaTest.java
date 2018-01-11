@@ -431,86 +431,87 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
 
   @Test
   public void getStudentiByAziendaEmptyTest() {
-    Map<String,String> mapAziende = jpaP.getTopAziendeFromNumStudenti("30", "10", "5");
+    Map<String, String> mapAziende = jpaP.getTopAziendeFromNumStudenti("30", "10", "5");
     assertNotNull(mapAziende);
     assertTrue(!mapAziende.isEmpty());
   }
-  
+
   @Test
   public void getStudentiByAziendaOkTest() {
     jpaA.persist(createAzienda("aziendaX"));
-    jpaP.persist(createProgettoFormativo("aziendaX",4));
-    Map<String,String> mapAziende = jpaP.getTopAziendeFromNumStudenti("30", "10", null);
+    jpaP.persist(createProgettoFormativo("aziendaX", 4));
+    Map<String, String> mapAziende = jpaP.getTopAziendeFromNumStudenti("30", "10", null);
     assertNotNull(mapAziende);
     assertFalse(mapAziende.isEmpty());
-    assertEquals(mapAziende.get("aziendaX"),"1");
+    assertEquals(mapAziende.get("aziendaX"), "1");
   }
-  
+
   @Test
   public void getNumTirociniCompletatiEmptyTest() {
     Long numCompletati = jpaP.getNumTirociniCompletati();
-    assertEquals(numCompletati,new Long(0));
+    assertEquals(numCompletati, new Long(0));
   }
-  
+
   @Test
   public void countByAziendaAndDateEmptyTest() {
-    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,null,null,null);
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null, null, null, null, null);
     assertTrue(!list.isEmpty());
   }
-  
+
   @Test
   public void countByAziendaAndDateTirIniziatiTest() {
-    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,null,"true",null);
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null, null, null, "true", null);
     assertTrue(!list.isEmpty());
   }
-  
+
   @Test
   public void countByAziendaAndDateTirFinitiTest() {
-    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,null,"false",null);
+    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null, null, null, "false", null);
     assertTrue(list.isEmpty());
   }
-  
+
   @Test
   public void countByAziendaAndDateTirIniziatiRagSocTest() {
     jpaA.persist(createAzienda("aziendaEnded"));
-    jpaP.persist(createProgettoFormativo("aziendaEnded",4));
-    List<Map<String, String>> list = jpaP.countByAziendaAndDate(null,null,"1","true","aziendaEnded");
+    jpaP.persist(createProgettoFormativo("aziendaEnded", 4));
+    List<Map<String, String>> list =
+        jpaP.countByAziendaAndDate(null, null, "1", "true", "aziendaEnded");
     assertTrue(!list.isEmpty());
   }
-  
+
   @Test
   public void getTabellaValutazioniEmptyTest() {
     List<Map<String, String>> list = jpaP.getTabellaValutazioni(null, null, null, null);
     assertTrue(!list.isEmpty());
   }
-  
+
   @Test
   public void getTabellaValutazioniTirIniziatiTest() {
-    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null,null,"true",null);
+    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null, null, "true", null);
     assertTrue(list.isEmpty());
   }
-  
+
   @Test
   public void getTabellaValutazioniTirFinitiTest() {
-    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null,null,"false",null);
+    List<Map<String, String>> list = jpaP.getTabellaValutazioni(null, null, "false", null);
     assertTrue(list.isEmpty());
   }
-  
-  private ProgettoFormativo createProgettoFormativo(String azienda,int stato) {
+
+  private ProgettoFormativo createProgettoFormativo(String azienda, int stato) {
     ProgettoFormativo pf = new ProgettoFormativo();
     pf.setStato(stato);
     pf.setDataInizio(new Date());
     pf.setAzienda(createAzienda(azienda));
     return pf;
   }
-  
+
   private Azienda createAzienda(String azienda) {
     Azienda az = new Azienda();
     az.setNome(azienda);
-    az.setUtenteEmail(azienda+"@email.it");
-    
+    az.setUtenteEmail(azienda + "@email.it");
+
     Utente ut = new Utente();
-    ut.setEmail(azienda+"@email.it");
+    ut.setEmail(azienda + "@email.it");
     az.setUtente(ut);
     return az;
   }

@@ -10,7 +10,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-
 /**
  * The persistent class for the gruppo database table.
  * 
@@ -57,6 +56,11 @@ public class Gruppo implements Serializable {
     this.utenti = utenti;
   }
 
+  /** Aggiunge un utente.
+   * 
+   * @param utenti l'utente da aggiungere
+   * @return l'utente aggiunto
+   */
   public Utente addUtenti(Utente utenti) {
     getUtenti().add(utenti);
     utenti.setGruppo(this);
@@ -64,6 +68,11 @@ public class Gruppo implements Serializable {
     return utenti;
   }
 
+  /** Rimuove un utente.
+   * 
+   * @param utenti l'utente da rimuovere
+   * @return l'utente rimosso
+   */
   public Utente removeUtenti(Utente utenti) {
     getUtenti().remove(utenti);
     utenti.setGruppo(null);

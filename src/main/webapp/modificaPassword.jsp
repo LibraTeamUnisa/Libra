@@ -75,14 +75,14 @@
 			<div class="login-box card">
 				<div class="card-block">
 					<form class="form-horizontal form-material" id="passwordform" method="post">
-						<h3 class="box-title m-b-20">ModificaPassword</h3>
+						<h3 class="box-title m-b-20">Modifica Password</h3>
 						
 						<div class="form-group " id="primoForm">
 							<div class="col-xs-5">
 								<p> Vecchia Password: </p>
 							</div>
 							<div class="col-xs-12">
-								<input id="password" class="form-control" type="password" maxlength="20" required>
+								<input id="password" class="form-control" type="password" placeholder="Inserisci Password" maxlength="20" required>
 							</div>
 							 
 							<button id="bottone00"

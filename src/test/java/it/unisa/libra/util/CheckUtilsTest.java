@@ -1,7 +1,16 @@
 package it.unisa.libra.util;
 
-import static org.junit.Assert.*;
-import java.util.regex.Pattern;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 
 public class CheckUtilsTest {
@@ -45,5 +54,47 @@ public class CheckUtilsTest {
     assertEquals(CheckUtils.checkEmptiness(RIGHT_STRING), true);
     assertEquals(CheckUtils.checkEmptiness(WRONG_STRING), false);
     assertEquals(CheckUtils.checkEmptiness(null), false);
+  }
+
+  @Test
+  public void nullOrEmptyCollectionTest() {
+    Collection<Object> coll = null;
+    assertTrue(CheckUtils.isNullOrEmpty(coll));
+    coll = new ArrayList<Object>();
+    assertTrue(CheckUtils.isNullOrEmpty(coll));
+    coll.add("something");
+    assertFalse(CheckUtils.isNullOrEmpty(coll));
+  }
+
+  @Test
+  public void nullOrEmptyMapTest() {
+    Map<Object, Object> map = null;
+    assertTrue(CheckUtils.isNullOrEmpty(map));
+    map = new HashMap<Object, Object>();
+    assertTrue(CheckUtils.isNullOrEmpty(map));
+    map.put("something", "value");
+    assertFalse(CheckUtils.isNullOrEmpty(map));
+  }
+
+  @Test
+  public void notInFutureDateTest() throws ParseException {
+    SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+    Date data = parser.parse("9999-12-31");
+    assertFalse(CheckUtils.notInFuture(data));
+    data = parser.parse("1900-01-01");
+    assertTrue(CheckUtils.notInFuture(data));
+    assertFalse(CheckUtils.notInFuture(null));
+  }
+
+  @Test
+  public void isMaggiorenneTest() throws ParseException {
+    SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+    Date data = parser.parse("9999-12-31");
+    assertFalse(CheckUtils.isMaggiorenne(data));
+    data = parser.parse("1900-01-01");
+    assertTrue(CheckUtils.isMaggiorenne(data));
+    assertFalse(CheckUtils.isMaggiorenne(null));
+    data = new Date();
+    assertFalse(CheckUtils.isMaggiorenne(data));
   }
 }

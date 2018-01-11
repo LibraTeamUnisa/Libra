@@ -10,7 +10,7 @@ INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `img
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('pippo@unisa.it', '312312312', 'Via del Tutor 2', '065987855', 'img3', 'TutorInterno');
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('mario@studenti.it', '312312312', 'Via dello Studente 2', '065987855', 'img3', 'Studente');
 INSERT INTO `libra`.`utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('a.piccolella1@studenti.unisa.it', 'angelopiccolella', 'via G. Galilei 20, Capodrise', '3381798928', 'null', 'Studente');
-INSERT INTO `libra`.`Utente` (`email`, `imgProfilo`, `indirizzo`, `password`, `telefono`, `ruolo`) VALUES ('azienda@prova.it', 'xxx', 'Via delle Aziende', '123123', '0892221113', 'Azienda');
+INSERT INTO `libra`.`Utente` (`email`, `imgProfilo`, `indirizzo`, `password`, `telefono`, `ruolo`) VALUES ('azienda@prova.it', 'xxx', 'Via delle Aziende', '123123123', '0892221113', 'Azienda');
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('michele@unisa.it', '312312312', 'Via dello Studente', '065987855', 'img3', 'Studente');
 INSERT INTO `libra`.`Utente` (`email`, `password`, `indirizzo`, `telefono`, `imgProfilo`, `ruolo`) VALUES ('android@google.com', '312312312', 'Via dell azienda', '065987855', 'img3', 'Azienda');
 

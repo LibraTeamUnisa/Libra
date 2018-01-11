@@ -140,7 +140,16 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     try {
       dataDiNascita = parser.parse(request.getParameter("dataDiNascita"));
     } catch (ParseException e) {
-      dataDiNascita = new Date();
+      response.getWriter().write(BADREQUEST_MESS + " Rispetta il formato richiesto!");
+      return;
+    }
+    if (!CheckUtils.notInFuture(dataDiNascita)) {
+      response.getWriter().write(BADREQUEST_MESS + " Davvero il tuo tutor viaggia nel tempo?");
+      return;
+    }
+    if (!CheckUtils.isMaggiorenne(dataDiNascita)) {
+      response.getWriter().write(BADREQUEST_MESS + " UniSa non tollera il lavoro minorile.");
+      return;
     }
     // creo il tutor da aggiungere
     TutorEsterno tutor = new TutorEsterno();
@@ -224,8 +233,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
             || CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null;
         if (isParsable) {
           Date newDate = CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null
-              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd")
-              : CheckUtils.parseDate(data);
+              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") : CheckUtils.parseDate(data);
           tutor.setDataDiNascita(newDate);
           count++;
         }

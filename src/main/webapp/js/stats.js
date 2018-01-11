@@ -2,8 +2,10 @@
 var tId;
 
 function compareMonth(a,b) {
-	a = parseInt(a);
-	b = parseInt(b);
+	arrayA = a.split(" ");
+	arrayB = b.split(" ");
+	a = parseInt(arrayA[1]+arrayA[0]);
+	b = parseInt(arrayB[1]+arrayB[0]);
   if (a < b)
     return -1;
   if (a > b)
@@ -165,7 +167,11 @@ var updateAnimatedChart = (data) =>{
 	  labels: labels,
 	  series: series
 	}, {
-	  low: minValue - 2
+	  high: maxValue + 2,
+	  low: 0,
+	  axisY: {
+		  onlyInteger: true
+		  }
 	});
 
 	// Let's put a sequence number aside so we can use it in the event callbacks

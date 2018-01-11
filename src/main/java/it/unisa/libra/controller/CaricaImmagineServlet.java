@@ -13,15 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-
-
-/*
- * Servlet implementation class CaricaImmagineServlet
- * 
- * 
- * /** Consente di effettuare il caricamento dell'immagine.
+/**
+ * Servlet implementation class CaricaImmagineServlet. Consente di effettuare il caricamento
+ * dell'immagine.
  */
 @WebServlet(name = "CaricaImmagineServlet", urlPatterns = "/caricaImmagine")
 @MultipartConfig
@@ -65,12 +60,16 @@ public class CaricaImmagineServlet extends HttpServlet {
       if (FileUtils.saveBase64ToFile(FileUtils.PATH_IMG_PROFILO, email + ".png", file)) {
         response.getWriter().write("Salvataggio riuscito con successo");
       }
-      user.setImgProfilo(FileUtils.PATH_IMG_PROFILO + email + ".png");
+      user.setImgProfilo(email + ".png");
       utenteDao.persist(user);
     } else {
       // errore
       response.getWriter().write("errore");
     }
+  }
+
+  public void setUtenteDao(IUtenteDao utenteDao) {
+    this.utenteDao = utenteDao;
   }
 
   /*

@@ -206,8 +206,8 @@
                                     <div class="form-group m-t-40 row">
                                         <label for="example-text-input" class="col-2 col-form-label">Ambito</label>
                                         <div class="col-10">
-                                            <input class="form-control" type="text" id="example-text-input" name="ambito" placeholder="Nuovo Ambito"
-
+                                            <input class="form-control" type="text" id="example-text-input" name="ambito" 
+										<% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=ambito%>" <% } else { %> placeholder="Area di interesse del tutor" <% } %>
 										maxlength="50" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										required="required"  <%} %> />
@@ -216,9 +216,9 @@
                                     <div class="form-group row">
                                         <label for="example-search-input" class="col-2 col-form-label">Nome</label>
                                         <div class="col-10">
-                                            <input class="form-control" type="text"  id="example-search-input" name="nome" placeholder="Nuovo Nome"
-
-										maxlength="30" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
+                                            <input class="form-control" type="text"  id="example-search-input" name="nome" 
+											<% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=tutor.getNome()%>" <% } else { %> placeholder="Nome del tutor" <% } %>
+											maxlength="30" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
 
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										required="required" <%} %> />
@@ -228,8 +228,8 @@
                                         <label for="example-email-input" class="col-2 col-form-label">Cognome</label>
                                         <div class="col-10">
                                             <input class="form-control" type="text" id="example-email-input" type="text" name="cognome" maxlength="30" 
-                                                   
-                                                   placeholder="Nuovo Cognome" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
+                                              <% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=tutor.getCognome()%>" <% } else { %> placeholder="Cognome del tutor" <% } %>
+											 pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
 
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										required="required" <%} %> />
@@ -238,8 +238,9 @@
                                     <div class="form-group row">
                                         <label for="example-url-input" class="col-2 col-form-label">Indirizzo</label>
                                         <div class="col-10">
-                                            <input class="form-control" id="example-url-input" type="text" name="indirizzo"  placeholder="Indirizzo"
-
+                                            <input class="form-control" id="example-url-input" type="text" name="indirizzo"  
+                                            <% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=tutor.getIndirizzo()%>" <% } else { %> placeholder="Indirizzo del tutor" <% } %>
+											
 										pattern="[a-zA-Z]+[a-zA-Z, 0-9]*[a-zA-Z]+" maxlength="40"
 										title="via, numeroCivico citta'"
 
@@ -250,7 +251,9 @@
                                     <div class="form-group row">
                                         <label for="example-tel-input" class="col-2 col-form-label">Data Di Nascita</label>
                                         <div class="col-10">
-                                            <input class="form-control" id="example-tel-input" type="date" name="dataDiNascita" placeholder="Nuova Data di nascita"
+                                            <input class="form-control" id="example-tel-input" type="date" name="dataDiNascita" 
+                                            <% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=tutor.getDataDiNascita()%>" <% } %>
+											
                                             
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										required="required" <%}%> />
@@ -259,8 +262,9 @@
                                     <div class="form-group row">
                                         <label for="example-password-input" class="col-2 col-form-label">Telefono</label>
                                         <div class="col-10">
-                                            <input class="form-control"  id="example-password-input" type="text" name="telefono" placeholder="Nuovo Numero Telefonico"
-
+                                            <input class="form-control"  id="example-password-input" type="text" name="telefono" 
+                                            <% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=tutor.getTelefono()%>" <% } else { %> placeholder="Numero telefonico del tutor" <% } %>
+											
 										maxlength="10" pattern="[0-9]{8,11}" title="solo caratteri numerici"
 
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>

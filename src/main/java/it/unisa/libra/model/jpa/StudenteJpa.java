@@ -48,8 +48,8 @@ public class StudenteJpa extends GenericJpa<Studente, String> implements IStuden
     Root<Studente> root = cq.from(Studente.class);
     Join<Studente, Utente> join = root.join("utente");
 
-    cq.multiselect(root.get("matricola"), root.get("nome"), root.get("cognome"), root.get("utenteEmail"),
-        join.get("imgProfilo"));
+    cq.multiselect(root.get("matricola"), root.get("nome"), root.get("cognome"),
+        root.get("utenteEmail"), join.get("imgProfilo"));
 
     cq.orderBy(cb.asc(root.get("cognome")));
 
@@ -84,7 +84,7 @@ public class StudenteJpa extends GenericJpa<Studente, String> implements IStuden
     if (joinTutorInterno != null) {
       cq.where(cb.equal(joinTutorInterno.get("utenteEmail"), tutorInternoEmail));
     }
-    
+
     cq.where(cb.isNull(joinProgForm.get("dataFine")));
 
     cq.orderBy(cb.asc(root.get("cognome")));

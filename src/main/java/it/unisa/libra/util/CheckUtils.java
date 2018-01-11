@@ -3,13 +3,15 @@ package it.unisa.libra.util;
 import com.mysql.jdbc.StringUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Consente di verificare la correttezza sintattica e lessicografica delle informazioni critiche.
@@ -121,4 +123,36 @@ public class CheckUtils {
   public static boolean validAction(HttpServletRequest request) {
     return (request != null && !StringUtils.isNullOrEmpty(request.getParameter(Actions.ACTION)));
   }
+
+
+  /**
+   * Verifica che la data non sia nel futuro.
+   * 
+   * @param data la data da controllare
+   * @return true se la data e' corrente o passata, false se la data e' nel futuro oppure e'
+   *         invalida
+   */
+  public static boolean notInFuture(Date data) {
+    if (data != null) {
+      return data.before(new Date());
+    }
+    return false;
+  }
+
+
+  /**
+   * Verifica che una persona nata nella data passata e' maggiorenne.
+   * 
+   * @param dataDiNascita la data di nascita della persona
+   * @return true se la persona e' maggiorenne, false altrimenti
+   */
+  public static boolean isMaggiorenne(Date dataDiNascita) {
+    if (dataDiNascita != null) {
+      Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Rome"));
+      cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 18);
+      return cal.getTime().after(dataDiNascita);
+    }
+    return false;
+  }
+
 }

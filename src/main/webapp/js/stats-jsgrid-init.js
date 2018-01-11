@@ -21,9 +21,9 @@ var initTable = () => {
             else if(valueField >= 2){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
             else if(valueField >= 0){$text.attr("class","text-error text-center"); $innerProgress.attr("class","progress-bar bg-danger")}
             else return "<span class='label label-light-danger col-12 text-center'>Nessun feedback rilasciato</span>";
-	    	$text.text(valueField+"/10")
+	    	$text.text(valueField+"/5")
 	    	
-	    	$innerProgress.attr("style","width: "+valueField * 10 + "%" + "; height: 6px;")
+	    	$innerProgress.attr("style","width: "+valueField *2 * 10 + "%" + "; height: 6px;")
 	    	$innerProgress.attr("role","progressbar")
 	    	$innerProgress.attr("aria-valuenow","25")
 	    	$innerProgress.attr("aria-valuemin","0")
@@ -45,7 +45,7 @@ var initTable = () => {
             else if(valueField >= 2){$result.attr("class","text-warning")}
             else {$result.attr("class","text-error")}
 	    	
-	        return this._insertProgress = $result.text(valueField+"/10");
+	        return this._insertProgress = $result.text(valueField+"/5");
 	    },
 	 
 	    insertValue: function(valueField) {
@@ -58,7 +58,7 @@ var initTable = () => {
             else if(valueField >= 0) {$result.attr("class","text-error")}
             else {}
 	    	
-	        return this._insertProgress = $result.text(valueField+"/10");
+	        return this._insertProgress = $result.text(valueField+"/5");
 	    }
 	 
 	});

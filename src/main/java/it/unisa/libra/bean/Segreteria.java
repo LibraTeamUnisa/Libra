@@ -10,7 +10,6 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
-
 /**
  * The persistent class for the segreteria database table.
  * 

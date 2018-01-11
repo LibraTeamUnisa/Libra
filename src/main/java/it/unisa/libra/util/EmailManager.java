@@ -13,8 +13,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * Definisce un manager di email che si occupa delle impostazioni delle proprieta' e dell'invio di un
- * messaggio di posta elettronica ad un server SMTP che provvede ad effettuare il delivery ad un
+ * Definisce un manager di email che si occupa delle impostazioni delle proprieta' e dell'invio di
+ * un messaggio di posta elettronica ad un server SMTP che provvede ad effettuare il delivery ad un
  * destinatario opportunamente specificato.
  * 
  * @author Mauro Vitale
@@ -64,8 +64,6 @@ public class EmailManager {
   /**
    * Imposta le proprieta' necessarie del messaggion necessarie per effettuarne l'invio.
    * 
-   * @param smtpServer Indica il server SMTP a cui effettuare il delivery del messaggio
-   * @param smtpPort Indica la porta SSL a cui recapitare il messaggio
    * @param authEnabled Indica se e' necessario usare l'autenticazione
    * @return Restituisce un oggetto che incapsula le proprieta' impostate
    */
@@ -103,7 +101,6 @@ public class EmailManager {
    * 
    * @param props Indica le proprieta' di delivery del messaggio da creare
    * @param auth Indica l'autenticazione,se richiesta, presso il server SMTP
-   * @param from Indica il mittente del messaggio
    * @param to Indica il destinatario del messaggio
    * @param subject Indica l'oggetto del messaggio
    * @param body Indica il corpo del messaggio
@@ -134,9 +131,6 @@ public class EmailManager {
   /**
    * Effettua l'invio di una email opportunamente formattata ad un indirizzo di posta elettronica.
    * 
-   * @param to Indica il destinatario dell'email
-   * @param subject Indica l'oggetto dell'email
-   * @param body Indica il messaggio contenuto nell'email
    * @throws UnsupportedEncodingException Viene lanciata nel caso in cui non e'possibile effettuare
    *         il parse dell' indirizzo di posta elettronica di destinazione.
    * @throws MessagingException Viene lanciata nel caso in cui non e' possibilie strutturare e

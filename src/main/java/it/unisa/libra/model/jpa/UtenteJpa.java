@@ -6,7 +6,6 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-
 @Stateless
 public class UtenteJpa extends GenericJpa<Utente, String> implements IUtenteDao {
 

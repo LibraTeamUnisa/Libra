@@ -3,7 +3,6 @@ package it.unisa.libra.controller;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
@@ -92,7 +91,8 @@ public class RegistrazioneServletTest {
     when(request.getParameter("indirizzo")).thenReturn("indirizzo");
     when(request.getParameter("telefono")).thenReturn("telefono");
     when(gruppoDao.findById(Gruppo.class, "Studente")).thenReturn(gruppo);
-    when(studenteDao.findById(Studente.class, "gallicchio.vincenzo@yahoo.it")).thenReturn(new Studente());
+    when(studenteDao.findById(Studente.class, "gallicchio.vincenzo@yahoo.it"))
+        .thenReturn(new Studente());
     servlet.doPost(request, response);
     verify(responseWriter).write("Utente già presente nel sistema");
   }

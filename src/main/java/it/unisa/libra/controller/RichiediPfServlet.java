@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
 /**
  * Consente di effettuare una richiesta di progetto formativo ad un utente registrato con ruolo
  * studente.

@@ -14,7 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the tutorinterno database table.
  * 
@@ -39,7 +38,7 @@ public class TutorInterno implements Serializable {
   private String nome;
 
   // bi-directional many-to-one association to ProgettoFormativo
-  @OneToMany(mappedBy = "tutorInterno",fetch=FetchType.LAZY)
+  @OneToMany(mappedBy = "tutorInterno", fetch = FetchType.LAZY)
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente
@@ -97,6 +96,11 @@ public class TutorInterno implements Serializable {
     this.progettiFormativi = progettiFormativi;
   }
 
+  /** Aggiunge un progetto formativo.
+   * 
+   * @param progettiFormativi il progetto da aggiungere
+   * @return il progetto aggiunto
+   */
   public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().add(progettiFormativi);
     progettiFormativi.setTutorInterno(this);
@@ -104,6 +108,11 @@ public class TutorInterno implements Serializable {
     return progettiFormativi;
   }
 
+  /** Rimuove un progetto formativo.
+   * 
+   * @param progettiFormativi il progetto da rimuovere
+   * @return il progetto rimosso
+   */
   public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().remove(progettiFormativi);
     progettiFormativi.setTutorInterno(null);

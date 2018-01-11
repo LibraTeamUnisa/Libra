@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Questa classe permette allo studente di registrarsi.
  *
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version [0.0]
  */
 
-/** Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. **/
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = "/registrazione")
 public class RegistrazioneServlet extends HttpServlet {
 
@@ -40,6 +39,8 @@ public class RegistrazioneServlet extends HttpServlet {
   public RegistrazioneServlet() {}
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,12 +68,12 @@ public class RegistrazioneServlet extends HttpServlet {
       response.getWriter().write("Errore durante il parse della data");
     }
 
-    /**
+    /*
      * Realizzazione di un oggetto di tipo studente
      */
     Studente studente = istanziaStudente(nome, cognome, email, matricola, data);
 
-    /**
+    /*
      * Realizzazione di utente, generalizzazione dello studente
      */
     Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
@@ -97,6 +98,8 @@ public class RegistrazioneServlet extends HttpServlet {
   }
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -126,5 +129,5 @@ public class RegistrazioneServlet extends HttpServlet {
     utente.setTelefono(telefono);
     return utente;
   }
-  
+
 }

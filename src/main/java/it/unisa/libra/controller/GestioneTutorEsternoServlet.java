@@ -241,7 +241,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
             count++;
           } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("La data specificata non &egrave corretta");
+            response.getWriter().write("Hai specificato una data non valida");
             response.getWriter().flush();
             return;
           }

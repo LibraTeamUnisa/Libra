@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="it.unisa.libra.model.dao.ITutorInternoDao,
                                       it.unisa.libra.model.jpa.TutorInternoJpa,
+                                      it.unisa.libra.model.dao.IProgettoFormativoDao,
+                                      it.unisa.libra.model.jpa.ProgettoFormativoJpa,
                                       it.unisa.libra.bean.TutorInterno,
                                       it.unisa.libra.bean.ProgettoFormativo,
                                       it.unisa.libra.bean.Studente,
@@ -11,22 +13,14 @@
                                       java.text.SimpleDateFormat,
                                       javax.naming.InitialContext"%>
 <%!
-   private static final int APPROVED_STATE=4;
-
-   private List<ProgettoFormativo> getActive(List<ProgettoFormativo> pfList)
-   {
-	 List<ProgettoFormativo> result=new ArrayList<ProgettoFormativo>();
-	 for(ProgettoFormativo pf:pfList){
-		 if(pf.getStato()==APPROVED_STATE)
-			 result.add(pf);
-	 }
-	 return result.size()==0?null:result;
-   }
-   
    private String parseDate(Date date)
    {
 	   SimpleDateFormat dFormat=new SimpleDateFormat("dd/MM/yyyy");
-	   return dFormat.format(date);
+	   try {
+		   return dFormat.format(date);
+	   } catch(Exception ex) {
+		   return "error";
+	   }
    }
  %>
 <!DOCTYPE html>
@@ -103,6 +97,8 @@
             <%
                ITutorInternoDao tutorDao=(ITutorInternoDao)new InitialContext().lookup("java:app/Libra/TutorInternoJpa");
                TutorInterno tutor=tutorDao.findById(TutorInterno.class, (String)session.getAttribute("utenteEmail"));
+               IProgettoFormativoDao pfDao=(IProgettoFormativoDao)new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+               List<ProgettoFormativo> pfList=pfDao.getAttivi(tutor);
              %>
                  <div class="container">
                      <!-- MAIN CARD  -->
@@ -117,8 +113,6 @@
                          <div class="card-body">
                          <br>
                              <%
-                                List<ProgettoFormativo> pfList=tutor.getProgettiFormativi();
-                                pfList= getActive(pfList);
                                 if(pfList!=null&&pfList.size()!=0){
                                 	
                                 	for(ProgettoFormativo pf:pfList){ 
@@ -201,8 +195,13 @@
                                           </div>
                                           <!-- TRAINERSHIP DATA -->
                                           <dl class="row" style="margin: 0px!important">
-                                              <dt class="col-sm-3">Ambito</dt>
-                                              <dd class="col-sm-9"><%= pf.getAmbito() %></dd>
+                                              <%
+                                                 String dates=parseDate(pf.getDataInizio())+"-"+parseDate(pf.getDataFine());
+                                                 if(dates.contains("error"))
+                                                	 dates="Date non disponibili";
+                                               %>
+                                              <dt class="col-sm-4">Inizio-Fine</dt>
+                                              <dd class="col-sm-8"><%= dates %></dd>
                                               <div class="separator"></div>
                                               <dt class="col-sm-3">Ambito</dt>
                                               <dd class="col-sm-9"><%= pf.getAmbito() %></dd>

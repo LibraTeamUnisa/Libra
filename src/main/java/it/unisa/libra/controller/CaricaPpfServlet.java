@@ -7,7 +7,6 @@ import it.unisa.libra.model.dao.ITutorInternoDao;
 import it.unisa.libra.model.dao.IUtenteDao;
 import it.unisa.libra.util.FileUtils;
 import it.unisa.libra.util.StatoPf;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,9 +84,8 @@ public class CaricaPpfServlet extends HttpServlet {
         /* memorizzo la proposta nel database */
         propostaDao.persist(proposta);
         response.getWriter().write("ok");
-      }
-      else {
-    	  response.getWriter().write("errore");
+      } else {
+        response.getWriter().write("errore");
       }
     }
 
@@ -112,9 +110,8 @@ public class CaricaPpfServlet extends HttpServlet {
         propostaDao.persist(proposta);
 
         response.getWriter().write("ok");
-      }
-      else {
-    	  response.getWriter().write("errore");
+      } else {
+        response.getWriter().write("errore");
       }
     }
 
@@ -133,9 +130,8 @@ public class CaricaPpfServlet extends HttpServlet {
         propostaDao.persist(proposta);
 
         response.getWriter().write("ok");
-      }
-      else {
-    	  response.getWriter().write("errore");
+      } else {
+        response.getWriter().write("errore");
       }
     }
 
@@ -153,9 +149,8 @@ public class CaricaPpfServlet extends HttpServlet {
         propostaDao.persist(proposta);
 
         response.getWriter().write("ok");
-      }
-      else {
-    	  response.getWriter().write("errore");
+      } else {
+        response.getWriter().write("errore");
       }
     }
   }
@@ -171,14 +166,12 @@ public class CaricaPpfServlet extends HttpServlet {
     this.propostaDao = dao2;
   }
 
- /*
-  * 
-  * @param dao IUtenteDao
-  * 
-  * @param dao2 IProgettoFormativoDao
-  * 
-  * @param dao3 ITutorInternoDao
-  */
+  /**
+   * Imposta dao per il testing.
+   * @param dao IUtenteDao
+   * @param dao2 IProgettoFormativoDao
+   * @param dao3 ITutorInternoDao
+   */
   public void setUtenteDao(IUtenteDao dao, IProgettoFormativoDao dao2, ITutorInternoDao dao3) {
     this.utenteDao = dao;
     this.propostaDao = dao2;

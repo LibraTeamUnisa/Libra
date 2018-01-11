@@ -38,7 +38,7 @@ public class TutorInterno implements Serializable {
   private String nome;
 
   // bi-directional many-to-one association to ProgettoFormativo
-  @OneToMany(mappedBy = "tutorInterno", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "tutorInterno",fetch=FetchType.LAZY)
   private List<ProgettoFormativo> progettiFormativi;
 
   // bi-directional one-to-one association to Utente

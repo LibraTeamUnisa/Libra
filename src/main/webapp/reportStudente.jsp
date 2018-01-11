@@ -62,6 +62,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
+
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -123,22 +127,43 @@
 					String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 						Studente studente = studenteDao.findById(Studente.class, emailStudente);
 						ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-						List<Report> listaReportStudenti = reportDao.findAll(Report.class);
-						if ((listaReportStudenti == null) || listaReportStudenti.isEmpty()) {
+						if(progettoFormativo == null){
+							%>
+				<h1>Non sei iscritto a Nessun Progetto Formativo</h1>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
 				%>
-				<h1>Nessun report disponibile</h1>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
 
+				<%						
+						}else if(progettoFormativo != null){
+						List<Report> listaReportStudenti = progettoFormativo.getReports();
+						if (((listaReportStudenti == null) || listaReportStudenti.isEmpty())
+								&& (progettoFormativo.getStato() == 4)) {
+				%>
 				<button type="button" class="btn btn-success" data-toggle="modal"
 					data-target="#myModal">Aggiungi Report</button>
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
-					} else {
+					} else if ((progettoFormativo.getStato() != 4)) {
+				%>
+				<h1>Non è possibile aggiungere Report</h1>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
+				%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+
+				<%
+					} else if ((listaReportStudenti != null) || (!listaReportStudenti.isEmpty())) {
 							Iterator<?> it = listaReportStudenti.iterator();
 				%>
 
 				<form class="form-horizontal form-material" id="listReport">
-
 					<div class="card">
 						<div class="card-block">
 							<h4 class="card-title"></h4>
@@ -163,9 +188,15 @@
 													<th style="width: 28%;" data-field="6"><div
 															class="th-inner ">Oggetto</div>
 														<div class="fht-cell"></div></th>
+													<%
+														if (progettoFormativo.getStato() == 4) {
+													%>
 													<th style="width: 25%;" data-field="6"><div
 															class="th-inner ">Action</div>
 														<div class="fht-cell"></div></th>
+													<%
+														}
+													%>
 												</tr>
 											</thead>
 										</table>
@@ -190,9 +221,15 @@
 														<th style="width: 34%;" data-field="6"><div
 																class="th-inner "></div>
 															<div class="fht-cell"></div></th>
+														<%
+															if (progettoFormativo.getStato() == 4) {
+														%>
 														<th style="width: 34%;" data-field="6"><div
 																class="th-inner "></div>
 															<div class="fht-cell"></div></th>
+														<%
+															}
+														%>
 													</tr>
 												</thead>
 												<tbody>
@@ -232,12 +269,15 @@
 															</div>
 															<div class="fht-cell"></div>
 														</td>
+														<%
+															if (progettoFormativo.getStato() == 4) {
+														%>
 														<td class="td-class-1" style="width: 34%;">
 															<div class="th-inner">
 																<%
 																	Long oo = rep.getId().getData().getTime();
 																%>
-																<button type="button" class="btn btn-primary"
+																<button type="button" class="btn btn-warning"
 																	onclick="$('#exampleModal<%=oo%>').modal('show')"
 																	id="<%=oo%>">ModificaReport</button>
 
@@ -257,19 +297,15 @@
 																			</div>
 																			<div class="modal-body">
 																				<div class="form-group">
-																					<label for="comment">Aggiungi un nuovo
-																						Report:</label>
 																					<div class="col-md-12">
 
 
-																						<input type="text" autofocus="autofocus"
-																							id="test<%=oo%>" class="form-control"
-																							style="width: 100%; height: auto;"
+																						<textarea class="form-control" rows="5"
+																							id="test<%=oo%>" style="width: 100%; height: auto;" maxlength="500"
 																							oninput='document.getElementById("testoReportModificato").value = this.value'
-																							value="<%=rep.getTesto()%>"
-																							onkeypress='document.getElementById("data").value =<%=oo%>'
-																							placeholder="Inserisci qui il nuovo Report"
-																							pattern=".{5,}"> <input type="hidden"
+																							minlength="6"
+																							onkeypress='document.getElementById("data").value =<%=oo%>'><%=rep.getTesto()%></textarea>
+																							<input type="hidden"
 																							id="testoReportModificato"
 																							name="testoReportModificato<%=oo%>">
 
@@ -284,7 +320,7 @@
 																				</div>
 																			</div>
 																			<div class="modal-footer">
-																				<button type="submit" class="btn btn-primary"
+																				<button type="submit" class="btn btn-success"
 																					style="float: left;" id="confermaModifica"
 																					onclick='modifica()'>Salva le modifiche</button>
 
@@ -320,6 +356,9 @@
 															</div>
 															<div class="fht-cell"></div>
 														</td>
+														<%
+															}
+														%>
 
 													</tr>
 
@@ -340,7 +379,7 @@
 					</div>
 				</form>
 				<%
-					}
+					if (progettoFormativo.getStato() == 4) {
 				%>
 				<button type="button" class="btn btn-success" data-toggle="modal"
 					data-target="#myModal">Aggiungi Report</button>
@@ -348,7 +387,9 @@
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
-					} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
+
+					}}} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
+
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
@@ -371,12 +412,32 @@
 						</ol>
 					</div>
 				</div>
-
+				<%
+													int i = 0;
+														List<Report> listaReportStudentia = reportDao.findAll(Report.class);
+														if((listaReportStudentia == null)||(listaReportStudentia.isEmpty())){
+															%>
+				<h1>Non sono presenti Report</h1>
+				<%
+												String dashboard="";
+												if (ruolo.equals("Presidente")) 
+													dashboard = request.getContextPath() + "/dashboard".concat("Presidente").concat(".jsp");
+												else if (ruolo.equals("Segreteria"))
+													
+											dashboard = request.getContextPath() + "/dashboard".concat("Segreteria").concat(".jsp");
+												
+												
+												%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+				<%	}else if((listaReportStudentia != null)||(!listaReportStudentia.isEmpty())){%>
 				<div class="card">
 					<div class="card-block">
 						<h4 class="card-title"></h4>
 						<h6 class="card-subtitle"></h6>
 						<div class="bootstrap-table">
+
 							<div class="fixed-table-container"
 								style="height: 430px; margin-top: -40px;">
 								<div class="table-responsive m-t-40">
@@ -449,10 +510,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<%
-													int i = 0;
-														List<Report> listaReportStudentia = reportDao.findAll(Report.class);
-														Iterator<Report> listReport = listaReportStudentia.iterator();
+												<%		Iterator<Report> listReport = listaReportStudentia.iterator();
 														while (listReport.hasNext()) {
 
 															Report report = listReport.next();
@@ -535,9 +593,10 @@
 							</div>
 						</div>
 					</div>
+
+					<%}%>
 				</div>
-				<%
-					} else if (ruolo.equals("TutorInterno")) {
+				<%} else if (ruolo.equals("TutorInterno")) {
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
@@ -552,6 +611,26 @@
 					</div>
 				</div>
 
+				<%
+													int i = 0;
+														String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
+
+														TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, emailTutor);
+
+														List<Report> listaReportStudentit = reportDao.findAll(Report.class);
+														if((listaReportStudentit == null)||(listaReportStudentit.isEmpty())){
+															%>
+
+				<h1>Non sono presenti Report</h1>
+				<%
+													String dashboard = request.getContextPath() + "/dashboard".concat("TutorInterno").concat(".jsp");
+												%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+
+				<%	}else if((listaReportStudentit != null)||(!listaReportStudentit.isEmpty())) { %>
+
 				<div class="card">
 					<div class="card-block">
 						<h4 class="card-title"></h4>
@@ -559,6 +638,7 @@
 						<div class="bootstrap-table">
 							<div class="fixed-table-container"
 								style="height: 430px; margin-top: -40px;">
+
 								<div class="table-responsive m-t-40">
 									<table id="example23"
 										class="display nowrap table table-hover table-striped table-bordered dataTable"
@@ -630,12 +710,6 @@
 											<tbody>
 
 												<%
-													int i = 0;
-														String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
-
-														TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, emailTutor);
-
-														List<Report> listaReportStudentit = reportDao.findAll(Report.class);
 														Iterator<Report> listd = listaReportStudentit.iterator();
 														while (listd.hasNext()) {
 															Report reportprfo = listd.next();
@@ -722,9 +796,11 @@
 							</div>
 						</div>
 					</div>
+					<%
+					}%>
 				</div>
 				<%
-					} else {
+				 }else {
 						badRequest = true;
 					}
 					if (badRequest) {
@@ -773,19 +849,27 @@
 										<div class="col-md-12">
 											<textarea id="testoNuovoReport" pattern=".{5,}"
 												class="form-control form-control-line" rows="5"
-												placeholder="Scrivi qui il tuo Report"
-												onkeydown="reportColor()"></textarea>
+												placeholder="Scrivi qui il tuo Report" maxlength="500"
+												onkeydown="reportColor()" ></textarea>
 											<script>
 												function reportColor(){
 													if(( $("#testoNuovoReport").val().length) < 4){
-														$("#testoNuovoReport").css( "color", "red" );
 														$("#confermaAggiunta").prop("disabled", true);
 													} else if((($("#testoNuovoReport").val().length) >= 4)&&(($("#testoNuovoReport").val().length) <= 8))
 													{$("#confermaAggiunta").prop("disabled", false);
-													$("#testoNuovoReport").css( "color", "green" );
 													} else{
-														$("#testoNuovoReport").css( "color", "black" );
 														$("#confermaAggiunta").prop("disabled", false);
+													}
+												}
+												</script>
+												<script>
+												function reportColorText(){
+													if(( $("#testoReportModificato").val().length) < 4){
+														$("#confermaModifica").prop("disabled", true);
+													} else if((($("#testoReportModificato").val().length) >= 4)&&(($("#testoReportModificato").val().length) <= 8))
+													{$("#confermaModifica").prop("disabled", false);
+													} else{
+														$("#confermaModifica").prop("disabled", false);
 													}
 												}
 												</script>

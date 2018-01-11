@@ -1,45 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import="it.unisa.libra.model.dao.IStudenteDao" %>
 <%@ page import="it.unisa.libra.model.dao.IProgettoFormativoDao" %>
 <%@ page import="it.unisa.libra.model.dao.IAziendaDao" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.Context" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Map.Entry" %>
 <%@ page import="it.unisa.libra.bean.ProgettoFormativo" %>
-<%@ page import="it.unisa.libra.bean.Studente" %>
 <%@ page import="it.unisa.libra.bean.Azienda" %>
 <%@ page import="it.unisa.libra.bean.TutorInterno" %>
 <%@page import="java.text.DateFormat" %>
 <%@page import="java.text.SimpleDateFormat" %>
-<%@page import="java.util.HashSet"%>
 
 <%
  	String email = (String) request.getSession().getAttribute("utenteEmail");
 	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-	IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
-	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
 	IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
-	int numeroProgettiFormativi = 0;
-	int numeroAziende = aziendaDao.findAll(Azienda.class).size();
-	int numeroStudentiAttivi = 0;
-	List<ProgettoFormativo> progettiDaRevisionare = progettoFormativoDao.findAll(ProgettoFormativo.class);
-	HashSet<String> studentiAssociati = new HashSet<String>();
-	
-	if(progettiDaRevisionare!=null){
-		for(ProgettoFormativo progetto: progettiDaRevisionare){
-			
-			if(progetto.getDataInizio()!=null&&progetto.getDataInizio().before(new Date())){
-				if(progetto.getDataFine()==null||progetto.getDataFine().after(new Date())){
-					numeroStudentiAttivi++;
-				}
-			}
-	 }
-	}
+	IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+	List<Object[]> progettiDaRevisionare = (List<Object[]>) progettoFormativoDao.getPfDaRevisionareTutorInterno(email);
+
 %>
 
 <!DOCTYPE html>
@@ -133,44 +112,37 @@
                                         </thead>
                                         
                                         <%if(progettiDaRevisionare!=null && progettiDaRevisionare.size()>0){
-                                        	for(ProgettoFormativo p:progettiDaRevisionare){
-                                        	 if(p.getTutorInterno()!=null){		
-                                        		if(p.getTutorInterno().getUtenteEmail().equals(email)){
-                                        			numeroProgettiFormativi++;
-                                        			if(!studentiAssociati.contains(p.getStudente().getUtenteEmail())){
-                                        				studentiAssociati.add(p.getStudente().getUtenteEmail());
-                                        			}
-                                        			if(p.getStato()==2){	
+                                        	for(Object[] p : progettiDaRevisionare){
                                         %>
                                         <tbody><tr>
                                                <td style="width:50px;">
-                                               	<a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=p.getStudente().getUtenteEmail()%>"><img src="<%=p.getStudente().getUtente().getImgProfilo()%>" alt="user" width="40" class="img-circle"></a>
+                                               	<a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=p[0]%>"> <span class="round"><%=((String)p[3]).charAt(0)%></span></a>
                                                </td>
                                                
                                                 <% 
-                                                if(p.getStudente()!=null&&p.getStudente().getNome()!=null&&p.getStudente().getNome()!=null){
+                                                if(p[3]!=null && p[4]!=null){
                                                 %>
-                                               	 <td> <h6> <%=(p.getStudente().getNome()+" "+p.getStudente().getCognome()) %></h6></td>
+                                               	 <td> <h6> <%=(p[4]+" "+p[3]) %></h6></td>
                                                	 <%} else{ %>
                                                	 <td> <h6> Non disponibile</h6></td><%} %>
                                                	 
-                                               	<%if(p.getAzienda()!=null&&p.getAzienda().getNome()!=null) {%>
-                                                <td><h6><%=p.getAzienda().getNome() %></h6></td>
+                                               	<%if(p[1]!=null) {%>
+                                                <td><h6><%=p[1] %></h6></td>
                                                	<% } else{%>
                                                	<td style="width:50px;"><span class="round">NA</span></td>
                                                 <td><h6>Non disponibile</h6></td><%} %>
                                                	 
                                                  <%
-                                                if(p.getAmbito()!=null){
+                                                if(p[2]!=null){
                                                 %>
-                                                <td><span class="label label-light-success"><%=p.getAmbito() %></span></td>
+                                                <td><span class="label label-light-success"><%=p[2] %></span></td>
                                                 <%} else{ %>
                                                 <td> <h6> Non disponibile</h6></td><%} %>
                                                 
                                                	<%
-                                                if(p.getDataInvio()!=null){
+                                                if(p[5]!=null){
                                                 %>
-                                                <td><%=formatter.format(p.getDataInvio())%></td>
+                                                <td><%=formatter.format(p[5])%></td>
                                                 <%}else{
                                                 	%>
                                                 	<td> <h6> Non disponibile</h6></td>
@@ -178,9 +150,6 @@
                                             </tr>
                                           <% 
                                         			}
-                                            	}
-                                        	 }	
-                                        	}
                                          }		
                                         %>
                                         </tbody>
@@ -200,7 +169,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light"><%=studentiAssociati.size()%></h1>
+                                            <h1 class="font-light"><%=progettoFormativoDao.getNumStudentiAssociati(email)%></h1>
                                             <h6 class="text-muted">Studenti associati</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
@@ -216,7 +185,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light"><%=numeroProgettiFormativi %></h1>
+                                            <h1 class="font-light"><%=progettoFormativoDao.getPfTutor(email)%></h1>
                                             <h6 class="text-muted">Progetti formativi associati</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
@@ -232,7 +201,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light"><%=numeroAziende %></h1>
+                                            <h1 class="font-light"><%=aziendaDao.contaOccorrenze()%></h1>
                                             <h6 class="text-muted">Aziende convenzionate</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
@@ -248,7 +217,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light"><%=numeroStudentiAttivi%></h1>
+                                            <h1 class="font-light"><%=progettoFormativoDao.getNumStudentiAttivi()%></h1>
                                             <h6 class="text-muted">Numero studenti attivi</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">

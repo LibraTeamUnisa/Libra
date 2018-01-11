@@ -36,14 +36,19 @@
 		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/dettaglioReport.jsp</url-pattern>
+		<url-pattern>/dettaglioStudente.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/listaStudenti.jsp</url-pattern>
 		<url-pattern>/profiloAziendale.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
+		<url-pattern>/recuperaPassword.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
+		<url-pattern>/reportStudente.jsp</url-pattern>
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<url-pattern>/statistiche.jsp</url-pattern>
 		<servlet-name>GestioneUtenteServlet</servlet-name>
 		<servlet-name>RecuperoPasswordServlet</servlet-name>
 		<servlet-name>RegistrazioneServlet</servlet-name>
@@ -60,7 +65,6 @@
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
-		<url-pattern>/creaPpf.jsp</url-pattern>
 		<url-pattern>/dashboardAzienda.jsp</url-pattern>
 		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
@@ -71,6 +75,7 @@
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/recuperaPassword.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
@@ -87,10 +92,8 @@
 	<filter-mapping>
 		<filter-name>NegaSegreteria</filter-name>
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
-		<url-pattern>/caricaPpf.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
-		<url-pattern>/creaPpf.jsp</url-pattern>
 		<url-pattern>/dashboardAzienda.jsp</url-pattern>
 		<url-pattern>/dashboardPresidente.jsp</url-pattern>
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
@@ -100,6 +103,7 @@
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/recuperaPassword.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
 		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
@@ -117,7 +121,6 @@
 		<url-pattern>/aggiungiUtente.jsp</url-pattern>
 		<url-pattern>/cambiaPeriodoReport.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
-		<url-pattern>/creaPpf.jsp</url-pattern>
 		<url-pattern>/dashboardAzienda.jsp</url-pattern>
 		<url-pattern>/dashboardPresidente.jsp</url-pattern>
 		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
@@ -128,8 +131,11 @@
 		<url-pattern>/listaStudenti.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/recuperaPassword.jsp</url-pattern>
+		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rifiutaPpf.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<url-pattern>/statistiche.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
 		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
 		<servlet-name>GestioneUtenteServlet</servlet-name>
@@ -146,7 +152,6 @@
 		<url-pattern>/aggiungiUtente.jsp</url-pattern>
 		<url-pattern>/catalogoTutorEsterni.jsp</url-pattern>
 		<url-pattern>/compilaReport.jsp</url-pattern>
-		<url-pattern>/creaPpf.jsp</url-pattern>
 		<url-pattern>/dashboardAzienda.jsp</url-pattern>
 		<url-pattern>/dashboardPresidente.jsp</url-pattern>
 		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
@@ -157,8 +162,10 @@
 		<url-pattern>/pfInviati.jsp</url-pattern>
 		<url-pattern>/questionarioValutaAzienda.jsp</url-pattern>
 		<url-pattern>/questionarioValutaStudente.jsp</url-pattern>
+		<url-pattern>/recuperaPassword.jsp</url-pattern>
 		<url-pattern>/registrazione.jsp</url-pattern>
 		<url-pattern>/rimuoviUtente.jsp</url-pattern>
+		<url-pattern>/statistiche.jsp</url-pattern>
 		<url-pattern>/valutaStudenti.jsp</url-pattern>
 		<servlet-name>GestioneTutorEsternoServlet</servlet-name>
 		<servlet-name>RecuperoPasswordServlet</servlet-name>

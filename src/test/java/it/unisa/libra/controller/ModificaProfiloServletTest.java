@@ -1,12 +1,13 @@
 package it.unisa.libra.controller;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Segreteria;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.bean.Utente;
-import it.unisa.libra.controller.ModificaProfiloServlet;
 import it.unisa.libra.model.dao.IAziendaDao;
 import it.unisa.libra.model.dao.IPresidenteDao;
 import it.unisa.libra.model.dao.ISegreteriaDao;
@@ -21,13 +22,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import static org.mockito.Mockito.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 
 
 public class ModificaProfiloServletTest {
@@ -167,7 +168,10 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("numeroTelefono")).thenReturn("x");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
     when(request.getParameter("ufficio")).thenReturn("IKickYouOut");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("orario1");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
     when(request.getServletContext()).thenReturn(context);
     when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
@@ -185,11 +189,33 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
     when(request.getParameter("ufficio")).thenReturn("IKickYouOut");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("orario1");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
     when(request.getServletContext()).thenReturn(context);
     when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
     verify(dispatcher).forward(request, response);
+  }
+
+  @Test
+  public void inputOrarioVuotoPresidente() throws ServletException, IOException {
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("utenteEmail")).thenReturn(email);
+    when(session.getAttribute("utenteRuolo")).thenReturn("Presidente");
+    when(presidenteDao.findById(Presidente.class, email)).thenReturn(presidente);
+    when(presidente.getUtente()).thenReturn(utente);
+    when(request.getParameter("indirizzo")).thenReturn("CorrectAddress");
+    when(request.getParameter("numeroTelefono")).thenReturn("1234567890");
+    when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
+    when(request.getParameter("ufficio")).thenReturn("IKickYouOut");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
+    servlet.doPost(request, response);
+    verify(response).sendRedirect("profilo.jsp");
   }
 
   @Test
@@ -201,7 +227,10 @@ public class ModificaProfiloServletTest {
     when(segreteria.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("x");
     when(request.getParameter("numeroTelefono")).thenReturn("x");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("orario1");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
     when(request.getServletContext()).thenReturn(context);
     when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
@@ -217,11 +246,31 @@ public class ModificaProfiloServletTest {
     when(segreteria.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("correctAddress");
     when(request.getParameter("numeroTelefono")).thenReturn("ciaociaoci");
-    when(request.getParameter("ricevimento")).thenReturn("Test");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("orario1");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
     when(request.getServletContext()).thenReturn(context);
     when(context.getRequestDispatcher("/modificaProfilo.jsp")).thenReturn(dispatcher);
     servlet.doPost(request, response);
     verify(dispatcher).forward(request, response);
+  }
+
+  @Test
+  public void inputOrarioVuotoSegreteria() throws ServletException, IOException {
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("utenteEmail")).thenReturn(email);
+    when(session.getAttribute("utenteRuolo")).thenReturn("Segreteria");
+    when(segreteriaDao.findById(Segreteria.class, email)).thenReturn(segreteria);
+    when(segreteria.getUtente()).thenReturn(utente);
+    when(request.getParameter("indirizzo")).thenReturn("CorrectAddress");
+    when(request.getParameter("numeroTelefono")).thenReturn("1234567890");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
+    servlet.doPost(request, response);
+    verify(response).sendRedirect("profilo.jsp");
   }
 
   @Test
@@ -292,7 +341,10 @@ public class ModificaProfiloServletTest {
     when(request.getParameter("numeroTelefono")).thenReturn("1234567890");
     when(request.getParameter("sito")).thenReturn("somewhereInTheWeb");
     when(request.getParameter("ufficio")).thenReturn("IKickYouOut");
-    when(request.getParameter("ricevimento")).thenReturn("FuckYou");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("orario1");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
     servlet.doPost(request, response);
     verify(response).sendRedirect("profilo.jsp");
   }
@@ -306,7 +358,10 @@ public class ModificaProfiloServletTest {
     when(segreteria.getUtente()).thenReturn(utente);
     when(request.getParameter("indirizzo")).thenReturn("CorrectAddress");
     when(request.getParameter("numeroTelefono")).thenReturn("1234567890");
-    when(request.getParameter("ricevimento")).thenReturn("FuckYou");
+    when(request.getParameter("giorno1")).thenReturn("day1");
+    when(request.getParameter("giorno2")).thenReturn("day2");
+    when(request.getParameter("fasciaOraria1")).thenReturn("orario1");
+    when(request.getParameter("fasciaOraria2")).thenReturn("orario2");
     servlet.doPost(request, response);
     verify(response).sendRedirect("profilo.jsp");
   }

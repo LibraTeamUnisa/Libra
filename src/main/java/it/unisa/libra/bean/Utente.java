@@ -12,7 +12,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 
@@ -46,7 +45,7 @@ public class Utente implements Serializable {
   private Azienda azienda;
 
   // bi-directional many-to-one association to Notifica
-  @OneToMany(fetch = FetchType.LAZY,mappedBy = "utente")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "utente")
   private List<Notifica> notifiche;
 
   // bi-directional one-to-one association to Presidente
@@ -132,6 +131,11 @@ public class Utente implements Serializable {
     this.notifiche = notifiche;
   }
 
+  /** Aggiunge una notifica.
+   * 
+   * @param notifiche la notifica da aggiungere
+   * @return la notifica aggiunta
+   */
   public Notifica addNotifiche(Notifica notifiche) {
     getNotifiche().add(notifiche);
     notifiche.setUtente(this);
@@ -139,6 +143,11 @@ public class Utente implements Serializable {
     return notifiche;
   }
 
+  /** Rimuove una notifica.
+   * 
+   * @param notifiche la notifica da rimuovere
+   * @return la notifica rimossa
+   */
   public Notifica removeNotifiche(Notifica notifiche) {
     getNotifiche().remove(notifiche);
     notifiche.setUtente(null);

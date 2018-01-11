@@ -1,3 +1,8 @@
+<%@page import="java.util.Base64"%>
+<%@page import="it.unisa.libra.util.FileUtils"%>
+<%@page import="it.unisa.libra.model.dao.IProgettoFormativoDao"%>
+<%@page import="it.unisa.libra.util.StatoPf"%>
+<%@page import="it.unisa.libra.bean.ProgettoFormativo"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
@@ -16,6 +21,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
 <title>Libra</title>
     <!-- Bootstrap Core CSS -->
+    <link href="css/datatables.css" rel="stylesheet">
     <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- chartist CSS -->
     <link href="assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
@@ -68,8 +74,73 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+            
+            <div class="row page-titles">
+				<div class="col-md-6 col-8 align-self-center">
+					<h3 class="text-themecolor m-b-0 m-t-0">Progetti Formativi</h3>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="dashboardAzienda.jsp">Dashboard</a></li>
+						<li class="breadcrumb-item active">Progetti Formativi</li>
+					</ol>
+				</div>
+			</div>
              
+ 		<%
+          IAziendaDao aziendaDao = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
+          IProgettoFormativoDao pfDao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+          
+          // azienda loggata
+          String aziendaEmail = (String) request.getSession().getAttribute("utenteEmail");
+          Azienda azienda = aziendaDao.findById(Azienda.class, aziendaEmail);
+          int[] statiDaRicercare = {StatoPf.INVIATO, StatoPf.VERIFICA_TUTOR, StatoPf.VERIFICA_PRESIDENTE, StatoPf.VERIFICATO, StatoPf.APPROVATO, StatoPf.RIFIUTATO};
+          List<ProgettoFormativo> pfInviati = pfDao.findByAziendaAndStato(azienda, statiDaRicercare);
              
+		%>
+             
+             <div class="card wizard-card" style="padding:1%">
+					<div class="table-responsive">
+						<table class="table" id="tablePf">
+							<thead>
+								<tr>
+									<th>Nome Studente</th>
+									<th>Cognome Studente</th>
+									<th>Ambito Progetto</th>
+									<th>Stato Progetto</th>
+								</tr>
+							</thead>
+							<tbody>
+							<% for (ProgettoFormativo pf : pfInviati) { %>
+							<% 			Studente s = pf.getStudente(); 		 %>
+		                            <tr>
+		                            <td>
+		                            	<%=s.getNome()%>
+		                            </td>
+		                            <td>
+		                            	<%=s.getCognome()%>
+		                            </td>
+		                            <td>
+		                            	<%=pf.getAmbito()%>
+		                            </td>
+		                            <td>
+		                                <% int stato = pf.getStato(); %>
+		                                <% if (stato == StatoPf.INVIATO || stato == StatoPf.VERIFICA_TUTOR || stato == StatoPf.VERIFICA_PRESIDENTE) { %>	
+		                                		<span class="label label-info">In attesa</span>
+		                                <% } else if (stato == StatoPf.VERIFICATO) { %>
+		                                		<span class="label label-info">Verificato</span>
+		                                <% } else if (stato == StatoPf.APPROVATO) { %>
+		                                		<span class="label label-success">Approvato</span>
+		                                <% } else if (stato == StatoPf.RIFIUTATO) { %>
+		                                		<span class="label label-danger">Rifiutato</span>
+		                                <% } %>
+		                             </td>
+		                        </tr>
+                        <% 		} %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+             
+                         
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -119,6 +190,70 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+
+<script src="js/datatables.js"></script>
+	<script>
+		var table;
+		$(document).ready(function() {
+			table = $('#tablePf').DataTable({
+				"paging": true,
+				"searching": true,
+				"pageLength": 10,
+				"columnDefs": [	
+					{ "searchable": false, "targets": 3 },
+				  ],
+				"language": {
+		            "lengthMenu": "Mostra _MENU_ risultati per pagina",
+		            "zeroRecords": "Nessun risultato trovato",
+		            "info": "Pagina _PAGE_ di _PAGES_",
+		            "infoEmpty": "Nessun risultato presente",
+		            "infoFiltered": "(Cercati su _MAX_ risultati totali)",
+		            "paginate": {
+		                "first":      "Prima",
+		                "last":       "Ultima",
+		                "next":       "Successiva",
+		                "previous":   "Precedente"
+		            }
+			    },
+				"initComplete" : function() {
+					$(".dataTables_filter").empty();
+					$(".dataTables_filter").html(
+						'<div class="input-group add-on">'+
+						'<input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">'+
+							'<div class="input-group-btn">'+
+								'<button class="btn btn-default buttonSearch">'+
+									'<i class="mdi mdi-magnify"></i>'+
+								'</button>'+
+							'</div>'+
+						'</div>');
+					var input= $('.dataTables_filter input');
+					self= this.api();
+					$(".buttonSearch").mouseenter(function(){
+						$(this).css({'background-color': '#D91A5F'});	
+					})
+					$(".buttonSearch").mouseleave(function(){
+						$(this).css({'background-color':'#DDDDDD'});	
+					})
+					$(".buttonSearch").click(function(){
+						var text= input.val();
+						$(this).css({'outline':'none', 'box-shadow':'none'});
+						$('.text-danger').remove();
+						if(/^([0-9a-zA-Z\s@:./]{0,100})$/.test(text)==false){
+							$('.dataTables_filter').append('<small class="text-danger">Input errato. Sono ammessi solo caratteri</small>');
+						}else{
+							self.search(input.val()).draw();
+						}
+					})
+				}
+					
+			});
+		});
+		
+		
+	</script>
+
+
 </body>
 
 </html>

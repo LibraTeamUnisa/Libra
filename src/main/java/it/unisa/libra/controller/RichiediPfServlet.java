@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
 /**
  * Consente di effettuare una richiesta di progetto formativo ad un utente registrato con ruolo
  * studente.
@@ -85,7 +83,7 @@ public class RichiediPfServlet extends HttpServlet {
 
           pfDao.persist(pf);
           response.getWriter().write(ISCRIZIONE_SUCCESS_MSG);
-          
+
         } else if (studente == null) {
           response.getWriter().write(STUDENTE_NOT_FOUND_MSG);
         } else {
@@ -149,7 +147,7 @@ public class RichiediPfServlet extends HttpServlet {
    */
   private static final String USER_ERROR_MSG = "Utente non trovato!";
   /**
-   * Messaggio restituito nel caso in cui l'operazione è stata completata con successo.
+   * Messaggio restituito nel caso in cui l'operazione e' stata completata con successo.
    */
   private static final String ISCRIZIONE_SUCCESS_MSG = "Iscrizione effettuata!";
   /**

@@ -1,5 +1,6 @@
 package it.unisa.libra.util;
 
+/** Classe che definisce le azioni disponibili nel sistema. **/
 public class Actions {
 
   public static final String ACTION = "action";

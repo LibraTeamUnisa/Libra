@@ -279,17 +279,27 @@
     			propostaId = $("#propostaId").val();
     			tutorInternoMail = $('#tutorInterno').val();
     			note = $('textarea#textarea').val();
-    			var base64 = $(".dropify-render img[src]").attr("src");
-        		$.post("carica",
-        		{
-        			file: btoa(base64),
-        			id: propostaId,
-        			note: note, 
-        			tutorInterno: tutorInternoMail
-        		},function(data) {
-        				alert(data);
-        			}
-        		);
+    			
+        		var base64; // = $(".dropify-render img[src]").attr("src");
+    			var input = document.getElementById('input-file-now');
+    			var file = input.files[0];
+    			var fr = new FileReader();
+    			fr.onload = function () {
+    				base64=fr.result;
+    				$.post("carica",
+    		        		{
+    		        			file: btoa(base64),
+    		        			id: propostaId,
+    		        			note: note, 
+    		        			tutorInterno: tutorInternoMail
+    		        		},function(data) {
+    		        				alert(data);
+    		        			}
+    		        		);
+    			}
+    			fr.readAsDataURL(file);
+    			
+        		
     		}
     	}
     	else if(ruolo == "Azienda") {
@@ -298,31 +308,49 @@
     			propostaId = $('#propostaId').val();
     			tutorEsternoAmbito = $("#tutorEsternoAmbito").val();
     			note = $('textarea#textarea').val();
-    			var base64 = $(".dropify-render img[src]").attr("src");
-        		$.post("carica",
-        		{
-        			file: btoa(base64),
-        			id: propostaId,
-        			note: note,
-        			ambito: ambito, 
-        			tutorEsterno: tutorEsternoAmbito
-        		},function(data) {
-        				alert(data);
-        			}
-        		);
+    			
+        		var base64; // = $(".dropify-render img[src]").attr("src");
+    			var input = document.getElementById('input-file-now');
+    			var file = input.files[0];
+    			var fr = new FileReader();
+    			fr.onload = function () {
+    				base64=fr.result;
+    				$.post("carica",
+    		        		{
+    		        			file: btoa(base64),
+    		        			id: propostaId,
+    		        			note: note,
+    		        			ambito: ambito, 
+    		        			tutorEsterno: tutorEsternoAmbito
+    		        		},function(data) {
+    		        				alert(data);
+    		        			}
+    		        		);
+    			}
+    			fr.readAsDataURL(file);
+    			
     		}
     	}
     	else if(ruolo == "TutorPresidente") {
     		propostaId = $('#propostaId').val();
-    		var base64 = $(".dropify-render img[src]").attr("src");
-        	$.post("carica",
-        	{
-        		file: btoa(base64),
-        		id: propostaId
-        	},function(data) {
-        			alert(data);
-        		}
-        	);
+
+    		var base64; // = $(".dropify-render img[src]").attr("src");
+			var input = document.getElementById('input-file-now');
+			var file = input.files[0];
+			var fr = new FileReader();
+			fr.onload = function () {
+				base64=fr.result;
+				$.post("carica",
+			        	{
+			        		file: btoa(base64),
+			        		id: propostaId
+			        	},function(data) {
+			        			alert(data);
+			        		}
+			        	);
+			}
+			fr.readAsDataURL(file);
+        	
     	}
    		window.location.href = '/Libra/caricaPpf.jsp';
     }

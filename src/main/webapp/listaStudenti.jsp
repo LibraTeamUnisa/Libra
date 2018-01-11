@@ -140,7 +140,7 @@
 								for(Studente studente:listStudente){
 									Utente utente = studente.getUtente();
 									ProgettoFormativo progettoFormativo = !CheckUtils.isNullOrEmpty(studente.getProgettiFormativi()) ? studente.getProgettiFormativi().get(0) : null; 
-									String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, utente.getImgProfilo());
+									String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, utente.getEmail()+".png");
 									String img="";
 									if(path != null){
 										img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");

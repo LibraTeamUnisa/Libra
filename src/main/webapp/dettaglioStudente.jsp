@@ -108,7 +108,7 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	                            <div class="card-block align-self-center">
 	                                <div class="text-center"> 
 	                                	<%
-		                                	String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, studente.getUtente().getImgProfilo());
+		                                	String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, studente.getUtenteEmail()+".png");
 											String img="";
 											if(path != null){
 												img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
@@ -172,9 +172,9 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		                				</div>
 		                				<div class="col-md-9">
 		                					<p class="card-text">
-		                						<span class="text-muted">Inviata il <%= pf.getDataInvio() %></span><br>
+		                						<span class="text-muted">Inviata il <%= formatter.format(pf.getDataInvio()) %></span><br>
 		                						<strong>Azienda:</strong><span class="text-muted"> <%= pf.getAzienda().getNome() %> </span><br>
-		                						<strong>Note:</strong><span class="text-muted"> <%= pf.getNote() %> </span><br>
+		                						<strong>Note:</strong><span class="text-muted"> <%if(pf.getNote()!=null)%><%= pf.getNote() %><%else %> Nessuna nota </span><br>
 		                					</p>
 		                				</div>
 		                			</div>

@@ -55,6 +55,11 @@ public class ModificaProfiloServlet extends HttpServlet {
   private String sito;
   private String ufficio;
   private String ricevimento;
+  private String giorno1;
+  private String giorno2;
+  private String orario1;
+  private String orario2;
+  private boolean campoRicevimento = true;
 
   /** Default constructor. */
   public ModificaProfiloServlet() {}
@@ -117,7 +122,18 @@ public class ModificaProfiloServlet extends HttpServlet {
     Utente utente = segreteria.getUtente();
     indirizzo = request.getParameter(INDIRIZZO);
     telefono = request.getParameter(TELEFONO);
-    ricevimento = request.getParameter(RICEVIMENTO);
+    ufficio = request.getParameter(UFFICIO);
+    giorno1 = request.getParameter(GIORNO1);
+    giorno2 = request.getParameter(GIORNO2);
+    orario1 = request.getParameter(ORARIO1);
+    orario2 = request.getParameter(ORARIO2);
+    if (orario1.equals("") || orario2.equals("")) {
+      ricevimento = "";
+      campoRicevimento = true;
+    } else {
+      ricevimento = "{" + giorno1 + ":" + orario1 + "," + giorno2 + ":" + orario2 + "}";
+      campoRicevimento = false;
+    }
     if (!telefono.equals("")) {
       utente.setTelefono(telefono);
     } else {
@@ -147,7 +163,17 @@ public class ModificaProfiloServlet extends HttpServlet {
     telefono = request.getParameter(TELEFONO);
     sito = request.getParameter(SITO);
     ufficio = request.getParameter(UFFICIO);
-    ricevimento = request.getParameter(RICEVIMENTO);
+    giorno1 = request.getParameter(GIORNO1);
+    giorno2 = request.getParameter(GIORNO2);
+    orario1 = request.getParameter(ORARIO1);
+    orario2 = request.getParameter(ORARIO2);
+    if (orario1.equals("") || orario2.equals("")) {
+      ricevimento = "";
+      campoRicevimento = true;
+    } else {
+      ricevimento = "{" + giorno1 + ":" + orario1 + "," + giorno2 + ":" + orario2 + "}";
+      campoRicevimento = false;
+    }
     if (!telefono.equals("")) {
       utente.setTelefono(telefono);
     } else {
@@ -249,9 +275,16 @@ public class ModificaProfiloServlet extends HttpServlet {
           request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
       format.forward(request, response);
       return false;
-    } else {
-      return true;
+    } else if (ruolo.equals(PRESIDENTE) || ruolo.equals(SEGRETERIA)) {
+      if (giorno1.equals(giorno2) && campoRicevimento == false) {
+        request.setAttribute("ErroreRicevimento", "Impostare due giorni di ricevimento diversi");
+        RequestDispatcher format =
+            request.getServletContext().getRequestDispatcher("/modificaProfilo.jsp");
+        format.forward(request, response);
+        return false;
+      }
     }
+    return true;
   }
 
   /* Controlla che la stringa passata sia composta di soli numeri */
@@ -282,6 +315,9 @@ public class ModificaProfiloServlet extends HttpServlet {
   private static final String TELEFONO = "numeroTelefono";
   private static final String SITO = "sito";
   private static final String UFFICIO = "ufficio";
-  private static final String RICEVIMENTO = "ricevimento";
   private static final String SEDE = "sede";
+  private static final String GIORNO1 = "giorno1";
+  private static final String GIORNO2 = "giorno2";
+  private static final String ORARIO1 = "fasciaOraria1";
+  private static final String ORARIO2 = "fasciaOraria2";
 }

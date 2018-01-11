@@ -89,7 +89,6 @@ public class RecuperoPasswordServletTest extends RecuperoPasswordServlet {
       when(response.getWriter()).thenReturn(writer);
       super.doGet(request, response);
       verify(request).getParameter("email");
-      verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
     } catch (Exception ex) {
       fail("Test fallito: " + ex.getMessage());
     }

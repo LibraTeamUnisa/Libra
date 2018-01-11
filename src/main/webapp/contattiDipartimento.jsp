@@ -118,6 +118,7 @@
                                     <address>
                                     	<% 
                                     	Map<String,String> giorniAp = JsonUtils.parseOrariApertura(seg.getGiorniDiRicevimento());
+                                    	if(!CheckUtils.isNullOrEmpty(giorniAp))
                                     	for (Entry<String, String> entry : giorniAp.entrySet()){
                                     	%>
                                     		<span class="badge badge-info"><%=entry.getKey()%></span>

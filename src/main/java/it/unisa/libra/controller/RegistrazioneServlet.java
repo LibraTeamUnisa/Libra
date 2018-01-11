@@ -4,7 +4,7 @@ import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IGruppoDao;
-import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.model.dao.IStudenteDao;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegistrazioneServlet extends HttpServlet {
 
   @Inject
-  private IUtenteDao utenteDao;
+  private IStudenteDao studenteDao;
   @Inject
   private IGruppoDao gruppoDao;
 
@@ -76,13 +76,14 @@ public class RegistrazioneServlet extends HttpServlet {
      * Realizzazione di utente, generalizzazione dello studente
      */
     Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
+    studente.setUtente(utente);
 
     gruppo = gruppoDao.findById(Gruppo.class, "Studente");
 
     if (gruppo != null) {
-      if (utenteDao.findById(Utente.class, email) == null) {
-        utente.setGruppo(gruppo);
-        utenteDao.persist(utente);
+      if (studenteDao.findById(Studente.class, email) == null) {
+        studente.getUtente().setGruppo(gruppo);
+        studenteDao.persist(studente);
         response.setContentType("text/plain");
         response.getWriter().write("Registrazione avvenuta con successo");
       } else {
@@ -125,15 +126,5 @@ public class RegistrazioneServlet extends HttpServlet {
     utente.setTelefono(telefono);
     return utente;
   }
-
-  public void setUtenteDao(IUtenteDao utenteDao) {
-    this.utenteDao = utenteDao;
-  }
-
-  public void setGruppoDao(IGruppoDao gruppoDao) {
-    this.gruppoDao = gruppoDao;
-  }
-
-
-
+  
 }

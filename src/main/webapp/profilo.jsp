@@ -186,6 +186,7 @@
 							<div class="profile-img">
 								<img class="imgProfiloUtenteCorrente img-responsive img-circle"
 									src="" onerror="this.src='assets/images/users/default.png';"
+									style="max-width:200px; display: block; margin:0 auto;"
 									alt="" />
 							</div>
 						</div>

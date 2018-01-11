@@ -171,7 +171,7 @@ public class GestioneTutorEsternoServletTest {
     servlet.doPost(request, response);
     verify(responseWriter).write(BADREQUEST_MESS + " Davvero il tuo tutor viaggia nel tempo?");
   }
-    
+
   @Test
   public void aggiuntaAziendaNullTest() throws Exception {
     when(request.getParameter(Actions.ACTION)).thenReturn(Actions.AGGIUNGI_TUTOR_ESTERNO);

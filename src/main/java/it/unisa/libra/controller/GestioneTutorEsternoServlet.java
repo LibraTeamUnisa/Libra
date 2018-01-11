@@ -233,8 +233,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
             || CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null;
         if (isParsable) {
           Date newDate = CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null
-              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd")
-              : CheckUtils.parseDate(data);
+              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") : CheckUtils.parseDate(data);
           tutor.setDataDiNascita(newDate);
           count++;
         }

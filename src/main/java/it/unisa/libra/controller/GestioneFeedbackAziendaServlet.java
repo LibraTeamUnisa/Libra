@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. **/
 @WebServlet(name = "GestioneFeedbackAziendaServlet", urlPatterns = "gestioneFeedbackAzienda")
 public class GestioneFeedbackAziendaServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -32,8 +32,10 @@ public class GestioneFeedbackAziendaServlet extends HttpServlet {
   public GestioneFeedbackAziendaServlet() {}
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-   */
+   **/
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     List<Domanda> domande = domandaDao.findByType("Studente");

@@ -4,24 +4,19 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
-
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.model.dao.ITutorInternoDao;
 import it.unisa.libra.model.dao.IUtenteDao;
 import it.unisa.libra.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +43,7 @@ public class CaricaPpfServletTest {
 
   /**
    * before annotations.
+   * 
    * @throws Exception generic
    */
   @Before
@@ -85,7 +81,7 @@ public class CaricaPpfServletTest {
     when(request.getParameter("note")).thenReturn("il progetto è bello");
     when(request.getParameter("ambito")).thenReturn(ambitoA);
     when(request.getParameter("ambitoControl")).thenReturn(ambitoControl);
-    when(propostaDao.findById(ProgettoFormativo.class,1)).thenReturn(new ProgettoFormativo());
+    when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
     servlet.setUtenteDao(utenteDao, propostaDao);
     servlet.doPost(request, response);
     verify(response.getWriter()).write("ok");
@@ -98,10 +94,11 @@ public class CaricaPpfServletTest {
     when(request.getSession().getAttribute("utenteRuolo")).thenReturn("Studente");
     when(request.getParameter("file")).thenReturn("file");
     when(request.getParameter("id")).thenReturn("1");
-    when(propostaDao.findById(ProgettoFormativo.class,1)).thenReturn(new ProgettoFormativo());
+    when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
     when(request.getParameter("note")).thenReturn("il progetto è bello");
     when(request.getParameter("tutorInterno")).thenReturn("pippo@unisa.it");
-    when(tutorInternoDao.findById(TutorInterno.class, "pippo@unisa.it")).thenReturn(new TutorInterno());
+    when(tutorInternoDao.findById(TutorInterno.class, "pippo@unisa.it"))
+        .thenReturn(new TutorInterno());
     servlet.setUtenteDao(utenteDao, propostaDao, tutorInternoDao);
     servlet.doPost(request, response);
     verify(response.getWriter()).write("ok");
@@ -114,7 +111,7 @@ public class CaricaPpfServletTest {
     when(request.getSession().getAttribute("utenteRuolo")).thenReturn("TutorInterno");
     when(request.getParameter("file")).thenReturn("base64");
     when(request.getParameter("id")).thenReturn("1");
-    when(propostaDao.findById(ProgettoFormativo.class,1)).thenReturn(new ProgettoFormativo());
+    when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
     servlet.setUtenteDao(utenteDao, propostaDao);
     servlet.doPost(request, response);
     verify(response.getWriter()).write("ok");
@@ -127,7 +124,7 @@ public class CaricaPpfServletTest {
     when(request.getSession().getAttribute("utenteRuolo")).thenReturn("Presidente");
     when(request.getParameter("file")).thenReturn("file");
     when(request.getParameter("id")).thenReturn("1");
-    when(propostaDao.findById(ProgettoFormativo.class,1)).thenReturn(new ProgettoFormativo());
+    when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
     servlet.setUtenteDao(utenteDao, propostaDao);
     servlet.doPost(request, response);
     verify(response.getWriter()).write("ok");

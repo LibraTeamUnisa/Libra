@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-/* Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. **/
 @WebServlet(name = "ModificaProfiloServlet", urlPatterns = "/modificaProfilo")
 public class ModificaProfiloServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;

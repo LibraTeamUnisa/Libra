@@ -3,7 +3,6 @@ package it.unisa.libra.controller;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
 import it.unisa.libra.util.FileUtils;

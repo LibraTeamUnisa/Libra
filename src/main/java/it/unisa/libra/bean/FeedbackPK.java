@@ -37,6 +37,10 @@ public class FeedbackPK implements Serializable {
     this.domandaID = domandaID;
   }
 
+  /** Override.
+   *
+   * @see java.lang.Object#equals(Object)
+   */
   public boolean equals(Object other) {
     if (this == other) {
       return true;
@@ -49,6 +53,10 @@ public class FeedbackPK implements Serializable {
         && (this.domandaID == castOther.domandaID);
   }
 
+  /** Override.
+   * 
+   * @see java.lang.Object#hashCode()
+   */
   public int hashCode() {
     final int prime = 31;
     int hash = 17;

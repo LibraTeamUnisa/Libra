@@ -10,7 +10,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-
 /**
  * The persistent class for the domanda database table.
  * 
@@ -69,6 +68,11 @@ public class Domanda implements Serializable {
     this.feedbacks = feedbacks;
   }
 
+  /** Aggiunge un feedback.
+   * 
+   * @param feedback il feedback da aggiungere
+   * @return il feedback aggiunto
+   */
   public Feedback addFeedback(Feedback feedback) {
     getFeedbacks().add(feedback);
     feedback.setDomanda(this);
@@ -76,6 +80,11 @@ public class Domanda implements Serializable {
     return feedback;
   }
 
+  /** Rimuove un feedback.
+   * 
+   * @param feedback il feedback da rimuovere
+   * @return il feedback rimosso
+   */
   public Feedback removeFeedback(Feedback feedback) {
     getFeedbacks().remove(feedback);
     feedback.setDomanda(null);

@@ -61,6 +61,14 @@ public class Studente implements Serializable {
 
   public Studente() {}
 
+  /** Costruttore.
+   * 
+   * @param matricola la matricola dello studente
+   * @param nome il nome dello studente
+   * @param cognome il cognome dello studente
+   * @param email l'email dello studente
+   * @param imgProfilo l'immagine del profilo dello studente
+   */
   public Studente(String matricola, String nome, String cognome, String email, String imgProfilo) {
     this.matricola = matricola;
     this.nome = nome;
@@ -70,8 +78,18 @@ public class Studente implements Serializable {
     utente.setImgProfilo(imgProfilo);
     utente.setEmail(email);
   }
-  
-  public Studente(String nome, String cognome, String email, String imgProfilo, Date dataInvio, int stato) {
+
+  /** Costruttore.
+   * 
+   * @param nome il nome dello studente
+   * @param cognome il cognome dello studente
+   * @param email l'email dello studente
+   * @param imgProfilo l'immagine del profilo dello studente
+   * @param dataInvio la data di invio del progetto formativo
+   * @param stato lo stato del progetto formativo
+   */
+  public Studente(String nome, String cognome, String email, String imgProfilo, Date dataInvio,
+      int stato) {
     this.nome = nome;
     this.cognome = cognome;
     this.utenteEmail = email;
@@ -141,6 +159,11 @@ public class Studente implements Serializable {
     this.progettiFormativi = progettiFormativi;
   }
 
+  /** Aggiunge un progetto formativo.
+   * 
+   * @param progettiFormativi il progetto da aggiungere
+   * @return il progetto aggiunto
+   */
   public ProgettoFormativo addProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().add(progettiFormativi);
     progettiFormativi.setStudente(this);
@@ -148,6 +171,11 @@ public class Studente implements Serializable {
     return progettiFormativi;
   }
 
+  /** Rimuove un progetto formativo.
+   * 
+   * @param progettiFormativi il progetto da rimuovere
+   * @return il progetto rimosso
+   */
   public ProgettoFormativo removeProgettiFormativi(ProgettoFormativo progettiFormativi) {
     getProgettiFormativi().remove(progettiFormativi);
     progettiFormativi.setStudente(null);

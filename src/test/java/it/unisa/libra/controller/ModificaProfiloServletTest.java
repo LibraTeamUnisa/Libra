@@ -2,7 +2,6 @@ package it.unisa.libra.controller;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.Presidente;
 import it.unisa.libra.bean.Segreteria;

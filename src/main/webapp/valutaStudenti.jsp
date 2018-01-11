@@ -128,13 +128,31 @@
 						IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext()
 								.lookup("java:app/Libra/ProgettoFormativoJpa");
 						Iterator<Studente> listaStudenti = progettoFormativoDao.getStudentiByAzienda(a).iterator();
+						if(listaStudenti==null) {
+							%>
+							<div class="row page-titles">
+								<div class="col-md-6 col-8 align-self-center">
+									<h3 class="text-themecolor m-b-0 m-t-0">Non esistono studenti disponibili per la valutazione.</h3>
+								</div>
+
+							</div>
+							<%	
+						} else {
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
 						<h3 class="text-themecolor m-b-0 m-t-0">Valuta Studenti</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
 							<li class="breadcrumb-item active">Valuta Studenti</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 
@@ -159,10 +177,9 @@
 											progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
 								%>
 								<tr>
-									<td><a
-										href="<%=request.getContextPath()%>/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img
+									<td><img
 											src="<%=utente.getImgProfilo()%>" alt="user" width="40"
-											class="img-circle"></a></td>
+											class="img-circle"></td>
 									<td><%=studente.getCognome()%> <%=studente.getNome()%></td>
 									<td>
 										<%
@@ -185,7 +202,7 @@
 										href="<%=request.getContextPath()%>/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
 
 											<button type="button" class="btn btn-success"
-												<%if (progettoFormativo.getStato() != 4) {%> disabled
+												<%if (progettoFormativo.getStato() != 5) {%> disabled
 												title="Valutazione non disponibile" <%}%>>Valuta</button>
 									</a></td>
 								</tr>
@@ -197,6 +214,7 @@
 					</div>
 				</div>
 				<%
+					}
 					}
 				%>
 			</div>

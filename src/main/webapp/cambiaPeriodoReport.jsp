@@ -11,7 +11,7 @@
                                       java.text.SimpleDateFormat,
                                       javax.naming.InitialContext"%>
 <%!
-   private static final int APPROVED_STATE=5;
+   private static final int APPROVED_STATE=4;
 
    private List<ProgettoFormativo> getActive(List<ProgettoFormativo> pfList)
    {
@@ -201,8 +201,6 @@
                                           </div>
                                           <!-- TRAINERSHIP DATA -->
                                           <dl class="row" style="margin: 0px!important">
-                                              <dt class="col-sm-6">Inizio-Fine</dt>
-                                              <dd class="col-sm-6"><%= parseDate(pf.getDataInizio())+"-"+parseDate(pf.getDataFine()) %></dd>
                                               <div class="separator"></div>
                                               <dt class="col-sm-3">Ambito</dt>
                                               <dd class="col-sm-9"><%= pf.getAmbito() %></dd>

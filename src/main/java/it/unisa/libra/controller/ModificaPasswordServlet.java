@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. **/
 @WebServlet(name = "ModificaPasswordServlet", urlPatterns = "/modificaPassword")
 public class ModificaPasswordServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -21,11 +21,19 @@ public class ModificaPasswordServlet extends HttpServlet {
   /** Default constructor. */
   public ModificaPasswordServlet() {}
 
-  /** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
+  /**
+   * Override.
+   * 
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+   */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {}
 
-  /** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
+  /**
+   * Override.
+   * 
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     response.setContentType("text/html");
@@ -38,7 +46,7 @@ public class ModificaPasswordServlet extends HttpServlet {
       String pass = request.getParameter("password");
       Boolean passCorretta = controllaPassword(utente, pass);
       if (passCorretta) { // le due password corrispondono quindi posso mostrare i campi per
-                          // inserire la nuova password
+        // inserire la nuova password
         response.getWriter().write("true");
       } else if (!passCorretta) { // la pass non coincide
         response.getWriter().write("false");

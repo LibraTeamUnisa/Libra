@@ -1,24 +1,24 @@
 package it.unisa.libra.controller;
 
+import it.unisa.libra.bean.Utente;
+import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.CheckUtils;
+import it.unisa.libra.util.EmailManager;
 import java.io.IOException;
 import java.util.Properties;
+import javax.inject.Inject;
+import javax.mail.Authenticator;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.inject.Inject;
-import javax.mail.Authenticator;
-import javax.mail.internet.MimeMessage;
-import it.unisa.libra.bean.Utente;
-import it.unisa.libra.model.dao.IUtenteDao;
-import it.unisa.libra.util.CheckUtils;
-import it.unisa.libra.util.EmailManager;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Consente di effettuare l'operazione di recupero password di un utente registrato: quest'ultimo
- * riceverà la password smarrita tramite una email ricevuta all'indirizzo di posta elettronica con
+ * ricevere la password smarrita tramite una email ricevuta all'indirizzo di posta elettronica con
  * cui l'utente ha effettuato la registrazione al sistema.
  * 
  * @author Mauro Vitale
@@ -45,8 +45,8 @@ public class RecuperoPasswordServlet extends HttpServlet {
   /**
    * Gestisce la richiesta di un utente che richiede il recupero della password restituendo un
    * oggetto HttpServletResponse con codice d'errore 400 nel caso in cui la mail specificata
-   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterrà il codice 200 che
-   * denoterà la buona riuscita dell operazione; in quest'ultimo caso il sistema ùprovvede ad
+   * dall'utente non sia valida per il sistema altrimenti l'oggetto conterra' il codice 200 che
+   * denotera' la buona riuscita dell operazione; in quest'ultimo caso il sistema provvede ad
    * inviare una email opportunamente formattata all'indirizzo di posta elettronica di registrazione
    * dell'utente.
    * 
@@ -75,12 +75,10 @@ public class RecuperoPasswordServlet extends HttpServlet {
         eManager.sendEmail(message);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("L'email è stata inviata all'indirizzo specificato.");
+        response.getWriter().write("ok");
         response.getWriter().flush();
       } else {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().write("L'email inserita non è valida.");
-        response.getWriter().flush();
+        response.getWriter().write("L'email inserita non e' valida.");
       }
     } catch (Exception ex) {
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -90,6 +88,8 @@ public class RecuperoPasswordServlet extends HttpServlet {
   }
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)

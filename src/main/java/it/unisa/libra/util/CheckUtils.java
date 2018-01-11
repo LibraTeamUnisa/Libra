@@ -1,15 +1,17 @@
 package it.unisa.libra.util;
 
+import com.mysql.jdbc.StringUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.mysql.jdbc.StringUtils;
 
 /**
  * Consente di verificare la correttezza sintattica e lessicografica delle informazioni critiche.
@@ -28,7 +30,7 @@ public class CheckUtils {
   public static final String TELEPHONE_REGEX = "^[0-9]{8,11}$";
 
   /**
-   * Effettua il controllo della validità di un indirizzo di posta elettronica.
+   * Effettua il controllo della validita' di un indirizzo di posta elettronica.
    * 
    * @param email Indica l'email da controllare
    * @return Restituisce true nel caso in cui l'email sia valida,false altrimenti
@@ -38,7 +40,7 @@ public class CheckUtils {
   }
 
   /**
-   * Effettua il controllo della validità di un numero telefonico.
+   * Effettua il controllo della validita' di un numero telefonico.
    * 
    * @param telephone Indica il numero da verificare
    * @return Restituisce true nel caso in cui il numero sia valido,false altrimenti
@@ -48,7 +50,7 @@ public class CheckUtils {
   }
 
   /**
-   * Effettua la conversione ed il controllo di validità di una data.
+   * Effettua la conversione ed il controllo di validita' di una data.
    * 
    * @param date Indica la data da verificare
    * @return Restituisce un'oggetto che incapsula le informazioni della data nel caso in cui questa
@@ -59,7 +61,8 @@ public class CheckUtils {
   }
 
   /**
-   * Effettua la conversione ed il controllo di validità di una data tramite un pattern specificato.
+   * Effettua la conversione ed il controllo di validita' di una data tramite un pattern
+   * specificato.
    * 
    * @param date Indica la data da convertire
    * @param pattern Indica il pattern da utilizzare per la conversione
@@ -79,7 +82,7 @@ public class CheckUtils {
    * 
    * @param str Indica la stringa da controllare
    * @return Restituisce true nel caso in cui la stringa sia non vuota, false nel caso in cui la
-   *         stringa è vuota o non è stata specificata
+   *         stringa e' vuota o non e' stata specificata
    */
   public static boolean checkEmptiness(String str) {
     return str != null && !str.trim().equals("");
@@ -90,7 +93,7 @@ public class CheckUtils {
    * 
    * @param collection Indica la collezione da controllare
    * @return Restituisce false nel caso in cui la collezione sia non vuota, true nel caso in cui la
-   *         collezione è vuota o non è stata specificata
+   *         collezione ï¿½ vuota o non ï¿½ stata specificata
    */
   @SuppressWarnings("rawtypes")
   public static boolean isNullOrEmpty(Collection collection) {
@@ -102,7 +105,7 @@ public class CheckUtils {
    * 
    * @param map Indica la mappa da controllare
    * @return Restituisce false nel caso in cui la mappa sia non vuota, true nel caso in cui la mappa
-   *         è vuota o non è stata specificata
+   *         e' vuota o non e' stata specificata
    */
   @SuppressWarnings("rawtypes")
   public static boolean isNullOrEmpty(Map map) {
@@ -115,9 +118,41 @@ public class CheckUtils {
    * 
    * @param request Indica la request da controllare
    * @return Restituisce true nel caso in cui la request sia non vuota, false nel caso in cui la
-   *         request è vuota o non è stata specificata
+   *         request e' vuota o non e' stata specificata
    */
   public static boolean validAction(HttpServletRequest request) {
     return (request != null && !StringUtils.isNullOrEmpty(request.getParameter(Actions.ACTION)));
   }
+
+
+  /**
+   * Verifica che la data non sia nel futuro.
+   * 
+   * @param data la data da controllare
+   * @return true se la data e' corrente o passata, false se la data e' nel futuro oppure e'
+   *         invalida
+   */
+  public static boolean notInFuture(Date data) {
+    if (data != null) {
+      return data.before(new Date());
+    }
+    return false;
+  }
+
+
+  /**
+   * Verifica che una persona nata nella data passata e' maggiorenne.
+   * 
+   * @param dataDiNascita la data di nascita della persona
+   * @return true se la persona e' maggiorenne, false altrimenti
+   */
+  public static boolean isMaggiorenne(Date dataDiNascita) {
+    if (dataDiNascita != null) {
+      Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Rome"));
+      cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 18);
+      return cal.getTime().after(dataDiNascita);
+    }
+    return false;
+  }
+
 }

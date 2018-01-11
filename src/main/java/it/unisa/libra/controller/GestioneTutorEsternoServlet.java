@@ -93,12 +93,12 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   private void aggiungi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
+    // di sicuro esiste ed e' l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
-      // l'utente azienda è stato eliminato dalla segreteria durante questa esecuzione
+      // l'utente azienda e' stato eliminato dalla segreteria durante questa esecuzione
       // errorCode 422
       response.getWriter().write("Si e' verificato un errore");
       return;
@@ -140,7 +140,16 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
     try {
       dataDiNascita = parser.parse(request.getParameter("dataDiNascita"));
     } catch (ParseException e) {
-      dataDiNascita = new Date();
+      response.getWriter().write(BADREQUEST_MESS + " Rispetta il formato richiesto!");
+      return;
+    }
+    if (!CheckUtils.notInFuture(dataDiNascita)) {
+      response.getWriter().write(BADREQUEST_MESS + " Davvero il tuo tutor viaggia nel tempo?");
+      return;
+    }
+    if (!CheckUtils.isMaggiorenne(dataDiNascita)) {
+      response.getWriter().write(BADREQUEST_MESS + " UniSa non tollera il lavoro minorile.");
+      return;
     }
     // creo il tutor da aggiungere
     TutorEsterno tutor = new TutorEsterno();
@@ -166,7 +175,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    *        richiesta inviata dal client
    * @param response Indica l'oggetto HttpServletResponse generato dal container contenente la
    *        risposta inviata al client
-   * @throws IOException Lanciata nel caso in cui non è possibile ottenere il writer associato
+   * @throws IOException Lanciata nel caso in cui non e' possibile ottenere il writer associato
    *         all'oggetto HttpServletResponse
    */
   private void aggiorna(HttpServletRequest request, HttpServletResponse response)
@@ -224,8 +233,7 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
             || CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null;
         if (isParsable) {
           Date newDate = CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") != null
-              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd")
-              : CheckUtils.parseDate(data);
+              ? CheckUtils.parseDateWithPattern(data, "yyyy-MM-dd") : CheckUtils.parseDate(data);
           tutor.setDataDiNascita(newDate);
           count++;
         }
@@ -240,14 +248,14 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
         } else {
           tutorDao.persist(tutor);
           response.setStatus(HttpServletResponse.SC_OK);
-          response.getWriter().write("Operazione terminata. Aggionati " + count + " campi");
+          response.getWriter().write("Operazione terminata. Aggiornati " + count + " campi");
         }
 
         response.getWriter().flush();
 
       } else {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().write("Il tutor specificato non è registrato a Libra");
+        response.getWriter().write("Il tutor specificato non e' registrato a Libra");
         response.getWriter().flush();
       }
     } else {
@@ -269,12 +277,12 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
    */
   private void rimuovi(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    // di sicuro esiste ed è l'email di un'azienda grazie ai filtri
+    // di sicuro esiste ed e' l'email di un'azienda grazie ai filtri
     String emailAzienda = (String) request.getSession().getAttribute("utenteEmail");
     // recupero l'azienda
     Azienda azienda = aziendaDao.findById(Azienda.class, emailAzienda);
     if (azienda == null) {
-      // l'utente azienda è stato eliminato dalla segreteria durante questa esecuzione
+      // l'utente azienda e' stato eliminato dalla segreteria durante questa esecuzione
       // errorCode 422
       response.getWriter().write("Si e' verificato un errore");
       return;

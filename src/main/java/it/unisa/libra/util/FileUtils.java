@@ -20,7 +20,6 @@ public class FileUtils {
       stream.write(data);
       saved = true;
     } catch (Exception e) {
-      e.printStackTrace();
     }
 
     return saved;
@@ -31,7 +30,6 @@ public class FileUtils {
     try {
       base64 = new String(Files.readAllBytes(Paths.get(BASE_PATH + path + "/" + fileName)));
     } catch (IOException e) {
-      e.printStackTrace();
     }
     return base64;
   }

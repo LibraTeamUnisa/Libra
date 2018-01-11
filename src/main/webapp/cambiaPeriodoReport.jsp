@@ -11,8 +11,18 @@
                                       java.util.ArrayList,
                                       java.util.Date,
                                       java.text.SimpleDateFormat,
-                                      javax.naming.InitialContext"%>
+                                      javax.naming.InitialContext,
+                                      it.unisa.libra.util.FileUtils,
+                                      java.util.Base64"%>
 <%!
+   private String getImagePath(String email) throws Exception
+   {
+	   String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, email+".png");
+	   String img="";
+	   if(path != null)
+		   img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+	   return img;
+   }
    private String parseDate(Date date)
    {
 	   SimpleDateFormat dFormat=new SimpleDateFormat("dd/MM/yyyy");
@@ -118,6 +128,8 @@
                                 	for(ProgettoFormativo pf:pfList){ 
                                 		Studente studente=pf.getStudente();
                                 		Azienda azienda=pf.getAzienda();
+                                		String imgStudente=getImagePath(studente.getUtenteEmail());
+                                		String imgAzienda=getImagePath(azienda.getUtenteEmail());
                               %>
                               <form>
                                   <div class="row card-row">
@@ -130,7 +142,7 @@
                                           <div class="row">
                                               <!-- PROFILE IMAGE -->
                                               <div class="col-4">
-                                                  <img class="rounded-circle profile" src="<%= studente.getUtente().getImgProfilo() %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
+                                                  <img class="rounded-circle profile" src="<%= imgStudente %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
                                               </div>
                                               <!-- STUDENT DATA -->
                                               <div class="col-8">
@@ -163,7 +175,7 @@
                                           <div class="row">
                                               <!-- PROFILE IMAGE -->
                                               <div class="col-4">
-                                                  <img class="rounded-circle profile" src="<%= azienda.getUtente().getImgProfilo() %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
+                                                  <img class="rounded-circle profile" src="<%= imgAzienda %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
                                               </div>
                                               <!-- COMPANY DATA -->
                                               <div class="col-8">

@@ -127,7 +127,18 @@
 					String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 						Studente studente = studenteDao.findById(Studente.class, emailStudente);
 						ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-						if ((progettoFormativo == null) || (progettoFormativo.getReports() == null)
+						if (progettoFormativo == null){%>
+						
+						<h3>Non sei iscritto a nessun Progetto Formativo</h3>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
+				%>
+				<button type="button" class="btn btn-success"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+						<%
+						
+						}else if ((progettoFormativo.getReports() == null)
 								|| (progettoFormativo.getReports().isEmpty())) {
 				%>
 

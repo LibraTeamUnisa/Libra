@@ -106,34 +106,34 @@
 							  <thead>
 							    <tr>
 							      <% if(stato == -1) var = "green"; /* -1 disponibile */
-							      	 else var = "grey"; 
+							      	 else var = "white"; 
 							      %>
 							      <th scope="col"><p align="center"><i class="fa fa-circle" 
-							      style="font-size:30px;color:<%= var %>;"></i></p></th>
+							      style="font-size:32px;border-radius: 50%;width: 35px;height: 35px;border: 2px solid black;color:<%= var %>;"></i></p></th>
 							      
 							      <% if((stato >= 0) && (stato <= 3)) var = "green"; /* da 0 a 3 in attesa */
-							      	 else var = "grey"; 
+							      	 else var = "white"; 
 							      %>
 							      <th scope="col"><p align="center"><i class="fa fa-circle" 
-							      style="font-size:30px;color:<%= var %>;"></i></p></th>
+							      style="font-size:32px;border-radius: 50%;width: 35px;height: 35px;border: 2px solid black;color:<%= var %>;"></i></p></th>
 							      
 							      <% if(stato == 4) var = "green"; /* 4 verificato */
-							      	 else var = "grey"; 
+							      	 else var = "white"; 
 							      %>
 							      <th scope="col"><p align="center"><i class="fa fa-circle" 
-							      style="font-size:30px;color:<%= var %>;"></i></p></th>
+							      style="font-size:32px;border-radius: 50%;width: 35px;height: 35px;border: 2px solid black;color:<%= var %>;"></i></p></th>
 							      
-							      <% if(stato == 6) var = "green"; /* 6 rifiutato */
-							      	 else var = "grey"; 
+							      <% if(stato == 6) var = "red"; /* 6 rifiutato */
+							      	 else var = "white"; 
 							      %>
 							      <th scope="col"><p align="center"><i class="fa fa-circle" 
-							      style="font-size:30px;color:<%= var %>;"></i></p></th>
+							      style="font-size:32px;border-radius: 50%;width: 35px;height: 35px;border: 2px solid black;color:<%= var %>;"></i></p></th>
 							   	  
 							   	  <% if(stato == 5) var = "green"; /* 5 approvato */
-							      	 else var = "grey"; 
+							      	 else var = "white"; 
 							      %>
 							   	  <th scope="col"><p align="center"><i class="fa fa-circle" 
-							   	  style="font-size:30px;color:<%= var %>"></i></p></th>
+							   	  style="font-size:32px;border-radius: 50%;width: 35px;height: 35px;border: 2px solid black;color:<%= var %>"></i></p></th>
 							    </tr>
 							  </thead>
 							  <tbody>

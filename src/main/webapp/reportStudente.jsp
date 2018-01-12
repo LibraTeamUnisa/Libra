@@ -62,6 +62,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
+
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -146,7 +150,7 @@
 				<%
 					} else if ((progettoFormativo.getStato() != 4)) {
 				%>
-				<h1>Non è possibile aggiungere Report</h1>
+				<h1>Non Ã¨ possibile aggiungere Report</h1>
 				<%
 					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
 				%>
@@ -273,7 +277,7 @@
 																<%
 																	Long oo = rep.getId().getData().getTime();
 																%>
-																<button type="button" class="btn btn-primary"
+																<button type="button" class="btn btn-warning"
 																	onclick="$('#exampleModal<%=oo%>').modal('show')"
 																	id="<%=oo%>">ModificaReport</button>
 
@@ -293,19 +297,15 @@
 																			</div>
 																			<div class="modal-body">
 																				<div class="form-group">
-																					<label for="comment">Aggiungi un nuovo
-																						Report:</label>
 																					<div class="col-md-12">
 
 
-																						<input type="text" autofocus="autofocus"
-																							id="test<%=oo%>" class="form-control"
-																							style="width: 100%; height: auto;"
+																						<textarea class="form-control" rows="5"
+																							id="test<%=oo%>" style="width: 100%; height: auto;" maxlength="500"
 																							oninput='document.getElementById("testoReportModificato").value = this.value'
-																							value="<%=rep.getTesto()%>"
-																							onkeypress='document.getElementById("data").value =<%=oo%>'
-																							placeholder="Inserisci qui il nuovo Report"
-																							pattern=".{5,}"> <input type="hidden"
+																							minlength="6"
+																							onkeypress='document.getElementById("data").value =<%=oo%>'><%=rep.getTesto()%></textarea>
+																							<input type="hidden"
 																							id="testoReportModificato"
 																							name="testoReportModificato<%=oo%>">
 
@@ -320,7 +320,7 @@
 																				</div>
 																			</div>
 																			<div class="modal-footer">
-																				<button type="submit" class="btn btn-primary"
+																				<button type="submit" class="btn btn-success"
 																					style="float: left;" id="confermaModifica"
 																					onclick='modifica()'>Salva le modifiche</button>
 
@@ -387,9 +387,9 @@
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
-					}}
-						}
-					} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
+
+					}}} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
+
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
@@ -849,19 +849,27 @@
 										<div class="col-md-12">
 											<textarea id="testoNuovoReport" pattern=".{5,}"
 												class="form-control form-control-line" rows="5"
-												placeholder="Scrivi qui il tuo Report"
-												onkeydown="reportColor()"></textarea>
+												placeholder="Scrivi qui il tuo Report" maxlength="500"
+												onkeydown="reportColor()" ></textarea>
 											<script>
 												function reportColor(){
 													if(( $("#testoNuovoReport").val().length) < 4){
-														$("#testoNuovoReport").css( "color", "red" );
 														$("#confermaAggiunta").prop("disabled", true);
 													} else if((($("#testoNuovoReport").val().length) >= 4)&&(($("#testoNuovoReport").val().length) <= 8))
 													{$("#confermaAggiunta").prop("disabled", false);
-													$("#testoNuovoReport").css( "color", "green" );
 													} else{
-														$("#testoNuovoReport").css( "color", "black" );
 														$("#confermaAggiunta").prop("disabled", false);
+													}
+												}
+												</script>
+												<script>
+												function reportColorText(){
+													if(( $("#testoReportModificato").val().length) < 4){
+														$("#confermaModifica").prop("disabled", true);
+													} else if((($("#testoReportModificato").val().length) >= 4)&&(($("#testoReportModificato").val().length) <= 8))
+													{$("#confermaModifica").prop("disabled", false);
+													} else{
+														$("#confermaModifica").prop("disabled", false);
 													}
 												}
 												</script>

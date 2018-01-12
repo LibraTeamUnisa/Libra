@@ -15,15 +15,15 @@ var initTable = () => {
 	    	var $innerProgress = $("<div>")
 	    	var $text = $("<div>")
 	    	
-	    	if(valueField >= 8){$text.attr("class","text-info text-center"); $innerProgress.attr("class","progress-bar bg-info")}
-            else if(valueField >= 6){$text.attr("class","text-megna text-center"); $innerProgress.attr("class","progress-bar bg-megna")}
-            else if(valueField >= 4){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
-            else if(valueField >= 2){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
+	    	if(valueField >= 8/2){$text.attr("class","text-info text-center"); $innerProgress.attr("class","progress-bar bg-info")}
+            else if(valueField >= 6/2){$text.attr("class","text-megna text-center"); $innerProgress.attr("class","progress-bar bg-megna")}
+            else if(valueField >= 4/2){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
+            else if(valueField >= 2/2){$text.attr("class","text-warning text-center"); $innerProgress.attr("class","progress-bar bg-warning")}
             else if(valueField >= 0){$text.attr("class","text-error text-center"); $innerProgress.attr("class","progress-bar bg-danger")}
             else return "<span class='label label-light-danger col-12 text-center'>Nessun feedback rilasciato</span>";
-	    	$text.text(valueField+"/10")
+	    	$text.text(valueField+"/5")
 	    	
-	    	$innerProgress.attr("style","width: "+valueField * 10 + "%" + "; height: 6px;")
+	    	$innerProgress.attr("style","width: "+valueField *2 * 10 + "%" + "; height: 6px;")
 	    	$innerProgress.attr("role","progressbar")
 	    	$innerProgress.attr("aria-valuenow","25")
 	    	$innerProgress.attr("aria-valuemin","0")
@@ -39,26 +39,26 @@ var initTable = () => {
 	    insertTemplate: function(valueField) {
 	    	var $result = $("<div>")
 	    	
-	    	if(valueField >= 8){$result.attr("class","text-info")}
-            else if(valueField >= 6){$result.attr("class","text-megna")}
-            else if(valueField >= 4){$result.attr("class","text-warning")}
-            else if(valueField >= 2){$result.attr("class","text-warning")}
+	    	if(valueField >= 8/2){$result.attr("class","text-info")}
+            else if(valueField >= 6/2){$result.attr("class","text-megna")}
+            else if(valueField >= 4/2){$result.attr("class","text-warning")}
+            else if(valueField >= 2/2){$result.attr("class","text-warning")}
             else {$result.attr("class","text-error")}
 	    	
-	        return this._insertProgress = $result.text(valueField+"/10");
+	        return this._insertProgress = $result.text(valueField+"/5");
 	    },
 	 
 	    insertValue: function(valueField) {
 	    	var $result = $("<div>")
 	    	
-	    	if(valueField >= 8){$result.attr("class","text-info")}
-            else if(valueField >= 6){$result.attr("class","text-megna")}
-            else if(valueField >= 4){$result.attr("class","text-warning")}
-            else if(valueField >= 2){$result.attr("class","text-warning")}
+	    	if(valueField >= 8/2){$result.attr("class","text-info")}
+            else if(valueField >= 6/2){$result.attr("class","text-megna")}
+            else if(valueField >= 4/2){$result.attr("class","text-warning")}
+            else if(valueField >= 2/2){$result.attr("class","text-warning")}
             else if(valueField >= 0) {$result.attr("class","text-error")}
             else {}
 	    	
-	        return this._insertProgress = $result.text(valueField+"/10");
+	        return this._insertProgress = $result.text(valueField+"/5");
 	    }
 	 
 	});

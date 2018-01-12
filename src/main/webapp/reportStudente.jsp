@@ -127,7 +127,18 @@
 					String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 						Studente studente = studenteDao.findById(Studente.class, emailStudente);
 						ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-						if ((progettoFormativo == null) || (progettoFormativo.getReports() == null)
+						if (progettoFormativo == null){%>
+						
+						<h3>Non sei iscritto a nessun Progetto Formativo</h3>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
+				%>
+				<button type="button" class="btn btn-success"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+						<%
+						
+						}else if ((progettoFormativo.getReports() == null)
 								|| (progettoFormativo.getReports().isEmpty())) {
 				%>
 
@@ -829,24 +840,23 @@
 									<div class="form-group">
 
 										<div class="col-md-12">
-											<textarea id="testoNuovoReport" pattern=".{5,}"
+											<textarea id="testoNuovoReport" minlength="6"
 												class="form-control form-control-line" rows="5"
-												placeholder="Scrivi qui il tuo Report" maxlength="500"
+												placeholder="Scrivi qui il tuo Report" maxlength="500"  
 												onkeydown="reportColor()"></textarea>
 											<script>
 												function reportColor(){
-													if(( $("#testoNuovoReport").val().length) < 4){
-														$("#confermaAggiunta").prop("disabled", true);
-													} else if((($("#testoNuovoReport").val().length) >= 4)&&(($("#testoNuovoReport").val().length) <= 8))
+													if((($("#testoNuovoReport").val().length) >= 4)&&(($("#testoNuovoReport").val().length) <= 8))
 													{$("#confermaAggiunta").prop("disabled", false);
 													} else{
 														$("#confermaAggiunta").prop("disabled", false);
 													}
 												}
-												</script>
+												
+											</script>
 											<script>
 												function reportColorText(){
-													if(( $("#testoReportModificato").val().length) < 4){
+													if(( $("#testoReportModificato").val().length) < 6){
 														$("#confermaModifica").prop("disabled", true);
 													} else if((($("#testoReportModificato").val().length) >= 4)&&(($("#testoReportModificato").val().length) <= 8))
 													{$("#confermaModifica").prop("disabled", false);
@@ -862,7 +872,16 @@
 								<div class="modal-footer">
 									<button type="submit"
 										class="btn btn-success waves-effect waves-light m-r-10"
-										id="confermaAggiunta" style="float: left;">Conferma</button>
+										id="confermaAggiunta" style="float: left;" onclick="cambia()" >Conferma</button>
+										<script type="text/javascript">
+										function cambia(){
+											if(( $("#testoNuovoReport").val().length) < 6){
+
+												$("#confermaAggiunta").prop("disabled", true);
+											}
+											
+											
+										}</script>
 									<button type="button" class="btn btn-danger"
 										style="float: right;" data-dismiss="modal">Close</button>
 								</div>

@@ -208,7 +208,7 @@
                                         <div class="col-10">
                                             <input class="form-control" type="text" id="example-text-input" name="ambito" 
 										<% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=ambito%>" <% } else { %> placeholder="Area di interesse del tutor" <% } %>
-										maxlength="50" pattern="[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+" title="solo caratteri alfabetici"
+										maxlength="50" pattern="[a-zA-Z]+[a-zA-z '0-9\(\)\-]*[a-zA-Z0-9\)]+" title="solo caratteri alfabetici"
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
 										required="required"  <%} %> />
                                         </div>
@@ -241,7 +241,7 @@
                                             <input class="form-control" id="example-url-input" type="text" name="indirizzo"  
                                             <% if (azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %> placeholder="<%=tutor.getIndirizzo()%>" <% } else { %> placeholder="Indirizzo del tutor" <% } %>
 											
-										pattern="[a-zA-Z]+[a-zA-Z, 0-9]*[a-zA-Z]+" maxlength="40"
+										pattern="[a-zA-Z]+[a-zA-Z, 0-9\(\)]*[a-zA-Z\)]+" maxlength="40"
 										title="via, numeroCivico citta'"
 
 										<%if (!azione.equals(Actions.MODIFICA_TUTOR_ESTERNO)) { %>
@@ -306,7 +306,7 @@
 									</div>
 									<div class="modal-footer">
 										<button id="button1" type="button" class="btn btn-outline-danger">
-											<a id="modal-link" href="dashboardAzienda.jsp"> Dashboard
+											<a id="modal-link" href="catalogoTutorEsterni.jsp"> Ok
 											</a>
 										</button>
 									</div>
@@ -331,9 +331,9 @@
 
 							</div>
 							<div class="modal-footer">
-								<button id="button1" type="button" class="btn btn-primary">
-									<a class="btn btn-primary" href="dashboardAzienda.jsp"
-										style="text-decoration: none; color: white;"> Dashboard </a>
+								<button id="button1" type="button" class="btn btn-outline-danger">
+											<a id="modal-link" href="catalogoTutorEsterni.jsp"> Ok
+											</a>
 								</button>
 							</div>
 						</div>

@@ -101,6 +101,8 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="true"><%=nomeUtenteMENU%><span class="caret"></span></a>
 				<div class="dropdown-menu animated flipInY">
+					<a href="dashboard<%=ruoloUtenteMENU%>.jsp"
+						class="dropdown-item"><i class="ti-home"></i>Dashboard</a>
 					<a href="<%=JspPagesIndex.PROFILO.substring(1)%>"
 						class="dropdown-item"><i class="ti-user"></i>Profilo</a>
 					<div class="dropdown-divider"></div>

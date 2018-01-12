@@ -33,6 +33,7 @@
 	ProgettoFormativo progetto;
 	TutorEsterno tutor = new TutorEsterno();
 	List<TutorEsterno> listaTutorEsterni = new ArrayList<TutorEsterno>();
+	String dashboard = "";
 %>
 
 <!DOCTYPE html>
@@ -74,7 +75,7 @@
                  			<ol class="breadcrumb">
 							<%
 								if (session != null && session.getAttribute("utenteRuolo") != null) {
-									String dashboard = request.getContextPath()
+									dashboard = request.getContextPath()
 											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
 							%>
 							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
@@ -205,7 +206,7 @@
 								Il caricamento della proposta è avvenuto con successo!
 							</div>
 							<div class="modal-footer">
-									<a class="btn btn-success" style="text-decoration: none; color: white;" href="caricaPpf.jsp">
+									<a class="btn btn-success" style="text-decoration: none; color: white;" href="<%=dashboard%>">
 										Ok 
 									</a>
 							</div>
@@ -217,7 +218,7 @@
   					<input type="hidden" name="id" id="propostaId" value="<%= request.getParameter("id")%>">
   					<input type="hidden" name="ruolo" id="ruolo" value="TutorPresidente">
   				<% } %>
-  					<button type="submit" onclick="caricaProposta()" class="btn btn-primary">Invia</button>
+  					<button type="submit" id="caricaButton" class="btn btn-primary">Invia</button>
   					<button type="reset" class="btn btn-primary">Annulla</button>
   				</form>
   			</div>
@@ -298,7 +299,9 @@
             }
         })
     });
-    function caricaProposta() {
+    $("#caricaButton").click(function(e){ 
+	e.preventDefault();
+
     	var propostaId;
     	var ambito;
     	var note;
@@ -386,7 +389,7 @@
 			}
 			fr.readAsDataURL(file);       	
     	}
-    }
+    })
     </script>
 </body>
 </html>

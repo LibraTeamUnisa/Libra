@@ -31,6 +31,7 @@
 	Azienda az = aziendaDAO.findByName(nome);
 	List<TutorEsterno> tutorEsterni = tutorDAO.findByAziendaNome(nome);
 	List<ProgettoFormativo> progettiFormativi = progettoFormativoDAO.getProgettiFormativiByAzienda(nome);
+	String partitaIVA = az.getPartitaIVA();
 %>
 
 <!DOCTYPE html>
@@ -209,9 +210,10 @@
 									}
 									%>
 								</p>
-								<p>
-									<strong>Partita IVA <span class="text-muted"><%=az.getPartitaIVA()%></span>
+								<p><%if(partitaIVA!=null){ %>
+									<strong>Partita IVA <span class="text-muted"><%=partitaIVA%></span>
 									</strong>
+									<%} %>
 								</p>
 							</div>
 						</div>

@@ -14,6 +14,9 @@
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="it.unisa.libra.util.FileUtils" %>
+<%@page import="java.util.Base64"%>
+
 
 <%
 	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -175,11 +178,15 @@
 											Utente utente = studente.getUtente();
 											ProgettoFormativo progettoFormativo;
 											progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+											if(progettoFormativo.getStato() == 5){
+												String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, utente.getEmail()+".png");
+												String img="";
+												if(path != null){
+													img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+												}
 								%>
 								<tr>
-									<td><img
-											src="<%=utente.getImgProfilo()%>" alt="user" width="40"
-											class="img-circle"></td>
+									<td><img src="<%if(path != null){%><%=img%><%}else{%>assets/images/users/default.png<%}%>" alt="user" width="40" class="img-circle"></td>
 									<td><%=studente.getCognome()%> <%=studente.getNome()%></td>
 									<td>
 										<%
@@ -214,6 +221,7 @@
 					</div>
 				</div>
 				<%
+					}
 					}
 					}
 				%>

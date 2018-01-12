@@ -6,6 +6,7 @@ import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IGruppoDao;
 import it.unisa.libra.model.dao.IStudenteDao;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,6 +46,7 @@ public class RegistrazioneServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+	 PrintWriter p = response.getWriter();
 
     /**
      * Parametri necessari alla registrazione presi dall'oggetto request.
@@ -60,12 +62,12 @@ public class RegistrazioneServlet extends HttpServlet {
     Date data = null;
     Gruppo gruppo = null;
 
-
+    
     try {
       data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
     } catch (ParseException e) {
       response.setContentType("text/plain");
-      response.getWriter().write("Errore durante il parse della data");
+      p.write("Errore durante il parse della data");
     }
 
     /*
@@ -86,15 +88,17 @@ public class RegistrazioneServlet extends HttpServlet {
         studente.getUtente().setGruppo(gruppo);
         studenteDao.persist(studente);
         response.setContentType("text/plain");
-        response.getWriter().write("Registrazione avvenuta con successo");
+        p.write("Registrazione avvenuta con successo");
       } else {
         response.setContentType("text/plain");
-        response.getWriter().write("Utente già presente nel sistema");
+        p.write("Utente già presente nel sistema");
       }
     } else {
       response.setContentType("text/plain");
-      response.getWriter().write("Al momento non è possibile registrarsi al sistema");
+      p.write("Al momento non è possibile registrarsi al sistema");
     }
+    
+    p.close();
   }
 
   /**

@@ -1,3 +1,4 @@
+
 package it.unisa.libra.model.jpa;
 
 import static org.junit.Assert.assertEquals;
@@ -516,3 +517,4 @@ public class ProgettoFormativoJpaTest extends GenericJpaTest {
     return az;
   }
 }
+

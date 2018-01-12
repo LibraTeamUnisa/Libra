@@ -38,6 +38,20 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+  i.fa 
+  {
+  display: inline-block;
+  border-radius: 60px;
+  box-shadow: 0px 3px 10px #888;
+  padding: 0.5em 0.6em;
+  }
+  i.fa-search-plus
+  {
+    color:white!important;
+    background-color:#f62d51;
+  }
+</style>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -106,6 +120,7 @@
 									<th>Cognome Studente</th>
 									<th>Ambito Progetto</th>
 									<th>Stato Progetto</th>
+									<th>Dettaglio</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -124,14 +139,19 @@
 		                            <td>
 		                                <% int stato = pf.getStato(); %>
 		                                <% if (stato == StatoPf.INVIATO || stato == StatoPf.VERIFICA_TUTOR || stato == StatoPf.VERIFICA_PRESIDENTE) { %>	
-		                                		<span class="label label-info">In attesa</span>
+		                                		<span class="label label-warning">In attesa</span>
 		                                <% } else if (stato == StatoPf.VERIFICATO) { %>
-		                                		<span class="label label-info">Verificato</span>
+		                                		<span class="label label-primary">Verificato</span>
 		                                <% } else if (stato == StatoPf.APPROVATO) { %>
 		                                		<span class="label label-success">Approvato</span>
 		                                <% } else if (stato == StatoPf.RIFIUTATO) { %>
 		                                		<span class="label label-danger">Rifiutato</span>
 		                                <% } %>
+		                             </td>
+		                             <td>
+		                             	<a href="dettaglioPpf.jsp?id=<%=pf.getId()%>" data-toggle="tooltip" data-original-title="Dettaglio"> 
+		                             	<i class="fa fa-search-plus text-inverse m-r-10"></i>
+										</a>
 		                             </td>
 		                        </tr>
                         <% 		} %>
@@ -202,6 +222,8 @@
 				"pageLength": 10,
 				"columnDefs": [	
 					{ "searchable": false, "targets": 3 },
+					{ "searchable": false, "targets": 4 },
+					{ "sortable": false, "targets": 4 },
 				  ],
 				"language": {
 		            "lengthMenu": "Mostra _MENU_ risultati per pagina",

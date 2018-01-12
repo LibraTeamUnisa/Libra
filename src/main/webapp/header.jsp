@@ -141,7 +141,7 @@
 							<li role="separator" class="divider"></li>
 							<li><a
 								href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION + "=" + Actions.LOGOUT%>"><i
-									class="fa fa-power-off"></i> Logout</a></li>
+									class="ti-power-off"></i> Logout</a></li>
 						</ul>
 					</div></li>
 

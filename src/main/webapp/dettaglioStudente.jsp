@@ -180,9 +180,6 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		                			</div>
 		                			<% if (request.getSession().getAttribute("utenteRuolo").equals("Segreteria")) { %>
 	                				<div class="row card-block">
-		                				<div class="col-md-3">
-		                					<button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Approva</button>
-		                				</div>
 		                				<div class="col-md-7">
 		                					<div class="form-group row">
 		                						<label class="text-muted text-right align-self-center control-label col-md-3">Stato corrente: </label>

@@ -343,6 +343,12 @@ public class CambiaPeriodoReportServletTest extends CambiaPeriodoReportServlet {
       // TODO Auto-generated method stub
       return null;
     }
+
+    @Override
+    public List<ProgettoFormativo> getAttivi(TutorInterno tutor) {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
   private class TutorInternoDaoTest implements ITutorInternoDao {

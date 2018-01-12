@@ -49,7 +49,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgettoFormativo.countStudentiAssociati",
         query = "SELECT COUNT(DISTINCT s.utenteEmail) FROM ProgettoFormativo p JOIN p.studente s JOIN p.tutorInterno t WHERE t.utenteEmail=:tutorEmail"),
     @NamedQuery(name = "ProgettoFormativo.countByTutorInterno",
-        query = "SELECT COUNT(p) FROM ProgettoFormativo p JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail")})
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail"),
+    @NamedQuery(name="ProgettoFormativo.findAttiviByTutor",
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.tutorInterno.utenteEmail = :tutorEmail AND p.stato=4")})
 
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;

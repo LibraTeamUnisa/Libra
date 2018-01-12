@@ -5,6 +5,7 @@ import it.unisa.libra.bean.Domanda;
 import it.unisa.libra.bean.Feedback;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.CheckUtils;
 import java.text.DateFormat;
@@ -477,5 +478,12 @@ public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
       return null;
     }
     return Boolean.parseBoolean(str);
+  }
+
+  @Override
+  public List<ProgettoFormativo> getAttivi(TutorInterno tutor) {
+    TypedQuery<ProgettoFormativo> query=entityManager.createNamedQuery("ProgettoFormativo.findAttiviByTutor",ProgettoFormativo.class);
+    query.setParameter("tutorEmail", tutor.getUtenteEmail());
+    return query.getResultList();
   }
 }

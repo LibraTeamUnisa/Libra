@@ -329,10 +329,10 @@ public class GestioneTutorEsternoServlet extends HttpServlet {
   /** messaggio restituito in caso di successo dell'operazione. **/
   private static final String SUCCESS_MESS = "L'operazione e' avvenuta correttamente.";
 
-  private static final String REGEX_AMBITO = "[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+";
+  private static final String REGEX_AMBITO = "[a-zA-Z]+[a-zA-z '0-9\\(\\)\\-]*[a-zA-Z0-9\\)]+";
   private static final String REGEX_NOME = "[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+";
   private static final String REGEX_COGNOME = "[a-zA-Z]+[a-zA-z ']*[a-zA-Z]+";
-  private static final String REGEX_INDIRIZZO = "[a-zA-Z]+[a-zA-Z, 0-9]*[a-zA-Z]+";
+  private static final String REGEX_INDIRIZZO = "[a-zA-Z]+[a-zA-Z, 0-9\\(\\)]*[a-zA-Z\\)]+";
   private static final String REGEX_TELEFONO = "[0-9]{8,11}";
 
 

@@ -150,9 +150,9 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	                                </p>
 	                                <h3 class="card-title">Contatti</h3>
 	                                <p class="card-text">
-	                                	<strong>Indirizzo:</strong><span class="text-muted"> <%= studente.getUtente().getIndirizzo() %></span> <br>
+	                                	<strong>Indirizzo:</strong><span class="text-muted"> <% if (studente.getUtente().getIndirizzo() != null) { %> <%= studente.getUtente().getIndirizzo() %> <% } else { %> - <% } %></span> <br>
 	                                	<strong>E-mail:</strong><span class="text-muted"> <%= studente.getUtente().getEmail() %></span> <br>
-	                                	<strong>Telefono:</strong><span class="text-muted">  <%= studente.getUtente().getTelefono() %></span> 
+	                                	<strong>Telefono:</strong><span class="text-muted"> <% if (studente.getUtente().getTelefono() != null) { %> <%= studente.getUtente().getTelefono() %> <% } else { %> - <% } %></span> 
 	                                </p>
 	                            </div>
 	                        </div>

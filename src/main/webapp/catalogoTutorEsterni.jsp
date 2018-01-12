@@ -278,11 +278,11 @@ function funzioneApriModal(amb) {
 														href="gestioneTutorEsterno.jsp?action=<%=Actions.MODIFICA_TUTOR_ESTERNO%>&ambito=<%= URLEncoder.encode(ambito,"UTF-8") %>"
 														data-toggle="tooltip" data-original-title="Modifica"> <i
 															class="fa fa-pencil text-inverse m-r-10"></i>
-													</a> <a href="#" onclick="funzioneApriModal('<%=ambito%>')"
-														data-original-title="Close" data-toggle="modal"
+													</a> <span data-toggle="tooltip" data-original-title="Rimuovi"><a href="#" onclick="funzioneApriModal('<%=ambito%>')"
+														data-original-title="Rimuovi" data-toggle="modal"
 														data-target="#my_modal">
 															<i class="fa fa-close text-danger"></i>
-													</a></td>
+													</a></span></td>
 												</tr>
 												<%
 													}

@@ -108,7 +108,7 @@
 					<div class="dropdown-divider"></div>
 					<a
 						href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION + "=" + Actions.LOGOUT%>"
-						class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
+						class="dropdown-item"><i class="ti-power-off"></i>Logout</a>
 				</div>
 			</div>
 		</div>

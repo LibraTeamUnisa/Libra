@@ -78,7 +78,7 @@ public class CaricaPpfServletTest {
     when(request.getSession().getAttribute("utenteRuolo")).thenReturn("Azienda");
     when(request.getParameter("file")).thenReturn("file");
     when(request.getParameter("id")).thenReturn("1");
-    when(request.getParameter("note")).thenReturn("il progetto è bello");
+    when(request.getParameter("note")).thenReturn("il progetto ï¿½ bello");
     when(request.getParameter("ambito")).thenReturn(ambitoA);
     when(request.getParameter("ambitoControl")).thenReturn(ambitoControl);
     when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
@@ -95,7 +95,7 @@ public class CaricaPpfServletTest {
     when(request.getParameter("file")).thenReturn("file");
     when(request.getParameter("id")).thenReturn("1");
     when(propostaDao.findById(ProgettoFormativo.class, 1)).thenReturn(new ProgettoFormativo());
-    when(request.getParameter("note")).thenReturn("il progetto è bello");
+    when(request.getParameter("note")).thenReturn("il progetto ï¿½ bello");
     when(request.getParameter("tutorInterno")).thenReturn("pippo@unisa.it");
     when(tutorInternoDao.findById(TutorInterno.class, "pippo@unisa.it"))
         .thenReturn(new TutorInterno());

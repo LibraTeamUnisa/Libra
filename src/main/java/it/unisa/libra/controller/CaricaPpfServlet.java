@@ -56,7 +56,7 @@ public class CaricaPpfServlet extends HttpServlet {
     String file = request.getParameter("file");
 
     /* AZIENDA */
-    if (ruolo.contains("Azienda")) {
+    if (ruolo.equals("Azienda")) {
       int idProposta = Integer.parseInt(request.getParameter("id"));
       String nomeFile = idProposta + ".pdf";
 

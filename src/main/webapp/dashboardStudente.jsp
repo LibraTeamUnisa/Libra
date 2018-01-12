@@ -269,7 +269,7 @@
                     	</tbody>
                     	</table>  
                     	<% 
-                    if(lastProgettoFormativo != null) { %>
+                    if(lastProgettoFormativo != null && lastProgettoFormativo.getStato() == 1) { %>
                     	<a href="caricaPpf.jsp?id= <%= lastProgettoFormativo.getId() %>"><button class="btn btn-primary">Carica</button></a>
                    	<% } %>
                     </div>  

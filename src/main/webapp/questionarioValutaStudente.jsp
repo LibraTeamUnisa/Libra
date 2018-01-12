@@ -180,11 +180,17 @@
 							<%=studente.getNome()%>
 							<%=studente.getCognome()%></h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
 							<li class="breadcrumb-item"><a href="valutaStudenti.jsp">Valuta
 									Studenti</a></li>
 							<li class="breadcrumb-item active">Valuta <%=studente.getNome()%>
 								<%=studente.getCognome()%></li>
+							<%} %>
 						</ol>
 					</div>
 

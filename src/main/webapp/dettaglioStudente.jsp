@@ -150,9 +150,9 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	                                </p>
 	                                <h3 class="card-title">Contatti</h3>
 	                                <p class="card-text">
-	                                	<strong>Indirizzo:</strong><span class="text-muted"> <%= studente.getUtente().getIndirizzo() %></span> <br>
+	                                	<strong>Indirizzo:</strong><span class="text-muted"> <% if (studente.getUtente().getIndirizzo() != null) { %> <%= studente.getUtente().getIndirizzo() %> <% } else { %> - <% } %></span> <br>
 	                                	<strong>E-mail:</strong><span class="text-muted"> <%= studente.getUtente().getEmail() %></span> <br>
-	                                	<strong>Telefono:</strong><span class="text-muted">  <%= studente.getUtente().getTelefono() %></span> 
+	                                	<strong>Telefono:</strong><span class="text-muted"> <% if (studente.getUtente().getTelefono() != null) { %> <%= studente.getUtente().getTelefono() %> <% } else { %> - <% } %></span> 
 	                                </p>
 	                            </div>
 	                        </div>
@@ -167,7 +167,17 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	                				<div class="row card-block">
 		                				<div class="col-md-2">
 			                				<p class="card-text text-center">
+			                				<%
+											  String path2= FileUtils.readBase64FromFile(FileUtils.PATH_PDF_PROGETTOF, pf.getDocumento());
+											  String doc="";
+											  if(path2 != null){
+											    doc = (new String(Base64.getUrlDecoder().decode(path2), "UTF-8"));
+											    doc = doc.substring(28);
+											  }
+											%>
+			                				<a href="data:application/octet-stream;base64, <%=doc%>" download="<%=pf.getId()%>.pdf">
 			                					<i class="fa fa-file-pdf-o" style="font-size:6em"></i>
+			                				</a>
 			                				</p>
 		                				</div>
 		                				<div class="col-md-9">
@@ -206,7 +216,7 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	                				<% } else if ((request.getSession().getAttribute("utenteRuolo").equals("TutorInterno") && pf.getStato() == 2) || (request.getSession().getAttribute("utenteRuolo").equals("Presidente") && pf.getStato() == 3)) { %>
 	                				<div class="row card-block">
 		                				<div class="col-md-4">
-		                					<a href="caricaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Invia</button></a>
+		                					<a href="caricaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-success"><i class="fa fa-check"></i> Accetta</button></a>
 		                					<a href="rifiutaPpf.jsp?id=<%= pf.getId()%>"><button type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i> Rifiuta</button></a>
 		                				</div>
 		                				<div class="col-md-8">

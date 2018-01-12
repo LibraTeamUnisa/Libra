@@ -144,7 +144,7 @@
 							    	<textarea class="form-control" id="motRifiuto" maxlength="500" rows="3" name="motivazione"></textarea>
 							  	</div>
 							  	<div class="row">
-							  		<div class="col-6"><button type="button" id="rifiutaButton" class="btn btn-primary">Rifiuta</button></div>
+							  		<div class="col-6"><button type="button" id="rifiutaButton" class="btn btn-outline-danger">Rifiuta</button></div>
 		  							<div class="col-6"><a class="btn btn-secondary pull-right" href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=progettoFormativo.getStudente().getUtenteEmail()%>">Annulla</a></div>
 				            	</div>
 				            </form>

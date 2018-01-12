@@ -70,6 +70,7 @@
         <div class="page-wrapper">
             <div class="container-fluid">
             	<div class="row page-titles">
+            		
                     <div class="col-md-6 col-8 align-self-center">
             	 		<h3 class="text-themecolor m-b-0 m-t-0">Carica Proposta</h3>
                  			<ol class="breadcrumb">
@@ -86,7 +87,7 @@
 						</ol>
                     </div>
                 </div>
-                				
+           <div class="card wild-card" style="padding:10px;">     				
             	<form id="myForm">
             	<div class="row">
             	<div class="col-sm-4">
@@ -154,7 +155,7 @@
   				<% if(ruolo.contains("Azienda")) { %>
   				<div class="card wizard-card" style="padding:1%">
   					<h4 class="card-title">Scegli uno studente:</h4>
-    					<select class="form-control" name="id" id="propostaId" required>
+    					<select class="form-control form-control-line" name="id" id="propostaId" required>
       					<%
       						Azienda azienda = aziendaDAO.findById(Azienda.class,mail);
       						List<ProgettoFormativo> listaProposte = progettoFormativoDAO.getProgettiFormativiByAzienda(azienda.getNome());
@@ -183,7 +184,7 @@
     			<% if(ruolo.contains("Azienda")) { %>
     			<div class="card wizard-card" style="padding:1%">
     				<h4 class="card-title">Scegli un tutor esterno:</h4>
-    					<select class="form-control" name="tutorEsterno" id="tutorEsternoAmbito" onclick="validateSelect()" required>
+    					<select class="form-control form-control-line" name="tutorEsterno" id="tutorEsternoAmbito" onclick="validateSelect()" required>
     					<%
     					listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
       					for(TutorEsterno t : listaTutorEsterni) {
@@ -218,10 +219,13 @@
   					<input type="hidden" name="id" id="propostaId" value="<%= request.getParameter("id")%>">
   					<input type="hidden" name="ruolo" id="ruolo" value="TutorPresidente">
   				<% } %>
-  					<button type="submit" id="caricaButton" class="btn btn-primary">Invia</button>
-  					<button type="reset" class="btn btn-primary">Annulla</button>
+  					<div class="row">
+  						<div class="col-6"><button style="width:150px;" type="submit" id="caricaButton" class="btn btn-outline-success">Invia</button></div>
+  						<div class="col-6"><button style="width:150px;" class="btn btn-outline-danger" id="annullaButton">Annulla</button></div>
+  					</div>
   				</form>
   			</div>
+            </div>
             </div>
             <%@ include file="footer.jsp" %>
     </div>

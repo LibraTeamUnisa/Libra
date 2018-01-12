@@ -134,7 +134,7 @@
 					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
 				%>
 				<button type="button" class="btn btn-success"
-					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					onclick="setTimeout(function(){window.location.href =' <%=dashboard%> ';},2000);">
 					Dashboard</button>
 						<%
 						

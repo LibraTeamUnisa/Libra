@@ -1,3 +1,5 @@
+<%@page import="java.util.Base64"%>
+<%@page import="it.unisa.libra.util.FileUtils"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"
 	import="it.unisa.libra.bean.*,
@@ -61,20 +63,43 @@
             <circle class="path" cx="50" cy="50" r="20" fill="none"
 				stroke-width="2" stroke-miterlimit="10" /> </svg>
 	</div>
-	<!-- STUDENTE -->
+	
 	<%
-		session = request.getSession();
-		String email = (String) session.getAttribute("utenteEmail");
-		String ruolo = (String) session.getAttribute("utenteRuolo");
-
-		if (email == null || ruolo == null || !ruolo.equals("Studente")) {
-			response.sendRedirect("/Libra/errore.jsp");
-		}
-		IUtenteDao utenteDao = (IUtenteDao) new InitialContext().lookup("java:app/Libra/UtenteJpa");
-		Utente u = utenteDao.findById(Utente.class, email);
-		IStudenteDao studenteDao = (IStudenteDao) new InitialContext().lookup("java:app/Libra/StudenteJpa");
-		Studente studente = studenteDao.findById(Studente.class, email);
+	String idPf = request.getParameter("id");
+	if (idPf == null) {
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		return;
+	}
+	int id = Integer.parseInt(idPf);
+	IProgettoFormativoDao pfdao = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+	ProgettoFormativo pf = pfdao.findById(ProgettoFormativo.class, id);
+	if (pf == null) {
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		return;
+	}
+	boolean isStudente = false;
+	boolean isAzienda = false;
+	Studente studente = null;
+	Azienda azienda = null;
+	session = request.getSession();
+	String ruolo = (String) session.getAttribute("utenteRuolo");
+	if ("Azienda".equals(ruolo)) {
+		//sono un'azienda e devo vedere lo studente
+		isAzienda = true;
+		studente = pf.getStudente();
+	}
+	else if ("Studente".equals(ruolo)) {
+		// sono studente e devo vedere l'azienda
+		isStudente = true;
+		azienda = pf.getAzienda();
+	}
+	else {
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		return;
+	}
+			
 	%>
+	
 	<!-- ============================================================== -->
 	<!-- Main wrapper - style you can find in pages.scss -->
 	<!-- ============================================================== -->
@@ -102,48 +127,83 @@
 			<!-- ============================================================== -->
 			<div class="container-fluid">
 				<div class="row page-titles">
-					<div class="col-md-6 col-8 align-self-center">
+					<div class="col-12 align-self-center">
 						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli Progetto
 							Formativo</h3>
 						<ol class="breadcrumb">
-							<%
-								if (session != null && session.getAttribute("utenteRuolo") != null) {
-									String dashboard = request.getContextPath()
-											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
-							%>
-							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
-							<li class="breadcrumb-item active">Dettagli Progetto
-								Formativo</li>
-							<%
-								}
-							%>
+							<li class="breadcrumb-item"><a href="dashboard<%=ruolo%>.jsp">Dashboard</a></li>
+							<% if (isAzienda) { %>
+							<li class="breadcrumb-item"><a href="pfInviati.jsp">Progetti Formativi</a></li>
+							<% } %>
+							<li class="breadcrumb-item active">Dettagli Progetto Formativo</li>
 						</ol>
 					</div>
 				</div>
 
 				<div class="card card-block">
+									
 					<div class="row">
-						<div class="col-sm-4">
-							<div class="card wild-card">
-								<h4 class="text-themecolor m-b-0 m-t-0">Dettaglio Proposta
-								</h4>
-							</div>
-						</div>
-					</div>
+								
+								<div class="col-4">
+								<%
+								  String path= FileUtils.readBase64FromFile(FileUtils.PATH_PDF_PROGETTOF, pf.getDocumento());
+								  String doc="";
+								  if(path != null){
+								    doc = (new String(Base64.getUrlDecoder().decode(path), "UTF-8"));
+								    doc = doc.substring(28);
+								  }
+								%>
+								<p class="card-text text-center">
+			                	<a href="data:application/octet-stream;base64, <%=doc%>" download="<%=id%>.pdf">
+									<i class="fa fa-file-pdf-o" style="font-size:6em" data-toggle="tooltip" data-original-title="Scarica"></i>
+								</a>
+			                	</p>
+			                	<div class="card-text text-center">
+			                	<h4 class="label label-warning" align="center" style="color:white;">
+			                	<a href="data:application/octet-stream;base64, <%=doc%>" download="<%=id%>.pdf">
+									Scarica
+								</a>
+								</h3>
+			                	</div>
+								</div> 
+								
 					<!-- PROGETTO FORMATIVO-->
-					<%
-						String id = request.getParameter("id");
-						IProgettoFormativoDao pfdao = (IProgettoFormativoDao) new InitialContext()
-								.lookup("java:app/Libra/ProgettoFormativoJpa");
-						ProgettoFormativo pf = pfdao.findById(ProgettoFormativo.class, Integer.parseInt(id));
-					%>
-					<div class="col-sm-8">
+					<div class="col-8">
 						<div class="card wild-card" style="color: black; font-size: 120%;">
+							<% if (isStudente) { %>
 							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Data invio:</label>
+								<div class="col-3">
+									<label>Azienda:</label>
 								</div>
-								<div class="col-sm-5">
+								<div class="col-9">
+									<p><%=azienda.getNome()%></p>
+								</div>
+							</div>
+							<% } else if (isAzienda) { %>
+							<div class="row">
+								<div class="col-3">
+									<label>Studente:</label>
+								</div>
+								<div class="col-9">
+									<p><%=studente.getNome()%> <%=studente.getCognome()%></p>
+								</div>
+							</div>
+							<% } %>
+							
+							<div class="row">
+								<div class="col-3">
+									<label>Ambito:</label>
+								</div>
+								<div class="col-9">
+									<p><%=pf.getAmbito()%></p>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-3">
+									<label>Data invio:</label>
+								</div>
+								<div class="col-9">
 									<%
 										Date date = pf.getDataInvio();
 										Calendar calendar = new GregorianCalendar();
@@ -157,22 +217,12 @@
 									<p><%=year%>-<%=month%>-<%=day%></p>
 								</div>
 							</div>
+							
 							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Azienda:</label>
+								<div class="col-3">
+									<label>Note:</label>
 								</div>
-								<div class="col-sm-5">
-									<%
-										Azienda azienda = pf.getAzienda();
-									%>
-									<p><%=azienda.getNome()%></p>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Note:</label>
-								</div>
-								<div class="col-sm-5">
+								<div class="col-9">
 									<%
 										String note = pf.getNote();
 										if (note != null) {
@@ -187,20 +237,12 @@
 									%>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-sm-4">
-									<label class="col-md-12">Contenuto proposta:</label>
-								</div>
-								<div class="col-sm-5">
-									<a href="<%=pf.getDocumento()%>">Progetto formativo</a>
-								</div>
+							
 							</div>
 						</div>
 					</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</div>
 	<!-- ============================================================== -->
 	<!-- End Container fluid  -->
 	<!-- ============================================================== -->

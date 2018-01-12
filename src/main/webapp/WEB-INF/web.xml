@@ -6,6 +6,9 @@
 	<welcome-file-list>
 		<welcome-file>home.jsp</welcome-file>
 	</welcome-file-list>
+	<error-page>
+        <location>/errore.jsp</location>
+    </error-page>
 	<filter>
 		<display-name>FiltroUtente</display-name>
 		<filter-name>FiltroUtente</filter-name>
@@ -68,6 +71,7 @@
 		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/dettaglioPpf.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
 		<url-pattern>/home.jsp</url-pattern>
@@ -97,6 +101,7 @@
 		<url-pattern>/dashboardPresidente.jsp</url-pattern>
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
 		<url-pattern>/dashboardTutorInterno.jsp</url-pattern>
+		<url-pattern>/dettaglioPpf.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
 		<url-pattern>/home.jsp</url-pattern>
 		<url-pattern>/pfInviati.jsp</url-pattern>
@@ -155,6 +160,7 @@
 		<url-pattern>/dashboardPresidente.jsp</url-pattern>
 		<url-pattern>/dashboardSegreteria.jsp</url-pattern>
 		<url-pattern>/dashboardStudente.jsp</url-pattern>
+		<url-pattern>/dettaglioPpf.jsp</url-pattern>
 		<url-pattern>/gestionePermessi.jsp</url-pattern>
 		<url-pattern>/gestioneTutorEsterno.jsp</url-pattern>
 		<url-pattern>/home.jsp</url-pattern>

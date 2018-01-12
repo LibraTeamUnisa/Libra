@@ -68,7 +68,7 @@ $(document).ready(function() {
 			
 		if(verificaStringa(nome)){
 			if(verificaStringa(cognome)){
-				if(dataNascita!=""){
+				if(controllo_data(dataNascita)){
 					if(verificaEmail(email)){
 							if(matricola!=""&&matricola.length==10){
 								if(verificaFormatoMatricola(matricola)){
@@ -94,6 +94,10 @@ $(document).ready(function() {
 						alert("Formato e-mail non corretto");
 						}
 				}
+				else{
+					alert("Inserire una data corretta");
+			
+					}
 			}
   }
 
@@ -149,6 +153,26 @@ function verificaFormatoMatricola(matricola){
 function verificaFormatoPassword(password){
 	return (password!=""&&password.length>7&&password.length<21&&password1!="");
 	}
+	
+function controllo_data(stringa){
+		if(stringa!=""){
+			var annoInput = parseInt(stringa.substr(0,4));
+			var meseInput = parseInt(stringa.substr(5,7));
+			var giornoInput = parseInt(stringa.substr(8,10));
+
+			var data = new Date();
+			var dataInput = new Date(stringa);
+
+			if(data>=dataInput){
+				return true;
+				}
+			else{
+				return false;
+				}
+		}else{
+			return false;
+		}
+    }
 </script>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -250,7 +274,7 @@ function verificaFormatoPassword(password){
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-
+	
 </body>
 
 

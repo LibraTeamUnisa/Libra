@@ -85,17 +85,17 @@ public class RegistrazioneServlet extends HttpServlet {
 
     if (gruppo != null) {
       if (studenteDao.findById(Studente.class, email) == null) {
-        studente.getUtente().setGruppo(gruppo);
-        studenteDao.persist(studente);
-        response.setContentType("text/plain");
-        p.write("Registrazione avvenuta con successo");
+    	  studente.getUtente().setGruppo(gruppo);
+    	  studenteDao.persist(studente);
+    	  response.setContentType("text/plain");
+    	  p.write("Registrazione avvenuta con successo");
       } else {
-        response.setContentType("text/plain");
-        p.write("Utente già presente nel sistema");
+    	  response.setContentType("text/plain");
+    	  p.write("Utente già presente nel sistema");
       }
     } else {
-      response.setContentType("text/plain");
-      p.write("Al momento non è possibile registrarsi al sistema");
+    	response.setContentType("text/plain");
+    	p.write("Al momento non è possibile registrarsi al sistema");
     }
     
     p.close();

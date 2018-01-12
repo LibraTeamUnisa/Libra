@@ -167,7 +167,17 @@ DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	                				<div class="row card-block">
 		                				<div class="col-md-2">
 			                				<p class="card-text text-center">
+			                				<%
+											  String path2= FileUtils.readBase64FromFile(FileUtils.PATH_PDF_PROGETTOF, pf.getDocumento());
+											  String doc="";
+											  if(path2 != null){
+											    doc = (new String(Base64.getUrlDecoder().decode(path2), "UTF-8"));
+											    doc = doc.substring(28);
+											  }
+											%>
+			                				<a href="data:application/octet-stream;base64, <%=doc%>" download="<%=pf.getId()%>.pdf">
 			                					<i class="fa fa-file-pdf-o" style="font-size:6em"></i>
+			                				</a>
 			                				</p>
 		                				</div>
 		                				<div class="col-md-9">

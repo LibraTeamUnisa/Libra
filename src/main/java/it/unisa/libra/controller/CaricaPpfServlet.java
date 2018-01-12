@@ -62,13 +62,6 @@ public class CaricaPpfServlet extends HttpServlet {
 
       String note = (String) request.getParameter("note");
       String ambito = (String) request.getParameter("ambito");
-      String ambitoControl = (String) request.getParameter("tutorEsterno");
-
-      if ((ambito != null) && (ambitoControl != null)) {
-        if (!ambito.contains(ambitoControl)) {
-          response.getWriter().write("errore_ambito");
-        }
-      }
 
       if (FileUtils.saveBase64ToFile(FileUtils.PATH_PDF_PROGETTOF, nomeFile, file)) {
         proposta = propostaDao.findById(ProgettoFormativo.class, idProposta);

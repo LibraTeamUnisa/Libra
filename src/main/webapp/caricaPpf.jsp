@@ -21,6 +21,7 @@
 <%
 	String mail = (String)session.getAttribute("utenteEmail");
 	String ruolo = (String)session.getAttribute("utenteRuolo");
+	String ambito = null;
 
 	IAziendaDao aziendaDAO = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
 	IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
@@ -30,6 +31,7 @@
 		
 	List<TutorInterno> listaTutor = tutorInternoDAO.findAll(TutorInterno.class);
 	ProgettoFormativo progetto;
+	TutorEsterno tutor = new TutorEsterno();
 	List<TutorEsterno> listaTutorEsterni = new ArrayList<TutorEsterno>();
 %>
 
@@ -93,7 +95,7 @@
 								<div class="card">
 									<div class="card-block">
 											<h4 class="card-title">Carica Proposta</h4>
-											<input type="file" id="input-file-now" class="dropify" /> <br>
+											<input type="file" id="input-file-now" class="dropify" required/> <br>
   											<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
   											<p id="errorMessage" hidden="hidden"><i>Parametri inseriti non validi</i></p>
   											<% } %>
@@ -107,7 +109,7 @@
   				<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
   				<div class="card wizard-card" style="padding:1%">
 					<h4 class="card-title">Note:</h4>
-						<textarea class="form-control" id="textarea" name="note" rows="6"></textarea>
+						<textarea class="form-control" id="textarea" name="note" rows="8"></textarea>
 				</div>
   				<% } %>
   				</div>
@@ -116,7 +118,7 @@
   				<% if(ruolo.contains("Studente")) { %>
   				<div class="card wizard-card" style="padding:1%">
   					<h4 class="card-title">Scegli un tutor interno:</h4>
-    					<select class="form-control" name="tutorInterno" id="tutorInterno">
+    					<select class="form-control" name="tutorInterno" id="tutorInterno" required>
       						<%
       							for(TutorInterno t : listaTutor) {
 									String nome = t.getNome();
@@ -135,7 +137,16 @@
   				<% if(ruolo.contains("Azienda")) { %>
   				<div class="card wizard-card" style="padding:1%">
   					<h4 class="card-title">Ambito:</h4>
-  						<input type="text" name="ambito" id="ambito" required>
+  					<%
+  		                listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
+  						if(!listaTutorEsterni.isEmpty()) 
+  						{
+  							tutor = listaTutorEsterni.get(0);
+  							ambito = tutor.getId().getAmbito();
+  						}
+  						if(ambito != null) {
+  							%> <input type="text" name="ambito" id="ambito" value=<%= ambito %> readonly required> <%
+  					    } %>
   				</div>
   				<% } %>
   				
@@ -171,23 +182,36 @@
     			<% if(ruolo.contains("Azienda")) { %>
     			<div class="card wizard-card" style="padding:1%">
     				<h4 class="card-title">Scegli un tutor esterno:</h4>
-    					<select class="form-control" name="tutorEsterno" id="tutorEsternoAmbito" required>
-      					<%
-      						listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
-      						for(TutorEsterno ts : listaTutorEsterni) {
-								String nome = ts.getNome();
-								String cognome = ts.getCognome();							
+    					<select class="form-control" name="tutorEsterno" id="tutorEsternoAmbito" onclick="validateSelect()" required>
+    					<%
+    					listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
+      					for(TutorEsterno t : listaTutorEsterni) {
+							ambito = t.getId().getAmbito();
+							String nome = t.getNome();
+							String cognome = t.getCognome();
 						%>
-								<option value="<%= ts.getId().getAmbito() %>">
-								<%= nome %> <%= cognome %> </option>
-					    <%
-      						}
-      					%>
-    					</select>
+						<option value="<%= ambito %>"> <%= nome %> <%= cognome %> </option>
+					 <% } %>
+    				 </select>
   				</div>
   				<% } %>
   				</div> <!-- END COL SM -->
     			</div> <!-- END ROW -->
+    			
+    			<div class="modal fade" id="okDialogMsg" role="dialog">
+		            <div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								Il caricamento della proposta è avvenuto con successo!
+							</div>
+							<div class="modal-footer">
+									<a class="btn btn-success" style="text-decoration: none; color: white;" href="caricaPpf.jsp">
+										Ok 
+									</a>
+							</div>
+						</div>
+					</div>
+				</div>
     			
   				<% if(ruolo.contains("TutorInterno") || (ruolo.contains("Presidente"))) { %>
   					<input type="hidden" name="id" id="propostaId" value="<%= request.getParameter("id")%>">
@@ -215,6 +239,14 @@
     <script src="js/dashboard5.js"></script>
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
     <script src="assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <script>
+    	function validateSelect() {
+    	    var ambito = $("#tutorEsternoAmbito").val();
+    	    var select = document.getElementById('ambito');
+    	    
+    	    $('#ambito').val(ambito);
+    	}
+    </script>
     <script>
 		function validateForm() {
 			var note = $("textarea[name=note]").val();
@@ -268,8 +300,8 @@
     });
     function caricaProposta() {
     	var propostaId;
-    	var ambito = " ";
-    	var note = " ";
+    	var ambito;
+    	var note;
     	var tutorEsternoAmbito;
     	var tutorInternoMail;
     	var ruolo = $("#ruolo").val();
@@ -293,13 +325,13 @@
     		        			note: note, 
     		        			tutorInterno: tutorInternoMail
     		        		},function(data) {
-    		        				alert(data);
+    		        			if(data == "ok") {
+    		        				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
+    		        			}
     		        			}
     		        		);
     			}
-    			fr.readAsDataURL(file);
-    			
-        		
+    			fr.readAsDataURL(file);	
     		}
     	}
     	else if(ruolo == "Azienda") {
@@ -323,12 +355,13 @@
     		        			ambito: ambito, 
     		        			tutorEsterno: tutorEsternoAmbito
     		        		},function(data) {
-    		        				alert(data);
+    		        			if(data == "ok") {
+    		        				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
     		        			}
+    		        		}
     		        		);
     			}
-    			fr.readAsDataURL(file);
-    			
+    			fr.readAsDataURL(file);			
     		}
     	}
     	else if(ruolo == "TutorPresidente") {
@@ -345,14 +378,14 @@
 			        		file: btoa(base64),
 			        		id: propostaId
 			        	},function(data) {
-			        			alert(data);
+			        		if(data == "ok") {
+			    				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
+			        		}
 			        		}
 			        	);
 			}
-			fr.readAsDataURL(file);
-        	
+			fr.readAsDataURL(file);       	
     	}
-   		window.location.href = '/Libra/caricaPpf.jsp';
     }
     </script>
 </body>

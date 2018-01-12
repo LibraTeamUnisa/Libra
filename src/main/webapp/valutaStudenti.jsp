@@ -178,6 +178,7 @@
 											Utente utente = studente.getUtente();
 											ProgettoFormativo progettoFormativo;
 											progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+											
 											if(progettoFormativo.getStato() == 5){
 												String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, utente.getEmail()+".png");
 												String img="";
@@ -203,8 +204,6 @@
  	}
  %>
 									</td>
-
-
 									<td><a
 										href="<%=request.getContextPath()%>/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
 
@@ -216,15 +215,15 @@
 								<%
 									}
 								%>
-							</tbody>
-						</table>
-					</div>
-				</div>
 				<%
 					}
 					}
 					}
 				%>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->

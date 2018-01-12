@@ -3,6 +3,8 @@ package it.unisa.libra.model.dao;
 import it.unisa.libra.bean.Azienda;
 import it.unisa.libra.bean.ProgettoFormativo;
 import it.unisa.libra.bean.Studente;
+import it.unisa.libra.bean.TutorInterno;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -93,5 +95,6 @@ public interface IProgettoFormativoDao extends IGenericDao<ProgettoFormativo, In
   public int getPfTutor(String email);
 
   int contaOccorrenze();
-
+  
+  List<ProgettoFormativo> getAttivi(TutorInterno tutor);
 }

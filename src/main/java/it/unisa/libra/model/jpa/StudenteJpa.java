@@ -6,6 +6,7 @@ import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IStudenteDao;
 import it.unisa.libra.util.CheckUtils;
+import it.unisa.libra.util.Loggable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -19,6 +20,7 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 
 @Stateless
+@Loggable
 public class StudenteJpa extends GenericJpa<Studente, String> implements IStudenteDao {
 
   @Override

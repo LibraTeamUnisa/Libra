@@ -3,6 +3,7 @@ package it.unisa.libra.model.jpa;
 import it.unisa.libra.bean.TutorEsterno;
 import it.unisa.libra.bean.TutorEsternoPK;
 import it.unisa.libra.model.dao.ITutorEsternoDao;
+import it.unisa.libra.util.Loggable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 @Stateless
+@Loggable
 public class TutorEsternoJpa extends GenericJpa<TutorEsterno, TutorEsternoPK>
     implements ITutorEsternoDao {
 

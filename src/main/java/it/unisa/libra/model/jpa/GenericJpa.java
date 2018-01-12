@@ -16,7 +16,8 @@ public abstract class GenericJpa<E, K> implements IGenericDao<E, K> {
     entityManager.merge(entity);
   }
 
-  /** Rimuove un'entita'.
+  /**
+   * Rimuove un'entita'.
    * 
    * @param entityClass la classe dell'entita' da rimuovere
    * @param id l'id dell'entita' da rimuovere

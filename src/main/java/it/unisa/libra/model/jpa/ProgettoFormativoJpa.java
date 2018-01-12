@@ -8,6 +8,7 @@ import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.TutorInterno;
 import it.unisa.libra.model.dao.IProgettoFormativoDao;
 import it.unisa.libra.util.CheckUtils;
+import it.unisa.libra.util.Loggable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 
 @Stateless
+@Loggable
 public class ProgettoFormativoJpa extends GenericJpa<ProgettoFormativo, Integer>
     implements IProgettoFormativoDao {
 

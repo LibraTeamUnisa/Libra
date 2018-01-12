@@ -2,10 +2,12 @@ package it.unisa.libra.model.jpa;
 
 import it.unisa.libra.bean.Domanda;
 import it.unisa.libra.model.dao.IDomandaDao;
+import it.unisa.libra.util.Loggable;
 import java.util.List;
 import javax.ejb.Stateless;
 
 @Stateless
+@Loggable
 public class DomandaJpa extends GenericJpa<Domanda, Integer> implements IDomandaDao {
 
   @Override

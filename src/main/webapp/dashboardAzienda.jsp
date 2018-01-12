@@ -296,13 +296,13 @@
 				                                <!-- icona diversa a seconda dello stato del progetto -->
 				                                <% int stato = pf.getStato(); %>
 				                                <% if (stato == StatoPf.INVIATO || stato == StatoPf.VERIFICA_TUTOR || stato == StatoPf.VERIFICA_PRESIDENTE) { %>	
-				                                		<h1><i class="fa fa-clock-o text-info pull-right" title="In attesa"></i></h1>
+				                                		<h1><i class="fa fa-clock-o text-warning pull-right" data-toggle="tooltip" data-original-title="In attesa"></i></h1>
 				                                <% } else if (stato == StatoPf.VERIFICATO) { %>
-				                                		<h1><i class="fa fa-thumbs-o-up text-info pull-right" title="Verificato"></i></h1>
+				                                		<h1><i class="fa fa-thumbs-o-up text-primary pull-right" data-toggle="tooltip" data-original-title="Verificato"></i></h1>
 				                                <% } else if (stato == StatoPf.APPROVATO) { %>
-				                                		<h1><i class="fa fa-check-circle text-success pull-right" title="Approvato"></i></h1>
+				                                		<h1><i class="fa fa-check-circle text-success pull-right"data-toggle="tooltip" data-original-title="Approvato"></i></h1>
 				                                <% } else if (stato == StatoPf.RIFIUTATO) { %>
-				                                		<h1><i class="fa fa-times text-danger pull-right" title="Rifiutato"></i></h1>
+				                                		<h1><i class="fa fa-times text-danger pull-right" data-toggle="tooltip" data-original-title="Rifiutato"></i></h1>
 				                                <% } %>
 				                                <h5><%=s.getNome()%> <%=s.getCognome()%></h5>
 				                                <h6 class="text-muted">matricola <%=s.getMatricola()%></h6>

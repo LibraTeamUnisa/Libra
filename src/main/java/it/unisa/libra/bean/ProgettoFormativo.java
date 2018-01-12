@@ -110,6 +110,7 @@ public class ProgettoFormativo implements Serializable {
 
   /** Costruttore.
    * 
+   * @param id l'id del progetto
    * @param ambito l'ambito del progetto
    * @param stato lo stato del progetto
    * @param emailStudente lo studente del progetto
@@ -117,8 +118,9 @@ public class ProgettoFormativo implements Serializable {
    * @param cognome il cognome dello studente
    * @param matricola la matricola dello studente
    */
-  public ProgettoFormativo(String ambito, int stato, String emailStudente, String nome,
+  public ProgettoFormativo(int id, String ambito, int stato, String emailStudente, String nome,
       String cognome, String matricola) {
+    this.id = id;
     this.ambito = ambito;
     this.stato = stato;
     this.studente = new Studente();

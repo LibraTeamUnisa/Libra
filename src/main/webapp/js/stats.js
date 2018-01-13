@@ -154,7 +154,7 @@ var updateAnimatedChart = (data) =>{
 
 		series[series.length -1].push(numStudenti);
 	}
-	var labels = Array.from(labelSets).sort(compareMonth);
+	var labels = Array.from(labelSets);
 	$('#listAziendeAnim').html("");
 	for(var ragSoc in listRagSoc){
 		var list = '<li><h6 class="text-muted"><i class="fa fa-circle m-r-5 '+colors[ragSoc]+'"></i>'+listRagSoc[ragSoc]+'</h6></li>';

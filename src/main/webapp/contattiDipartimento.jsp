@@ -41,6 +41,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<script>
+var listContatti = new Array();
+</script>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -102,13 +105,20 @@
             	<%  ISegreteriaDao segreteriaDao = (ISegreteriaDao) new InitialContext().lookup("java:app/Libra/SegreteriaJpa");
              		List<Segreteria> listSeg = segreteriaDao.findAll(Segreteria.class);
              		for(Segreteria seg: listSeg){
+             			String id = seg.getUtenteEmail().replace("@", "").replace(".","");
             	 %>
              		<div class="col-md-6 col-lg-5 col-xlg-4">
                         <div class="card card-block">
                             <div class="row">
                                 <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="#"><img src="assets/images/users/1.jpg" alt="user" class="img-circle img-responsive"></a>
+                                    <a href="#"><img id="img<%=id%>" src="" onerror="this.src='assets/images/users/default.png';"
+                                     alt="user" class="img-circle img-responsive"></a>
                                 </div>
+                                
+                                <script>
+                                	listContatti.push("<%=seg.getUtenteEmail()%>");
+                                </script>
+                                
                                 <div class="col-md-8 col-lg-9">
                                     <h3 class="box-title m-b-0">Segreteria</h3>
                                     <small>Dipartimento di Informatica</small>
@@ -142,13 +152,20 @@
             	<%  IPresidenteDao presidenteDao = (IPresidenteDao) new InitialContext().lookup("java:app/Libra/PresidenteJpa");
              		List<Presidente> listPres = presidenteDao.findAll(Presidente.class);
              		for(Presidente pres: listPres){
+             		String id = pres.getUtenteEmail().replace("@", "").replace(".", "");
             	 %>
              		<div class="col-md-6 col-lg-5 col-xlg-4">
                         <div class="card card-block">
                             <div class="row">
                                 <div class="col-md-4 col-lg-3 text-center">
-                                    <a href="#"><img src="assets/images/users/2.jpg" alt="user" class="img-circle img-responsive"></a>
+                                    <a href="#"><img id="img<%=id%>" src="" onerror="this.src='assets/images/users/default.png';"
+                                    src="" alt="user" class="img-circle img-responsive"></a>
                                 </div>
+                                
+                                <script>
+                                	listContatti.push("<%=pres.getUtenteEmail()%>");
+                                </script>
+                                
                                 <div class="col-md-8 col-lg-9">
                                     <h3 class="box-title m-b-0"><%=pres.getCognome()+ " " +pres.getNome()%></h3>
                                     <small>Dipartimento di Informatica</small>
@@ -230,16 +247,22 @@
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
-    <!-- chartist chart -->
-    <script src="assets/plugins/chartist-js/dist/chartist.min.js"></script>
-    <script src="assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-    <!-- Chart JS -->
-    <script src="assets/plugins/echarts/echarts-all.js"></script>
-    <script src="js/dashboard5.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script type="text/javascript">
+		var mostraImmaginiUtenti = function() {
+			listContatti.forEach(function(entry) {
+				$.get('caricaImmagine?action=mostra&email='+entry
+						, function(data, status) {
+					var id = entry.replace("@","").replace(".","");
+					$('#img'+id).attr('src', atob(data));
+				});
+			});
+		}
+		mostraImmaginiUtenti();
+</script>
 </body>
 
 </html>

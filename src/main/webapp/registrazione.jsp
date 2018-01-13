@@ -28,14 +28,14 @@
     <link href="css/colors/red.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+   
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+
+
 
 
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
 			
 		if(verificaStringa(nome)){
 			if(verificaStringa(cognome)){
-				if(dataNascita!=""){
+				if(controllo_data(dataNascita)){
 					if(verificaEmail(email)){
 							if(matricola!=""&&matricola.length==10){
 								if(verificaFormatoMatricola(matricola)){
@@ -94,6 +94,10 @@ $(document).ready(function() {
 						alert("Formato e-mail non corretto");
 						}
 				}
+				else{
+					alert("Inserire una data corretta");
+			
+					}
 			}
   }
 
@@ -108,12 +112,11 @@ if(semaforo==true){
       url: "registrazione",
 
       data: "nome= "+ nome + "&cognome=" + cognome + "&matricola=" + matricola + "&email="+ email+"&password="+password+"&dataNascita="+dataNascita+"&indirizzo="+indirizzo+"&telefono="+telefono,
-      dataType: "html",
 
-      success: function(responseText)
+      complete: function(r)
       {
-    	  alert(responseText);
-    	  if(responseText.includes("successo")){
+    	  alert(r.responseText);
+    	  if(r.responseText.includes("successo")){
     	 	 window.location.href = "home.jsp";
     	  }
     	  $('#nome').val("");
@@ -149,6 +152,26 @@ function verificaFormatoMatricola(matricola){
 function verificaFormatoPassword(password){
 	return (password!=""&&password.length>7&&password.length<21&&password1!="");
 	}
+	
+function controllo_data(stringa){
+		if(stringa!=""){
+			var annoInput = parseInt(stringa.substr(0,4));
+			var meseInput = parseInt(stringa.substr(5,7));
+			var giornoInput = parseInt(stringa.substr(8,10));
+
+			var data = new Date();
+			var dataInput = new Date(stringa);
+
+			if(data>=dataInput){
+				return true;
+				}
+			else{
+				return false;
+				}
+		}else{
+			return false;
+		}
+    }
 </script>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -226,31 +249,20 @@ function verificaFormatoPassword(password){
     </div>
   </div>
 </section>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap tether Core JavaScript -->
+	<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
+	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<!-- slimscrollbar scrollbar JavaScript -->
+	<script src="js/jquery.slimscroll.js"></script>
+	<!--Wave Effects -->
+	<script src="js/waves.js"></script>
+	<!--Menu sidebar -->
+	<script src="js/sidebarmenu.js"></script>
+	<!--stickey kit -->
+	<script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+	<!--Custom JavaScript -->
+	<script src="js/custom.min.js"></script>
 </body>
 
 

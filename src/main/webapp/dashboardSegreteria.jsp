@@ -120,7 +120,7 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th colspan="2">Cognome</th>
+									<th>Cognome</th>
 												<th>Nome</th>
 												<th>E-mail</th>
 												<th>Matricola</th>
@@ -137,7 +137,7 @@
 												<%
 													if (iscritto != null && iscritto.getCognome() != null) {
 												%>
-												<td style="width: 50px;"><span class="round"><%=iscritto.getUtente().getImgProfilo()%></span></td>
+												
 												<td><h6><%=iscritto.getCognome()%></h6></td>
 												<%
 													} else {
@@ -313,8 +313,10 @@
 				"searching": true,
 				"pageLength": 10,
 				"columnDefs": [	
-					{ "searchable": false, "targets": 0 },
-					{ "searchable": false, "targets": 3 },
+					{ "searchable": true, "targets": 0 },
+					{ "searchable": true, "targets": 1 },
+					{ "searchable": true, "targets": 2 },
+					{ "searchable": true, "targets": 3 },
 				  ],
 				"language": {
 		            "lengthMenu": "Mostra _MENU_ risultati per pagina",

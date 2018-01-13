@@ -90,6 +90,7 @@ public class RegistrazioneServlet extends HttpServlet {
     	  response.setContentType("text/plain");
     	  p.write("Registrazione avvenuta con successo");
       } else {
+    	  response.setStatus(200);
     	  response.setContentType("text/plain");
     	  p.write("Utente già presente nel sistema");
       }

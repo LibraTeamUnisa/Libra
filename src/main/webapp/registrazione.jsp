@@ -112,12 +112,11 @@ if(semaforo==true){
       url: "registrazione",
 
       data: "nome= "+ nome + "&cognome=" + cognome + "&matricola=" + matricola + "&email="+ email+"&password="+password+"&dataNascita="+dataNascita+"&indirizzo="+indirizzo+"&telefono="+telefono,
-      dataType: "html",
 
-      success: function(responseText)
+      complete: function(r)
       {
-    	  alert(responseText);
-    	  if(responseText.includes("successo")){
+    	  alert(r.responseText);
+    	  if(r.responseText.includes("successo")){
     	 	 window.location.href = "home.jsp";
     	  }
     	  $('#nome').val("");
@@ -250,7 +249,20 @@ function controllo_data(stringa){
     </div>
   </div>
 </section>
-
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap tether Core JavaScript -->
+	<script src="assets/plugins/bootstrap/js/tether.min.js"></script>
+	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<!-- slimscrollbar scrollbar JavaScript -->
+	<script src="js/jquery.slimscroll.js"></script>
+	<!--Wave Effects -->
+	<script src="js/waves.js"></script>
+	<!--Menu sidebar -->
+	<script src="js/sidebarmenu.js"></script>
+	<!--stickey kit -->
+	<script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+	<!--Custom JavaScript -->
+	<script src="js/custom.min.js"></script>
 </body>
 
 

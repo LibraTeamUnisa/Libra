@@ -107,11 +107,13 @@ $(document).ready(function() {
 if(semaforo==true){
     $.ajax({
 
-      type: "POST",
+      type: 'POST',
 
-      url: "registrazione",
+      url: 'registrazione',
 
       data: "nome= "+ nome + "&cognome=" + cognome + "&matricola=" + matricola + "&email="+ email+"&password="+password+"&dataNascita="+dataNascita+"&indirizzo="+indirizzo+"&telefono="+telefono,
+
+	  async:false,
 
       complete: function(r)
       {

@@ -8,6 +8,8 @@
 <%@ page import="javax.naming.InitialContext" %>
 <%@page import="java.text.DateFormat" %>
 <%@page import="java.text.SimpleDateFormat" %>
+<%@page import="it.unisa.libra.util.FileUtils"%>
+<%@page import="java.util.Base64"%>
 
 <% 
 	int propostaId = 0;
@@ -94,7 +96,13 @@
 	                <div class="col-md-6 col-8 align-self-center">
 	                    <h3 class="text-themecolor m-b-0 m-t-0">Rifiuta Proposta</h3>
 	                    <ol class="breadcrumb">
-	                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+	                        <%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<%} %>
 	                        <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=progettoFormativo.getStudente().getUtenteEmail()%>">Dettaglio Studente</a></li>
 	                        <li class="breadcrumb-item active">Rifiuta Proposta</li>
 	                    </ol>
@@ -105,7 +113,16 @@
 		            	<h3 class="box-title m-b-0">Studente: <%=progettoFormativo.getStudente().getCognome() %> <%=progettoFormativo.getStudente().getNome() %></h3>
 			            <div class="row mt-4">
 			            	<div class="col-sm-2 col-md-1 mt-2">
-			            	 	<a href="<%=progettoFormativo.getDocumento()%>""><i class="fa fa-file-pdf-o" style="font-size:60px;"></i></a>
+			            		<%
+								  String path= FileUtils.readBase64FromFile(FileUtils.PATH_PDF_PROGETTOF, progettoFormativo.getDocumento());
+								  String doc="";
+								  if(path != null){
+								    doc = (new String(Base64.getUrlDecoder().decode(path), "UTF-8"));
+								    doc = doc.substring(28);
+								  }
+								%>
+								<a href="data:application/octet-stream;base64, <%=doc%>" download="<%=progettoFormativo.getId()%>.pdf">
+			            	 	<i class="fa fa-file-pdf-o" style="font-size:60px;"></i></a>
 			            	 </div>
 			            	<div class="col-sm mt-2">
 			            		<p class="text-left"><i>Inviata il <%=formatter.format(progettoFormativo.getDataInvio())%></i></p>
@@ -127,7 +144,7 @@
 							    	<textarea class="form-control" id="motRifiuto" maxlength="500" rows="3" name="motivazione"></textarea>
 							  	</div>
 							  	<div class="row">
-							  		<div class="col-6"><button type="button" id="rifiutaButton" class="btn btn-primary">Rifiuta</button></div>
+							  		<div class="col-6"><button type="button" id="rifiutaButton" class="btn btn-outline-danger">Rifiuta</button></div>
 		  							<div class="col-6"><a class="btn btn-secondary pull-right" href="<%=request.getContextPath()%>/dettaglioStudente?action=<%=Actions.DETTAGLIO_STUDENTE%>&email-studente=<%=progettoFormativo.getStudente().getUtenteEmail()%>">Annulla</a></div>
 				            	</div>
 				            </form>
@@ -212,7 +229,6 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-    
     <script>
     $(document).ready(function() {
     	$("#rifiutaButton").click(function(e){

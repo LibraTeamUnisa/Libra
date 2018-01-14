@@ -145,7 +145,7 @@
 
 				</div>
 				<%
-					} else if (progettoFormativo.getStato() != 4) {
+					} else if (progettoFormativo.getStato() != 5) {
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
@@ -180,11 +180,17 @@
 							<%=studente.getNome()%>
 							<%=studente.getCognome()%></h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
 							<li class="breadcrumb-item"><a href="valutaStudenti.jsp">Valuta
 									Studenti</a></li>
 							<li class="breadcrumb-item active">Valuta <%=studente.getNome()%>
 								<%=studente.getCognome()%></li>
+							<%} %>
 						</ol>
 					</div>
 
@@ -238,17 +244,14 @@
 							%>
 							<div class="row">
 								<div class="form-group col-md-8">
-									<label for="note">Note: </label> <span class="text-danger"
-										style="margin-left: 20%;<%if (esistente) {%>display:none;<%}%>"
-										id="hideNote">Il campo non pu&ograve; essere vuoto.</span>
 									<textarea class="form-control" rows="5" id="note"
-										onchange='controlloNote()' <%if (esistente) {%> disabled <%}%>><%if (esistente) {%><%=f.get(11).getValutazione()%><%}%></textarea>
+										><%if (esistente) {%><%=f.get(11).getValutazione()%><%}%></textarea>
 									<textarea id="idProgettoFormativo" style="display: none"><%=progettoFormativo.getId()%></textarea>
 								</div>
 							</div>
 							<button class="btn btn-primary" type="submit"
-								id="inviaValutazione" onclick='controlloNote()'
-								style="margin:0 auto;<%if(esistente){%>display:none;<%}%>" disabled>Invia</button>
+								id="inviaValutazione"
+								style="margin:0 auto;<%if(esistente){%>display:none;<%}%>">Invia</button>
 							<div class="alert alert-success" id="success"
 								style="display: none">Valutazione effettuata con successo!</div>
 						</div>

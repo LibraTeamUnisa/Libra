@@ -54,6 +54,12 @@
   padding: 0.5em 0.6em;
   }
   
+  i.fa-plus
+  {
+    color:white!important;
+    background-color:#FF8F00;
+  }
+  
   i.fa-pencil
   {
     color:white!important;
@@ -119,12 +125,25 @@ private String parseDate(Date date)
 				List<TutorEsterno> tutorEsterni = (List<TutorEsterno>) tutorDao.findByEmailAzienda(emailAzienda);
 			%>
 
+
 			<div class="container-fluid">
+			
+			
+				<div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Lista Tutor</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<%=JspPagesIndex.DASHBOARD_AZIENDA.substring(1)%>">Dashboard </a></li>
+                            <li class="breadcrumb-item active">Gestione Tutor Esterno</li>
+					    </ol>
+                    </div>
+                </div>
+			
+			
 				<div class="row" id="body1">
 					<div class="col-12">
 						<div class="card">
 							<div class="card-block">
-								<h4 class="card-title">Lista Tutor Aziendali</h4>
 
 
 								<!-- ============================================================== -->
@@ -139,7 +158,7 @@ private String parseDate(Date date)
 												<p id="modalMessage"></p>
 											</div>
 											<div class="modal-footer">
-											<a class="btn btn-primary"
+											<a class="btn btn-warning"
 												href="javascript:window.location.reload();"
 												style="text-decoration: none; color: white;"> 
 												Ok 
@@ -155,7 +174,7 @@ private String parseDate(Date date)
 								<!-- Modal per la conferma della rimozione  -->
 								<!-- ============================================================== -->
 								<div class="modal fade" id="my_modal" role="dialog">
-									<div class="modal-dialog modal-lg">
+									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<h4 class="modal-title" id="myLargeModalLabel">
@@ -170,13 +189,13 @@ private String parseDate(Date date)
 														<input type="hidden" name="ambito" id="inputAmbito" /> 
 														<input type="hidden" name="action" id="inputAction" />
 														<button type="submit" style="float: left;"
-															class="btn btn-info waves-effect text-right"
+															class="btn btn-danger waves-effect text-right"
 															id="buttonRimuoviModal">
 														Rimuovi
 														</button>
 													</form>
 													<button style="float: right;" type="button"
-														class="btn btn-danger waves-effect text-left"
+														class="btn btn-warning waves-effect text-left"
 														data-dismiss="modal" id="buttonmodal">
 													Annulla
 													</button>
@@ -202,8 +221,17 @@ function funzioneApriModal(amb) {
 </script>
 
 
+
 	<%	if (tutorEsterni != null && tutorEsterni.size() != 0) { %>
 
+			<div class="row"><div class="col-12">
+			<a class="pull-right" href="gestioneTutorEsterno.jsp?action=aggiungiTutorEsterno"
+			data-toggle="tooltip" data-original-title="Aggiungi"> 
+			<i class="fa fa-plus text-inverse m-r-10"></i>
+			</a>
+			</div></div>
+			
+			
 								<div class="table-responsive m-t-40">
 									<div id="example23_wrapper" class="dataTables_wrapper">
 
@@ -250,11 +278,11 @@ function funzioneApriModal(amb) {
 														href="gestioneTutorEsterno.jsp?action=<%=Actions.MODIFICA_TUTOR_ESTERNO%>&ambito=<%= URLEncoder.encode(ambito,"UTF-8") %>"
 														data-toggle="tooltip" data-original-title="Modifica"> <i
 															class="fa fa-pencil text-inverse m-r-10"></i>
-													</a> <a href="#" onclick="funzioneApriModal('<%=ambito%>')"
-														data-original-title="Close" data-toggle="modal"
+													</a> <span data-toggle="tooltip" data-original-title="Rimuovi"><a href="#" onclick="funzioneApriModal('<%=ambito%>')"
+														data-original-title="Rimuovi" data-toggle="modal"
 														data-target="#my_modal">
 															<i class="fa fa-close text-danger"></i>
-													</a></td>
+													</a></span></td>
 												</tr>
 												<%
 													}
@@ -267,6 +295,7 @@ function funzioneApriModal(amb) {
 													} else {
 												%>
 												<h5>Non ci sono tutor.</h5>
+												<a class="btn btn-warning" href="gestioneTutorEsterno.jsp?action=aggiungiTutorEsterno">Aggiungi</a>
 												<%
 													}
 												%>

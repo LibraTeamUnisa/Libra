@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="it.unisa.libra.model.dao.ITutorInternoDao,
                                       it.unisa.libra.model.jpa.TutorInternoJpa,
+                                      it.unisa.libra.model.dao.IProgettoFormativoDao,
+                                      it.unisa.libra.model.jpa.ProgettoFormativoJpa,
                                       it.unisa.libra.bean.TutorInterno,
                                       it.unisa.libra.bean.ProgettoFormativo,
                                       it.unisa.libra.bean.Studente,
@@ -9,24 +11,26 @@
                                       java.util.ArrayList,
                                       java.util.Date,
                                       java.text.SimpleDateFormat,
-                                      javax.naming.InitialContext"%>
+                                      javax.naming.InitialContext,
+                                      it.unisa.libra.util.FileUtils,
+                                      java.util.Base64"%>
 <%!
-   private static final int APPROVED_STATE=5;
-
-   private List<ProgettoFormativo> getActive(List<ProgettoFormativo> pfList)
+   private String getImagePath(String email) throws Exception
    {
-	 List<ProgettoFormativo> result=new ArrayList<ProgettoFormativo>();
-	 for(ProgettoFormativo pf:pfList){
-		 if(pf.getStato()==APPROVED_STATE)
-			 result.add(pf);
-	 }
-	 return result.size()==0?null:result;
+	   String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, email+".png");
+	   String img="";
+	   if(path != null)
+		   img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+	   return img;
    }
-   
    private String parseDate(Date date)
    {
 	   SimpleDateFormat dFormat=new SimpleDateFormat("dd/MM/yyyy");
-	   return dFormat.format(date);
+	   try {
+		   return dFormat.format(date);
+	   } catch(Exception ex) {
+		   return "error";
+	   }
    }
  %>
 <!DOCTYPE html>
@@ -103,6 +107,8 @@
             <%
                ITutorInternoDao tutorDao=(ITutorInternoDao)new InitialContext().lookup("java:app/Libra/TutorInternoJpa");
                TutorInterno tutor=tutorDao.findById(TutorInterno.class, (String)session.getAttribute("utenteEmail"));
+               IProgettoFormativoDao pfDao=(IProgettoFormativoDao)new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
+               List<ProgettoFormativo> pfList=pfDao.getAttivi(tutor);
              %>
                  <div class="container">
                      <!-- MAIN CARD  -->
@@ -117,13 +123,13 @@
                          <div class="card-body">
                          <br>
                              <%
-                                List<ProgettoFormativo> pfList=tutor.getProgettiFormativi();
-                                pfList= getActive(pfList);
                                 if(pfList!=null&&pfList.size()!=0){
                                 	
                                 	for(ProgettoFormativo pf:pfList){ 
                                 		Studente studente=pf.getStudente();
                                 		Azienda azienda=pf.getAzienda();
+                                		String imgStudente=getImagePath(studente.getUtenteEmail());
+                                		String imgAzienda=getImagePath(azienda.getUtenteEmail());
                               %>
                               <form>
                                   <div class="row card-row">
@@ -136,7 +142,7 @@
                                           <div class="row">
                                               <!-- PROFILE IMAGE -->
                                               <div class="col-4">
-                                                  <img class="rounded-circle profile" src="<%= studente.getUtente().getImgProfilo() %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
+                                                  <img class="rounded-circle profile" src="<%= imgStudente %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
                                               </div>
                                               <!-- STUDENT DATA -->
                                               <div class="col-8">
@@ -169,7 +175,7 @@
                                           <div class="row">
                                               <!-- PROFILE IMAGE -->
                                               <div class="col-4">
-                                                  <img class="rounded-circle profile" src="<%= azienda.getUtente().getImgProfilo() %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
+                                                  <img class="rounded-circle profile" src="<%= imgAzienda %>" onerror="this.onerror=null;this.src='assets/images/users/default.png';"/>
                                               </div>
                                               <!-- COMPANY DATA -->
                                               <div class="col-8">
@@ -201,8 +207,13 @@
                                           </div>
                                           <!-- TRAINERSHIP DATA -->
                                           <dl class="row" style="margin: 0px!important">
-                                              <dt class="col-sm-6">Inizio-Fine</dt>
-                                              <dd class="col-sm-6"><%= parseDate(pf.getDataInizio())+"-"+parseDate(pf.getDataFine()) %></dd>
+                                              <%
+                                                 String dates=parseDate(pf.getDataInizio())+"-"+parseDate(pf.getDataFine());
+                                                 if(dates.contains("error"))
+                                                	 dates="Date non disponibili";
+                                               %>
+                                              <dt class="col-sm-4">Inizio-Fine</dt>
+                                              <dd class="col-sm-8"><%= dates %></dd>
                                               <div class="separator"></div>
                                               <dt class="col-sm-3">Ambito</dt>
                                               <dd class="col-sm-9"><%= pf.getAmbito() %></dd>

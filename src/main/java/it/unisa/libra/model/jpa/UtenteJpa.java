@@ -2,12 +2,13 @@ package it.unisa.libra.model.jpa;
 
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.util.Loggable;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-
 @Stateless
+@Loggable
 public class UtenteJpa extends GenericJpa<Utente, String> implements IUtenteDao {
 
   /**

@@ -49,7 +49,7 @@ public class StudenteJpaTest extends GenericJpaTest {
     utente.setIndirizzo("Via delle vie");
     utente.setPassword("1234567");
     utente.setTelefono("123");
-    
+
     studente.setUtente(utente);
 
     Gruppo gruppo = new Gruppo();
@@ -99,7 +99,7 @@ public class StudenteJpaTest extends GenericJpaTest {
     utente.setIndirizzo("Via delle vie");
     utente.setPassword("1234567");
     utente.setTelefono("123");
-    
+
     studente.setUtente(utente);
 
     utenteJpa.persist(utente);

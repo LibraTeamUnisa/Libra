@@ -88,7 +88,7 @@
 									<div class="col-xs-12">
 										<input type="email" name="email" required="required"
 											id="labelEmail" class="form-control" placeholder="Email"
-											maxlength="30" />
+											maxlength="50" />
 									</div>
 								</div>
 								<div class="form-group text-center m-t-20">
@@ -121,7 +121,7 @@
 
                 <button id="button1" type="button" class="btn btn-primary">
                   <a class="btn btn-primary" href="<%=login%>"
-                    style="text-decoration: none; color: white;"> Login </a>
+                    style="text-decoration: none; color: white;"> Effettua il login </a>
                 </button>
               </div>
 							
@@ -135,7 +135,6 @@
 
 					</div>
 				</div>
-
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
 			<!-- ============================================================== -->
@@ -167,17 +166,13 @@
 																		$(
 																				"#modalMessage")
 																				.text(
-																						"L'operazione &egrave; avvenuta correttamente");
+																						"L'operazione e' avvenuta correttamente");
+																	
 																	} else {
-																		$(
-																				"#modalMessage")
-																				.text(
-																						data);
-																	}
-																	$(
-																			"#modalResult")
-																			.modal(
-																					'show');
+																		$("#modalMessage").text("Non e' stato possibile eseguire l'operazione, Riprovare");
+																}
+																	
+																	$("#modalResult").modal('show');
 																});
 											});
 						})

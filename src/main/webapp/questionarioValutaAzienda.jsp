@@ -105,10 +105,18 @@
 			<div class="container-fluid">
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="text-themecolor m-b-0 m-t-0">Valuta Azienda</h3>
+						<h3 class="text-themecolor m-b-0 m-t-0">Questionario Valuta Azienda</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-							<li class="breadcrumb-item active">Valuta Azienda</li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active">Questionario Valuta Azienda</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 				</div>
@@ -127,7 +135,7 @@
 							ProgettoFormativo pf= pfDao.getLastProgettoFormativoByStudente(studente);
 							String note=null;
 							Boolean persisted= false;
-							if(pf.getStato() == 5){
+							if(pf != null && pf.getStato() == 5){
 							
 								for(Domanda d: domande){ 
 									FeedbackPK pk= new FeedbackPK();
@@ -214,9 +222,13 @@
 								<%
 									if(!persisted){
 								%>
-										<button class="btn btn-primary" type="submit" style="margin:0 auto;">Invia</button>
+										<button class="btn btn-primary" type="submit">Invia</button>
 					<%
 									}
+							}else{
+					%>
+								<h4>Nessun questionario da compilare.</h4>
+					<%
 							}
 						}
 					%>

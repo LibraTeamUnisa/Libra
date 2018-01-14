@@ -102,22 +102,6 @@
 					class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark"
 					href="javascript:void(0)"><i class="icon-arrow-left-circle"></i></a>
 				</li>
-
-				<!-- ============================================================== -->
-				<!-- Messages -->
-				<!-- ============================================================== -->
-				<li class="nav-item"><a
-					class="nav-link text-muted waves-effect waves-dark"
-					href="<%=JspPagesIndex.NOTIFICHE.substring(1)%>"> <i
-						class="mdi mdi-email"></i>
-						<div class="notify">
-							<span class="heartbit"></span> <span class="point"></span>
-						</div>
-				</a></li>
-				<!-- ============================================================== -->
-				<!-- End Messages -->
-				<!-- ============================================================== -->
-
 			</ul>
 			<!-- ============================================================== -->
 			<!-- User profile and search -->
@@ -154,12 +138,10 @@
 							<li role="separator" class="divider"></li>
 							<li><a href="profilo.jsp"><i class="ti-user"></i>
 									Profilo</a></li>
-							<li><a href="notifiche.jsp"><i class="ti-email"></i>
-									Notifiche</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a
 								href="<%=request.getContextPath()%>/autenticazione?<%=Actions.ACTION + "=" + Actions.LOGOUT%>"><i
-									class="fa fa-power-off"></i> Logout</a></li>
+									class="ti-power-off"></i> Logout</a></li>
 						</ul>
 					</div></li>
 

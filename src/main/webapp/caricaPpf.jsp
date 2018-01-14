@@ -21,6 +21,7 @@
 <%
 	String mail = (String)session.getAttribute("utenteEmail");
 	String ruolo = (String)session.getAttribute("utenteRuolo");
+	String ambito = null;
 
 	IAziendaDao aziendaDAO = (IAziendaDao) new InitialContext().lookup("java:app/Libra/AziendaJpa");
 	IProgettoFormativoDao progettoFormativoDAO = (IProgettoFormativoDao) new InitialContext().lookup("java:app/Libra/ProgettoFormativoJpa");
@@ -30,7 +31,9 @@
 		
 	List<TutorInterno> listaTutor = tutorInternoDAO.findAll(TutorInterno.class);
 	ProgettoFormativo progetto;
+	TutorEsterno tutor = new TutorEsterno();
 	List<TutorEsterno> listaTutorEsterni = new ArrayList<TutorEsterno>();
+	String dashboard = "";
 %>
 
 <!DOCTYPE html>
@@ -40,8 +43,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="pagina caricamento proposta">
+    <meta name="author" content="UmbertoGiarritiello">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
 	<title>Libra</title>
     <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -51,6 +54,7 @@
     <link href="assets/plugins/css-chart/css-chart.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/colors/red.css" id="theme" rel="stylesheet">
+    <link href="assets/plugins/dropify/dist/css/dropify.min.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 </head>
@@ -66,37 +70,57 @@
         <div class="page-wrapper">
             <div class="container-fluid">
             	<div class="row page-titles">
+            		
                     <div class="col-md-6 col-8 align-self-center">
             	 		<h3 class="text-themecolor m-b-0 m-t-0">Carica Proposta</h3>
                  			<ol class="breadcrumb">
-                    			<li class="breadcrumb-item"><a href="dashboardStudente.jsp">Home</a></li>
-                        		<li class="breadcrumb-item active">Carica Proposta</li>
-                    		</ol>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active">Carica Proposta</li>
+							<%
+								}
+							%>
+						</ol>
                     </div>
                 </div>
-                				
-            	<form id="myForm" action="carica" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-            	<div class="card wizard-card" style="padding:1%">
-            		<div class="form-group">
-    					<input type="file" class="form-control-file" id="fileInput" aria-describedby="fileHelp" name="file" required>
-  						<small id="fileHelp" class="form-text text-muted">Carica la proposta che intendi inviare</small>
-  						<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
-  							<p id="errorMessage" hidden="hidden"><i>Parametri inseriti non validi</i></p>
-  						<% } %>
-  					</div>
-  				</div>
+           <div class="card wild-card" style="padding:10px;">     				
+            	<form id="myForm">
+            	<div class="row">
+            	<div class="col-sm-4">
+					<div class="card wild-card">
+						<div class="text-center"
+							style="margin: 0 auto;">
+								<div class="card">
+									<div class="card-block">
+											<h4 class="card-title">Carica Proposta</h4>
+											<input type="file" id="input-file-now" class="dropify" required/> <br>
+  											<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
+  											<p id="errorMessage" hidden="hidden"><i>Parametri inseriti non validi</i></p>
+  											<% } %>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
   				
+  				<div class="col-sm-4">
   				<% if(ruolo.contains("Studente") || ruolo.contains("Azienda")) { %>
   				<div class="card wizard-card" style="padding:1%">
 					<h4 class="card-title">Note:</h4>
-						<textarea class="form-control" name="note" rows="6"></textarea>
+						<textarea class="form-control" id="textarea" name="note" rows="8"></textarea>
 				</div>
   				<% } %>
-  					
+  				</div>
+  				
+  				<div class="col-sm-4">
   				<% if(ruolo.contains("Studente")) { %>
   				<div class="card wizard-card" style="padding:1%">
   					<h4 class="card-title">Scegli un tutor interno:</h4>
-    					<select class="form-control" name="tutorInterno">
+    					<select class="form-control" name="tutorInterno" id="tutorInterno" required>
       						<%
       							for(TutorInterno t : listaTutor) {
 									String nome = t.getNome();
@@ -107,20 +131,31 @@
       							}
       						%>
     					</select>
+    					<input type="hidden" name="id" id="propostaId" value= <%= request.getParameter("id") %>>
+    					<input type="hidden" name="ruolo" id="ruolo" value="Studente">
   				</div>
   				<% } %>
   				
   				<% if(ruolo.contains("Azienda")) { %>
   				<div class="card wizard-card" style="padding:1%">
   					<h4 class="card-title">Ambito:</h4>
-  						<input type="text" name="ambito" required>
+  					<%
+  		                listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
+  						if(!listaTutorEsterni.isEmpty()) 
+  						{
+  							tutor = listaTutorEsterni.get(0);
+  							ambito = tutor.getId().getAmbito();
+  						}
+  						if(ambito != null) {
+  							%> <input type="text" name="ambito" id="ambito" value=<%= ambito %> readonly required> <%
+  					    } %>
   				</div>
   				<% } %>
   				
   				<% if(ruolo.contains("Azienda")) { %>
   				<div class="card wizard-card" style="padding:1%">
   					<h4 class="card-title">Scegli uno studente:</h4>
-    					<select class="form-control" name="studente" required>
+    					<select class="form-control form-control-line" name="id" id="propostaId" required>
       					<%
       						Azienda azienda = aziendaDAO.findById(Azienda.class,mail);
       						List<ProgettoFormativo> listaProposte = progettoFormativoDAO.getProgettiFormativiByAzienda(azienda.getNome());
@@ -142,51 +177,55 @@
       						}
       					%>
     					</select>
+    					<input type="hidden" name="ruolo" id="ruolo" value="Azienda">
     			</div>
     			<% } %>
     			
     			<% if(ruolo.contains("Azienda")) { %>
     			<div class="card wizard-card" style="padding:1%">
     				<h4 class="card-title">Scegli un tutor esterno:</h4>
-    					<select class="form-control" name="tutorEsterno" required>
-      					<%
-      						listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
-      						for(TutorEsterno ts : listaTutorEsterni) {
-								String nome = ts.getNome();
-								String cognome = ts.getCognome();							
+    					<select class="form-control form-control-line" name="tutorEsterno" id="tutorEsternoAmbito" onclick="validateSelect()" required>
+    					<%
+    					listaTutorEsterni = tutorEsternoDAO.findByEmailAzienda(mail);
+      					for(TutorEsterno t : listaTutorEsterni) {
+							ambito = t.getId().getAmbito();
+							String nome = t.getNome();
+							String cognome = t.getCognome();
 						%>
-								<option value="<%= ts.getId().getAmbito() %>">
-								<%= nome %> <%= cognome %> </option>
-						<%
-      						}
-      					%>
-    					</select>
+						<option value="<%= ambito %>"> <%= nome %> <%= cognome %> </option>
+					 <% } %>
+    				 </select>
   				</div>
   				<% } %>
-  				
-  					<input type="hidden" name="id" value= <%= request.getParameter("id") %>>
-  					<button type="submit" class="btn btn-primary">Invia</button>
-  					<button type="reset" class="btn btn-primary">Annulla</button>
+  				</div> <!-- END COL SM -->
+    			</div> <!-- END ROW -->
+    			
+    			<div class="modal fade" id="okDialogMsg" role="dialog">
+		            <div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								Il caricamento della proposta � avvenuto con successo!
+							</div>
+							<div class="modal-footer">
+									<a class="btn btn-success" style="text-decoration: none; color: white;" href="<%=dashboard%>">
+										Ok 
+									</a>
+							</div>
+						</div>
+					</div>
+				</div>
+    			
+  				<% if(ruolo.contains("TutorInterno") || (ruolo.contains("Presidente"))) { %>
+  					<input type="hidden" name="id" id="propostaId" value="<%= request.getParameter("id")%>">
+  					<input type="hidden" name="ruolo" id="ruolo" value="TutorPresidente">
+  				<% } %>
+  					<div class="row">
+  						<div class="col-6"><button style="width:150px;" type="submit" id="caricaButton" class="btn btn-outline-success">Invia</button></div>
+  						<div class="col-6"><button style="width:150px;" class="btn btn-outline-danger" id="annullaButton">Annulla</button></div>
+  					</div>
   				</form>
-  				
-  				<script>
-					function validateForm() {
-						var note = $("textarea[name=note]").val();
-						var textFormat = /^([0-9a-zA-Z\s_%?!]{0,200})$/;
-				
-						if(note.match(textFormat))
-						{
-							return true;
-						}
-						else 
-						{
-							$("#errorMessage").show();
-							return false;
-						}
-					}
-				</script>
-	
   			</div>
+            </div>
             </div>
             <%@ include file="footer.jsp" %>
     </div>
@@ -204,5 +243,157 @@
     <script src="assets/plugins/echarts/echarts-all.js"></script>
     <script src="js/dashboard5.js"></script>
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <script>
+    	function validateSelect() {
+    	    var ambito = $("#tutorEsternoAmbito").val();
+    	    var select = document.getElementById('ambito');
+    	    
+    	    $('#ambito').val(ambito);
+    	}
+    </script>
+    <script>
+		function validateForm() {
+			var note = $("textarea[name=note]").val();
+			var textFormat = /^([0-9a-zA-Z\s_%?!]{0,200})$/;
+				
+			if(note.match(textFormat))
+			{
+				return true;
+			}
+			else 
+			{
+				$("#errorMessage").show();
+				return false;
+			}
+		}
+	</script>
+	<script>
+    $(document).ready(function() {
+        // Basic
+        $('.dropify').dropify();
+        // Translated
+        $('.dropify-fr').dropify({
+            messages: {
+                default: 'Glissez-déposez un fichier ici ou cliquez',
+                replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                remove: 'Supprimer',
+                error: 'Désolé, le fichier trop volumineux'
+            }
+        });
+        // Used events
+        var drEvent = $('#input-file-events').dropify();
+        drEvent.on('dropify.beforeClear', function(event, element) {
+            return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+        });
+        drEvent.on('dropify.afterClear', function(event, element) {
+            alert('File deleted');
+        });
+        drEvent.on('dropify.errors', function(event, element) {
+            console.log('Has Errors');
+        });
+        var drDestroy = $('#input-file-to-destroy').dropify();
+        drDestroy = drDestroy.data('dropify')
+        $('#toggleDropify').on('click', function(e) {
+            e.preventDefault();
+            if (drDestroy.isDropified()) {
+                drDestroy.destroy();
+            } else {
+                drDestroy.init();
+            }
+        })
+    });
+    $("#caricaButton").click(function(e){ 
+	e.preventDefault();
+
+    	var propostaId;
+    	var ambito;
+    	var note;
+    	var tutorEsternoAmbito;
+    	var tutorInternoMail;
+    	var ruolo = $("#ruolo").val();
+    		
+    	if(ruolo == "Studente") {
+    		if(validateForm()) {
+    			propostaId = $("#propostaId").val();
+    			tutorInternoMail = $('#tutorInterno').val();
+    			note = $('textarea#textarea').val();
+    			
+        		var base64; // = $(".dropify-render img[src]").attr("src");
+    			var input = document.getElementById('input-file-now');
+    			var file = input.files[0];
+    			var fr = new FileReader();
+    			fr.onload = function () {
+    				base64=fr.result;
+    				$.post("carica",
+    		        		{
+    		        			file: btoa(base64),
+    		        			id: propostaId,
+    		        			note: note, 
+    		        			tutorInterno: tutorInternoMail
+    		        		},function(data) {
+    		        			if(data == "ok") {
+    		        				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
+    		        			}
+    		        			}
+    		        		);
+    			}
+    			fr.readAsDataURL(file);	
+    		}
+    	}
+    	else if(ruolo == "Azienda") {
+    		if(validateForm()) {
+    			ambito = $("#ambito").val();
+    			propostaId = $('#propostaId').val();
+    			tutorEsternoAmbito = $("#tutorEsternoAmbito").val();
+    			note = $('textarea#textarea').val();
+    			
+        		var base64; // = $(".dropify-render img[src]").attr("src");
+    			var input = document.getElementById('input-file-now');
+    			var file = input.files[0];
+    			var fr = new FileReader();
+    			fr.onload = function () {
+    				base64=fr.result;
+    				$.post("carica",
+    		        		{
+    		        			file: btoa(base64),
+    		        			id: propostaId,
+    		        			note: note,
+    		        			ambito: ambito, 
+    		        			tutorEsterno: tutorEsternoAmbito
+    		        		},function(data) {
+    		        			if(data == "ok") {
+    		        				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
+    		        			}
+    		        		}
+    		        		);
+    			}
+    			fr.readAsDataURL(file);			
+    		}
+    	}
+    	else if(ruolo == "TutorPresidente") {
+    		propostaId = $('#propostaId').val();
+
+    		var base64; // = $(".dropify-render img[src]").attr("src");
+			var input = document.getElementById('input-file-now');
+			var file = input.files[0];
+			var fr = new FileReader();
+			fr.onload = function () {
+				base64=fr.result;
+				$.post("carica",
+			        	{
+			        		file: btoa(base64),
+			        		id: propostaId
+			        	},function(data) {
+			        		if(data == "ok") {
+			    				$('#okDialogMsg').modal({backdrop: 'static', keyboard: false});
+			        		}
+			        		}
+			        	);
+			}
+			fr.readAsDataURL(file);       	
+    	}
+    })
+    </script>
 </body>
 </html>

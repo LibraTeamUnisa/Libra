@@ -4,8 +4,9 @@ import it.unisa.libra.bean.Gruppo;
 import it.unisa.libra.bean.Studente;
 import it.unisa.libra.bean.Utente;
 import it.unisa.libra.model.dao.IGruppoDao;
-import it.unisa.libra.model.dao.IUtenteDao;
+import it.unisa.libra.model.dao.IStudenteDao;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Questa classe permette allo studente di registrarsi.
  *
@@ -24,12 +24,12 @@ import javax.servlet.http.HttpServletResponse;
  * @version [0.0]
  */
 
-/** Servlet implementation class AutenticazioneServlet */
+/** Servlet implementation class AutenticazioneServlet. **/
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = "/registrazione")
 public class RegistrazioneServlet extends HttpServlet {
 
   @Inject
-  private IUtenteDao utenteDao;
+  private IStudenteDao studenteDao;
   @Inject
   private IGruppoDao gruppoDao;
 
@@ -40,10 +40,13 @@ public class RegistrazioneServlet extends HttpServlet {
   public RegistrazioneServlet() {}
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+	 PrintWriter p = response.getWriter();
 
     /**
      * Parametri necessari alla registrazione presi dall'oggetto request.
@@ -59,43 +62,49 @@ public class RegistrazioneServlet extends HttpServlet {
     Date data = null;
     Gruppo gruppo = null;
 
-
+    
     try {
       data = new SimpleDateFormat("yyyy-MM-dd").parse(dataNascita);
     } catch (ParseException e) {
       response.setContentType("text/plain");
-      response.getWriter().write("Errore durante il parse della data");
+      p.write("Errore durante il parse della data");
     }
 
-    /**
+    /*
      * Realizzazione di un oggetto di tipo studente
      */
     Studente studente = istanziaStudente(nome, cognome, email, matricola, data);
 
-    /**
+    /*
      * Realizzazione di utente, generalizzazione dello studente
      */
     Utente utente = istanziaUtente(email, studente, " ", indirizzo, password, telefono);
+    studente.setUtente(utente);
 
     gruppo = gruppoDao.findById(Gruppo.class, "Studente");
 
     if (gruppo != null) {
-      if (utenteDao.findById(Utente.class, email) == null) {
-        utente.setGruppo(gruppo);
-        utenteDao.persist(utente);
-        response.setContentType("text/plain");
-        response.getWriter().write("Registrazione avvenuta con successo");
+      if (studenteDao.findById(Studente.class, email) == null) {
+    	  studente.getUtente().setGruppo(gruppo);
+    	  studenteDao.persist(studente);
+    	  response.setContentType("text/plain");
+    	  p.write("Registrazione avvenuta con successo");
       } else {
-        response.setContentType("text/plain");
-        response.getWriter().write("Utente già presente nel sistema");
+    	  response.setStatus(200);
+    	  response.setContentType("text/plain");
+    	  p.write("Utente già presente nel sistema");
       }
     } else {
-      response.setContentType("text/plain");
-      response.getWriter().write("Al momento non è possibile registrarsi al sistema");
+    	response.setContentType("text/plain");
+    	p.write("Al momento non è possibile registrarsi al sistema");
     }
+    
+    p.close();
   }
 
   /**
+   * Override.
+   * 
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -125,15 +134,5 @@ public class RegistrazioneServlet extends HttpServlet {
     utente.setTelefono(telefono);
     return utente;
   }
-
-  public void setUtenteDao(IUtenteDao utenteDao) {
-    this.utenteDao = utenteDao;
-  }
-
-  public void setGruppoDao(IGruppoDao gruppoDao) {
-    this.gruppoDao = gruppoDao;
-  }
-
-
 
 }

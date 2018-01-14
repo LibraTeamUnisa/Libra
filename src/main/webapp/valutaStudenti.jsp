@@ -14,6 +14,9 @@
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="it.unisa.libra.util.FileUtils" %>
+<%@page import="java.util.Base64"%>
+
 
 <%
 	DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -128,13 +131,31 @@
 						IProgettoFormativoDao progettoFormativoDao = (IProgettoFormativoDao) new InitialContext()
 								.lookup("java:app/Libra/ProgettoFormativoJpa");
 						Iterator<Studente> listaStudenti = progettoFormativoDao.getStudentiByAzienda(a).iterator();
+						if(listaStudenti==null) {
+							%>
+							<div class="row page-titles">
+								<div class="col-md-6 col-8 align-self-center">
+									<h3 class="text-themecolor m-b-0 m-t-0">Non esistono studenti disponibili per la valutazione.</h3>
+								</div>
+
+							</div>
+							<%	
+						} else {
 				%>
 				<div class="row page-titles">
 					<div class="col-md-6 col-8 align-self-center">
 						<h3 class="text-themecolor m-b-0 m-t-0">Valuta Studenti</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
 							<li class="breadcrumb-item active">Valuta Studenti</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 
@@ -157,12 +178,16 @@
 											Utente utente = studente.getUtente();
 											ProgettoFormativo progettoFormativo;
 											progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
+											
+											if(progettoFormativo.getStato() == 5){
+												String path= FileUtils.readBase64FromFile(FileUtils.PATH_IMG_PROFILO, utente.getEmail()+".png");
+												String img="";
+												if(path != null){
+													img= (new String(Base64.getUrlDecoder().decode(path), "UTF-8") + "\n");
+												}
 								%>
 								<tr>
-									<td><a
-										href="<%=request.getContextPath()%>/dettaglioStudente?email-studente=<%=studente.getUtenteEmail()%>"><img
-											src="<%=utente.getImgProfilo()%>" alt="user" width="40"
-											class="img-circle"></a></td>
+									<td><img src="<%if(path != null){%><%=img%><%}else{%>assets/images/users/default.png<%}%>" alt="user" width="40" class="img-circle"></td>
 									<td><%=studente.getCognome()%> <%=studente.getNome()%></td>
 									<td>
 										<%
@@ -179,26 +204,26 @@
  	}
  %>
 									</td>
-
-
 									<td><a
 										href="<%=request.getContextPath()%>/questionarioValutaStudente.jsp?studente=<%=studente.getUtenteEmail()%>&pf=<%=progettoFormativo.getId()%>">
 
 											<button type="button" class="btn btn-success"
-												<%if (progettoFormativo.getStato() != 4) {%> disabled
+												<%if (progettoFormativo.getStato() != 5) {%> disabled
 												title="Valutazione non disponibile" <%}%>>Valuta</button>
 									</a></td>
 								</tr>
 								<%
 									}
 								%>
+				<%
+					}
+					}
+					}
+				%>
 							</tbody>
 						</table>
 					</div>
 				</div>
-				<%
-					}
-				%>
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->

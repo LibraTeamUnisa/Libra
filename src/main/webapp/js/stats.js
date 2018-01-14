@@ -2,8 +2,10 @@
 var tId;
 
 function compareMonth(a,b) {
-	a = parseInt(a);
-	b = parseInt(b);
+	arrayA = a.split(" ");
+	arrayB = b.split(" ");
+	a = parseInt(arrayA[1]+arrayA[0]);
+	b = parseInt(arrayB[1]+arrayB[0]);
   if (a < b)
     return -1;
   if (a > b)
@@ -152,7 +154,7 @@ var updateAnimatedChart = (data) =>{
 
 		series[series.length -1].push(numStudenti);
 	}
-	var labels = Array.from(labelSets).sort(compareMonth);
+	var labels = Array.from(labelSets);
 	$('#listAziendeAnim').html("");
 	for(var ragSoc in listRagSoc){
 		var list = '<li><h6 class="text-muted"><i class="fa fa-circle m-r-5 '+colors[ragSoc]+'"></i>'+listRagSoc[ragSoc]+'</h6></li>';
@@ -165,7 +167,11 @@ var updateAnimatedChart = (data) =>{
 	  labels: labels,
 	  series: series
 	}, {
-	  low: minValue - 2
+	  high: maxValue + 2,
+	  low: 0,
+	  axisY: {
+		  onlyInteger: true
+		  }
 	});
 
 	// Let's put a sequence number aside so we can use it in the event callbacks

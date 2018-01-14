@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the progettoformativo database table.
  * 
@@ -40,9 +39,19 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgettoFormativo.findInOrdineCronologico",
         query = "SELECT p FROM ProgettoFormativo p WHERE p.dataInizio BETWEEN :anno AND :anno2 ORDER BY p.dataInizio DESC"),
     @NamedQuery(name = "ProgettoFormativo.findUltimeDieci",
-        query = "SELECT p FROM ProgettoFormativo p  WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+        query = "SELECT a.nome, s.cognome, s.nome, t.cognome, t.nome, p.ambito, p.dataInizio FROM ProgettoFormativo p JOIN p.azienda a JOIN p.studente s JOIN p.tutorInterno t WHERE p.dataInizio <= :today AND (p.dataFine >=:today OR p.dataFine = null) ORDER BY p.dataInizio DESC"),
+    @NamedQuery(name = "ProgettoFormativo.findPFtutorInterno",
+        query = "SELECT s.utenteEmail,a.nome, p.ambito, s.cognome, s.nome, p.dataInvio FROM ProgettoFormativo p JOIN p.studente s JOIN p.azienda a JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail AND p.stato=2"),
     @NamedQuery(name = "ProgettoFormativo.count",
-        query = "SELECT COUNT(p) FROM ProgettoFormativo p")})
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p"),
+    @NamedQuery(name = "ProgettoFormativo.countAttivi",
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p  WHERE p.stato = 4"),
+    @NamedQuery(name = "ProgettoFormativo.countStudentiAssociati",
+        query = "SELECT COUNT(DISTINCT s.utenteEmail) FROM ProgettoFormativo p JOIN p.studente s JOIN p.tutorInterno t WHERE t.utenteEmail=:tutorEmail"),
+    @NamedQuery(name = "ProgettoFormativo.countByTutorInterno",
+        query = "SELECT COUNT(p) FROM ProgettoFormativo p JOIN p.tutorInterno t WHERE t.utenteEmail = :tutorEmail"),
+    @NamedQuery(name="ProgettoFormativo.findAttiviByTutor",
+        query = "SELECT p FROM ProgettoFormativo p WHERE p.tutorInterno.utenteEmail = :tutorEmail AND p.stato=4")})
 
 public class ProgettoFormativo implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -100,6 +109,28 @@ public class ProgettoFormativo implements Serializable {
   private List<Report> reports;
 
   public ProgettoFormativo() {}
+
+  /** Costruttore.
+   * 
+   * @param id l'id del progetto
+   * @param ambito l'ambito del progetto
+   * @param stato lo stato del progetto
+   * @param emailStudente lo studente del progetto
+   * @param nome il nome dello studente
+   * @param cognome il cognome dello studente
+   * @param matricola la matricola dello studente
+   */
+  public ProgettoFormativo(int id, String ambito, int stato, String emailStudente, String nome,
+      String cognome, String matricola) {
+    this.id = id;
+    this.ambito = ambito;
+    this.stato = stato;
+    this.studente = new Studente();
+    this.studente.setUtenteEmail(emailStudente);
+    this.studente.setNome(nome);
+    this.studente.setCognome(cognome);
+    this.studente.setMatricola(matricola);
+  }
 
   public int getId() {
     return this.id;
@@ -189,6 +220,11 @@ public class ProgettoFormativo implements Serializable {
     this.feedbacks = feedbacks;
   }
 
+  /** Aggiunge un feedback.
+   * 
+   * @param feedback il feedback da aggiungere
+   * @return il feedback aggiunto
+   */
   public Feedback addFeedback(Feedback feedback) {
     getFeedbacks().add(feedback);
     feedback.setProgettoFormativo(this);
@@ -196,6 +232,11 @@ public class ProgettoFormativo implements Serializable {
     return feedback;
   }
 
+  /** Rimuove un feedback.
+   * 
+   * @param feedback il feedback da rimuovere
+   * @return il feedback rimosso
+   */
   public Feedback removeFeedback(Feedback feedback) {
     getFeedbacks().remove(feedback);
     feedback.setProgettoFormativo(null);
@@ -243,6 +284,11 @@ public class ProgettoFormativo implements Serializable {
     this.reports = reports;
   }
 
+  /** Aggiunge un report.
+   * 
+   * @param report il report da aggiungere
+   * @return il report aggiunto
+   */
   public Report addReport(Report report) {
     getReports().add(report);
     report.setProgettoFormativo(this);
@@ -250,6 +296,11 @@ public class ProgettoFormativo implements Serializable {
     return report;
   }
 
+  /** Rimuove un report.
+   * 
+   * @param report il report da rimuovere
+   * @return il report rimosso
+   */
   public Report removeReport(Report report) {
     getReports().remove(report);
     report.setProgettoFormativo(null);

@@ -31,6 +31,7 @@
 	Azienda az = aziendaDAO.findByName(nome);
 	List<TutorEsterno> tutorEsterni = tutorDAO.findByAziendaNome(nome);
 	List<ProgettoFormativo> progettiFormativi = progettoFormativoDAO.getProgettiFormativiByAzienda(nome);
+	String partitaIVA = az.getPartitaIVA();
 %>
 
 <!DOCTYPE html>
@@ -137,10 +138,17 @@
 					<div class="col-md-6 col-8 align-self-center">
 						<h3 class="text-themecolor m-b-0 m-t-0">Dettagli Azienda</h3>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
-							<li class="breadcrumb-item"><a href="catalogoAziende.jsp">Catalogo
-									Aziende</a></li>
+							<%
+								if (session != null && session.getAttribute("utenteRuolo") != null) {
+									String dashboard = request.getContextPath()
+											+ "/dashboard".concat(session.getAttribute("utenteRuolo").toString()).concat(".jsp");
+							%>
+							<li class="breadcrumb-item"><a href="<%=dashboard%>">Home</a></li>
+							<li class="breadcrumb-item active"><a href="catalogoAziende.jsp">Catalogo Aziende</a></li>
 							<li class="breadcrumb-item active">Dettagli Azienda</li>
+							<%
+								}
+							%>
 						</ol>
 					</div>
 				</div>
@@ -156,7 +164,7 @@
 								</p>
 								<p>
 									<strong>Aree di interesse</strong>
-									<%
+									<%if(tutorEsterni != null){
 										if (tutorEsterni.size() == 0) {
 									%>
 									<span class="text-muted"> Nessun ambito disponibile </span>
@@ -173,12 +181,14 @@
 									<%
 										}
 												}
+									  }	
 									%>
 								</p>
 
 								<p>
 									<strong>Tutor esterni</strong>
 									<%
+									if(tutorEsterni != null){
 										if (tutorEsterni.size() == 0) {
 									%>
 									<span class="text-muted"> Nessun tutor esterno
@@ -197,11 +207,13 @@
 									<%
 										}
 												}
+									}
 									%>
 								</p>
-								<p>
-									<strong>Partita IVA <span class="text-muted"><%=az.getPartitaIVA()%></span>
+								<p><%if(partitaIVA!=null){ %>
+									<strong>Partita IVA <span class="text-muted"><%=partitaIVA%></span>
 									</strong>
+									<%} %>
 								</p>
 							</div>
 						</div>
@@ -219,8 +231,7 @@
 									<strong>Numero di telefono</strong> <span class="text-muted"><%=az.getUtente().getTelefono()%></span>
 								</p>
 								<p>
-									<strong>Sede</strong> <span class="text-muted"><%=az.getUtente().getIndirizzo()%>,
-										<%=az.getSede()%></span>
+									<strong>Sede</strong> <span class="text-muted"><%=az.getSede()%></span>
 									<%
 										
 									%>
@@ -260,7 +271,7 @@
 																	</div>
 																	
 																	<div class="modal-footer">
-																		<a href="profiloAziendale.jsp?nome=<%=nome%>" class="btn btn-success" style="text-decoration:none; color:white;" id="okButton">
+																		<a href="dashboardStudente.jsp" class="btn btn-success" style="text-decoration:none; color:white;" id="okButton">
 																		 Ok
 																		</a>
 																	</div>

@@ -62,6 +62,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
+
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -123,17 +127,41 @@
 					String emailStudente = (String) request.getSession().getAttribute("utenteEmail");
 						Studente studente = studenteDao.findById(Studente.class, emailStudente);
 						ProgettoFormativo progettoFormativo = progettoFormativoDao.getLastProgettoFormativoByStudente(studente);
-						List<Report> listaReportStudenti = reportDao.findAll(Report.class);
-						if ((listaReportStudenti == null) || listaReportStudenti.isEmpty()) {
+						if (progettoFormativo == null){%>
+						
+						<h3>Non sei iscritto a nessun Progetto Formativo</h3>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
 				%>
-				<h1>Nessun report disponibile</h1>
+				<button type="button" class="btn btn-success"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+						<%
+						
+						}else if ((progettoFormativo.getReports() == null)
+								|| (progettoFormativo.getReports().isEmpty())) {
+				%>
 
+				<h1>Nessun report disponibile</h1>
+				<%
+					String dashboard = request.getContextPath() + "/dashboard".concat("Studente").concat(".jsp");
+				%>
+				<button type="button" class="btn btn-success"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+
+				<%
+					if (progettoFormativo.getStato() == 4) {
+				%>
 				<button type="button" class="btn btn-success" data-toggle="modal"
 					data-target="#myModal">Aggiungi Report</button>
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
-					} else {
+					}
+						} else {
+
+							List<Report> listaReportStudenti = progettoFormativo.getReports();
 							Iterator<?> it = listaReportStudenti.iterator();
 				%>
 
@@ -237,11 +265,20 @@
 																<%
 																	Long oo = rep.getId().getData().getTime();
 																%>
-																<button type="button" class="btn btn-primary"
+																<%
+																	if (progettoFormativo.getStato() != 4) {
+																%>
+																<button type="button" class="btn btn-warning"
+																	disabled="disabled" id="<%=oo%>">ModificaReport</button>
+																<%
+																	} else {
+																%>
+																<button type="button" class="btn btn-warning"
 																	onclick="$('#exampleModal<%=oo%>').modal('show')"
 																	id="<%=oo%>">ModificaReport</button>
-
-
+																<%
+																	}
+																%>
 																<div class="modal fade" id="exampleModal<%=oo%>"
 																	tabindex="-1" role="dialog"
 																	aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -257,20 +294,16 @@
 																			</div>
 																			<div class="modal-body">
 																				<div class="form-group">
-																					<label for="comment">Aggiungi un nuovo
-																						Report:</label>
 																					<div class="col-md-12">
 
-
-																						<input type="text" autofocus="autofocus"
-																							id="test<%=oo%>" class="form-control"
+																						<textarea class="form-control" rows="5"
+																							id="test<%=oo%>"
 																							style="width: 100%; height: auto;"
+																							maxlength="500"
 																							oninput='document.getElementById("testoReportModificato").value = this.value'
-																							value="<%=rep.getTesto()%>"
-																							onkeypress='document.getElementById("data").value =<%=oo%>'
-																							placeholder="Inserisci qui il nuovo Report"
-																							pattern=".{5,}"> <input type="hidden"
-																							id="testoReportModificato"
+																							minlength="6"
+																							onkeypress='document.getElementById("data").value =<%=oo%>'><%=rep.getTesto()%></textarea>
+																						<input type="hidden" id="testoReportModificato"
 																							name="testoReportModificato<%=oo%>">
 
 																					</div>
@@ -284,7 +317,7 @@
 																				</div>
 																			</div>
 																			<div class="modal-footer">
-																				<button type="submit" class="btn btn-primary"
+																				<button type="submit" class="btn btn-success"
 																					style="float: left;" id="confermaModifica"
 																					onclick='modifica()'>Salva le modifiche</button>
 
@@ -340,7 +373,7 @@
 					</div>
 				</form>
 				<%
-					}
+					if (progettoFormativo.getStato() == 4) {
 				%>
 				<button type="button" class="btn btn-success" data-toggle="modal"
 					data-target="#myModal">Aggiungi Report</button>
@@ -348,6 +381,8 @@
 				<input type="hidden" name="action"
 					value=<%=Actions.AGGIUNGI_REPORT%> id="inputAction" />
 				<%
+					} 
+						}
 					} else if ((ruolo.equals("Presidente")) || (ruolo.equals("Segreteria"))) {
 				%>
 				<div class="row page-titles">
@@ -373,7 +408,28 @@
 				</div>
 
 				<div class="card">
-					<div class="card-block">
+					<div class="card-block"><%
+					int i = 0;
+														List<Report> listaReportStudentia = reportDao.findAll(Report.class);
+														if((listaReportStudentia.isEmpty())||(listaReportStudentia==null)){
+														
+														%>
+						<h1>Non sono presenti Report</h1>
+				<%
+												String dashboard="";
+												if (ruolo.equals("Presidente")) 
+													dashboard = request.getContextPath() + "/dashboard".concat("Presidente").concat(".jsp");
+												else if (ruolo.equals("Segreteria"))
+													
+											dashboard = request.getContextPath() + "/dashboard".concat("Segreteria").concat(".jsp");
+												
+												
+												%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+						<%}else{ %>
+						
 						<h4 class="card-title"></h4>
 						<h6 class="card-subtitle"></h6>
 						<div class="bootstrap-table">
@@ -450,9 +506,8 @@
 											</thead>
 											<tbody>
 												<%
-													int i = 0;
-														List<Report> listaReportStudentia = reportDao.findAll(Report.class);
-														Iterator<Report> listReport = listaReportStudentia.iterator();
+
+												Iterator<Report> listReport = listaReportStudentia.iterator(); 
 														while (listReport.hasNext()) {
 
 															Report report = listReport.next();
@@ -534,6 +589,7 @@
 
 							</div>
 						</div>
+						<%} %>
 					</div>
 				</div>
 				<%
@@ -554,6 +610,24 @@
 
 				<div class="card">
 					<div class="card-block">
+					<%
+													int i = 0;
+														String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
+
+														TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, emailTutor);
+
+														List<Report> listaReportStudentit = reportDao.findAll(Report.class);
+														
+														if((tutorInterno==null)||(listaReportStudentit==null)||(listaReportStudentit.isEmpty())){%>
+												<h1>Non sono presenti Report</h1>
+				<%
+													String dashboard = request.getContextPath() + "/dashboard".concat("TutorInterno").concat(".jsp");
+												%>
+				<button type="button" class="btn btn-info"
+					onclick="setTimeout(function(){window.location.href ='<%=dashboard%>';},2000);">
+					Dashboard</button>
+
+						<%}else{ %>
 						<h4 class="card-title"></h4>
 						<h6 class="card-subtitle"></h6>
 						<div class="bootstrap-table">
@@ -630,12 +704,6 @@
 											<tbody>
 
 												<%
-													int i = 0;
-														String emailTutor = (String) request.getSession().getAttribute("utenteEmail");
-
-														TutorInterno tutorInterno = tutorInternoDao.findById(TutorInterno.class, emailTutor);
-
-														List<Report> listaReportStudentit = reportDao.findAll(Report.class);
 														Iterator<Report> listd = listaReportStudentit.iterator();
 														while (listd.hasNext()) {
 															Report reportprfo = listd.next();
@@ -721,6 +789,7 @@
 
 							</div>
 						</div>
+						<%} %>
 					</div>
 				</div>
 				<%
@@ -747,7 +816,7 @@
 
 							</div>
 							<div class="modal-footer">
-								<button id="button1" type="button" class="btn btn-primary">
+								<button id="button1" type="button" class="btn btn-danger">
 									<a class="btn btn-primary" href="dashboardStudente.jsp"
 										style="text-decoration: none; color: white;"> Dashboard </a>
 								</button>
@@ -771,21 +840,28 @@
 									<div class="form-group">
 
 										<div class="col-md-12">
-											<textarea id="testoNuovoReport" pattern=".{5,}"
+											<textarea id="testoNuovoReport" minlength="6"
 												class="form-control form-control-line" rows="5"
-												placeholder="Scrivi qui il tuo Report"
+												placeholder="Scrivi qui il tuo Report" maxlength="500"  
 												onkeydown="reportColor()"></textarea>
 											<script>
 												function reportColor(){
-													if(( $("#testoNuovoReport").val().length) < 4){
-														$("#testoNuovoReport").css( "color", "red" );
-														$("#confermaAggiunta").prop("disabled", true);
-													} else if((($("#testoNuovoReport").val().length) >= 4)&&(($("#testoNuovoReport").val().length) <= 8))
+													if((($("#testoNuovoReport").val().length) >= 4)&&(($("#testoNuovoReport").val().length) <= 8))
 													{$("#confermaAggiunta").prop("disabled", false);
-													$("#testoNuovoReport").css( "color", "green" );
 													} else{
-														$("#testoNuovoReport").css( "color", "black" );
 														$("#confermaAggiunta").prop("disabled", false);
+													}
+												}
+												
+											</script>
+											<script>
+												function reportColorText(){
+													if(( $("#testoReportModificato").val().length) < 6){
+														$("#confermaModifica").prop("disabled", true);
+													} else if((($("#testoReportModificato").val().length) >= 4)&&(($("#testoReportModificato").val().length) <= 8))
+													{$("#confermaModifica").prop("disabled", false);
+													} else{
+														$("#confermaModifica").prop("disabled", false);
 													}
 												}
 												</script>
@@ -796,8 +872,17 @@
 								<div class="modal-footer">
 									<button type="submit"
 										class="btn btn-success waves-effect waves-light m-r-10"
-										id="confermaAggiunta" style="float: left;">Conferma</button>
-									<button type="button" class="btn btn-default"
+										id="confermaAggiunta" style="float: left;" onclick="cambia()" >Conferma</button>
+										<script type="text/javascript">
+										function cambia(){
+											if(( $("#testoNuovoReport").val().length) < 6){
+
+												$("#confermaAggiunta").prop("disabled", true);
+											}
+											
+											
+										}</script>
+									<button type="button" class="btn btn-danger"
 										style="float: right;" data-dismiss="modal">Close</button>
 								</div>
 							</div>
@@ -893,5 +978,3 @@
 </body>
 
 </html>
-
-

@@ -91,7 +91,7 @@
              
                   <div class="row">
                     <!-- Column -->
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
 
                         <div class="card" >
                         
@@ -159,11 +159,9 @@
                         </div>
                     </div>
                     
-                    <div class="col-lg-6">
-                        <!-- Row -->
-                        <div class="row">
-                            <!-- Column -->
-                            <div class="col-sm-6">
+                    <div class="col-lg-4">
+                            <!-- Row -->
+                            <div class="row-sm-6">
                                 <div class="card card-block">
                                     <!-- Row -->
                                     <div class="row p-t-10 p-b-10">
@@ -178,8 +176,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Column -->
-                            <div class="col-sm-6">
+                            <!-- Row -->
+                            <div class="row-sm-6">
                                 <div class="card card-block">
                                     <!-- Row -->
                                     <div class="row p-t-10 p-b-10">
@@ -194,8 +192,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Column -->
-                            <div class="col-sm-6">
+                            <!-- Row -->
+                            <div class="row-sm-6">
                                 <div class="card card-block">
                                     <!-- Row -->
                                     <div class="row p-t-10 p-b-10">
@@ -210,8 +208,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Column -->
-                            <div class="col-sm-6">
+                            <!-- Row -->
+                            <div class="row-sm-6">
                                 <div class="card card-block">
                                     <!-- Row -->
                                     <div class="row p-t-10 p-b-10">
@@ -226,11 +224,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                        
-                    </div>
-                   
                 </div>
                              
                 <!-- ============================================================== -->
